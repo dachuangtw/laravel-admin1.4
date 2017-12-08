@@ -64,6 +64,8 @@ return [
     'roles'         => '角色', 
     'permissions'   => '權限', 
     'slug'          => '標識',
+    'product_index' => '商品主檔',
+    'product_detail'=> '商品副檔',    
 
     'created_at' => '創建時間', 
     'updated_at' => '更新時間', 

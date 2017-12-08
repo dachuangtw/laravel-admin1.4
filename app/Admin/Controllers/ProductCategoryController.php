@@ -24,8 +24,8 @@ class ProductCategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header(trans('admin::lang.product_category'));
+            $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
         });

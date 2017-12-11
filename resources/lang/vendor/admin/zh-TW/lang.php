@@ -113,7 +113,7 @@ return [
     'created_at'    =>    '創建時間', 
     'updated_at'    =>    '更新時間', 
 
-    //業務會員
+    //業務列表
     'sid'           =>     '業務編號',
     'wid'           =>     '倉庫編號',
     'sales'         =>     '業務管理',
@@ -125,7 +125,15 @@ return [
     'logged_in_at'  =>     '最近登入日期',
     'collect_at'    =>     '最近領貨日',
     'cellphone'     =>     '手機號碼',
+
+    //店鋪據點
     'store_location'=>     '店鋪據點',
+    'store_id'      =>     '店鋪編號',
+    'store_area'    =>     '地區',
+    'store_name'    =>     '店鋪名稱',
+    'store_address'=>     '地址',
+    'comment'       =>     '說明',
+     
     
     'alert'     =>    '注意', 
 

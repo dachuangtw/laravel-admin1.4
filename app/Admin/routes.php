@@ -21,7 +21,9 @@ Route::group([
         $router->resource('product', ProductIndexController::class);
         $router->resource('web/location', WebLocationController::class);
 
-        $router->resource('warehouse', WarehouseController::class);     });
+        $router->resource('warehouse', WarehouseController::class);     
+
+    });
 
     $router->get('/', 'HomeController@index');
 

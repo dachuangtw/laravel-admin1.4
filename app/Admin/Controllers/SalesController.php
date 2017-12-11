@@ -24,8 +24,8 @@ class SalesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('業務管理');
-            $content->description('會員列表');
+            $content->header(trans('admin::lang.sales'));
+            $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
         });
@@ -41,8 +41,8 @@ class SalesController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('會員列表');
-            $content->description('編輯會員');
+            $content->header(trans('admin::lang.list'));
+            $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
         });
@@ -57,8 +57,8 @@ class SalesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('會員列表');
-            $content->description('新增會員');
+            $content->header(trans('admin::lang.list'));
+            $content->description(trans('admin::lang.new'));
 
             $content->body($this->form());
         });
@@ -73,10 +73,10 @@ class SalesController extends Controller
     {
         return Admin::grid(Sales::class, function (Grid $grid) {
 
-            $grid->sid('業務編號')->sortable();
-            $grid->wid('倉庫編號')->sortable();
+            $grid->sid(trans('admin::lang.sid'))->sortable();
+            $grid->wid(trans('admin::lang.wid'))->sortable();
             $grid->name(trans('admin::lang.salesname'));
-            $grid->collect_at('最近領貨日');
+            $grid->collect_at(trans('admin::lang.collect_at'));
             $grid->created_at( trans('admin::lang.created_at'));
             $grid->updated_at( trans('admin::lang.updated_at'));
         });

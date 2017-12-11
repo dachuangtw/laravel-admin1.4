@@ -19,10 +19,11 @@ Route::group([
         
         $router->resource('product/category', ProductCategoryController::class);
         $router->resource('product', ProductIndexController::class);
+        $router->resource('web/location', WebLocationController::class);
 
+        $router->resource('warehouse', WarehouseController::class);     
 
-        $router->resource('warehouse', WarehouseController::class);
-     });
+    });
 
     $router->get('/', 'HomeController@index');
 

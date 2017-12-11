@@ -33,8 +33,13 @@ return [
     'collapse'              =>    '收起', 
     'filter'                =>    '篩選', 
     'close'                 =>    '關閉' , 
+<<<<<<< HEAD
     'show'                  =>    '每頁顯示', 
     'entries'               =>    '筆', 
+=======
+    'show'                  =>    '顯示', 
+    'entries'               =>    '項', 
+>>>>>>> d55dddf2a2a2f4577fe5b2b0e38ef9acd28bd12a
     'captcha'               =>    '驗證碼', 
 
     'action'            =>    '操作', 
@@ -113,14 +118,26 @@ return [
     'created_at'    =>    '創建時間', 
     'updated_at'    =>    '更新時間', 
 
-    //業務會員
+    //業務列表
+    'sid'           =>     '業務編號',
+    'wid'           =>     '倉庫編號',
+    'sales'         =>     '業務管理',
+    'collect_at'    =>     '最近領貨日',
     'client_ip'     =>     '最近ip',
     'client_agent'  =>     '最近使用裝置',
     'logged_in_at'  =>     '最近登入日期',
     'logged_in_at'  =>     '最近登入日期',
     'collect_at'    =>     '最近領貨日',
     'cellphone'     =>     '手機號碼',
-    'store_location'=>     '店鋪據點',
+
+    //店鋪據點
+    'web_location'=>     '店鋪據點',
+    'store_id'      =>     '店鋪編號',
+    'store_area'    =>     '地區',
+    'store_name'    =>     '店鋪名稱',
+    'store_address'=>     '地址',
+    'comment'       =>     '說明',
+     
     
     'alert'     =>    '注意', 
 
@@ -132,6 +149,10 @@ return [
     'parent_select_error'   =>    '父級選擇錯誤', 
 
     'pagination' => [ 
+<<<<<<< HEAD
         'range' =>    ' :first - :last 筆，總共 :total 筆', 
+=======
+        'range' =>    '從:first到:last ，總共:total項', 
+>>>>>>> d55dddf2a2a2f4577fe5b2b0e38ef9acd28bd12a
     ], 
 ];

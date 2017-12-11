@@ -24,8 +24,8 @@ class WebLocationController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.web_location'));
-            $content->description('');
+            $content->header(trans('admin::lang.web_location'));            
+            $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
         });
@@ -100,7 +100,7 @@ class WebLocationController extends Controller
 
 
             $form->display('created_at',trans('admin::lang.created_at'));
-            $form->display('updated_at', 'Updated At');
+            $form->display('updated_at',trans('admin::lang.updated_at'));
         });
     }
 }

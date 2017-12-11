@@ -19,6 +19,7 @@ Route::group([
         
         $router->resource('product/category', ProductCategoryController::class);
         $router->resource('product', ProductIndexController::class);
+        $router->resource('web/location', WebLocationController::class);
      });
 
     $router->get('/', 'HomeController@index');

@@ -19,6 +19,7 @@ class CreateWebLocationTable extends Migration
             $table->string('store_name')->comment('店名');
             $table->string('store_address')->comment('地址');
             $table->string('GPS')->comment('GPS');
+            $table->string('store_pic',100)->nullable()->comment('店鋪圖片');
             $table->string('comment')->nullable()->comment('說明');
             $table->timestamps();
         });

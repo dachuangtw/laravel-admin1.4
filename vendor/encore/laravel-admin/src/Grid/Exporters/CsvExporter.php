@@ -36,6 +36,9 @@ class CsvExporter extends AbstractExporter
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ];
 
+        /*中文亂碼問題
+          依照 http://chiahan.logdown.com/posts/280868/web-php-export-csv-chinese-encoding-problem
+          加"\xEF\xBB\xBF"在output之前*/
         response(rtrim("\xEF\xBB\xBF".$output, "\n"), 200, $headers)->send();
 
         exit;

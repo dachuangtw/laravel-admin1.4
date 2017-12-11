@@ -4,7 +4,6 @@
 /public/upload
 /public/phpMyAdmin
 /storage/*.key
-/vendor
 /.idea
 /.vagrant
 Homestead.json

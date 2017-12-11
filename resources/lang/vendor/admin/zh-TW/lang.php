@@ -33,8 +33,8 @@ return [
     'collapse'              =>    '收起', 
     'filter'                =>    '篩選', 
     'close'                 =>    '關閉' , 
-    'show'                  =>    '顯示', 
-    'entries'               =>    '條', 
+    'show'                  =>    '每頁顯示', 
+    'entries'               =>    '筆', 
     'captcha'               =>    '驗證碼', 
 
     'action'            =>    '操作', 
@@ -132,6 +132,6 @@ return [
     'parent_select_error'   =>    '父級選擇錯誤', 
 
     'pagination' => [ 
-        'range' =>    '從:first到:last ，總共:total條', 
+        'range' =>    ' :first - :last 筆，總共 :total 筆', 
     ], 
 ];

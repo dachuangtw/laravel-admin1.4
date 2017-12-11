@@ -14,7 +14,7 @@ class CreateSalesTable extends Migration
     public function up()
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->increments('id')->unique()->index()->comment('業務id');
+            $table->increments('sid')->unique()->index()->comment('業務id');
             $table->string('wid')->unique()->index()->comment('倉庫id');
             $table->string('email')->unique()->comment('電子郵件');
             $table->string('password', 60)->comment('密碼');
@@ -22,7 +22,7 @@ class CreateSalesTable extends Migration
             $table->string('nickname', 50)->comment('暱稱');
             $table->string('cellphone', 50)->nullable()->comment('手機號碼');
             $table->timestamp('password_updated_at')->nullable()->comment('密碼更新');
-            $table->text('Store location')->nullable()->comment('店鋪據點(字串用|分隔)');
+            $table->text('store_location')->nullable()->comment('店鋪據點(字串用|分隔)');
             $table->text('remarks')->nullable()->comment('備註');
             $table->string('client_ip')->nullable()->comment('最近ip');
             $table->text('client_agent')->nullable()->comment('最近使用裝置');

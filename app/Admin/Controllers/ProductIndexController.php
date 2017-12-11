@@ -146,8 +146,8 @@ class ProductIndexController extends Controller
             // $table->boolean('showfront')->default(false)->comment('前台顯示');
             // $table->string('update_user',25)->comment('最後更新者');
 
-            $form->display('created_at', trans('admin::lang.created_at'));
             $form->display('updated_at', trans('admin::lang.updated_at'));
+            $form->display('created_at', trans('admin::lang.created_at'));
         });
     }
 }

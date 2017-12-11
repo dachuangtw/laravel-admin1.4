@@ -12,6 +12,8 @@ return [
     'remember_me'           =>    '記住我', 
     'user_setting'          =>    '用戶設置' , 
     'avatar'                =>    '頭像', 
+    'nickname'              =>    '暱稱',
+    'name'                  =>    '姓名',
 
     'list'                  =>    '列表',
     'new'                   =>    '新增', 
@@ -104,6 +106,15 @@ return [
     'created_at'    =>    '創建時間', 
     'updated_at'    =>    '更新時間', 
 
+    //業務會員
+    'client_ip'     =>     '最近ip',
+    'client_agent'  =>     '最近使用裝置',
+    'logged_in_at'  =>     '最近登入日期',
+    'logged_in_at'  =>     '最近登入日期',
+    'collect_at'    =>     '最近領貨日',
+    'cellphone'     =>     '手機號碼',
+    'store_location'=>     '店鋪據點',
+    
     'alert'     =>    '注意', 
 
     'parent_id' =>    '父級選單', 

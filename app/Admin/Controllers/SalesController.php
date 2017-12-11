@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Sales;
-
+use App\Warehouse;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -94,7 +94,16 @@ class SalesController extends Controller
 
             $form->tab('基本資料', function (Form $form) {
             $form->display('sid', '業務編號');
-            $form->text('wid','倉庫編號');
+
+            $warehouse = Warehouse::all('wid','w_name');
+            $warehouse = $warehouse->toArray();
+            foreach($warehouse as $option){
+                $optionArray[$option['wid']] = $option['w_name'];
+            }
+
+            $form->select('wid', trans('admin::lang.warehouse'))->options(
+                $optionArray
+            );
             $form->email('email', 'Email')->rules('required');
             $form->password('password', trans('admin::lang.password'))->rules('required|confirmed')->default(function ($form) {
                     return $form->model()->password;
@@ -117,7 +126,7 @@ class SalesController extends Controller
             })->tab('聯絡資訊', function (Form $form) {
 
                $form->mobile('cellphone',trans('admin::lang.cellphone'));
-               $form->select('store_location',trans('admin::lang.store_location'))->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
+               $form->select('store_location',trans('admin::lang.web_location'))->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
                 $form->textarea('remarks',trans('admin::lang.notes'));
             });
             

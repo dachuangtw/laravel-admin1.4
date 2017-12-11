@@ -65,7 +65,14 @@ return [
     'permissions'               =>    '權限', 
     'slug'                      =>    '標識',
 
-    'warehouse'     =>    '倉庫',
+    'phone' =>  '連絡電話',
+    'postcode' =>  '郵遞區號',
+    'city' =>  '縣市',
+    'area' =>  '鄉鎮市區',
+    'street' =>  '街道地址',
+    
+    //倉庫
+    'warehouse'         =>    '倉庫',
 
     'product_index'             =>    '商品主檔',
     'product_details'           =>    '商品副檔',
@@ -96,7 +103,7 @@ return [
     'product_stock'        =>    '目前庫存數',
     'product_sales'        =>    '業務可領貨量',
     'showsales'            =>    '業務領貨顯示',
-    'product_barcode'              =>    '商品條碼',
+    'product_barcode'      =>    '商品條碼',
     
     'showfront'     =>    '前台顯示',
     'update_user'   =>    '建檔人',

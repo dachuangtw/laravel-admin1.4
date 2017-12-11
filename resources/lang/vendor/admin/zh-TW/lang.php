@@ -13,7 +13,7 @@ return [
     'user_setting'          =>    '用戶設置' , 
     'avatar'                =>    '頭像', 
     'nickname'              =>    '暱稱',
-    'name'                  =>    '姓名',
+    'salesname'             =>    '名稱' ,
 
     'list'                  =>    '列表',
     'new'                   =>    '新增', 

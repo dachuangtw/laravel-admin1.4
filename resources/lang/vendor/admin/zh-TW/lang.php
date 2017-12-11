@@ -34,7 +34,7 @@ return [
     'filter'                =>    '篩選', 
     'close'                 =>    '關閉' , 
     'show'                  =>    '顯示', 
-    'entries'               =>    '條', 
+    'entries'               =>    '項', 
     'captcha'               =>    '驗證碼', 
 
     'action'            =>    '操作', 
@@ -117,7 +117,6 @@ return [
     'sid'           =>     '業務編號',
     'wid'           =>     '倉庫編號',
     'sales'         =>     '業務管理',
-    'sales_list'    =>     '業務列表',
     'collect_at'    =>     '最近領貨日',
     'client_ip'     =>     '最近ip',
     'client_agent'  =>     '最近使用裝置',
@@ -145,6 +144,6 @@ return [
     'parent_select_error'   =>    '父級選擇錯誤', 
 
     'pagination' => [ 
-        'range' =>    '從:first到:last ，總共:total條', 
+        'range' =>    '從:first到:last ，總共:total項', 
     ], 
 ];

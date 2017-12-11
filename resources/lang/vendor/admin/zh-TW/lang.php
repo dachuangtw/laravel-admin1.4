@@ -114,6 +114,11 @@ return [
     'updated_at'    =>    '更新時間', 
 
     //業務會員
+    'sid'           =>     '業務編號',
+    'wid'           =>     '倉庫編號',
+    'sales'         =>     '業務管理',
+    'sales_list'    =>     '業務列表',
+    'collect_at'    =>     '最近領貨日',
     'client_ip'     =>     '最近ip',
     'client_agent'  =>     '最近使用裝置',
     'logged_in_at'  =>     '最近登入日期',

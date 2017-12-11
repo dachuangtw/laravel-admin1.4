@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\ProductIndex;
+use App\Warehouse;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -73,11 +74,14 @@ class ProductIndexController extends Controller
     {
         return Admin::grid(ProductIndex::class, function (Grid $grid) {
 
-            $grid->id('ID')->sortable();
-            $grid->name(trans('admin::lang.name'));
+            $grid->pid('ID')->sortable();
+            $grid->p_number(trans('admin::lang.product_number'))->sortable();
+            $grid->p_name(trans('admin::lang.name'));
+            $grid->p_salesprice(trans('admin::lang.product_salesprice'));
+            $grid->p_costprice(trans('admin::lang.product_costprice'));
 
-            $grid->created_at(trans('admin::lang.created_at'));
             $grid->updated_at(trans('admin::lang.updated_at'));
+            $grid->created_at(trans('admin::lang.created_at'));
         });
     }
 
@@ -92,8 +96,25 @@ class ProductIndexController extends Controller
 
             $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
 
-            $form->image('p_pic', trans('admin::lang.product_pic'))->move('/', time());
+            $warehouse = Warehouse::all('wid','w_name');
+            $warehouse = $warehouse->toArray();
+            foreach($warehouse as $option){
+                $optionArray[$option['wid']] = $option['w_name'];
+            }
+
+            $form->select('wid', trans('admin::lang.warehouse'))->options(
+                $optionArray
+            );
+            $form->image('p_pic', trans('admin::lang.product_pic'))->move('product/', time());
             $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
+            $form->text('p_number', trans('admin::lang.product_number'));
+            $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
+            $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
+            $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
+            $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
+            $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+
+
 
             //$form->text('p_pic', trans('admin::lang.description'))->help('help...');
 
@@ -111,12 +132,14 @@ class ProductIndexController extends Controller
             // $table->string('p_pic',100)->comment('商品主圖');
             // $table->text('p_images')->comment('商品副圖(用|分隔)');
             // $table->text('p_description')->comment('商品說明');
+
             // $table->string('p_number',25)->comment('商品編號');
             // $table->integer('p_price')->default(0)->comment('定價'); 
             // $table->integer('p_retailprice')->default(0)->comment('售價'); 
             // $table->integer('p_specialprice')->default(0)->comment('優惠價');
             // $table->integer('p_salesprice')->default(0)->comment('業務價');
             // $table->integer('p_costprice')->default(0)->comment('進價');
+
             // $table->text('p_category')->comment('商品分類勾選(用|分隔)'); 
             // $table->text('p_series')->comment('主題系列勾選(用|分隔)');
             // $table->text('p_notes')->comment('備註');

@@ -14,4 +14,14 @@ class Warehouse extends Model
 
     //需要被轉換成日期的屬性
     protected $dates = ['deleted_at'];
+
+    public function selectoptions(){
+        $optionArray = [];
+        $dbArray = $this->toArray();
+        // foreach ($dbArray as $option) {
+        //     $optionArray[$dbArray[wid]] = $dbArray[w_name];
+        // }
+        return $dbArray;
+        //return 1;
+    }
 }

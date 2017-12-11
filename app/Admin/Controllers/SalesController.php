@@ -75,7 +75,7 @@ class SalesController extends Controller
 
             $grid->sid('業務編號')->sortable();
             $grid->wid('倉庫編號')->sortable();
-            $grid->name(trans('admin::lang.name'));
+            $grid->name(trans('admin::lang.salesname'));
             $grid->collect_at('最近領貨日');
             $grid->created_at( trans('admin::lang.created_at'));
             $grid->updated_at( trans('admin::lang.updated_at'));
@@ -104,7 +104,7 @@ class SalesController extends Controller
                     return $form->model()->password;});
                 $form->ignore(['password_confirmation']
             );
-            $form->text('name', trans('admin::lang.name'))->rules('required');
+            $form->text('name', trans('admin::lang.salesname'))->rules('required');
             $form->text('nickname', trans('admin::lang.nickname'))->rules('required');
             
             $form->display('created_at', trans('admin::lang.created_at'));

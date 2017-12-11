@@ -33,13 +33,8 @@ return [
     'collapse'              =>    '收起', 
     'filter'                =>    '篩選', 
     'close'                 =>    '關閉' , 
-<<<<<<< HEAD
     'show'                  =>    '每頁顯示', 
     'entries'               =>    '筆', 
-=======
-    'show'                  =>    '顯示', 
-    'entries'               =>    '項', 
->>>>>>> d55dddf2a2a2f4577fe5b2b0e38ef9acd28bd12a
     'captcha'               =>    '驗證碼', 
 
     'action'            =>    '操作', 
@@ -149,10 +144,6 @@ return [
     'parent_select_error'   =>    '父級選擇錯誤', 
 
     'pagination' => [ 
-<<<<<<< HEAD
         'range' =>    ' :first - :last 筆，總共 :total 筆', 
-=======
-        'range' =>    '從:first到:last ，總共:total項', 
->>>>>>> d55dddf2a2a2f4577fe5b2b0e38ef9acd28bd12a
     ], 
 ];

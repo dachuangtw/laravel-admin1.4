@@ -25,7 +25,7 @@ class SalesController extends Controller
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales'));
-            $content->description(trans('admin::lang.sales_list'));
+            $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
         });
@@ -41,7 +41,7 @@ class SalesController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header(trans('admin::lang.sales_list'));
+            $content->header(trans('admin::lang.list'));
             $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
@@ -57,7 +57,7 @@ class SalesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.sales_list'));
+            $content->header(trans('admin::lang.list'));
             $content->description(trans('admin::lang.new'));
 
             $content->body($this->form());

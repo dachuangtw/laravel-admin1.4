@@ -42,7 +42,7 @@ class SalesController extends Controller
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header('會員列表');
-            $content->description('編輯會員');
+            $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
         });
@@ -58,7 +58,7 @@ class SalesController extends Controller
         return Admin::content(function (Content $content) {
 
             $content->header('會員列表');
-            $content->description('新增會員');
+            $content->description(trans('admin::lang.new'));
 
             $content->body($this->form());
         });

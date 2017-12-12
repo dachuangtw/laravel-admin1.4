@@ -291,7 +291,6 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
     );
 
     public static $classMap = array (
-        'AdminPermissionsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminPermissionsTableSeeder.php',
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
         'App\\Admin\\Controllers\\ProductCategoryController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ProductCategoryController.php',
@@ -302,6 +301,7 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'App\\Admin\\Controllers\\SalesLogController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SalesLogController.php',
         'App\\Admin\\Controllers\\SalesRefundController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SalesRefundController.php',
         'App\\Admin\\Controllers\\WarehouseController' => __DIR__ . '/../..' . '/app/Admin/Controllers/WarehouseController.php',
+        'App\\Admin\\Controllers\\WebLocationController' => __DIR__ . '/../..' . '/app/Admin/Controllers/WebLocationController.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -328,6 +328,7 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'App\\SalesRefund' => __DIR__ . '/../..' . '/app/SalesRefund.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\Warehouse' => __DIR__ . '/../..' . '/app/Warehouse.php',
+        'App\\WebLocation' => __DIR__ . '/../..' . '/app/WebLocation.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
@@ -340,6 +341,8 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'CreateSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_152137_create_sales_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateWarehouseTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_163951_create_warehouse_table.php',
+        'CreateWebAreaTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_12_151339_create_web_area_table.php',
+        'CreateWebLocationTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_11_102512_create_web_location_table.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',
@@ -3500,7 +3503,6 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Processor' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Processor.php',
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
         'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
-        'WarehouseTableSeeder' => __DIR__ . '/../..' . '/database/seeds/WarehouseTableSeeder.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',

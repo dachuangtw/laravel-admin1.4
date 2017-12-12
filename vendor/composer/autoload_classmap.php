@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'AdminPermissionsTableSeeder' => $baseDir . '/database/seeds/AdminPermissionsTableSeeder.php',
     'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
     'App\\Admin\\Controllers\\HomeController' => $baseDir . '/app/Admin/Controllers/HomeController.php',
     'App\\Admin\\Controllers\\ProductCategoryController' => $baseDir . '/app/Admin/Controllers/ProductCategoryController.php',
@@ -17,6 +16,7 @@ return array(
     'App\\Admin\\Controllers\\SalesLogController' => $baseDir . '/app/Admin/Controllers/SalesLogController.php',
     'App\\Admin\\Controllers\\SalesRefundController' => $baseDir . '/app/Admin/Controllers/SalesRefundController.php',
     'App\\Admin\\Controllers\\WarehouseController' => $baseDir . '/app/Admin/Controllers/WarehouseController.php',
+    'App\\Admin\\Controllers\\WebLocationController' => $baseDir . '/app/Admin/Controllers/WebLocationController.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -43,6 +43,7 @@ return array(
     'App\\SalesRefund' => $baseDir . '/app/SalesRefund.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\Warehouse' => $baseDir . '/app/Warehouse.php',
+    'App\\WebLocation' => $baseDir . '/app/WebLocation.php',
     'ArithmeticError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
     'AssertionError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',
@@ -55,6 +56,8 @@ return array(
     'CreateSalesTable' => $baseDir . '/database/migrations/2017_12_08_152137_create_sales_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateWarehouseTable' => $baseDir . '/database/migrations/2017_12_08_163951_create_warehouse_table.php',
+    'CreateWebAreaTable' => $baseDir . '/database/migrations/2017_12_12_151339_create_web_area_table.php',
+    'CreateWebLocationTable' => $baseDir . '/database/migrations/2017_12_11_102512_create_web_location_table.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
     'Cron\\DayOfMonthField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',
@@ -3215,7 +3218,6 @@ return array(
     'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Processor' => $vendorDir . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Processor.php',
     'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => $vendorDir . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
     'TypeError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
-    'WarehouseTableSeeder' => $baseDir . '/database/seeds/WarehouseTableSeeder.php',
     'Webmozart\\Assert\\Assert' => $vendorDir . '/webmozart/assert/src/Assert.php',
     'XdgBaseDir\\Xdg' => $vendorDir . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
     'phpDocumentor\\Reflection\\DocBlock' => $vendorDir . '/phpdocumentor/reflection-docblock/src/DocBlock.php',

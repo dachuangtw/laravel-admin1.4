@@ -97,6 +97,7 @@ return [
     'product_price'         =>    '定價',
     'product_retailprice'   =>    '售價',
     'product_salesprice'    =>    '業務價',
+    'product_staffprice'    =>    '員工價',
     'product_costprice'     =>    '成本價',
     'product_specialprice'  =>    '優惠價',
 

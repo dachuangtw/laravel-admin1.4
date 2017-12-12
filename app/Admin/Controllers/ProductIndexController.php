@@ -94,12 +94,15 @@ class ProductIndexController extends Controller
     {
         return Admin::form(ProductIndex::class, function (Form $form) {
 
+            
             $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
 
             $form->select('wid', trans('admin::lang.warehouse'))->options(
                 Warehouse::all()->pluck('w_name', 'wid')
             );
-            $form->image('p_pic', trans('admin::lang.product_pic'))->move('product/', time());
+           
+            $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
+            $form->multipleImage('p_images', trans('admin::lang.product_images'));
             $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
             $form->text('p_number', trans('admin::lang.product_number'));
             $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
@@ -108,10 +111,10 @@ class ProductIndexController extends Controller
             $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
             $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
             $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
-            $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
+            // $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
                 // [1 => 'foo', 2 => 'bar', 'val' => 'Option name']
-                Warehouse::all()->pluck('w_name', 'wid')
-            );
+                // Warehouse::all()->pluck('w_name', 'wid')
+            // );
 
 
             //$form->text('p_pic', trans('admin::lang.description'))->help('help...');

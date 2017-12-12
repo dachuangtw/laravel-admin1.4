@@ -129,14 +129,16 @@ class SalesController extends Controller
 
                 $form->mobile('cellphone',trans('admin::lang.cellphone'));
                 
-                $weblocation = WebLocation::all('id','store_name');
+                /*$weblocation = WebLocation::all('id','store_name');
                 $weblocation = $weblocation->toArray();
-                foreach($weblocation as $option){
-                    $optionArray[$option['id']] = $option['store_name'];
+                foreach($weblocation as $weboption){
+                    $weboptionArray[$weboption['id']] = $weboption['store_name'];
                 }
 
-                $form->select('wid', trans('admin::lang.web_location'))->options(
-                $optionArray);
+                $form->select('store_location', trans('admin::lang.web_location'))->options($weboptionArray);*/
+
+                $form->multipleSelect('store_location',trans('admin::lang.web_location'))->options(WebLocation::all()->pluck('store_name', 'id'));
+
                 $form->textarea('remarks',trans('admin::lang.notes'));
             });
             $form->saving(function (Form $form) {

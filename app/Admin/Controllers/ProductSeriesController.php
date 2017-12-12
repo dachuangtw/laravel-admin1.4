@@ -24,10 +24,10 @@ class ProductSeriesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_details'));
+            $content->header(trans('admin::lang.product_series'));
             $content->description(trans('admin::lang.list'));
 
-            $content->body(ProductCategory::tree());
+            $content->body(ProductSeries::tree());
             // $content->body($this->grid());
         });
     }
@@ -42,7 +42,7 @@ class ProductSeriesController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header(trans('admin::lang.product_details'));
+            $content->header(trans('admin::lang.product_series'));
             $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
@@ -58,7 +58,7 @@ class ProductSeriesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_details'));
+            $content->header(trans('admin::lang.product_series'));
             $content->description(trans('admin::lang.create'));
 
             $content->body($this->form());
@@ -93,7 +93,7 @@ class ProductSeriesController extends Controller
 
             $form->display('psid', 'ID');
             $form->text('ps_name', trans('admin::lang.name'))->rules('required');
-
+            $form->display('update_user', trans('admin::lang.update_user'))->rules('required');
             $form->display('updated_at', trans('admin::lang.updated_at'));
             $form->display('created_at', trans('admin::lang.created_at'));
         });

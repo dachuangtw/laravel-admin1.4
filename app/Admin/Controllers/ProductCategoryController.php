@@ -29,7 +29,6 @@ class ProductCategoryController extends Controller
             $content->description(trans('admin::lang.list'));
             
             $content->body(ProductCategory::tree());
-
             // $content->body($this->grid());
         });
     }

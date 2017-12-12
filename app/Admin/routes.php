@@ -18,6 +18,7 @@ Route::group([
         $router->resource('sales', SalesController::class);
         
         $router->resource('product/category', ProductCategoryController::class);
+        $router->resource('product/series', ProductSeriesController::class);
         $router->resource('product', ProductIndexController::class);
         $router->resource('web/location', WebLocationController::class);
 

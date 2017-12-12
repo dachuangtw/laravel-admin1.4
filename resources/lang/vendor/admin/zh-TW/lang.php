@@ -130,9 +130,10 @@ return [
     'store_id'      =>     '店鋪編號',
     'store_area'    =>     '地區',
     'store_name'    =>     '店鋪名稱',
-    'store_address'=>     '地址',
+    'store_address' =>     '地址',
+    'store_map'     =>     'Google map',
     'comment'       =>     '說明',
-     
+    'store_pic'     =>     '店鋪圖片',
     
     'alert'     =>    '注意', 
 

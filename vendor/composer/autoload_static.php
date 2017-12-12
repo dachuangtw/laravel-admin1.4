@@ -291,8 +291,7 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
     );
 
     public static $classMap = array (
-        'AddParentIdToProductCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',
-        'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
+'AddParentIdToProductCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',        'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
         'App\\Admin\\Controllers\\ProductCategoryController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ProductCategoryController.php',
         'App\\Admin\\Controllers\\ProductIndexController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ProductIndexController.php',
@@ -342,8 +341,8 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'CreateSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_152137_create_sales_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateWarehouseTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_163951_create_warehouse_table.php',
-        'CreateWebLocationTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_11_102512_create_web_location_table.php',
-        'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
+		'CreateWebAreaTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_12_151339_create_web_area_table.php',
+        'CreateWebLocationTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_11_102512_create_web_location_table.php',        'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',
         'Cron\\DayOfWeekField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/DayOfWeekField.php',

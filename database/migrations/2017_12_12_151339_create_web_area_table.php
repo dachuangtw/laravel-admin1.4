@@ -15,8 +15,7 @@ class CreateWebAreaTable extends Migration
     {
         Schema::create('web_area', function (Blueprint $table) {
             $table->increments('id')->unique()->index()->comment('地區id');
-            $table->string('area')->comment('地區');
-            $table->string('area_name')->comment('名稱');
+            $table->string('area_name')->comment('地區名稱');
             $table->integer('area_sort')->default(0)->comment('順序');
             $table->timestamps();
         });

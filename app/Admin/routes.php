@@ -20,8 +20,8 @@ Route::group([
         $router->resource('product/category', ProductCategoryController::class);
         $router->resource('product/series', ProductSeriesController::class);
         $router->resource('product', ProductIndexController::class);
-        $router->resource('web/location', WebLocationController::class);
-
+        $router->resource('web/location', WebLocationController::class);    
+        $router->resource('web/area', WebAreaController::class);
         $router->resource('warehouse', WarehouseController::class);     
 
     });

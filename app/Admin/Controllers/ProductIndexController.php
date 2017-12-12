@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\ProductIndex;
 use App\Warehouse;
+use App\ProductSeries;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -77,6 +78,9 @@ class ProductIndexController extends Controller
             $grid->pid('ID')->sortable();
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
             $grid->p_name(trans('admin::lang.name'));
+            $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
+                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width: 200px;max-height: 200px;'/>";            
+            });
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             $grid->p_costprice(trans('admin::lang.product_costprice'));
 
@@ -111,10 +115,15 @@ class ProductIndexController extends Controller
             $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
             $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
             $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
-            // $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
-                // [1 => 'foo', 2 => 'bar', 'val' => 'Option name']
-                // Warehouse::all()->pluck('w_name', 'wid')
-            // );
+            $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
+                ProductSeries::all()->pluck('ps_name', 'psid')
+            );
+            $states = [
+                'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
+                'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
+            ];
+            
+            $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
 
 
             //$form->text('p_pic', trans('admin::lang.description'))->help('help...');
@@ -128,9 +137,7 @@ class ProductIndexController extends Controller
             // $form->multipleSelect('permissions', trans('admin::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
 
 
-            // $table->text('p_images')->comment('商品副圖(用|分隔)');
             // $table->text('p_category')->comment('商品分類勾選(用|分隔)'); 
-            // $table->text('p_series')->comment('主題系列勾選(用|分隔)');
             // $table->text('p_notes')->comment('備註');
             // $table->boolean('showfront')->default(false)->comment('前台顯示');
             // $table->string('update_user',25)->comment('最後更新者');

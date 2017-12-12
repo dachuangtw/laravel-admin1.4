@@ -86,7 +86,6 @@ class WebLocationController extends Controller
             $grid->column('showfront',trans('admin::lang.showfront'))->status()->switch($states);
         });
     }
-
     /**
      * Make a form builder.
      *

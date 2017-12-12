@@ -14,8 +14,8 @@ class AddParentIdToProductCategoryTable extends Migration
     public function up()
     {
         Schema::table('product_category', function (Blueprint $table) {
-            //
-            $table->integer('parent_id')->default(0)->comment('父級分類id');
+            //模板中的排序程式需要
+            $table->integer('parent_id')->default(0)->comment('父級分類id')->after('pcid');
         });
     }
 

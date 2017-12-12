@@ -14,7 +14,6 @@ use Encore\Admin\Controllers\ModelForm;
 class WebAreaController extends Controller
 {
     use ModelForm;
-
     /**
      * Index interface.
      *

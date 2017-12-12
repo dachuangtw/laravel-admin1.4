@@ -25,6 +25,7 @@ class CreateProductIndexTable extends Migration
             $table->integer('p_retailprice')->default(0)->comment('售價'); 
             $table->integer('p_specialprice')->default(0)->comment('優惠價');
             $table->integer('p_salesprice')->default(0)->comment('業務價');
+            $table->integer('p_staffprice')->default(0)->comment('員工價');
             $table->integer('p_costprice')->default(0)->comment('進價');
             $table->text('p_category')->nullable()->comment('商品分類勾選(用|分隔)'); 
             $table->text('p_series')->nullable()->comment('主題系列勾選(用|分隔)');

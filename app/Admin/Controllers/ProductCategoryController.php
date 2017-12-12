@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Tree;
 
 class ProductCategoryController extends Controller
 {
@@ -26,8 +27,9 @@ class ProductCategoryController extends Controller
 
             $content->header(trans('admin::lang.product_category'));
             $content->description(trans('admin::lang.list'));
-
-            $content->body($this->grid());
+            
+            $content->body(ProductCategory::tree());
+            // $content->body($this->grid());
         });
     }
 
@@ -41,8 +43,8 @@ class ProductCategoryController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header(trans('admin::lang.product_category'));
+            $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
         });
@@ -57,8 +59,8 @@ class ProductCategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header(trans('admin::lang.product_category'));
+            $content->description(trans('admin::lang.create'));
 
             $content->body($this->form());
         });
@@ -73,10 +75,11 @@ class ProductCategoryController extends Controller
     {
         return Admin::grid(ProductCategory::class, function (Grid $grid) {
 
-            $grid->id('ID')->sortable();
+            $grid->pcid('ID')->sortable();
+            $grid->pc_name(trans('admin::lang.name'));
 
-            $grid->created_at();
-            $grid->updated_at();
+            $grid->updated_at(trans('admin::lang.updated_at'));
+            $grid->created_at(trans('admin::lang.created_at'));
         });
     }
 
@@ -89,10 +92,11 @@ class ProductCategoryController extends Controller
     {
         return Admin::form(ProductCategory::class, function (Form $form) {
 
-            $form->display('id', 'ID');
+            $form->display('pcid', 'ID');
+            $form->text('pc_name', trans('admin::lang.name'))->rules('required');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+            $form->display('updated_at', trans('admin::lang.updated_at'));
+            $form->display('created_at', trans('admin::lang.created_at'));
         });
     }
 }

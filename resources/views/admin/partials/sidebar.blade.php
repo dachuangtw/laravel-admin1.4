@@ -10,13 +10,13 @@
             </div>
             <div class="pull-left info">
                 <p>{{ Admin::user()->name }}</p>
+                <p>{{ Admin::user()->username }}</p>
                 <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('admin::lang.online') }}</a>
+                <!-- <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('admin::lang.online') }}</a> -->
             </div>
         </div>
-
         <!-- search form (Optional) -->
-        <!--<form action="#" method="get" class="sidebar-form">
+        <!-- <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
@@ -24,7 +24,7 @@
                 </button>
               </span>
             </div>
-        </form>-->
+        </form> -->
         <!-- /.search form -->
 
         <!-- Sidebar Menu -->

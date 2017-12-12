@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
+	'AddParentIdToProductCategoryTable' => $baseDir . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',    'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
     'App\\Admin\\Controllers\\HomeController' => $baseDir . '/app/Admin/Controllers/HomeController.php',
     'App\\Admin\\Controllers\\ProductCategoryController' => $baseDir . '/app/Admin/Controllers/ProductCategoryController.php',
     'App\\Admin\\Controllers\\ProductIndexController' => $baseDir . '/app/Admin/Controllers/ProductIndexController.php',
@@ -56,9 +56,8 @@ return array(
     'CreateSalesTable' => $baseDir . '/database/migrations/2017_12_08_152137_create_sales_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateWarehouseTable' => $baseDir . '/database/migrations/2017_12_08_163951_create_warehouse_table.php',
-    'CreateWebAreaTable' => $baseDir . '/database/migrations/2017_12_12_151339_create_web_area_table.php',
-    'CreateWebLocationTable' => $baseDir . '/database/migrations/2017_12_11_102512_create_web_location_table.php',
-    'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
+	'CreateWebAreaTable' => $baseDir . '/database/migrations/2017_12_12_151339_create_web_area_table.php',
+    'CreateWebLocationTable' => $baseDir . '/database/migrations/2017_12_11_102512_create_web_location_table.php',    'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
     'Cron\\DayOfMonthField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',
     'Cron\\DayOfWeekField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/DayOfWeekField.php',

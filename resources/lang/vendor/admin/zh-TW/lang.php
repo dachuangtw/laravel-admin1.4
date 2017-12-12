@@ -97,6 +97,7 @@ return [
     'product_price'         =>    '定價',
     'product_retailprice'   =>    '售價',
     'product_salesprice'    =>    '業務價',
+    'product_staffprice'    =>    '員工價',
     'product_costprice'     =>    '成本價',
     'product_specialprice'  =>    '優惠價',
 
@@ -108,8 +109,7 @@ return [
     'product_barcode'      =>    '商品條碼',
     
     'showfront'     =>    '前台顯示',
-    'update_user'   =>    '建檔人',
-    'update_user'   =>    '最後更新者',
+    'update_user'   =>    '最近更新者',
     'created_at'    =>    '創建時間', 
     'updated_at'    =>    '更新時間', 
 
@@ -126,13 +126,11 @@ return [
     'cellphone'     =>     '手機號碼',
 
     //店鋪據點
-    'web_location'=>     '店鋪據點',
+    'web_location'  =>     '店鋪據點',
     'store_id'      =>     '店鋪編號',
     'store_area'    =>     '地區',
     'store_name'    =>     '店鋪名稱',
-    'store_address' =>     '地址',
-    'store_map'     =>     'Google map',
-    'comment'       =>     '說明',
+	'store_map'     =>     'Google map',    'comment'       =>     '說明',
     'store_pic'     =>     '店鋪圖片',
     
     'alert'     =>    '注意', 

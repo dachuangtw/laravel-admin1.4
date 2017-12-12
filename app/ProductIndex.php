@@ -41,4 +41,35 @@ class ProductIndex extends Model
         return $query->where('p_series', $type);
     }
 
+    //商品副圖(多圖用|分隔)
+    public function setPImagesAttribute($pictures)
+    {
+        if (is_array($pictures)) {
+            $this->attributes['p_images'] = implode('|',$pictures);
+        }
+    }
+
+    public function getPImagesAttribute($pictures)
+    {
+        if (is_string($pictures)) {
+            return explode('|',$pictures);
+        }
+        return $pictures;
+    }
+
+    //主題系列勾選(用|分隔)
+    public function setPSeriesAttribute($series)
+    {
+        if (is_array($series)) {
+            $this->attributes['p_series'] = implode('|',$series);
+        }
+    }
+
+    public function getPSeriesAttribute($series)
+    {
+        if (is_string($series)) {
+            return explode('|',$series);
+        }
+        return $series;
+    }
 }

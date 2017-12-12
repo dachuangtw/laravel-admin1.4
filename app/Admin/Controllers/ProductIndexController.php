@@ -96,14 +96,8 @@ class ProductIndexController extends Controller
 
             $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
 
-            $warehouse = Warehouse::all('wid','w_name');
-            $warehouse = $warehouse->toArray();
-            foreach($warehouse as $option){
-                $optionArray[$option['wid']] = $option['w_name'];
-            }
-
             $form->select('wid', trans('admin::lang.warehouse'))->options(
-                $optionArray
+                Warehouse::all()->pluck('w_name', 'wid')
             );
             $form->image('p_pic', trans('admin::lang.product_pic'))->move('product/', time());
             $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
@@ -112,8 +106,12 @@ class ProductIndexController extends Controller
             $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
             $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
             $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
+            $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
             $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
-
+            $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
+                // [1 => 'foo', 2 => 'bar', 'val' => 'Option name']
+                Warehouse::all()->pluck('w_name', 'wid')
+            );
 
 
             //$form->text('p_pic', trans('admin::lang.description'))->help('help...');
@@ -126,20 +124,8 @@ class ProductIndexController extends Controller
             
             // $form->multipleSelect('permissions', trans('admin::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
 
-            
-            // $table->integer('wid')->unsigned()->index()->comment('倉庫id');
-            // $table->string('p_name',50)->comment('商品名稱');
-            // $table->string('p_pic',100)->comment('商品主圖');
+
             // $table->text('p_images')->comment('商品副圖(用|分隔)');
-            // $table->text('p_description')->comment('商品說明');
-
-            // $table->string('p_number',25)->comment('商品編號');
-            // $table->integer('p_price')->default(0)->comment('定價'); 
-            // $table->integer('p_retailprice')->default(0)->comment('售價'); 
-            // $table->integer('p_specialprice')->default(0)->comment('優惠價');
-            // $table->integer('p_salesprice')->default(0)->comment('業務價');
-            // $table->integer('p_costprice')->default(0)->comment('進價');
-
             // $table->text('p_category')->comment('商品分類勾選(用|分隔)'); 
             // $table->text('p_series')->comment('主題系列勾選(用|分隔)');
             // $table->text('p_notes')->comment('備註');

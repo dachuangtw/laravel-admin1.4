@@ -94,10 +94,7 @@ class WarehouseController extends Controller
             $form->display('wid', 'ID');
             $form->text('w_name', trans('admin::lang.name'))->rules('required');
             $form->text('w_phone', trans('admin::lang.phone'));
-            $form->text('w_postcode', trans('admin::lang.postcode'));
-            $form->text('w_city', trans('admin::lang.city'));
-            $form->text('w_area', trans('admin::lang.area'));
-            $form->text('w_street', trans('admin::lang.street'));
+            $form->text('w_address', trans('admin::lang.address'));
             $form->textarea('w_notes', trans('admin::lang.notes'))->rows(5);
 
             $form->display('created_at', trans('admin::lang.created_at'));

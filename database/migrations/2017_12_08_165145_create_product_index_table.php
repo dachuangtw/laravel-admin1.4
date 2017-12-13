@@ -30,7 +30,8 @@ class CreateProductIndexTable extends Migration
             $table->text('p_category')->nullable()->comment('商品分類勾選(用|分隔)'); 
             $table->text('p_series')->nullable()->comment('主題系列勾選(用|分隔)');
             $table->text('p_notes')->nullable()->comment('備註');
-            $table->boolean('showfront')->default(false)->comment('前台顯示');
+            $table->boolean('showfront')->default(true)->comment('前台顯示');
+            $table->boolean('showsales')->default(true)->comment('業務顯示');
             $table->string('update_user',25)->nullable()->comment('最後更新者');
             $table->timestamps();
             $table->softDeletes();              

@@ -129,9 +129,17 @@ return [
     'web_location'  =>     '店鋪據點',
     'store_id'      =>     '店鋪編號',
     'store_area'    =>     '地區',
+    'store_address' =>     '店鋪地址',
     'store_name'    =>     '店鋪名稱',
-	'store_map'     =>     'Google map',    'comment'       =>     '說明',
+	'store_map'     =>     'Google map',    
+    'comment'       =>     '說明',
     'store_pic'     =>     '店鋪圖片',
+
+    //地區
+    'web_area'      =>     '地區',
+    'area_id'       =>     '地區編號',
+
+
     
     'alert'     =>    '注意', 
 

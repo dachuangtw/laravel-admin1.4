@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\WebLocation;
+use App\WebArea;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -85,7 +86,6 @@ class WebLocationController extends Controller
             $grid->column('showfront',trans('admin::lang.showfront'))->status()->switch($states);
         });
     }
-
     /**
      * Make a form builder.
      *
@@ -97,7 +97,16 @@ class WebLocationController extends Controller
 
             $form->display('id', trans('admin::lang.store_id'));
             $form->text('store_name', trans('admin::lang.store_name'));
-            $form->select('store_area', trans('admin::lang.store_area'))->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
+            $webarea = WebArea::all('id','area_name');
+            $webarea = $webarea->toArray();
+            foreach($webarea as $option){
+                $optionArray[$option['id']] = $option['area_name'];
+            }
+
+            $form->select('store_area', trans('admin::lang.store_area'))->options(
+                $optionArray
+            );
+
             $form->text('store_address', trans('admin::lang.store_address'));
             $form->editor('map',trans('admin::lang.store_map'));
             $form->html('<a href="https://goo.gl/13yFtr">嵌入地圖說明</a>');

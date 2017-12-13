@@ -17,10 +17,7 @@ class CreateWarehouseTable extends Migration
             $table->increments('wid')->comment('倉庫id');
             $table->string('w_name',25)->comment('倉庫名');
             $table->string('w_phone',50)->nullable()->comment('連絡電話');
-            $table->string('w_postcode',25)->nullable()->comment('郵遞區號');
-            $table->string('w_city',25)->nullable()->comment('縣市');
-            $table->string('w_area',25)->nullable()->comment('鄉鎮市區');
-            $table->string('w_street',100)->nullable()->comment('街道地址');
+            $table->string('w_address',200)->nullable()->comment('地址');
             $table->text('w_notes')->nullable()->comment('備註');
             $table->timestamps();
         });

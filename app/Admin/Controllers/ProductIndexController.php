@@ -98,15 +98,9 @@ class ProductIndexController extends Controller
     protected function form()
     {
         return Admin::form(ProductIndex::class, function (Form $form) {
-
             
             $form->text('p_number', trans('admin::lang.product_number'));
-            $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
-            $form->select('wid', trans('admin::lang.warehouse'))->options(
-                Warehouse::all()->pluck('w_name', 'wid')
-            );
-            $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
-           
+            $form->text('p_name', trans('admin::lang.product_name'))->rules('required');           
             $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
             $form->multipleImage('p_images', trans('admin::lang.product_images'));
 
@@ -129,20 +123,11 @@ class ProductIndexController extends Controller
             ];
             
             $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
+            $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
 
-            //$form->text('p_pic', trans('admin::lang.description'))->help('help...');
+            $form->textarea('p_notes', trans('admin::lang.notes'))->rows(5);
 
-
-            // $form->text('p_pic', trans('admin::lang.description'))->rules('required');
-            // $form->text('p_name', trans('admin::lang.name'))->rules('required');
-            
-            // $form->multipleSelect('permissions', trans('admin::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
-
-
-            // $table->text('p_category')->comment('商品分類勾選(用|分隔)'); 
-            // $table->text('p_notes')->comment('備註');
-            // $table->string('update_user',25)->comment('最後更新者');
-
+            $form->hidden('update_user')->value(Admin::user()->id);
             $form->display('updated_at', trans('admin::lang.updated_at'));
             $form->display('created_at', trans('admin::lang.created_at'));
         });

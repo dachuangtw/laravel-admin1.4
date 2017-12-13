@@ -14,8 +14,7 @@ class CreateProductIndexTable extends Migration
     public function up()
     {
         Schema::create('product_index', function (Blueprint $table) {
-            $table->increments('pid')->comment('商品主檔id');
-            $table->integer('wid')->unsigned()->index()->comment('倉庫id');
+            $table->increments('pid')->comment('商品主檔id');            
             $table->string('p_name',50)->nullable()->comment('商品名稱');
             $table->string('p_pic',100)->nullable()->comment('商品主圖');
             $table->text('p_images')->nullable()->comment('商品副圖(用|分隔)');

@@ -13,7 +13,7 @@ class CreateSalesNoteTable extends Migration
      */
     public function up()
     {
-        Schema::create('sales_announcement', function (Blueprint $table) {
+        Schema::create('sales_note', function (Blueprint $table) {
             $table->increments('id')->unique()->index()->comment('業務公告id');
             $table->dateTimeTz('note_at')->comment('日期');
             $table->string('note_title')->comment('標題');
@@ -23,7 +23,6 @@ class CreateSalesNoteTable extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

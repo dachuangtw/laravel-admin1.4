@@ -124,7 +124,8 @@ class ProductSeriesController extends Controller
 
             $form->display('psid', 'ID');
             $form->text('ps_name', trans('admin::lang.name'))->rules('required');
-            // $form->text('update_user', trans('admin::lang.update_user'))->value(Admin::user()->name);
+
+            $form->hidden('update_user')->value(Admin::user()->id);
             $form->display('updated_at', trans('admin::lang.updated_at'));
             $form->display('created_at', trans('admin::lang.created_at'));
         });

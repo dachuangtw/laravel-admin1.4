@@ -103,6 +103,7 @@ class ProductIndexController extends Controller
             $form->text('p_name', trans('admin::lang.product_name'))->rules('required');           
             $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
             $form->multipleImage('p_images', trans('admin::lang.product_images'));
+            $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
 
             $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
             $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);

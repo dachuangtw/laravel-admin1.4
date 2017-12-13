@@ -40,7 +40,7 @@ class Currency extends Text
 
         $this->script = <<<EOT
 
-$('{$this->getElementClassSelector()}').inputmask($options);
+$('{$this->getElementClassSelector()}').inputmask($options).focus(function(){this.select();});
 
 EOT;
 

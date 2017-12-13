@@ -7,9 +7,13 @@ use App\ProductSeries;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
+use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Tree;
+use Encore\Admin\Widgets\Box;
 
 class ProductSeriesController extends Controller
 {
@@ -27,8 +31,35 @@ class ProductSeriesController extends Controller
             $content->header(trans('admin::lang.product_series'));
             $content->description(trans('admin::lang.list'));
 
-            $content->body(ProductSeries::tree());
-            // $content->body($this->grid());
+            // $content->body(ProductSeries::tree());
+
+            $content->row(function (Row $row) {
+                $row->column(6, $this->treeView()->render());
+
+                $row->column(6, function (Column $column) {
+                    $form = new \Encore\Admin\Widgets\Form();
+                    $form->action(admin_url('product/series'));
+
+                    $form->text('ps_name', trans('admin::lang.name'))->rules('required');
+
+                    $column->append((new Box(trans('admin::lang.new'), $form))->style('danger'));
+                });
+            });
+        });
+    }
+
+    /**
+     * @return \Encore\Admin\Tree
+     */
+    protected function treeView()
+    {
+        return ProductSeries::tree(function (Tree $tree) {
+            $tree->disableCreate();
+
+            $tree->branch(function ($branch) {
+                $payload = "&nbsp;<strong>{$branch['ps_name']}</strong>";
+                return $payload;
+            });
         });
     }
 
@@ -93,7 +124,7 @@ class ProductSeriesController extends Controller
 
             $form->display('psid', 'ID');
             $form->text('ps_name', trans('admin::lang.name'))->rules('required');
-            $form->text('update_user', trans('admin::lang.update_user'))->rules('required')->value(Admin::user()->name);
+            // $form->text('update_user', trans('admin::lang.update_user'))->value(Admin::user()->name);
             $form->display('updated_at', trans('admin::lang.updated_at'));
             $form->display('created_at', trans('admin::lang.created_at'));
         });

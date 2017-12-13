@@ -72,4 +72,20 @@ class ProductIndex extends Model
         }
         return $series;
     }
+
+    //商品分類多選框(用|分隔)
+    public function setPCategoryAttribute($category)
+    {
+        if (is_array($category)) {
+            $this->attributes['p_category'] = implode('|',$category);
+        }
+    }
+
+    public function getPCategoryAttribute($category)
+    {
+        if (is_string($category)) {
+            return explode('|',$category);
+        }
+        return $category;
+    }
 }

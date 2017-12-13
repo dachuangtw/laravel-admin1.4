@@ -19,7 +19,7 @@ class CreateProductSeriesTable extends Migration
             $table->string('ps_name',50)->comment('主題系列名稱');
             $table->integer('ps_sort')->default(0)->comment('順序');
             $table->boolean('showfront')->default(false)->comment('前台顯示');
-            $table->string('update_user',25)->comment('最後更新者');
+            $table->string('update_user',25)->nullable()->comment('最後更新者');
             $table->timestamps(); 
         });
     }

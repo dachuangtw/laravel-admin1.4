@@ -67,11 +67,8 @@ return [
     'permissions'               =>    '權限', 
     'slug'                      =>    '標識',
 
-    'phone' =>  '連絡電話',
-    'postcode' =>  '郵遞區號',
-    'city' =>  '縣市',
-    'area' =>  '鄉鎮市區',
-    'street' =>  '街道地址',
+    'phone'     =>  '連絡電話',
+    'address'   =>  '地址',
     
     //倉庫
     'warehouse'         =>    '倉庫',

@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             ['name' => '商品_新刪修',
              'slug' => 'product_editor'],
         ]);
-        WAREHOUSE
+        //WAREHOUSE
         DB::table('warehouse')->insert([
             ['w_name'   => '新竹倉'],
             ['w_name'   => '台中倉'],

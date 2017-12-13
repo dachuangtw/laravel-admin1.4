@@ -128,14 +128,6 @@ class SalesController extends Controller
             })->tab('聯絡資訊', function (Form $form) {
 
                 $form->mobile('cellphone',trans('admin::lang.cellphone'));
-                
-                /*$weblocation = WebLocation::all('id','store_name');
-                $weblocation = $weblocation->toArray();
-                foreach($weblocation as $weboption){
-                    $weboptionArray[$weboption['id']] = $weboption['store_name'];
-                }
-
-                $form->select('store_location', trans('admin::lang.web_location'))->options($weboptionArray);*/
 
                 $form->multipleSelect('store_location',trans('admin::lang.web_location'))->options(WebLocation::all()->pluck('store_name', 'id'));
 

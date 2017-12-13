@@ -27,7 +27,8 @@ class AddParentIdToProductCategoryTable extends Migration
     public function down()
     {
         Schema::table('product_category', function (Blueprint $table) {
-            //
+            //移除欄位
+            $table->dropColumn('parent_id');
         });
     }
 }

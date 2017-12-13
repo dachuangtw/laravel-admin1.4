@@ -125,6 +125,13 @@ return [
     'collect_at'    =>     '最近領貨日',
     'cellphone'     =>     '手機號碼',
 
+    //業務公告
+    'sales_note'    =>      '業務公告',
+    'note_target'   =>      '公告對象',
+    'note_at'       =>      '日期',
+    'note_content'  =>      '內容',
+    'note_target'   =>      '公告對象',    
+
     //店鋪據點
     'web_location'  =>     '店鋪據點',
     'store_id'      =>     '店鋪編號',

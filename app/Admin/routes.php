@@ -15,7 +15,9 @@ Route::group([
         $router->resource('sales/assign', SalesAssignController::class);
         $router->resource('sales/collect', SalesCollectController::class);
         $router->resource('sales/refund', SalesRefundController::class);
+        $router->resource('sales/notes', SalesNoteController::class);
         $router->resource('sales', SalesController::class);
+        
         
         $router->resource('product/category', ProductCategoryController::class);
         $router->resource('product/series', ProductSeriesController::class);

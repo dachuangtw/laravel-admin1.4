@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\ProductIndex;
 use App\Warehouse;
 use App\ProductSeries;
+use App\ProductCategory;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -99,22 +100,26 @@ class ProductIndexController extends Controller
         return Admin::form(ProductIndex::class, function (Form $form) {
 
             
+            $form->text('p_number', trans('admin::lang.product_number'));
             $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
-
             $form->select('wid', trans('admin::lang.warehouse'))->options(
                 Warehouse::all()->pluck('w_name', 'wid')
             );
+            $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
            
             $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
             $form->multipleImage('p_images', trans('admin::lang.product_images'));
-            $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
-            $form->text('p_number', trans('admin::lang.product_number'));
+
             $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
             $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
             $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
             $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
             $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
             $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+
+            $form->multipleSelect('p_category', trans('admin::lang.product_category'))->options(
+                ProductCategory::all()->pluck('pc_name', 'pcid')
+            );
             $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
                 ProductSeries::all()->pluck('ps_name', 'psid')
             );
@@ -125,13 +130,10 @@ class ProductIndexController extends Controller
             
             $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
 
-
             //$form->text('p_pic', trans('admin::lang.description'))->help('help...');
 
 
             // $form->text('p_pic', trans('admin::lang.description'))->rules('required');
-            // $form->text('p_name', trans('admin::lang.name'))->rules('required');
-            // $form->text('p_pic', trans('admin::lang.slug'))->rules('required');
             // $form->text('p_name', trans('admin::lang.name'))->rules('required');
             
             // $form->multipleSelect('permissions', trans('admin::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
@@ -139,7 +141,6 @@ class ProductIndexController extends Controller
 
             // $table->text('p_category')->comment('商品分類勾選(用|分隔)'); 
             // $table->text('p_notes')->comment('備註');
-            // $table->boolean('showfront')->default(false)->comment('前台顯示');
             // $table->string('update_user',25)->comment('最後更新者');
 
             $form->display('updated_at', trans('admin::lang.updated_at'));

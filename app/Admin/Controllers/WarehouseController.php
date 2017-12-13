@@ -75,8 +75,8 @@ class WarehouseController extends Controller
 
             $grid->wid('ID')->sortable();
             $grid->w_name(trans('admin::lang.name'));
-            $grid->w_city(trans('admin::lang.city'));
-            $grid->w_area(trans('admin::lang.area'));
+            $grid->w_phone(trans('admin::lang.phone'));
+            $grid->w_address(trans('admin::lang.address'));
 
             $grid->updated_at(trans('admin::lang.updated_at'));
         });

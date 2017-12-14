@@ -114,7 +114,7 @@ return [
     //業務列表
     //'sid'           =>     '排序',
     'wid'           =>     '倉庫編號',
-    'sales_id'      =>     '業務編號',
+    'sales_id'      =>     '業務代號',
     'resign'        =>     '離職',
     'sales'         =>     '業務管理',
     'collect_at'    =>     '最近領貨日',

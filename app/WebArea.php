@@ -17,4 +17,8 @@ class WebArea extends Model
 
         return $dbArray;
     }
+    //關聯
+    public function web_lcation(){
+        return $this->hasMany(WebLocation::class);
+    }
 }

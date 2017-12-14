@@ -8,9 +8,13 @@ use App\WebArea;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
+use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Tree;
+use Encore\Admin\Widgets\Box;
 
 class WebLocationController extends Controller
 {
@@ -28,7 +32,26 @@ class WebLocationController extends Controller
             $content->header(trans('admin::lang.web_location'));            
             $content->description(trans('admin::lang.list'));
 
-            $content->body($this->grid());
+            $content->row(function (Row $row) {
+                $row->column(6, $this->treeView()->render());
+            });
+            //$content->body($this->grid());
+            $content->body($this->formarea());
+        });
+    }
+
+    /**
+     * @return \Encore\Admin\Tree
+     */
+    protected function treeView()
+    {
+        return WebLocation::tree(function (Tree $tree) {
+            //$tree->disableCreate();
+
+            $tree->branch(function ($branch) {
+                $payload = "&nbsp;<strong>{$branch['store_name']}</strong>";
+                return $payload;
+            });
         });
     }
 
@@ -44,7 +67,6 @@ class WebLocationController extends Controller
 
             $content->header(trans('admin::lang.web_location'));
             $content->description(trans('admin::lang.edit'));
-
             $content->body($this->form()->edit($id));
         });
     }
@@ -65,7 +87,7 @@ class WebLocationController extends Controller
         });
     }
 
-    /**
+     /**
      * Make a grid builder.
      *
      * @return Grid
@@ -85,7 +107,9 @@ class WebLocationController extends Controller
             ];
             $grid->column('showfront',trans('admin::lang.showfront'))->status()->switch($states);
         });
+
     }
+
     /**
      * Make a form builder.
      *
@@ -97,16 +121,9 @@ class WebLocationController extends Controller
 
             $form->display('id', trans('admin::lang.store_id'));
             $form->text('store_name', trans('admin::lang.store_name'));
-            $webarea = WebArea::all('id','area_name');
-            $webarea = $webarea->toArray();
-            foreach($webarea as $option){
-                $optionArray[$option['id']] = $option['area_name'];
-            }
-
             $form->select('store_area', trans('admin::lang.store_area'))->options(
-                $optionArray
-            );
-
+                WebArea::all()->pluck('area_name','area_sort')
+                );
             $form->text('store_address', trans('admin::lang.store_address'));
             $form->editor('map',trans('admin::lang.store_map'));
             $form->html('<a href="https://goo.gl/13yFtr">嵌入地圖說明</a>');
@@ -119,6 +136,24 @@ class WebLocationController extends Controller
             ];
             $form->switch('showfront',trans('admin::lang.showfront'))->states($states);
             $form->textarea('comment',trans('admin::lang.comment'))->rows(10);
+            $form->display('created_at',trans('admin::lang.created_at'));
+            $form->display('updated_at',trans('admin::lang.updated_at'));
+        });
+    }
+
+    /**
+     * Make a form builder.
+     *
+     * @return Form_area
+     */
+    protected function formarea()
+    {
+        return Admin::form(WebArea::class, function (Form $form) {
+            $form->action(admin_url('web/location'));
+            $form->display('id', trans('admin::lang.area_id'));
+            $form->text('area_name', trans('admin::lang.name'));
+            $form->text('area_sort', trans('admin::lang.order'));
+          
             $form->display('created_at',trans('admin::lang.created_at'));
             $form->display('updated_at',trans('admin::lang.updated_at'));
         });

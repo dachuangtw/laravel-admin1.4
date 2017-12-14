@@ -31,7 +31,7 @@
             <div class="col-sm-{{$width['label']}}">
 
             </div>
-            <div class="col-sm-{{$width['field']}}">
+            <div class="col-sm-{{$width['field']}}" style="text-align: center;">
 
                 {!! $form->submitButton() !!}
 

@@ -14,7 +14,7 @@ class AddResignToSalesTable extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->boolean('resign')->default(false)->after('name')->comment('離職');
+            $table->boolean('resign')->default(false)->after('sales_name')->comment('離職');
         });
     }
 

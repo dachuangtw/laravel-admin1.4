@@ -75,12 +75,15 @@ class SalesController extends Controller
     {
         return Admin::grid(Sales::class, function (Grid $grid) {
 
-            $grid->sid(trans('admin::lang.sid'))->sortable();
+            $grid->sid(trans('ID'))->sortable();
             $grid->wid(trans('admin::lang.wid'))->sortable();
+            $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
             $grid->name(trans('admin::lang.salesname'));
+            $grid->resign(trans('admin::lang.resign'))->editable('select', [0 => '在職', 1 => '離職',]);
+            //$grid->resign(trans('admin::lang.resign'));
             $grid->collect_at(trans('admin::lang.collect_at'));
-            $grid->created_at( trans('admin::lang.created_at'));
-            $grid->updated_at( trans('admin::lang.updated_at'));
+            //$grid->created_at( trans('admin::lang.created_at'));
+            //$grid->updated_at( trans('admin::lang.updated_at'));
         });
     }
 
@@ -95,8 +98,8 @@ class SalesController extends Controller
             $form->model()->makeVisible('password');
 
             $form->tab('基本資料', function (Form $form) {
-                $form->display('sid', '業務編號');
-
+                $form->display('sid', 'ID');
+                $form->text('sales_id', trans('admin::lang.sales_id'))->rules('required');
                 $warehouse = Warehouse::all('wid','w_name');
                 $warehouse = $warehouse->toArray();
                 foreach($warehouse as $option){
@@ -116,6 +119,7 @@ class SalesController extends Controller
                 $form->ignore(['password_confirmation']
                 );
                 $form->text('name', trans('admin::lang.salesname'))->rules('required');
+                $form->radio('resign', trans('admin::lang.resign'))->options(['1' => '是','0' => '否']);
                 $form->text('nickname', trans('admin::lang.nickname'))->rules('required');
             
                 $form->display('created_at', trans('admin::lang.created_at'));

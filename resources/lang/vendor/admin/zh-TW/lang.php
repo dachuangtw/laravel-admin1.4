@@ -112,8 +112,10 @@ return [
     'updated_at'    =>    '更新時間', 
 
     //業務列表
-    'sid'           =>     '業務編號',
+    //'sid'           =>     '排序',
     'wid'           =>     '倉庫編號',
+    'sales_id'      =>     '業務編號',
+    'resign'        =>     '離職',
     'sales'         =>     '業務管理',
     'collect_at'    =>     '最近領貨日',
     'client_ip'     =>     '最近ip',

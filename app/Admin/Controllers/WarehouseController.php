@@ -7,9 +7,13 @@ use App\Warehouse;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
+use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Tree;
+use Encore\Admin\Widgets\Box;
 
 class WarehouseController extends Controller
 {
@@ -27,7 +31,38 @@ class WarehouseController extends Controller
             $content->header(trans('admin::lang.warehouse'));
             $content->description(trans('admin::lang.list'));
 
-            $content->body($this->grid());
+            // $content->body($this->grid());
+
+            $content->row(function (Row $row) {
+                $row->column(6, function (Column $column) {
+                    $form = new \Encore\Admin\Widgets\Form();
+                    $form->action(admin_url('warehouse'));
+
+                    $form->text('w_name', trans('admin::lang.name'))->rules('required');
+
+                    $column->append((new Box(trans('admin::lang.new'), $form))->style('danger'));
+                });
+
+            });
+            $content->row(function (Row $row) {
+                $row->column(6, $this->treeView()->render());
+
+            });
+        });
+    }
+
+    /**
+     * @return \Encore\Admin\Tree
+     */
+    protected function treeView()
+    {
+        return Warehouse::tree(function (Tree $tree) {
+            $tree->disableCreate();
+
+            $tree->branch(function ($branch) {
+                $payload = "&nbsp;<strong>{$branch['w_name']}</strong>";
+                return $payload;
+            });
         });
     }
 

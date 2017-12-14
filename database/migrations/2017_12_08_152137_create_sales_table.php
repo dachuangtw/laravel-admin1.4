@@ -18,7 +18,7 @@ class CreateSalesTable extends Migration
             $table->string('wid')->comment('倉庫id');
             $table->string('email')->unique()->index()->comment('電子郵件');
             $table->string('password', 60)->comment('密碼');
-            $table->string('name', 50)->comment('姓名');
+            $table->string('sales_name', 50)->comment('姓名');
             $table->string('nickname', 50)->nullable()->comment('暱稱');
             $table->string('cellphone', 50)->nullable()->comment('手機號碼');
             $table->timestamp('password_updated_at')->nullable()->comment('密碼更新');

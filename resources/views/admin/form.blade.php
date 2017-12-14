@@ -35,7 +35,9 @@
 
                 {!! $form->submitButton() !!}
 
+                @if(! $form->option('enableSubmit'))
                 {!! $form->resetButton() !!}
+                @endif
 
             </div>
 

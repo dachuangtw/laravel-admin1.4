@@ -39,6 +39,7 @@ class WarehouseController extends Controller
                     $form->action(admin_url('warehouse'));
 
                     $form->text('w_name', trans('admin::lang.name'))->rules('required');
+                    $form->option('enableReset',false);
 
                     $column->append((new Box(trans('admin::lang.new'), $form))->style('danger'));
                 });

@@ -124,7 +124,7 @@ class ProductIndexController extends Controller
             ];
             
             $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
-            $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
+            $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
 
             $form->textarea('p_notes', trans('admin::lang.notes'))->rows(5);
 

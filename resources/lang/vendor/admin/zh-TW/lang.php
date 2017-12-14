@@ -102,10 +102,11 @@ return [
     'product_type'         =>    '款式',
     'product_stock'        =>    '目前庫存數',
     'product_sales'        =>    '業務可領貨量',
-    'showsales'            =>    '業務領貨顯示',
     'product_barcode'      =>    '商品條碼',
     
-    'showfront'     =>    '前台顯示',
+    'showsales'     =>    '業務可領貨',
+    'shownew'       =>    '新荷入庫',
+    'showfront'     =>    '前台',
     'update_user'   =>    '最近更新者',
     'created_at'    =>    '創建時間', 
     'updated_at'    =>    '更新時間', 

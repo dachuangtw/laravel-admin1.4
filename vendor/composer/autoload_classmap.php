@@ -7,12 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddParentIdToProductCategoryTable' => $baseDir . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',
-<<<<<<< HEAD
     'AddResignToSalesTable' => $baseDir . '/database/migrations/2017_12_14_092133_add_resign_to_sales_table.php',
     'AddSalesIdToSalesTable' => $baseDir . '/database/migrations/2017_12_14_093219_add_sales_id_to_sales_table.php',
     'AdminMenuTableSeeder' => $baseDir . '/database/seeds/AdminMenuTableSeeder.php',
-=======
->>>>>>> d639e83ec3c1f719daeff9c6a3f8860d7b4a7fab
     'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
     'App\\Admin\\Controllers\\HomeController' => $baseDir . '/app/Admin/Controllers/HomeController.php',
     'App\\Admin\\Controllers\\ProductCategoryController' => $baseDir . '/app/Admin/Controllers/ProductCategoryController.php',
@@ -24,6 +21,7 @@ return array(
     'App\\Admin\\Controllers\\SalesLogController' => $baseDir . '/app/Admin/Controllers/SalesLogController.php',
     'App\\Admin\\Controllers\\SalesNoteController' => $baseDir . '/app/Admin/Controllers/SalesNoteController.php',
     'App\\Admin\\Controllers\\SalesRefundController' => $baseDir . '/app/Admin/Controllers/SalesRefundController.php',
+    'App\\Admin\\Controllers\\StockController' => $baseDir . '/app/Admin/Controllers/StockController.php',
     'App\\Admin\\Controllers\\WarehouseController' => $baseDir . '/app/Admin/Controllers/WarehouseController.php',
     'App\\Admin\\Controllers\\WebAreaController' => $baseDir . '/app/Admin/Controllers/WebAreaController.php',
     'App\\Admin\\Controllers\\WebLocationController' => $baseDir . '/app/Admin/Controllers/WebLocationController.php',
@@ -53,6 +51,7 @@ return array(
     'App\\SalesLog' => $baseDir . '/app/SalesLog.php',
     'App\\SalesNotes' => $baseDir . '/app/SalesNotes.php',
     'App\\SalesRefund' => $baseDir . '/app/SalesRefund.php',
+    'App\\Stock' => $baseDir . '/app/Stock.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\Warehouse' => $baseDir . '/app/Warehouse.php',
     'App\\WebArea' => $baseDir . '/app/WebArea.php',

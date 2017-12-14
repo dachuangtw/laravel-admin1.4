@@ -427,8 +427,8 @@ class Builder
         $text = trans('admin::lang.submit');
 
         return <<<EOT
-<div class="btn-group pull-right">
-    <button type="submit" class="btn btn-info pull-right" data-loading-text="<i class='fa fa-spinner fa-spin '></i> $text">$text</button>
+<div class="btn-group text-center">
+    <button type="submit" class="btn btn-success text-center" data-loading-text="<i class='fa fa-spinner fa-spin '></i> $text">$text <i class="fa fa-check"></i></button>
 </div>
 EOT;
     }

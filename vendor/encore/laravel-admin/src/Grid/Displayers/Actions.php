@@ -179,7 +179,7 @@ SCRIPT;
         Admin::script($script);
 
         return <<<EOT
-<a href="javascript:void(0);" data-id="{$this->getKey()}" class="grid-row-delete" title="{$this->trans('delete')}">
+&nbsp;<a href="javascript:void(0);" data-id="{$this->getKey()}" class="grid-row-delete" title="{$this->trans('delete')}">
     <i class="fa fa-trash"></i>
 </a>
 EOT;

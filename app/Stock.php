@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stock extends Model
 {
-    //
+    //庫存資料表
+    protected $table = 'stock';
+    //主鍵
+    protected $primaryKey = 'sid';
 }

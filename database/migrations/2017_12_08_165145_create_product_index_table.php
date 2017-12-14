@@ -31,6 +31,7 @@ class CreateProductIndexTable extends Migration
             $table->text('p_notes')->nullable()->comment('備註');
             $table->boolean('showfront')->default(true)->comment('前台顯示');
             $table->boolean('shownew')->default(true)->comment('新荷入庫顯示');
+            $table->boolean('showsales')->default(true)->comment('業務可領貨顯示');
             $table->string('update_user',25)->nullable()->comment('最後更新者');
             $table->timestamps();
             $table->softDeletes();              

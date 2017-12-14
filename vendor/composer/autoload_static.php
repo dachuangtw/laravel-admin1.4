@@ -292,6 +292,8 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
 
     public static $classMap = array (
         'AddParentIdToProductCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',
+        'AddResignToSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_092133_add_resign_to_sales_table.php',
+        'AddSalesIdToSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_093219_add_sales_id_to_sales_table.php',
         'AdminMenuTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminMenuTableSeeder.php',
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
@@ -302,6 +304,7 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'App\\Admin\\Controllers\\SalesCollectController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SalesCollectController.php',
         'App\\Admin\\Controllers\\SalesController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SalesController.php',
         'App\\Admin\\Controllers\\SalesLogController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SalesLogController.php',
+        'App\\Admin\\Controllers\\SalesNoteController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SalesNoteController.php',
         'App\\Admin\\Controllers\\SalesRefundController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SalesRefundController.php',
         'App\\Admin\\Controllers\\WarehouseController' => __DIR__ . '/../..' . '/app/Admin/Controllers/WarehouseController.php',
         'App\\Admin\\Controllers\\WebAreaController' => __DIR__ . '/../..' . '/app/Admin/Controllers/WebAreaController.php',
@@ -330,6 +333,7 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'App\\SalesAssign' => __DIR__ . '/../..' . '/app/SalesAssign.php',
         'App\\SalesCollect' => __DIR__ . '/../..' . '/app/SalesCollect.php',
         'App\\SalesLog' => __DIR__ . '/../..' . '/app/SalesLog.php',
+        'App\\SalesNotes' => __DIR__ . '/../..' . '/app/SalesNotes.php',
         'App\\SalesRefund' => __DIR__ . '/../..' . '/app/SalesRefund.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\Warehouse' => __DIR__ . '/../..' . '/app/Warehouse.php',

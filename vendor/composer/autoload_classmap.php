@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddParentIdToProductCategoryTable' => $baseDir . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',
+    'AddResignToSalesTable' => $baseDir . '/database/migrations/2017_12_14_092133_add_resign_to_sales_table.php',
+    'AddSalesIdToSalesTable' => $baseDir . '/database/migrations/2017_12_14_093219_add_sales_id_to_sales_table.php',
     'AdminMenuTableSeeder' => $baseDir . '/database/seeds/AdminMenuTableSeeder.php',
     'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
     'App\\Admin\\Controllers\\HomeController' => $baseDir . '/app/Admin/Controllers/HomeController.php',
@@ -17,6 +19,7 @@ return array(
     'App\\Admin\\Controllers\\SalesCollectController' => $baseDir . '/app/Admin/Controllers/SalesCollectController.php',
     'App\\Admin\\Controllers\\SalesController' => $baseDir . '/app/Admin/Controllers/SalesController.php',
     'App\\Admin\\Controllers\\SalesLogController' => $baseDir . '/app/Admin/Controllers/SalesLogController.php',
+    'App\\Admin\\Controllers\\SalesNoteController' => $baseDir . '/app/Admin/Controllers/SalesNoteController.php',
     'App\\Admin\\Controllers\\SalesRefundController' => $baseDir . '/app/Admin/Controllers/SalesRefundController.php',
     'App\\Admin\\Controllers\\WarehouseController' => $baseDir . '/app/Admin/Controllers/WarehouseController.php',
     'App\\Admin\\Controllers\\WebAreaController' => $baseDir . '/app/Admin/Controllers/WebAreaController.php',
@@ -45,6 +48,7 @@ return array(
     'App\\SalesAssign' => $baseDir . '/app/SalesAssign.php',
     'App\\SalesCollect' => $baseDir . '/app/SalesCollect.php',
     'App\\SalesLog' => $baseDir . '/app/SalesLog.php',
+    'App\\SalesNotes' => $baseDir . '/app/SalesNotes.php',
     'App\\SalesRefund' => $baseDir . '/app/SalesRefund.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\Warehouse' => $baseDir . '/app/Warehouse.php',

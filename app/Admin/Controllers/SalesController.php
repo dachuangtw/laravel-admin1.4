@@ -74,13 +74,24 @@ class SalesController extends Controller
     protected function grid()
     {
         return Admin::grid(Sales::class, function (Grid $grid) {
+            //查詢過濾器
+            $grid->filter(function($filter){
+                // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
+                $filter->useModal();
+                // 禁用id查询框
+                $filter->disableIdFilter();   
+                // sql: ... WHERE `user.name` LIKE "%$name%";
+                $filter->like('sales_name', trans('admin::lang.salesname'));
+                $filter->like('sales_id', trans('admin::lang.sales_id'));  
+            });
 
             $grid->sid(trans('ID'))->sortable();
             $grid->wid(trans('admin::lang.wid'))->sortable();
             $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
-            $grid->name(trans('admin::lang.salesname'));
-            $grid->resign(trans('admin::lang.resign'))->editable('select', [0 => '在職', 1 => '離職',]);
-            //$grid->resign(trans('admin::lang.resign'));
+            $grid->sales_name(trans('admin::lang.salesname'));
+            $grid->resign(trans('admin::lang.resign'))->display(function ($released) {
+                return $released ? '是' : '否';
+                });
             $grid->collect_at(trans('admin::lang.collect_at'));
             //$grid->created_at( trans('admin::lang.created_at'));
             //$grid->updated_at( trans('admin::lang.updated_at'));
@@ -100,15 +111,10 @@ class SalesController extends Controller
             $form->tab('基本資料', function (Form $form) {
                 $form->display('sid', 'ID');
                 $form->text('sales_id', trans('admin::lang.sales_id'))->rules('required');
-                $warehouse = Warehouse::all('wid','w_name');
-                $warehouse = $warehouse->toArray();
-                foreach($warehouse as $option){
-                    $optionArray[$option['wid']] = $option['w_name'];
-                }
-
                 $form->select('wid', trans('admin::lang.warehouse'))->options(
-                $optionArray
+                Warehouse::all()->pluck('w_name','wid')
                 );
+                
                 $form->email('email', 'Email')->rules('required');
                 $form->password('password', trans('admin::lang.password'))->rules('required|confirmed')->default(function ($form) {
                     return $form->model()->password;
@@ -118,10 +124,10 @@ class SalesController extends Controller
                     return $form->model()->password;});
                 $form->ignore(['password_confirmation']
                 );
-                $form->text('name', trans('admin::lang.salesname'))->rules('required');
-                $form->radio('resign', trans('admin::lang.resign'))->options(['1' => '是','0' => '否']);
+                $form->text('sales_name', trans('admin::lang.salesname'))->rules('required');
                 $form->text('nickname', trans('admin::lang.nickname'))->rules('required');
-            
+                $form->radio('resign', trans('admin::lang.resign'))->options(['1' => '是','0' => '否']);
+
                 $form->display('created_at', trans('admin::lang.created_at'));
                 $form->display('updated_at', trans('admin::lang.updated_at'));
 

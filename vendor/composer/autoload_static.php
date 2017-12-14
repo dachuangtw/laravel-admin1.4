@@ -292,7 +292,6 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
 
     public static $classMap = array (
         'AddParentIdToProductCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',
-        'AdminMenuTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminMenuTableSeeder.php',
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
         'App\\Admin\\Controllers\\ProductCategoryController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ProductCategoryController.php',
@@ -347,6 +346,7 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'CreateSalesAssignTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_152811_create_sales_assign_table.php',
         'CreateSalesNoteTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_13_144946_create_sales_note_table.php',
         'CreateSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_152137_create_sales_table.php',
+        'CreateStockTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_084524_create_stock_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateWarehouseTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_163951_create_warehouse_table.php',
         'CreateWebAreaTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_12_151339_create_web_area_table.php',

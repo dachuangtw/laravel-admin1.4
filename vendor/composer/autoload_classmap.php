@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddParentIdToProductCategoryTable' => $baseDir . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',
-    'AdminMenuTableSeeder' => $baseDir . '/database/seeds/AdminMenuTableSeeder.php',
     'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
     'App\\Admin\\Controllers\\HomeController' => $baseDir . '/app/Admin/Controllers/HomeController.php',
     'App\\Admin\\Controllers\\ProductCategoryController' => $baseDir . '/app/Admin/Controllers/ProductCategoryController.php',
@@ -62,6 +61,7 @@ return array(
     'CreateSalesAssignTable' => $baseDir . '/database/migrations/2017_12_08_152811_create_sales_assign_table.php',
     'CreateSalesNoteTable' => $baseDir . '/database/migrations/2017_12_13_144946_create_sales_note_table.php',
     'CreateSalesTable' => $baseDir . '/database/migrations/2017_12_08_152137_create_sales_table.php',
+    'CreateStockTable' => $baseDir . '/database/migrations/2017_12_14_084524_create_stock_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateWarehouseTable' => $baseDir . '/database/migrations/2017_12_08_163951_create_warehouse_table.php',
     'CreateWebAreaTable' => $baseDir . '/database/migrations/2017_12_12_151339_create_web_area_table.php',

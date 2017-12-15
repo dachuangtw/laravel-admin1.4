@@ -75,7 +75,12 @@ class WebLocationController extends Controller
     protected function grid()
     {
         return Admin::grid(WebLocation::class, function (Grid $grid) {
-
+            $grid->filter(function($filter){
+                // 禁用id查询框
+                //$filter->disableIdFilter();  
+                // sql: ... WHERE `user.name` LIKE "%$name%";
+                $filter->like('store_name', trans('admin::lang.store_name'));
+            });
             $grid->id(trans('admin::lang.store_id'))->sortable();
             $grid->store_area(trans('admin::lang.store_area'))->sortable();
             $grid->store_name(trans('admin::lang.store_name'));

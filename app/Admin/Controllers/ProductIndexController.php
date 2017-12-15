@@ -180,22 +180,21 @@ class ProductIndexController extends Controller
 
             $form->textarea('p_notes', trans('admin::lang.notes'))->rows(5);
 
-            // $form->number('stock',trans('admin::lang.product_stock'));
-
-            $form->hidden('update_user')->value(Admin::user()->id);
+            // $form->divide();
+            //庫存資料
+            $form->hasMany('stock', function (Form\NestedForm $form) {
+                $form->text('s_type',trans('admin::lang.product_type'));
+                $form->text('s_barcode',trans('admin::lang.product_barcode'));
+                $form->text('s_notes',trans('admin::lang.notes'));
+                $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
+                $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
+                $form->hidden('update_user')->default(Admin::user()->id);
+            });
+            
+            $form->hidden('update_user')->default(Admin::user()->id);
             $form->display('updated_at', trans('admin::lang.updated_at'));
             $form->display('created_at', trans('admin::lang.created_at'));
 
-            // 抛出成功信息
-            $form->saved(function ($form) {
-
-                $success = new MessageBag([
-                    'title'   => $form->p_name,
-                    'message' => $form->pid,
-                ]);
-
-                return back()->with(compact('success'));
-            });
         });
     }
 }

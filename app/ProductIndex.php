@@ -26,16 +26,8 @@ class ProductIndex extends Model
     //一(商品)對多(庫存)關聯資料表
     public function stock()
     {
+        // return $this->hasOne(Stock::class,'pid');
         return $this->hasMany(Stock::class,'pid');
-    }
-
-    public function insertIntostock()
-    {
-        DB::table('stock')->insert(
-            ['s_stock' => 'john@example.com', 
-             'votes' => 0,
-             ]
-        );
     }
     
 

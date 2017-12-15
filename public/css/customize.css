@@ -1,3 +1,20 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.main-header .logo {
+    font-family: "微軟正黑體", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 a i.fa-edit {
     font-size: 18px;
 }
@@ -17,4 +34,17 @@ a:focus i.fa-trash {
 
 .table-hover {
     font-size: 16px;
+}
+
+.wrapper .content-header {
+    padding-bottom: 15px;
+    background-color: #FAFAF7;
+}
+
+.content-header>h1 {
+    color: #666666;
+    font-weight: 500;
+    letter-spacing: -1px;
+    padding: 0;
+    font-size: 30px;
 }

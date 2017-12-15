@@ -14,13 +14,14 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset("/packages/admin/AdminLTE/dist/css/skins/" . config('admin.skin') .".min.css") }}">
 
-    {!! Admin::css() !!}
     <link rel="stylesheet" href="{{ asset("/packages/admin/nestable/nestable.css") }}">
     <link rel="stylesheet" href="{{ asset("/packages/admin/toastr/build/toastr.min.css") }}">
     <link rel="stylesheet" href="{{ asset("/packages/admin/bootstrap3-editable/css/bootstrap-editable.css") }}">
     <link rel="stylesheet" href="{{ asset("/packages/admin/google-fonts/fonts.css") }}">
     <link rel="stylesheet" href="{{ asset("/packages/admin/AdminLTE/dist/css/AdminLTE.min.css") }}">
 
+    {!! Admin::css() !!}
+    
     <!-- REQUIRED JS SCRIPTS -->
     <script src="{{ asset ("/packages/admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js") }}"></script>
     <script src="{{ asset ("/packages/admin/AdminLTE/bootstrap/js/bootstrap.min.js") }}"></script>

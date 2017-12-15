@@ -124,10 +124,11 @@ class SalesController extends Controller
                     return $form->model()->password;});
                 $form->ignore(['password_confirmation']
                 );
+                $form->divide();
                 $form->text('sales_name', trans('admin::lang.salesname'))->rules('required');
                 $form->text('nickname', trans('admin::lang.nickname'))->rules('required');
                 $form->radio('resign', trans('admin::lang.resign'))->options(['1' => '是','0' => '否']);
-
+                $form->divide();
                 $form->display('created_at', trans('admin::lang.created_at'));
                 $form->display('updated_at', trans('admin::lang.updated_at'));
 

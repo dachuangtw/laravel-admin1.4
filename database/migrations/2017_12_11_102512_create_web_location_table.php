@@ -14,8 +14,9 @@ class CreateWebLocationTable extends Migration
     public function up()
     {
         Schema::create('web_location', function (Blueprint $table) {
-            $table->increments('id')->unique()->index()->comment('店鋪據點id');
-            $table->string('store_area')->comment('地區');
+            $table->increments('id')->unique()->index()->comment('店鋪據點id');            
+            $table->integer('store_area')->nullable()->comment('地區');
+            $table->integer('store_sort')->default(0)->comment('順序');
             $table->string('store_name')->comment('店名');
             $table->string('store_address')->comment('地址');
             $table->string('map')->nullable()->comment('地圖');

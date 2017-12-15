@@ -11,14 +11,8 @@ class WebArea extends Model
     //主鍵
     protected $primaryKey = 'id';
 
-    public function selectoptions(){
-        $optionArray = [];
-        $dbArray = $this->toArray();
-
-        return $dbArray;
-    }
     //關聯
-    public function web_lcation(){
-        return $this->hasMany(WebLocation::class);
-    }
+    // public function web_lcation(){
+    //     return $this->hasMany(WebLocation::class);
+    // }
 }

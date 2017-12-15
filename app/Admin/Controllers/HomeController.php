@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Sales;
+use App\SalesNotes;
+
 use App\Http\Controllers\Controller;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Column;
@@ -26,14 +28,14 @@ class HomeController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('儀錶板');
+            $content->header('經營儀錶板');
             //$content->description('Description...');
             
             $content->row(function ($row) {
                 $row->column(3, new InfoBox('業務人數', 'users', 'aqua', '/admin/sales', Sales::where(['resign' => 0])->count()));
-                $row->column(3, new InfoBox('New Orders', 'shopping-cart', 'green', '/admin/orders', '150%'));
-                $row->column(3, new InfoBox('Articles', 'book', 'yellow', '/admin/articles', '2786'));
-                $row->column(3, new InfoBox('Documents', 'file', 'red', '/admin/files', '698726'));
+                $row->column(3, new InfoBox('業務訂單', 'shopping-cart', 'green', '/admin/orders', '150%'));                
+                $row->column(3, new InfoBox('業務公告', 'file', 'red', '/admin/sales/notes', SalesNotes::select(['id'])->count()));
+                $row->column(3, new InfoBox('商品數', 'cubes', 'yellow', '/admin/', '2786'));
             });
 
             $content->row(function (Row $row) {

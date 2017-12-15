@@ -22,38 +22,21 @@ class WebLocationController extends Controller
 
     /**
      * Index interface.
-     *
+     * 
      * @return Content
      */
     public function index()
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.web_location'));            
+            $content->header(trans('admin::lang.web_location'));    
             $content->description(trans('admin::lang.list'));
 
-            $content->row(function (Row $row) {
-                $row->column(6, $this->treeView()->render());
-            });
-            //$content->body($this->grid());
-            $content->body($this->formarea());
+            $content->body($this->grid());
+            
         });
     }
-
-    /**
-     * @return \Encore\Admin\Tree
-     */
-    protected function treeView()
-    {
-        return WebLocation::tree(function (Tree $tree) {
-            //$tree->disableCreate();
-
-            $tree->branch(function ($branch) {
-                $payload = "&nbsp;<strong>{$branch['store_name']}</strong>";
-                return $payload;
-            });
-        });
-    }
+    
 
     /**
      * Edit interface.
@@ -122,7 +105,7 @@ class WebLocationController extends Controller
             $form->display('id', trans('admin::lang.store_id'));
             $form->text('store_name', trans('admin::lang.store_name'));
             $form->select('store_area', trans('admin::lang.store_area'))->options(
-                WebArea::all()->pluck('area_name','area_sort')
+                WebArea::all()->pluck('area_name','id')
                 );
             $form->text('store_address', trans('admin::lang.store_address'));
             $form->editor('map',trans('admin::lang.store_map'));
@@ -141,21 +124,4 @@ class WebLocationController extends Controller
         });
     }
 
-    /**
-     * Make a form builder.
-     *
-     * @return Form_area
-     */
-    protected function formarea()
-    {
-        return Admin::form(WebArea::class, function (Form $form) {
-            $form->action(admin_url('web/location'));
-            $form->display('id', trans('admin::lang.area_id'));
-            $form->text('area_name', trans('admin::lang.name'));
-            $form->text('area_sort', trans('admin::lang.order'));
-          
-            $form->display('created_at',trans('admin::lang.created_at'));
-            $form->display('updated_at',trans('admin::lang.updated_at'));
-        });
-    }
 }

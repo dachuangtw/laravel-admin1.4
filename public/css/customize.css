@@ -38,7 +38,8 @@ a:focus i.fa-trash {
 
 .wrapper .content-header {
     padding-bottom: 15px;
-    background-color: #FAFAF7;
+    background-color: #fafaf7;
+    border-top: 1px solid #d2d6de;
 }
 
 .content-header>h1 {
@@ -47,4 +48,20 @@ a:focus i.fa-trash {
     letter-spacing: -1px;
     padding: 0;
     font-size: 30px;
+}
+
+.content-header>h1>small {
+    font-size: 65%;
+}
+
+.checkbox-inline,
+.radio-inline {
+    padding-left: 5px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #3c8dbc;
+    border-color: #367fa9;
+    padding: 1px 10px;
+    color: #fff;
 }

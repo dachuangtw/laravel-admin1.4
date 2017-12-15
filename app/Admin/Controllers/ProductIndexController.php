@@ -16,6 +16,7 @@ use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Box;
+use Illuminate\Support\MessageBag;
 
 class ProductIndexController extends Controller
 {
@@ -35,12 +36,23 @@ class ProductIndexController extends Controller
 
             $content->row(function (Row $row) {
                 $row->column(6, function (Column $column) {
+
+                    /**
+                     * 快速新增，
+                     * 可見欄位：商品名、業務價、成本價
+                     * 隱藏欄位：最後更新者
+                     */
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('product'));
 
-                    $form->text('p_name', trans('admin::lang.name'))->rules('required');
+                    $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
 
-                    $column->append((new Box(trans('admin::lang.new'), $form))->style('info'));
+                    $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
+                    $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+                    
+                    $form->hidden('update_user')->default(Admin::user()->id);
+
+                    $column->append((new Box(trans('admin::lang.quicknew'), $form))->style('info'));
                 });
 
             });
@@ -48,7 +60,6 @@ class ProductIndexController extends Controller
                 $row->column(12, $this->grid());
 
             });
-            // $content->body($this->grid());
         });
     }
 
@@ -99,13 +110,6 @@ class ProductIndexController extends Controller
             $grid->filter(function ($filter) {
                 $filter->like('p_name','測試');
             });
-
-            $grid->rows(function($row){
-                if($row->id % 2) {
-                    $row->style('background-color:red');
-                }
-            });
-
             $grid->pid('ID')->sortable();
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
             $grid->p_name(trans('admin::lang.name'));
@@ -114,6 +118,13 @@ class ProductIndexController extends Controller
             });
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             $grid->p_costprice(trans('admin::lang.product_costprice'));
+            $grid->stock(trans('admin::lang.product_stock'))->sum('s_stock')->value(function ($stock) {
+                if(!empty($stock)){
+                    return $stock;
+                }
+                return "<span class='label label-warning'>Error</span>";
+            });
+            // $grid->stock(trans('admin::lang.product_stock'))->sum('s_stock');
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });
@@ -124,9 +135,9 @@ class ProductIndexController extends Controller
             $grid->created_at(trans('admin::lang.created_at'));
             $grid->filter(function ($filter) {
                 
-                // 设置created_at字段的范围查询
-                $filter->between('created_at', 'Created Time')->datetime();
+                $filter->between('created_at', '日期範圍')->datetime();
             });
+            $grid->model()->orderBy('pid', 'desc');
         });
     }
 
@@ -137,6 +148,7 @@ class ProductIndexController extends Controller
      */
     protected function form()
     {
+        
         return Admin::form(ProductIndex::class, function (Form $form) {
             
             $form->text('p_number', trans('admin::lang.product_number'));
@@ -161,17 +173,28 @@ class ProductIndexController extends Controller
             $states = [
                 'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
                 'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
-            ];
-            
+            ];            
             $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
             $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
             $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
 
             $form->textarea('p_notes', trans('admin::lang.notes'))->rows(5);
 
-            $form->hidden('update_user')->value(Admin::user()->id);
+            // $form->divide();
+            //庫存資料
+            $form->hasMany('stock', function (Form\NestedForm $form) {
+                $form->text('s_type',trans('admin::lang.product_type'));
+                $form->text('s_barcode',trans('admin::lang.product_barcode'));
+                $form->text('s_notes',trans('admin::lang.notes'));
+                $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
+                $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
+                $form->hidden('update_user')->default(Admin::user()->id);
+            });
+            
+            $form->hidden('update_user')->default(Admin::user()->id);
             $form->display('updated_at', trans('admin::lang.updated_at'));
             $form->display('created_at', trans('admin::lang.created_at'));
+
         });
     }
 }

@@ -16,6 +16,7 @@ return [
     'salesname'             =>    '姓名' ,
 
     'list'                  =>    '列表',
+    'quicknew'              =>    '快速新增',    
     'new'                   =>    '新增', 
     'create'                =>    '創建', 
     'delete'                =>    '刪除', 
@@ -84,7 +85,7 @@ return [
     'product_receipt_details'   =>    '進貨明細',
 
     //商品主檔
-    'product_name'          =>    '品名',
+    'product_name'          =>    '商品名',
     'product_type'          =>    '款式',
     'description'           =>    '說明',
     'notes'                 =>    '備註',

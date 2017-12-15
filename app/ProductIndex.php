@@ -23,6 +23,14 @@ class ProductIndex extends Model
         'p_category', 'p_series', 'p_notes', 'showfront', 'update_user',  'updated_at', 'deleted_at'
     ];
 
+    //一(商品)對多(庫存)關聯資料表
+    public function stock()
+    {
+        // return $this->hasOne(Stock::class,'pid');
+        return $this->hasMany(Stock::class,'pid');
+    }
+    
+
     //前台顯示
     public function scopeShowfront($query)
     {

@@ -10,4 +10,9 @@ class Stock extends Model
     protected $table = 'stock';
     //主鍵
     protected $primaryKey = 'sid';
+
+    public function productindex()
+    {
+        return $this->belongsTo(ProductIndex::class,'pid');
+    }
 }

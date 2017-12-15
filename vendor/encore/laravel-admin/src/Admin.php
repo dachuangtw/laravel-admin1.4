@@ -131,7 +131,7 @@ class Admin
 
         $css = array_get(Form::collectFieldAssets(), 'css', []);
 
-        static::$css = array_merge(static::$css, $css);
+        static::$css = array_reverse(array_merge(static::$css, $css));
 
         return view('admin::partials.css', ['css' => array_unique(static::$css)]);
     }

@@ -8,13 +8,9 @@ use App\WebArea;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
-use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Tree;
-use Encore\Admin\Widgets\Box;
 
 class WebLocationController extends Controller
 {
@@ -50,6 +46,7 @@ class WebLocationController extends Controller
 
             $content->header(trans('admin::lang.web_location'));
             $content->description(trans('admin::lang.edit'));
+            
             $content->body($this->form()->edit($id));
         });
     }

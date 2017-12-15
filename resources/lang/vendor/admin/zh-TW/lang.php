@@ -116,7 +116,7 @@ return [
     'wid'           =>     '倉庫編號',
     'sales_id'      =>     '業務代號',
     'resign'        =>     '離職',
-    'sales'         =>     '業務管理',
+    'sales'         =>     '業務',
     'collect_at'    =>     '最近領貨日',
     'client_ip'     =>     '最近ip',
     'client_agent'  =>     '最近使用裝置',
@@ -128,9 +128,16 @@ return [
     //業務公告
     'sales_note'    =>      '業務公告',
     'note_target'   =>      '公告對象',
-    'note_at'       =>      '日期',
-    'note_content'  =>      '內容',
-    'note_target'   =>      '公告對象',    
+    'note_at'       =>      '公告日期',
+    'note_content'  =>      '公告內容',
+    'note_target'   =>      '公告對象',
+
+    //業務每日配貨  
+    'sales_assign'  =>      '每日配貨',
+    'assign_date'   =>      '配貨日期',
+    'assign_id'     =>      '配貨單號',
+    'assign_total'  =>      '總計金額',
+    'p_salesprice_total'=>  '金額',
 
     //店鋪據點
     'web_location'  =>     '店鋪據點',

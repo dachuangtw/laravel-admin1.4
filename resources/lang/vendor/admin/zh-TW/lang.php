@@ -81,9 +81,6 @@ return [
     'product_receipt_details'   =>    '進貨明細',
 
     //商品主檔
-    'pid'                   =>    '商品主檔id',
-    'p_description'         =>    '商品說明',
-    'p_notes'               =>    '業務備註',
     'product_category'      =>    '商品分類',
     'product_series'        =>    '主題系列',    
     'product_name'          =>    '商品名',
@@ -173,4 +170,21 @@ return [
     'pagination' => [ 
         'range' =>    ' :first - :last 筆，總共 :total 筆', 
     ], 
+
+
+    /**
+     * EXCEL匯出
+     */
+    
+    'pid'                   =>    '商品主檔id',
+    'p_description'         =>    '商品說明',
+    'p_notes'               =>    '業務備註',
+    'p_number'        =>    '商品編號',
+    'p_price'         =>    '定價',
+    'p_retailprice'   =>    '售價',
+    'p_salesprice'    =>    '業務價',
+    'p_staffprice'    =>    '員工價',
+    'p_costprice'     =>    '成本價',
+    'p_specialprice'  =>    '優惠價',
+
 ];

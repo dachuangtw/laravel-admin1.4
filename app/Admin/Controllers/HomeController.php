@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Sales;
 use App\SalesNotes;
+use App\ProductIndex;
+use App\WebLocation;
 
 use App\Http\Controllers\Controller;
 use Encore\Admin\Facades\Admin;
@@ -32,10 +34,13 @@ class HomeController extends Controller
             //$content->description('Description...');
             
             $content->row(function ($row) {
-                $row->column(3, new InfoBox('業務人數', 'users', 'aqua', '/admin/sales', Sales::where(['resign' => 0])->count()));
-                $row->column(3, new InfoBox('業務訂單', 'shopping-cart', 'green', '/admin/orders', '150%'));                
-                $row->column(3, new InfoBox('業務公告', 'file', 'red', '/admin/sales/notes', SalesNotes::select(['id'])->count()));
-                $row->column(3, new InfoBox('商品數', 'cubes', 'yellow', '/admin/', '2786'));
+                $row->column(2, new InfoBox('業務人數', 'users', 'aqua', '/admin/sales', Sales::where(['resign' => 0])->count()));
+                $row->column(2, new InfoBox('業務訂單', 'shopping-cart', 'green', '/admin/orders', '150%'));                
+                $row->column(2, new InfoBox('業務公告', 'file', 'red', '/admin/sales/notes', SalesNotes::select(['id'])->count()));
+                $row->column(2, new InfoBox('今日領貨量', 'check-square', 'purple', '/admin', '0'));
+                $row->column(2, new InfoBox('商品數', 'cubes', 'orange', '/admin/product', ProductIndex::count()));
+                $row->column(2, new InfoBox('店鋪數', 'university', 'blue', '/admin/web/locatiob', WebLocation::count()));
+                
             });
 
             $content->row(function (Row $row) {

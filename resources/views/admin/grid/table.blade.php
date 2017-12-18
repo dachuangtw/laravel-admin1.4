@@ -11,6 +11,7 @@
 
         <span>
             {!! $grid->renderHeaderTools() !!}
+            {!! $grid->show_define_preg() !!}
         </span>
 
     </div>

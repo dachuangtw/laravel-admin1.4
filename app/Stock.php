@@ -3,16 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stock extends Model
 {
+    //使用軟刪除
+    use SoftDeletes;
+
     //庫存資料表
     protected $table = 'stock';
     //主鍵
     protected $primaryKey = 'sid';
+    //需要被轉換成日期的屬性
+    protected $dates = ['deleted_at'];
 
     //批量賦值
     protected $fillable = [
+        'pid',  'wid',  's_type',  's_barcode',  's_stock',  's_collect', 's_notes',  'showfront',  
         'update_user',  'updated_at', 'deleted_at'
     ];
 

@@ -26,6 +26,42 @@ use Jenssegers\Mongodb\Eloquent\Model as MongodbModel;
 
 class Grid
 {
+
+    /**
+     * 右上角添加跳轉指定頁面按鈕
+     * 原文網址：https://kknews.cc/zh-tw/news/kz8qxo8.html
+     */
+    protected $preg_url =['url'=>'','title'=>'','flag'=>false];
+
+    /**
+    * 設置跳轉地址及標題*
+    * @param $url跳轉地址
+    * @param $title標題
+    */
+
+    public function define_preg($url,$title){
+        $this->preg_url['url'] = $url;
+        $this->preg_url['title'] = $title;
+        $this->preg_url['flag'] = true;
+    }
+
+    /**
+    * 顯示跳轉按鈕的html *
+    */
+
+    public function show_define_preg(){
+        $title = $this->preg_url['title'] ?:trans('admin::lang.back');
+        $url =$this->preg_url['url'];
+        if($this->preg_url['flag']){
+            
+            return '<div class="btn-group pull-right" style="margin-right: 10px">
+                <a class="btn btn-sm btn-default form-history-back" href="'.$url.'"><i class="fa fa-arrow-left"></i>&nbsp;'.$title.'</a>
+            </div>';
+        }
+    }
+
+
+    
     /**
      * The grid data model instance.
      *

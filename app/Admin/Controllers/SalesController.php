@@ -86,7 +86,9 @@ class SalesController extends Controller
             });
 
             $grid->sid(trans('ID'))->sortable();
-            $grid->wid(trans('admin::lang.wid'))->sortable();
+            $grid->wid(trans('admin::lang.warehouse'))->sortable()->display(function($wid) {
+                   return Warehouse::find($wid)->w_name;
+               });
             $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
             $grid->sales_name(trans('admin::lang.salesname'));
             $grid->resign(trans('admin::lang.resign'))->display(function ($released) {

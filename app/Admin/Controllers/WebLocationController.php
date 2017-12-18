@@ -110,9 +110,7 @@ class WebLocationController extends Controller
                 WebArea::all()->pluck('area_name','id')
                 );
             $form->text('store_address', trans('admin::lang.store_address'));
-            $form->editor('map',trans('admin::lang.store_map'));
-            $form->html('<a href="https://goo.gl/13yFtr">嵌入地圖說明</a>');
-
+            $form->editor('map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
             //$form->map($latitude, $longitude,'GPS'); //經度,緯度
             $form->image('store_pic', trans('admin::lang.store_pic'))->move('/location','store_pic');
             $states = [

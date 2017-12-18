@@ -10,4 +10,10 @@ class SalesAssign extends Model
     protected $table = 'sales_assign';
     //主鍵
     protected $primaryKey = 'said';
+
+    //關聯AssignDetails
+    public function SalesAssignDetails()
+    {
+        $this->belongsToMany(SalesAssignDetails::class);
+    }
 }

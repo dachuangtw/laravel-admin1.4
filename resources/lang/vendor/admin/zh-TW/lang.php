@@ -134,9 +134,16 @@ return [
     //業務公告
     'sales_note'    =>      '業務公告',
     'note_target'   =>      '公告對象',
-    'note_at'       =>      '日期',
-    'note_content'  =>      '內容',
-    'note_target'   =>      '公告對象',    
+    'note_at'       =>      '公告日期',
+    'note_content'  =>      '公告內容',
+    'note_target'   =>      '公告對象',
+
+    //業務每日配貨  
+    'sales_assign'  =>      '每日配貨',
+    'assign_date'   =>      '配貨日期',
+    'assign_id'     =>      '配貨單號',
+    'assign_total'  =>      '總計金額',
+    'p_salesprice_total'=>  '金額',
 
     //店鋪據點
     'web_location'  =>     '店鋪據點',

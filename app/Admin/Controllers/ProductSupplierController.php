@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\ProductSeries;
+use App\ProductSupplier;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -15,7 +15,7 @@ use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
 
-class ProductSeriesController extends Controller
+class ProductSupplierController extends Controller
 {
     use ModelForm;
 
@@ -28,19 +28,19 @@ class ProductSeriesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_series'));
+            $content->header(trans('admin::lang.product_supplier'));
             $content->description(trans('admin::lang.list'));
-
-            // $content->body(ProductSeries::tree());
 
             $content->row(function (Row $row) {
                 $row->column(6, $this->treeView()->render());
 
                 $row->column(6, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('product/series'));
+                    $form->action(admin_url('supplier'));
 
-                    $form->text('ps_name', trans('admin::lang.name'))->rules('required');
+                    $form->text('sup_name', trans('admin::lang.name'))->rules('required');
+                    $form->text('sup_alias', trans('admin::lang.alias'));
+                    $form->textarea('sup_notes', trans('admin::lang.notes'))->rows(3);
                     $form->hidden('update_user')->default(Admin::user()->id);
 
                     $column->append((new Box(trans('admin::lang.new'), $form))->style('danger'));
@@ -54,11 +54,11 @@ class ProductSeriesController extends Controller
      */
     protected function treeView()
     {
-        return ProductSeries::tree(function (Tree $tree) {
+        return ProductSupplier::tree(function (Tree $tree) {
             $tree->disableCreate();
 
             $tree->branch(function ($branch) {
-                $payload = "&nbsp;<strong>{$branch['ps_name']}</strong>";
+                $payload = "&nbsp;<strong>{$branch['sup_name']}</strong>";
                 return $payload;
             });
         });
@@ -74,7 +74,7 @@ class ProductSeriesController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header(trans('admin::lang.product_series'));
+            $content->header(trans('admin::lang.product_supplier'));
             $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
@@ -90,7 +90,7 @@ class ProductSeriesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_series'));
+            $content->header(trans('admin::lang.product_supplier'));
             $content->description(trans('admin::lang.create'));
 
             $content->body($this->form());
@@ -104,10 +104,10 @@ class ProductSeriesController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(ProductSeries::class, function (Grid $grid) {
+        return Admin::grid(ProductSupplier::class, function (Grid $grid) {
 
-            $grid->psid('ID')->sortable();
-            $grid->ps_name(trans('admin::lang.name'));
+            $grid->supid('ID')->sortable();
+            $grid->sup_name(trans('admin::lang.name'));
 
             $grid->updated_at(trans('admin::lang.updated_at'));
             $grid->created_at(trans('admin::lang.created_at'));
@@ -121,14 +121,14 @@ class ProductSeriesController extends Controller
      */
     protected function form()
     {
-        return Admin::form(ProductSeries::class, function (Form $form) {
+        return Admin::form(ProductSupplier::class, function (Form $form) {
 
-            $form->display('psid', 'ID');
-            $form->text('ps_name', trans('admin::lang.name'))->rules('required');
-
-            
+            $form->text('sup_name', trans('admin::lang.name'))->rules('required');
+            $form->text('sup_alias', trans('admin::lang.alias'));
+            $form->textarea('sup_notes', trans('admin::lang.notes'))->rows(3);
+            $form->hidden('update_user')->default(Admin::user()->id);
+                        
             $form->display('updated_at', trans('admin::lang.updated_at'));
-            $form->display('created_at', trans('admin::lang.created_at'));
         });
     }
 }

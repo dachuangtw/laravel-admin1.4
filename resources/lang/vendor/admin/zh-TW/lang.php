@@ -71,13 +71,9 @@ return [
     'phone'     =>  '連絡電話',
     'address'   =>  '地址',
     
-    //倉庫
+    //資料表名
     'warehouse'         =>    '倉庫',
-
     'product_index'             =>    '商品主檔',
-    'product_details'           =>    '商品副檔',
-    'product_category'          =>    '商品分類',
-    'product_series'            =>    '主題系列',
     'product_rubbish'           =>    '報廢品',
     'product_log'               =>    '庫存變更紀錄',
     'product_supplier'          =>    '廠商',
@@ -85,8 +81,12 @@ return [
     'product_receipt_details'   =>    '進貨明細',
 
     //商品主檔
+    'pid'                   =>    '商品主檔id',
+    'p_description'         =>    '商品說明',
+    'p_notes'               =>    '業務備註',
+    'product_category'      =>    '商品分類',
+    'product_series'        =>    '主題系列',    
     'product_name'          =>    '商品名',
-    'product_type'          =>    '款式',
     'description'           =>    '說明',
     'notes'                 =>    '備註',
     'product_pic'           =>    '商品主圖',
@@ -97,9 +97,12 @@ return [
     'product_salesprice'    =>    '業務價',
     'product_staffprice'    =>    '員工價',
     'product_costprice'     =>    '成本價',
-    'product_specialprice'  =>    '優惠價',
-
-    //商品副檔
+    'product_specialprice'  =>    '優惠價',	
+    
+    
+    
+    //庫存
+    'stock'                =>    '庫存',
     'product_type'         =>    '款式',
     'product_stock'        =>    '目前庫存數',
     'product_sales'        =>    '業務可領貨量',
@@ -110,14 +113,16 @@ return [
     'showfront'     =>    '前台',
     'update_user'   =>    '最近更新者',
     'created_at'    =>    '創建時間', 
-    'updated_at'    =>    '更新時間', 
+    'updated_at'    =>    '上次更新時間', 
+    'deleted_at'    =>    '刪除時間', 
 
     //業務列表
     //'sid'           =>     '排序',
     'wid'           =>     '倉庫編號',
     'sales_id'      =>     '業務代號',
-    'resign'        =>     '離職',
-    'sales'         =>     '業務',
+    'resign'        =>     '離職',    
+    'salesman'      =>     '業務',
+    'sales'         =>     '業務管理',
     'collect_at'    =>     '最近領貨日',
     'client_ip'     =>     '最近ip',
     'client_agent'  =>     '最近使用裝置',

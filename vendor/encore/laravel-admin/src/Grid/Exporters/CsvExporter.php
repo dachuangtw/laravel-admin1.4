@@ -12,6 +12,7 @@ class CsvExporter extends AbstractExporter
     public function export()
     {
         $titles = [];
+        $titlename = [];
 
         $filename = trans('admin::lang.'.$this->getTable()).'.csv';
 
@@ -22,8 +23,10 @@ class CsvExporter extends AbstractExporter
 
             $titles = array_keys($columns);
         }
-
-        $output = self::putcsv($titles);
+        foreach($titles as $key => $title){
+            $titlename[] = trans('admin::lang.'.$title);
+        }
+        $output = self::putcsv($titlename);
 
         foreach ($data as $row) {
             $row = array_only($row, $titles);

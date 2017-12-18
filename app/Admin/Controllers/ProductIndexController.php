@@ -108,7 +108,8 @@ class ProductIndexController extends Controller
         return Admin::grid(ProductIndex::class, function (Grid $grid) {
 
             $grid->filter(function ($filter) {
-                $filter->like('p_name','測試');
+                $filter->disableIdFilter();
+                $filter->like('p_name','名稱查詢');
             });
             $grid->pid('ID')->sortable();
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
@@ -132,12 +133,8 @@ class ProductIndexController extends Controller
                 return $showsales ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });
             $grid->updated_at(trans('admin::lang.updated_at'));
-            $grid->created_at(trans('admin::lang.created_at'));
-            $grid->filter(function ($filter) {
-                
-                $filter->between('created_at', '日期範圍')->datetime();
-            });
             $grid->model()->orderBy('pid', 'desc');
+            $grid->define_preg(url('/admin/product'),'返回');
         });
     }
 
@@ -150,50 +147,67 @@ class ProductIndexController extends Controller
     {
         
         return Admin::form(ProductIndex::class, function (Form $form) {
+
+            $form->tab('商品資訊', function ($form) {
+                
+                $form->text('p_number', trans('admin::lang.product_number'));
+                $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
+
+                $form->multipleSelect('p_category', trans('admin::lang.product_category'))->options(
+                    ProductCategory::all()->pluck('pc_name', 'pcid')
+                );
+                $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
+                    ProductSeries::all()->pluck('ps_name', 'psid')
+                );           
+                $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
+                $form->multipleImage('p_images', trans('admin::lang.product_images'));
+                $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
+                $states = [
+                    'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
+                    'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
+                ];            
+                $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
+                $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
+                
+            })->tab('價格/業務', function ($form) {
+                                   
+                $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
+                $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
+                $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
+                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
+                // $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
+                $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+
+                $states = [
+                    'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
+                    'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
+                ]; 
+
+                $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
+                $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
+               
+            })->tab('款式/庫存', function ($form) {
+                $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
+                    $form->text('s_type',trans('admin::lang.product_type'));
+                    $form->text('s_barcode',trans('admin::lang.product_barcode'));
+                    $form->text('s_notes',trans('admin::lang.notes'));
+                    $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
+                    $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
+                });
             
-            $form->text('p_number', trans('admin::lang.product_number'));
-            $form->text('p_name', trans('admin::lang.product_name'))->rules('required');           
-            $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
-            $form->multipleImage('p_images', trans('admin::lang.product_images'));
-            $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
+              });
+            
+            
 
-            $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
-            $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
-            $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
-            $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
-            // $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
-            $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+            
 
-            $form->multipleSelect('p_category', trans('admin::lang.product_category'))->options(
-                ProductCategory::all()->pluck('pc_name', 'pcid')
-            );
-            $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
-                ProductSeries::all()->pluck('ps_name', 'psid')
-            );
-            $states = [
-                'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
-                'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
-            ];            
-            $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
-            $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
-            $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
-
-            $form->textarea('p_notes', trans('admin::lang.notes'))->rows(5);
+            
 
             // $form->divide();
-            //庫存資料
-            $form->hasMany('stock', function (Form\NestedForm $form) {
-                $form->text('s_type',trans('admin::lang.product_type'));
-                $form->text('s_barcode',trans('admin::lang.product_barcode'));
-                $form->text('s_notes',trans('admin::lang.notes'));
-                $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
-                $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
-                $form->hidden('update_user')->default(Admin::user()->id);
-            });
+            
             
             $form->hidden('update_user')->default(Admin::user()->id);
             $form->display('updated_at', trans('admin::lang.updated_at'));
-            $form->display('created_at', trans('admin::lang.created_at'));
 
         });
     }

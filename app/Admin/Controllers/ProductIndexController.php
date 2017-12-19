@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\ProductIndex;
 use App\ProductSeries;
 use App\ProductCategory;
+use App\Warehouse;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -188,7 +189,18 @@ class ProductIndexController extends Controller
                
             })->tab('款式/庫存', function ($form) {
                 $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
-                    $form->hidden('wid')->default(Admin::user()->wid);
+
+                    
+                    if(Admin::user()->isAdministrator()){
+                        //超級管理員可以自行選擇倉庫
+                        $form->select('wid', trans('admin::lang.warehouse'))->options(
+                            Warehouse::all()->pluck('w_name', 'wid')
+                        );
+                    }else{
+                        //非超級管理員使用本身綁定的倉庫id
+                        $form->hidden('wid')->default(Admin::user()->wid);
+                    }
+                    
                     $form->text('s_type',trans('admin::lang.product_type'));
                     $form->text('s_barcode',trans('admin::lang.product_barcode'));
                     $form->text('s_notes',trans('admin::lang.notes'));

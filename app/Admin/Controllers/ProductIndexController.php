@@ -7,6 +7,7 @@ use App\ProductSeries;
 use App\ProductCategory;
 use App\Warehouse;
 
+use Encore\Admin\Auth\Permission;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -29,6 +30,7 @@ class ProductIndexController extends Controller
      */
     public function index()
     {
+        Permission::check(['reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -62,7 +64,17 @@ class ProductIndexController extends Controller
             });
         });
     }
+    public function read($id)
+    {
+        Permission::check(['reader']);
+        return Admin::content(function (Content $content) use ($id) {
 
+            $content->header(trans('admin::lang.product_index'));
+            $content->description(trans('admin::lang.edit'));
+
+            $content->body($this->form()->edit($id));
+        });
+    }
     /**
      * Edit interface.
      *
@@ -71,6 +83,7 @@ class ProductIndexController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -87,12 +100,11 @@ class ProductIndexController extends Controller
      */
     public function create()
     {
+        Permission::check(['creater']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
-            $content->description(trans('admin::lang.create'));
-
-            
+            $content->description(trans('admin::lang.create'));            
 
             $content->body($this->form());
         });
@@ -105,6 +117,7 @@ class ProductIndexController extends Controller
      */
     protected function grid()
     {
+        Permission::check(['reader']);
         return Admin::grid(ProductIndex::class, function (Grid $grid) {
 
             $grid->filter(function ($filter) {
@@ -123,7 +136,7 @@ class ProductIndexController extends Controller
                 if(!empty($stock)){
                     return $stock;
                 }
-                return "<span class='label label-warning'>Error</span>";
+                return "<span class='label label-warning'>未填寫庫存</span>";
             });
             // $grid->stock(trans('admin::lang.product_stock'))->sum('s_stock');
             $grid->showfront('前台顯示')->value(function ($showfront) {
@@ -145,7 +158,7 @@ class ProductIndexController extends Controller
      */
     protected function form()
     {
-        
+        Permission::check(['creater','editor']);
         return Admin::form(ProductIndex::class, function (Form $form) {
 
             $form->tab('商品資訊', function ($form) {

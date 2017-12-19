@@ -19,8 +19,13 @@ class Actions extends AbstractDisplayer
     /**
      * @var bool
      */
-    protected $allowEdit = true;
+    protected $allowView = true;
 
+    /**
+     * @var bool
+     */
+    protected $allowEdit = true;
+    
     /**
      * @var bool
      */
@@ -80,6 +85,16 @@ class Actions extends AbstractDisplayer
     }
 
     /**
+     * Disable view.
+     *
+     * @return void.
+     */
+    public function disableView()
+    {
+        $this->allowView = false;
+    }
+
+    /**
      * Set resource of current resource.
      *
      * @param $resource
@@ -112,6 +127,10 @@ class Actions extends AbstractDisplayer
         }
 
         $actions = $this->prepends;
+        if ($this->allowView) {
+            array_push($actions, $this->viewAction());
+        }
+
         if ($this->allowEdit) {
             array_push($actions, $this->editAction());
         }
@@ -126,6 +145,20 @@ class Actions extends AbstractDisplayer
     }
 
     /**
+     * Built view action.
+     *
+     * @return string
+     */
+    protected function viewAction()
+    {
+        return <<<EOT
+<a href="{$this->getResource()}/{$this->getKey()}/view" title="{$this->trans('view')}">
+    <i class="fa fa-eye"></i>
+</a>
+EOT;
+    }
+
+    /**
      * Built edit action.
      *
      * @return string
@@ -133,7 +166,7 @@ class Actions extends AbstractDisplayer
     protected function editAction()
     {
         return <<<EOT
-<a href="{$this->getResource()}/{$this->getKey()}/edit" title="{$this->trans('edit')}">
+&nbsp;<a href="{$this->getResource()}/{$this->getKey()}/edit" title="{$this->trans('edit')}">
     <i class="fa fa-edit"></i>
 </a>
 EOT;

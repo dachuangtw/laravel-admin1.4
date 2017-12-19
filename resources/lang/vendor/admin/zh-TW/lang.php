@@ -143,21 +143,28 @@ return [
     'p_salesprice_total'=>  '金額',
 
     //店鋪據點
-    'web_location'  =>     '店鋪據點',
-    'store_id'      =>     '店鋪編號',
-    'store_area'    =>     '地區',
-    'store_address' =>     '店鋪地址',
-    'store_name'    =>     '店鋪名稱',
-	'store_map'     =>     'Google map',
-    'comment'       =>     '說明',
-    'store_pic'     =>     '店鋪圖片',
+    'web_location'  =>      '店鋪據點',
+    'store_id'      =>      '店鋪編號',
+    'store_area'    =>      '地區',
+    'store_rents'   =>      '租金',
+    'store_deposit' =>      '押金',
+    'store_contractor'=>    '簽約人',
+    'store_payment_date'=>  '繳款日',
+    'store_lease_start_end'=>   '租約起始日/結束日',
+    //'store_lease_end'=>     '租約結束日',
+    'store_sales'   =>      '負責業務',
+    'store_address' =>      '店鋪地址',
+    'store_name'    =>      '店鋪名稱',
+	'store_map'     =>      'Google map',
+    'comment'       =>      '說明',
+    'store_pic'     =>      '店鋪圖片',
 
     //地區
-    'web_area'      =>     '地區',
-    'area_id'       =>     '地區編號',
+    'web_area'      =>      '地區',
+    'area_id'       =>      '地區編號',
 
 
-    'alias'     =>  '簡稱',
+    'alias'     =>    '簡稱',
     'alert'     =>    '注意',
 
     'parent_id' =>    '父級選單',

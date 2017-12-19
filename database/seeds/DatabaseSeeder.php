@@ -311,7 +311,7 @@ class DatabaseSeeder extends Seeder
             'order' => '10',
             'title' => '業務公告',
             'icon' => 'fa-file',
-            'uri' => 'sales/note',
+            'uri' => 'sales/notes',
             'created_at' => '2017-12-13 10:07:09',
             'updated_at' => '2017-12-19 08:23:20',
             ],

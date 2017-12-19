@@ -74,15 +74,16 @@ class SalesController extends Controller
     protected function grid()
     {
         return Admin::grid(Sales::class, function (Grid $grid) {
+            $grid->model()->where('resign', '=', 0);
             //查詢過濾器
             $grid->filter(function($filter){
                 // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
                 $filter->useModal();
                 // 禁用id查询框
-                $filter->disableIdFilter();   
+                $filter->disableIdFilter();
                 // sql: ... WHERE `user.name` LIKE "%$name%";
                 $filter->like('sales_name', trans('admin::lang.salesname'));
-                $filter->like('sales_id', trans('admin::lang.sales_id'));  
+                $filter->like('sales_id', trans('admin::lang.sales_id'));
             });
 
             $grid->sid(trans('ID'))->sortable();
@@ -134,18 +135,18 @@ class SalesController extends Controller
                 $form->divide();
                 $form->radio('resign', trans('admin::lang.resign'))->options(['1' => '是','0' => '否']);
                 $form->dateRange('start_work_date', 'end_work_date',  trans('admin::lang.start_end_work_date'));
-                 
+
             })->tab('聯絡資訊', function (Form $form) {
 
-                $form->email('email', 'Email');
-                $form->mobile('cellphone',trans('admin::lang.cellphone'));
+                $form->text('email', 'Email');
+                $form->mobile('cellphone',trans('admin::lang.cellphone'))->options(['mask' => '9999 999 999']);;
                 $form->textarea('remarks',trans('admin::lang.notes'));
 
             })->tab('帳號資訊', function (Form $form) {
-                
+
                 $form->display('client_ip',trans('admin::lang.client_ip'));
                 $form->display('client_agent',trans('admin::lang.client_agent'));
-                $form->display('logged_in_at',trans('admin::lang.logged_in_at'));  
+                $form->display('logged_in_at',trans('admin::lang.logged_in_at'));
                 $form->display('collect_at',trans('admin::lang.collect_at'));
 
                 $form->divide();

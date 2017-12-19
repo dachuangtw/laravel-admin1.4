@@ -94,7 +94,7 @@ class SalesController extends Controller
             $grid->resign(trans('admin::lang.resign'))->display(function ($released) {
                 return $released ? '是' : '否';
                 });
-            $grid->collect_at(trans('admin::lang.collect_at'));
+            // $grid->collect_at(trans('admin::lang.collect_at'));
             //$grid->created_at( trans('admin::lang.created_at'));
             //$grid->updated_at( trans('admin::lang.updated_at'));
         });
@@ -125,7 +125,7 @@ class SalesController extends Controller
 
                 $form->divide();
                 $form->text('sales_name', trans('admin::lang.salesname'))->rules('required');
-                $form->text('nickname', trans('admin::lang.nickname'))->rules('required');
+                $form->text('nickname', trans('admin::lang.nickname'));
                 $form->select('wid', trans('admin::lang.warehouse'))
                 ->options(Warehouse::all()->pluck('w_name','wid'));
                 $form->multipleSelect('store_location',trans('admin::lang.web_location'))
@@ -137,7 +137,7 @@ class SalesController extends Controller
                  
             })->tab('聯絡資訊', function (Form $form) {
 
-                $form->email('email', 'Email')->rules('required');
+                $form->email('email', 'Email');
                 $form->mobile('cellphone',trans('admin::lang.cellphone'));
                 $form->textarea('remarks',trans('admin::lang.notes'));
 

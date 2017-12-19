@@ -105,11 +105,11 @@ class WebLocationController extends Controller
         return Admin::form(WebLocation::class, function (Form $form) {
 
             $form->display('id', trans('admin::lang.store_id'));
-            $form->text('store_name', trans('admin::lang.store_name'));
+            $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
             $form->select('store_area', trans('admin::lang.store_area'))->options(
                 WebArea::all()->pluck('area_name','id')
-                );
-            $form->text('store_address', trans('admin::lang.store_address'));
+                )->rules('required');
+            $form->text('store_address', trans('admin::lang.store_address'))->rules('required');
             $form->editor('map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
             //$form->map($latitude, $longitude,'GPS'); //經度,緯度
             $form->image('store_pic', trans('admin::lang.store_pic'))->move('/location','store_pic');

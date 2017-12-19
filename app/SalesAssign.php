@@ -14,6 +14,6 @@ class SalesAssign extends Model
     //關聯AssignDetails
     public function SalesAssignDetails()
     {
-        $this->belongsToMany(SalesAssignDetails::class);
+        $this->hasOne(SalesAssignDetails::class);
     }
 }

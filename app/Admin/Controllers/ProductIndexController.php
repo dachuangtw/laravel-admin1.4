@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\ProductIndex;
-use App\Warehouse;
 use App\ProductSeries;
 use App\ProductCategory;
 

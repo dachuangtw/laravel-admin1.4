@@ -157,7 +157,7 @@ return [
     'area_id'       =>     '地區編號',
 
 
-    
+    'alias'     =>  '簡稱',
     'alert'     =>    '注意', 
 
     'parent_id' =>    '父級選單', 

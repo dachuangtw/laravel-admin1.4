@@ -104,11 +104,11 @@ class SalesNoteController extends Controller
     {
         return Admin::form(SalesNotes::class, function (Form $form) {
 
-            $form->display('id','ID');
+            //$form->display('id','ID');
 
-            $form->text('note_title', trans('admin::lang.title'));
+            $form->text('note_title', trans('admin::lang.title'))->rules('required');
             $form->datetime('note_at', trans('admin::lang.note_at'))->format('YYYY-MM-DD HH:mm:ss');
-            $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(Sales::all()->pluck('sales_name', 'sid'))->help('預設為全部');;
+            $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(Sales::all()->pluck('sales_name', 'sid'))->help('預設為全部');
 
             $form->editor('note_content', trans('admin::lang.note_content'));
 

@@ -13,7 +13,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class SalesController extends Controller
+class SalesEndWorkController extends Controller
 {
     use ModelForm;
 
@@ -26,7 +26,7 @@ class SalesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.sales'));
+            $content->header(trans('admin::lang.sales_end_work'));
             $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
@@ -74,7 +74,8 @@ class SalesController extends Controller
     protected function grid()
     {
         return Admin::grid(Sales::class, function (Grid $grid) {
-            $grid->model()->where('resign', '=', 0);
+            $grid->model()->where('resign', '=', 1);
+            $grid->disableCreation();
             //查詢過濾器
             $grid->filter(function($filter){
                 // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
@@ -95,7 +96,7 @@ class SalesController extends Controller
             $grid->resign(trans('admin::lang.resign'))->display(function ($released) {
                 return $released ? '是' : '否';
                 });
-            // $grid->collect_at(trans('admin::lang.collect_at'));
+            //$grid->collect_at(trans('admin::lang.collect_at'));
             //$grid->created_at( trans('admin::lang.created_at'));
             //$grid->updated_at( trans('admin::lang.updated_at'));
         });

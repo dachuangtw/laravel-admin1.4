@@ -11,6 +11,8 @@ Route::group([
 ], function (Router $router) {
     // $attributes = ['middleware' => 'admin.permission:allow,administrator'];
     //  $router->group($attributes, function ($router) {
+        
+        $router->resource('sales/endwork', SalesEndWorkController::class);
         $router->resource('sales/log', SalesLogController::class);
         $router->resource('sales/assign', SalesAssignController::class);
         $router->resource('sales/collect', SalesCollectController::class);

@@ -31,6 +31,7 @@ class CreateSalesTable extends Migration
             $table->timestamp('logged_in_at')->nullable()->comment('最近登入日期');
             $table->timestamp('collect_at')->nullable()->comment('最近領貨日期');
             $table->timestamps();
+            $table->softDeletes()->comment('軟刪除');
         });
     }
 

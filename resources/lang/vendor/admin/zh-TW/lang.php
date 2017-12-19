@@ -94,33 +94,33 @@ return [
     'product_salesprice'    =>    '業務價',
     'product_staffprice'    =>    '員工價',
     'product_costprice'     =>    '成本價',
-    'product_specialprice'  =>    '優惠價',	
-    
-    
-    
+    'product_specialprice'  =>    '優惠價',
+
+
     //庫存
     'stock'                =>    '庫存',
     'product_type'         =>    '款式',
     'product_stock'        =>    '目前庫存數',
     'product_sales'        =>    '業務可領貨量',
     'product_barcode'      =>    '商品條碼',
-    
+
     'showsales'     =>    '業務可領貨',
     'shownew'       =>    '新荷入庫',
     'showfront'     =>    '前台',
     'update_user'   =>    '最近更新者',
-    'created_at'    =>    '創建時間', 
-    'updated_at'    =>    '上次更新時間', 
-    'deleted_at'    =>    '刪除時間', 
+    'created_at'    =>    '創建時間',
+    'updated_at'    =>    '上次更新時間',
+    'deleted_at'    =>    '刪除時間',
 
     //業務列表
     //'sid'           =>     '排序',
     'wid'           =>     '倉庫編號',
     'sales_id'      =>     '業務代號',
-    'resign'        =>     '離職',  
+    'resign'        =>     '離職',
     'start_end_work_date' =>   '到職日/離職日',
     'salesman'      =>     '業務',
     'sales'         =>     '業務管理',
+    'sales_end_work'=>     '業務離職',
     'collect_at'    =>     '最近領貨日',
     'client_ip'     =>     '最近ip',
     'client_agent'  =>     '最近使用裝置',
@@ -134,8 +134,8 @@ return [
     'note_target'   =>      '公告對象',
     'note_at'       =>      '公告日期',
     'note_content'  =>      '公告內容',
-    
-    //業務每日配貨  
+
+    //業務每日配貨
     'sales_assign'  =>      '每日配貨',
     'assign_date'   =>      '配貨日期',
     'assign_id'     =>      '配貨單號',
@@ -143,33 +143,40 @@ return [
     'p_salesprice_total'=>  '金額',
 
     //店鋪據點
-    'web_location'  =>     '店鋪據點',
-    'store_id'      =>     '店鋪編號',
-    'store_area'    =>     '地區',
-    'store_address' =>     '店鋪地址',
-    'store_name'    =>     '店鋪名稱',
-	'store_map'     =>     'Google map',    
-    'comment'       =>     '說明',
-    'store_pic'     =>     '店鋪圖片',
+    'web_location'  =>      '店鋪據點',
+    'store_id'      =>      '店鋪編號',
+    'store_area'    =>      '地區',
+    'store_rents'   =>      '租金',
+    'store_deposit' =>      '押金',
+    'store_contractor'=>    '簽約人',
+    'store_payment_date'=>  '繳款日',
+    'store_lease_start_end'=>   '租約起始日/結束日',
+    //'store_lease_end'=>     '租約結束日',
+    'store_sales'   =>      '負責業務',
+    'store_address' =>      '店鋪地址',
+    'store_name'    =>      '店鋪名稱',
+	'store_map'     =>      'Google map',
+    'comment'       =>      '說明',
+    'store_pic'     =>      '店鋪圖片',
 
     //地區
-    'web_area'      =>     '地區',
-    'area_id'       =>     '地區編號',
+    'web_area'      =>      '地區',
+    'area_id'       =>      '地區編號',
 
 
-    'alias'     =>  '簡稱',
-    'alert'     =>    '注意', 
+    'alias'     =>    '簡稱',
+    'alert'     =>    '注意',
 
-    'parent_id' =>    '父級選單', 
-    'icon'      =>    '圖示', 
-    'uri'       =>    '路徑', 
+    'parent_id' =>    '父級選單',
+    'icon'      =>    '圖示',
+    'uri'       =>    '路徑',
 
-    'operation_log'         =>    '操作紀錄', 
-    'parent_select_error'   =>    '父級選擇錯誤', 
+    'operation_log'         =>    '操作紀錄',
+    'parent_select_error'   =>    '父級選擇錯誤',
 
-    'pagination' => [ 
-        'range' =>    ' :first - :last 筆，總共 :total 筆', 
-    ], 
+    'pagination' => [
+        'range' =>    ' :first - :last 筆，總共 :total 筆',
+    ],
 
 
     /**

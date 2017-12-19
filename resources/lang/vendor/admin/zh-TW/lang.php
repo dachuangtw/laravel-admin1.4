@@ -117,7 +117,8 @@ return [
     //'sid'           =>     '排序',
     'wid'           =>     '倉庫編號',
     'sales_id'      =>     '業務代號',
-    'resign'        =>     '離職',    
+    'resign'        =>     '離職',  
+    'start_end_work_date' =>   '到職日/離職日',
     'salesman'      =>     '業務',
     'sales'         =>     '業務管理',
     'collect_at'    =>     '最近領貨日',
@@ -133,8 +134,7 @@ return [
     'note_target'   =>      '公告對象',
     'note_at'       =>      '公告日期',
     'note_content'  =>      '公告內容',
-    'note_target'   =>      '公告對象',
-
+    
     //業務每日配貨  
     'sales_assign'  =>      '每日配貨',
     'assign_date'   =>      '配貨日期',

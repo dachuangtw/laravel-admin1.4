@@ -26,7 +26,7 @@ class SalesEndWorkController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.sales'));
+            $content->header(trans('admin::lang.sales_end_work'));
             $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
@@ -96,7 +96,7 @@ class SalesEndWorkController extends Controller
             $grid->resign(trans('admin::lang.resign'))->display(function ($released) {
                 return $released ? '是' : '否';
                 });
-            // $grid->collect_at(trans('admin::lang.collect_at'));
+            //$grid->collect_at(trans('admin::lang.collect_at'));
             //$grid->created_at( trans('admin::lang.created_at'));
             //$grid->updated_at( trans('admin::lang.updated_at'));
         });

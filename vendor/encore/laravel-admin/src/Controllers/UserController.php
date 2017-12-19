@@ -2,6 +2,8 @@
 
 namespace Encore\Admin\Controllers;
 
+use App\Warehouse;
+
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Auth\Database\Permission;
 use Encore\Admin\Auth\Database\Role;
@@ -68,6 +70,13 @@ class UserController extends Controller
     {
         return Administrator::grid(function (Grid $grid) {
             $grid->id('ID')->sortable();
+            $grid->column('wid',trans('admin::lang.warehouse'))->value(function ($wid) {
+                $warehouse = Warehouse::where('wid', $wid)->pluck('w_name')->toArray();
+                if(!empty($warehouse))
+                    return $warehouse['0'];
+                else
+                    return '';
+            });
             $grid->username(trans('admin::lang.username'));
             $grid->name(trans('admin::lang.name'));
             $grid->roles(trans('admin::lang.roles'))->pluck('name')->label();

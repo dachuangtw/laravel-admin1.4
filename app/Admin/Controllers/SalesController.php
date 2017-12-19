@@ -43,7 +43,7 @@ class SalesController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header(trans('admin::lang.list'));
+            $content->header(trans('admin::lang.sales'));
             $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
@@ -59,7 +59,7 @@ class SalesController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.list'));
+            $content->header(trans('admin::lang.sales'));
             $content->description(trans('admin::lang.new'));
 
             $content->body($this->form());
@@ -111,41 +111,49 @@ class SalesController extends Controller
             $form->model()->makeVisible('password');
 
             $form->tab('基本資料', function (Form $form) {
-                $form->display('sid', 'ID');
+                //$form->display('sid', 'ID');
                 $form->text('sales_id', trans('admin::lang.sales_id'))->rules('required');
-                $form->select('wid', trans('admin::lang.warehouse'))->options(
-                Warehouse::all()->pluck('w_name','wid')
-                );
-                
-                $form->email('email', 'Email')->rules('required');
                 $form->password('password', trans('admin::lang.password'))->rules('required|confirmed')->default(function ($form) {
                     return $form->model()->password;
                 });
+
                 $form->password('password_confirmation', trans('admin::lang.password_confirmation'))->rules('required')
                 ->default(function ($form) {
                     return $form->model()->password;});
                 $form->ignore(['password_confirmation']
                 );
+
                 $form->divide();
                 $form->text('sales_name', trans('admin::lang.salesname'))->rules('required');
                 $form->text('nickname', trans('admin::lang.nickname'))->rules('required');
+                $form->select('wid', trans('admin::lang.warehouse'))
+                ->options(Warehouse::all()->pluck('w_name','wid'));
+                $form->multipleSelect('store_location',trans('admin::lang.web_location'))
+                ->options(WebLocation::all()->pluck('store_name', 'id'));
+
+                $form->divide();
                 $form->radio('resign', trans('admin::lang.resign'))->options(['1' => '是','0' => '否']);
+                $form->dateRange('start_work_date', 'end_work_date',  trans('admin::lang.start_end_work_date'));
+                 
+            })->tab('聯絡資訊', function (Form $form) {
+
+                $form->email('email', 'Email')->rules('required');
+                $form->mobile('cellphone',trans('admin::lang.cellphone'));
+                $form->textarea('remarks',trans('admin::lang.notes'));
+
+            })->tab('帳號資訊', function (Form $form) {
+                
+                $form->display('client_ip',trans('admin::lang.client_ip'));
+                $form->display('client_agent',trans('admin::lang.client_agent'));
+                $form->display('logged_in_at',trans('admin::lang.logged_in_at'));  
+                $form->display('collect_at',trans('admin::lang.collect_at'));
+
                 $form->divide();
                 $form->display('created_at', trans('admin::lang.created_at'));
                 $form->display('updated_at', trans('admin::lang.updated_at'));
 
-                $form->display('client_ip',trans('admin::lang.client_ip'));
-                $form->display('client_agent',trans('admin::lang.client_agent'));
-                $form->display('logged_in_at',trans('admin::lang.logged_in_at'));        
-                $form->display('collect_at',trans('admin::lang.collect_at'));    
-            })->tab('聯絡資訊', function (Form $form) {
-
-                $form->mobile('cellphone',trans('admin::lang.cellphone'));
-
-                $form->multipleSelect('store_location',trans('admin::lang.web_location'))->options(WebLocation::all()->pluck('store_name', 'id'));
-
-                $form->textarea('remarks',trans('admin::lang.notes'));
             });
+
             $form->saving(function (Form $form) {
                 if ($form->password && $form->model()->password != $form->password) {
                     $form->password = bcrypt($form->password);

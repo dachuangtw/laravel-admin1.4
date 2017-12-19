@@ -18,21 +18,21 @@ class WebLocationController extends Controller
 
     /**
      * Index interface.
-     * 
+     *
      * @return Content
      */
     public function index()
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.web_location'));    
+            $content->header(trans('admin::lang.web_location'));
             $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
-            
+
         });
     }
-    
+
 
     /**
      * Edit interface.
@@ -46,7 +46,7 @@ class WebLocationController extends Controller
 
             $content->header(trans('admin::lang.web_location'));
             $content->description(trans('admin::lang.edit'));
-            
+
             $content->body($this->form()->edit($id));
         });
     }
@@ -77,7 +77,7 @@ class WebLocationController extends Controller
         return Admin::grid(WebLocation::class, function (Grid $grid) {
             $grid->filter(function($filter){
                 // 禁用id查询框
-                //$filter->disableIdFilter();  
+                //$filter->disableIdFilter();
                 // sql: ... WHERE `user.name` LIKE "%$name%";
                 $filter->like('store_name', trans('admin::lang.store_name'));
             });
@@ -104,23 +104,39 @@ class WebLocationController extends Controller
     {
         return Admin::form(WebLocation::class, function (Form $form) {
 
-            $form->display('id', trans('admin::lang.store_id'));
-            $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
-            $form->select('store_area', trans('admin::lang.store_area'))->options(
-                WebArea::all()->pluck('area_name','id')
-                )->rules('required');
-            $form->text('store_address', trans('admin::lang.store_address'))->rules('required');
-            $form->editor('map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
-            //$form->map($latitude, $longitude,'GPS'); //經度,緯度
-            $form->image('store_pic', trans('admin::lang.store_pic'))->move('/location','store_pic');
-            $states = [
-                'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
-                'off' => ['value' => 0, 'text' => 'OFF', 'color' => 'danger'],
-            ];
-            $form->switch('showfront',trans('admin::lang.showfront'))->states($states);
-            $form->textarea('comment',trans('admin::lang.comment'))->rows(10);
-            $form->display('created_at',trans('admin::lang.created_at'));
-            $form->display('updated_at',trans('admin::lang.updated_at'));
+
+            $form->tab('店鋪基本資料', function ($form) {
+
+                $form->display('id', trans('admin::lang.store_id'));
+                $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
+                $form->select('store_area', trans('admin::lang.store_area'))->options(
+                    WebArea::all()->pluck('area_name','id')
+                    )->rules('required');
+                $form->text('store_address', trans('admin::lang.store_address'))->rules('required');
+
+                $form->divide();
+                $form->dateRange('store_lease_start', 'store_lease_end', trans('admin::lang.store_lease_start_end'));
+                $form->date('store_payment_date', trans('admin::lang.store_payment_date'))->format('YYYY-MM-DD');
+                $form->currency('store_rents', trans('admin::lang.store_rents'))->symbol('$')->options(['mask' => '']);
+                $form->currency('store_deposit', trans('admin::lang.store_deposit'))->symbol('$')->options(['mask' => '']);
+                $form->text('store_contractor', trans('admin::lang.store_contractor'))->rules('required');
+                $form->text('sales', trans('admin::lang.store_sales'))->rules('required');
+
+            })->tab('網頁顯示', function ($form) {
+
+                $form->editor('map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
+                //$form->map($latitude, $longitude,'GPS'); //經度,緯度
+                $form->image('store_pic', trans('admin::lang.store_pic'))->move('/location','store_pic');
+                $states = [
+                    'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
+                    'off' => ['value' => 0, 'text' => 'OFF', 'color' => 'danger'],
+                ];
+                $form->switch('showfront',trans('admin::lang.showfront'))->states($states);
+                $form->textarea('comment',trans('admin::lang.comment'))->rows(10);
+                $form->display('created_at',trans('admin::lang.created_at'));
+                $form->display('updated_at',trans('admin::lang.updated_at'));
+            });
+
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\ProductIndex;
 use App\ProductSeries;
 use App\ProductCategory;
+use App\Warehouse;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -39,7 +40,7 @@ class ProductIndexController extends Controller
                     /**
                      * 快速新增，
                      * 可見欄位：商品名、業務價、成本價
-                     * 隱藏欄位：最後更新者
+                     * 隱藏欄位：最近更新者
                      */
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('product'));
@@ -167,6 +168,7 @@ class ProductIndexController extends Controller
                 ];            
                 $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
                 $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
+                $form->hidden('update_user')->default(Admin::user()->id);
                 
             })->tab('價格/業務', function ($form) {
                                    
@@ -187,27 +189,25 @@ class ProductIndexController extends Controller
                
             })->tab('款式/庫存', function ($form) {
                 $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
+
+                    
+                    if(Admin::user()->isAdministrator()){
+                        //超級管理員可以自行選擇倉庫
+                        $form->select('wid', trans('admin::lang.warehouse'))->options(
+                            Warehouse::all()->pluck('w_name', 'wid')
+                        );
+                    }else{
+                        //非超級管理員使用本身綁定的倉庫id
+                        $form->hidden('wid')->default(Admin::user()->wid);
+                    }
+                    
                     $form->text('s_type',trans('admin::lang.product_type'));
                     $form->text('s_barcode',trans('admin::lang.product_barcode'));
                     $form->text('s_notes',trans('admin::lang.notes'));
                     $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
                     $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
-                });
-            
-              });
-            
-            
-
-            
-
-            
-
-            // $form->divide();
-            
-            
-            $form->hidden('update_user')->default(Admin::user()->id);
-            $form->display('updated_at', trans('admin::lang.updated_at'));
-
+                });            
+            });
         });
     }
 }

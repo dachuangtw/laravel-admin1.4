@@ -16,7 +16,7 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->increments('sid')->unique()->index()->comment('業務id');
             $table->string('wid')->nullable()->comment('倉庫id');
-            $table->string('email')->unique()->index()->comment('電子郵件');
+            $table->string('email')->nullable()->comment('電子郵件');
             $table->string('password', 60)->comment('密碼');
             $table->string('sales_name', 50)->comment('姓名');
             $table->string('nickname', 50)->nullable()->comment('暱稱');

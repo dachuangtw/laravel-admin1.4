@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sales extends Model
 {
+    //使用軟刪除
+    use SoftDeletes;
     //業務資料表
     protected $table = 'sales';
     //主鍵

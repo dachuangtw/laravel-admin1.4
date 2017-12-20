@@ -15,9 +15,12 @@ class CreateWebAreaTable extends Migration
     {
         Schema::create('web_area', function (Blueprint $table) {
             $table->increments('id')->unique()->index()->comment('地區id');
+            $table->integer('parent_id')->default(0)->comment('父級ID');
+            $table->integer('area_sort')->default(0)->comment('順序');
+            //$table->tinyInteger('type')->default(2);
             $table->string('area_name')->comment('地區名稱');
-            $table->integer('area_sort')->unique()->nullable()->comment('順序');
-            $table->timestamps();
+            $table->string('zipcode')->nullable()->comment('郵遞區號');
+            //$table->timestamps();
         });
     }
 

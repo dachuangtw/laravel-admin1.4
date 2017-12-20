@@ -13,3 +13,5 @@ yarn-error.log
 .env
 .vscode
 /public/abc.php
+public/test.html
+resources/views/admin/modal.blade.php

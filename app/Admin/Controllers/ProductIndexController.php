@@ -64,16 +64,18 @@ class ProductIndexController extends Controller
             });
         });
     }
-    public function read($id)
+    /**
+     * View interface.
+     *
+     * @param $id
+     * @return Content
+     */
+    public function view($id)
     {
         Permission::check(['reader']);
-        return Admin::content(function (Content $content) use ($id) {
+        // return view('admin::modal');
 
-            $content->header(trans('admin::lang.product_index'));
-            $content->description(trans('admin::lang.edit'));
-
-            $content->body($this->form()->edit($id));
-        });
+        return $this->formViewer()->view($id);
     }
     /**
      * Edit interface.
@@ -109,7 +111,60 @@ class ProductIndexController extends Controller
             $content->body($this->form());
         });
     }
+    /**
+     * Make a form viewer.
+     *
+     * @return Form
+     */
+    protected function formViewer()
+    {
+        Permission::check(['reader']);
+        return Admin::form(ProductIndex::class, function (Form $form) {
 
+            $form->tab('商品資訊', function ($form) {
+                
+                $form->display('p_number', trans('admin::lang.product_number'));
+                $form->display('p_name', trans('admin::lang.product_name'));
+
+                $form->display('p_category', trans('admin::lang.product_category'));
+                $form->display('p_series', trans('admin::lang.product_series'));
+                $form->display('p_pic', trans('admin::lang.product_pic'));
+                $form->display('p_images', trans('admin::lang.product_images'));
+                $form->display('p_description', trans('admin::lang.description'));
+                $form->display('showfront', trans('admin::lang.showfront'));
+                $form->display('shownew', trans('admin::lang.shownew'));
+                                
+            })->tab('價格/業務', function ($form) {
+                                   
+                $form->display('p_price', trans('admin::lang.product_price'));
+                $form->display('p_retailprice', trans('admin::lang.product_retailprice'));
+                $form->display('p_specialprice', trans('admin::lang.product_specialprice'));
+                $form->display('p_salesprice', trans('admin::lang.product_salesprice'));
+                // $form->display('p_staffprice', trans('admin::lang.product_staffprice'));
+                $form->display('p_costprice', trans('admin::lang.product_costprice'));
+
+                $states = [
+                    'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
+                    'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
+                ]; 
+
+                $form->display('showsales', trans('admin::lang.showsales'))->states($states);
+                $form->display('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'));
+               
+            })->tab('款式/庫存', function ($form) {
+                $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
+
+                    $form->display('wid')->default(Admin::user()->wid);
+                    
+                    $form->display('s_type',trans('admin::lang.product_type'));
+                    $form->display('s_barcode',trans('admin::lang.product_barcode'));
+                    $form->display('s_notes',trans('admin::lang.notes'));
+                    $form->display('s_stock',trans('admin::lang.product_stock'))->default(1);
+                    $form->display('s_collect',trans('admin::lang.product_sales'))->default(1);
+                });            
+            });
+        });
+    }
     /**
      * Make a grid builder.
      *

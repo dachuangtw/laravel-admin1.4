@@ -198,6 +198,19 @@ class Tree implements Renderable
 
         return <<<SCRIPT
 
+
+        $('.viewbutton').on('click', function() {
+            var url = $(this).attr("href");
+            $.get(url, function(data) {
+                $("#viewmodal").find('.modal-body').html(data);
+            });
+        });
+        $('#viewmodal').on('show.bs.modal', function() {
+            var margin_vertical = parseInt($(this).find('.modal-dialog').css('margin-top')) + parseInt($(this).find('.modal-dialog').css('margin-bottom')) || 0;
+            var height_body = (window.innerHeight - margin_vertical - 150) + 'px';
+            $(this).find('.modal-body').css('max-height', height_body).css('overflow', 'auto');
+        });
+
         $('#{$this->elementId}').nestable($nestableOptions);
 
         $('.tree_branch_delete').click(function() {

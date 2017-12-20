@@ -30,7 +30,7 @@ class Warehouse extends Model
 
     //批量賦值
     protected $fillable = [
-        'w_name', 'w_sort', 'showfront', 'updated_at'
+        'w_name', 'w_sort', 'showfront', 'created_at', 'updated_at'
     ];
 
     //前台顯示

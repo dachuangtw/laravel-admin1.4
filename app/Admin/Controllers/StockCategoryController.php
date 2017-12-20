@@ -28,7 +28,7 @@ class StockCategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_category'));
+            $content->header(trans('admin::lang.stock_category'));
             $content->description(trans('admin::lang.list'));
 
             $content->row(function (Row $row) {
@@ -38,8 +38,8 @@ class StockCategoryController extends Controller
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('stock/category'));
 
-                    $form->text('sc_name', trans('admin::lang.name'))->rules('required');
                     $form->text('sc_number', trans('admin::lang.sc_number'))->rules('required');
+                    $form->text('sc_name', trans('admin::lang.name'))->rules('required');
                     $form->text('sc_notes', trans('admin::lang.notes'));
 
                     $column->append((new Box(trans('admin::lang.new'), $form))->style('danger'));
@@ -73,7 +73,7 @@ class StockCategoryController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header(trans('admin::lang.product_category'));
+            $content->header(trans('admin::lang.stock_category'));
             $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));

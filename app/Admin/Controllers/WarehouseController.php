@@ -127,7 +127,7 @@ class WarehouseController extends Controller
             $form->display('w_name', trans('admin::lang.name'));
             $form->display('w_phone', trans('admin::lang.phone'));
             $form->display('w_address', trans('admin::lang.address'));
-            $form->display('w_notes', trans('admin::lang.notes'));
+            // $form->display('w_notes', trans('admin::lang.notes'));
 
             $form->display('created_at', trans('admin::lang.created_at'));
             $form->display('updated_at', trans('admin::lang.updated_at'));

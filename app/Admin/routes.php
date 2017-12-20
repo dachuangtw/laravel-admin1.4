@@ -27,7 +27,8 @@ Route::group([
         $router->resource('supplier', ProductSupplierController::class);
         $router->resource('web/location', WebLocationController::class);
         $router->resource('web/area', WebAreaController::class);
-        $router->resource('warehouse', WarehouseController::class);     
+        $router->resource('warehouse', WarehouseController::class);
+        $router->resource('stock/category', StockCategoryController::class);     
 
     // });
 

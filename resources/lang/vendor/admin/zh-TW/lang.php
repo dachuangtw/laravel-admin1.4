@@ -193,5 +193,7 @@ return [
     'p_staffprice'    =>    '員工價',
     'p_costprice'     =>    '成本價',
     'p_specialprice'  =>    '優惠價',
-
+    
+    'sup_number'      =>     '廠商代號',
+    'sc_number'       =>     '庫存代號',
 ];

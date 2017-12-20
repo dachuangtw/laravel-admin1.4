@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\ProductSupplier;
+use App\StockCategory;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -15,7 +15,7 @@ use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
 
-class ProductSupplierController extends Controller
+class StockCategoryController extends Controller
 {
     use ModelForm;
 
@@ -28,7 +28,7 @@ class ProductSupplierController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_supplier'));
+            $content->header(trans('admin::lang.product_category'));
             $content->description(trans('admin::lang.list'));
 
             $content->row(function (Row $row) {
@@ -36,13 +36,11 @@ class ProductSupplierController extends Controller
 
                 $row->column(6, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('supplier'));
+                    $form->action(admin_url('stock/category'));
 
-                    $form->text('sup_number', trans('admin::lang.sup_number'))->rules('required');
-                    $form->text('sup_name', trans('admin::lang.name'))->rules('required');
-                    $form->text('sup_alias', trans('admin::lang.alias'));
-                    $form->textarea('sup_notes', trans('admin::lang.notes'))->rows(3);
-                    $form->hidden('update_user')->default(Admin::user()->id);
+                    $form->text('sc_name', trans('admin::lang.name'))->rules('required');
+                    $form->text('sc_number', trans('admin::lang.sc_number'))->rules('required');
+                    $form->text('sc_notes', trans('admin::lang.notes'));
 
                     $column->append((new Box(trans('admin::lang.new'), $form))->style('danger'));
                 });
@@ -55,11 +53,11 @@ class ProductSupplierController extends Controller
      */
     protected function treeView()
     {
-        return ProductSupplier::tree(function (Tree $tree) {
+        return StockCategory::tree(function (Tree $tree) {
             $tree->disableCreate();
 
             $tree->branch(function ($branch) {
-                $payload = "&nbsp;<strong>{$branch['sup_number']} - {$branch['sup_name']}</strong>";
+                $payload = "&nbsp;<strong>{$branch['sc_number']} - {$branch['sc_name']}</strong>";
                 return $payload;
             });
         });
@@ -75,7 +73,7 @@ class ProductSupplierController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header(trans('admin::lang.product_supplier'));
+            $content->header(trans('admin::lang.product_category'));
             $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
@@ -91,8 +89,8 @@ class ProductSupplierController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_supplier'));
-            $content->description(trans('admin::lang.create'));
+            $content->header('header');
+            $content->description('description');
 
             $content->body($this->form());
         });
@@ -105,13 +103,12 @@ class ProductSupplierController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(ProductSupplier::class, function (Grid $grid) {
+        return Admin::grid(StockCategory::class, function (Grid $grid) {
 
-            $grid->sup_number(trans('admin::lang.sup_number'))->sortable();
-            $grid->sup_name(trans('admin::lang.name'));
+            $grid->id('ID')->sortable();
 
-            $grid->updated_at(trans('admin::lang.updated_at'));
-            $grid->created_at(trans('admin::lang.created_at'));
+            $grid->created_at();
+            $grid->updated_at();
         });
     }
 
@@ -122,14 +119,12 @@ class ProductSupplierController extends Controller
      */
     protected function form()
     {
-        return Admin::form(ProductSupplier::class, function (Form $form) {
+        return Admin::form(StockCategory::class, function (Form $form) {
 
-            $form->text('sup_number', trans('admin::lang.sup_number'))->rules('required');
-            $form->text('sup_name', trans('admin::lang.name'))->rules('required');
-            $form->text('sup_alias', trans('admin::lang.alias'));
-            $form->textarea('sup_notes', trans('admin::lang.notes'))->rows(3);
-            $form->hidden('update_user')->default(Admin::user()->id);
-                        
+            $form->text('sc_number', trans('admin::lang.sup_number'))->rules('required');
+            $form->text('sc_name', trans('admin::lang.name'))->rules('required');
+            $form->text('sc_notes', trans('admin::lang.notes'));
+
             $form->display('updated_at', trans('admin::lang.updated_at'));
         });
     }

@@ -11,6 +11,9 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Widgets\Table;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WebLocationController extends Controller
 {
@@ -104,14 +107,28 @@ class WebLocationController extends Controller
     {
         return Admin::form(WebLocation::class, function (Form $form) {
 
+            $form->method('GET');
+            $form->action('/admin/web/location/');
 
             $form->tab('店鋪基本資料', function ($form) {
 
                 $form->display('id', trans('admin::lang.store_id'));
                 $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
+
+                // $form->select('store_area', trans('admin::lang.store_area'))->options(
+                //     WebArea::all()->pluck('area_name','id')
+                //     )->rules('required');
+
                 $form->select('store_area', trans('admin::lang.store_area'))->options(
-                    WebArea::all()->pluck('area_name','id')
-                    )->rules('required');
+                    WebArea::City()->pluck('area_name', 'id')
+                )->load('district', '/admin/api/web_location/district');
+
+                $form->select('district')->options(function ($id) {
+
+                    return WebArea::options($id);
+
+                });
+
                 $form->text('store_address', trans('admin::lang.store_address'))->rules('required');
 
                 $form->divide();
@@ -140,4 +157,11 @@ class WebLocationController extends Controller
         });
     }
 
+    public function district(Request $request)
+    {
+        $cityId = $request->get('q');
+
+        return WebArea::district()->where('parent_id', $cityId)->get(['id', DB::raw('name as text')]);
+    }
 }
+

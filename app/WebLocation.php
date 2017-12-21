@@ -11,8 +11,4 @@ class WebLocation extends Model
     //主鍵
     protected $primaryKey = 'id';
 
-    // public function web_area()
-    // {
-    //     return $this->belongsTo(WebArea::class);
-    // }
 }

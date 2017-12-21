@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Tree;
 
 class WebAreaController extends Controller
 {
@@ -25,6 +26,7 @@ class WebAreaController extends Controller
 
             $content->header(trans('admin::lang.web_area'));
             $content->description(trans('admin::lang.list'));
+            $content->body(WebArea::tree());
 
             $content->body($this->grid());
         });
@@ -72,6 +74,10 @@ class WebAreaController extends Controller
     {
         return Admin::grid(WebArea::class, function (Grid $grid) {
 
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+                $actions->disableEdit();
+            });
             $grid->disableFilter();
             $grid->disableExport();
             $grid->perPages([10, 20]);

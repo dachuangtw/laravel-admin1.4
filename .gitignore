@@ -13,3 +13,5 @@ yarn-error.log
 .env
 .vscode
 /public/abc.php
+/public/area.php
+/vendor/composer

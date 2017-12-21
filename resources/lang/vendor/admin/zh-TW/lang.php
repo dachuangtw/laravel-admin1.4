@@ -103,6 +103,7 @@ return [
     'product_stock'        =>    '目前庫存數',
     'product_sales'        =>    '業務可領貨量',
     'product_barcode'      =>    '商品條碼',
+    'stock_category'                =>    '庫存分類',
 
     'showsales'     =>    '業務可領貨',
     'shownew'       =>    '新荷入庫',
@@ -193,5 +194,7 @@ return [
     'p_staffprice'    =>    '員工價',
     'p_costprice'     =>    '成本價',
     'p_specialprice'  =>    '優惠價',
-
+    
+    'sup_number'      =>     '廠商代號',
+    'sc_number'       =>     '庫存代號',
 ];

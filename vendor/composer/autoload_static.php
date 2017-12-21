@@ -294,6 +294,10 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'AddParentIdToProductCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',
         'AddResignToSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_092133_add_resign_to_sales_table.php',
         'AddSalesIdToSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_093219_add_sales_id_to_sales_table.php',
+<<<<<<< HEAD
+=======
+        'AddSupNumberToProductSupplierTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_20_145857_add_sup_number_to_product_supplier_table.php',
+>>>>>>> ca2eee72393706d4d0a3419dc203a45a618d2a73
         'AddWorkDateToSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_083718_add_work_date_to_sales_table.php',
         'AdminMenuTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminMenuTableSeeder.php',
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
@@ -360,6 +364,7 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'CreateSalesAssignTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_152811_create_sales_assign_table.php',
         'CreateSalesNoteTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_13_144946_create_sales_note_table.php',
         'CreateSalesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_152137_create_sales_table.php',
+        'CreateStockCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_20_153423_create_stock_category_table.php',
         'CreateStockTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_084524_create_stock_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateWarehouseTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_163951_create_warehouse_table.php',
@@ -3088,6 +3093,7 @@ class ComposerStaticInit6100b35632e2e5cfd7688ccca33a050b
         'Symfony\\Component\\DomCrawler\\FormFieldRegistry' => __DIR__ . '/..' . '/symfony/dom-crawler/FormFieldRegistry.php',
         'Symfony\\Component\\DomCrawler\\Image' => __DIR__ . '/..' . '/symfony/dom-crawler/Image.php',
         'Symfony\\Component\\DomCrawler\\Link' => __DIR__ . '/..' . '/symfony/dom-crawler/Link.php',
+        'Symfony\\Component\\EventDispatcher\\ContainerAwareEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/ContainerAwareEventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php',
         'Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcherInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/TraceableEventDispatcherInterface.php',
         'Symfony\\Component\\EventDispatcher\\Debug\\WrappedListener' => __DIR__ . '/..' . '/symfony/event-dispatcher/Debug/WrappedListener.php',

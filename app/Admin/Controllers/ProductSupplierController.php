@@ -38,6 +38,7 @@ class ProductSupplierController extends Controller
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('supplier'));
 
+                    $form->text('sup_number', trans('admin::lang.sup_number'))->rules('required');
                     $form->text('sup_name', trans('admin::lang.name'))->rules('required');
                     $form->text('sup_alias', trans('admin::lang.alias'));
                     $form->textarea('sup_notes', trans('admin::lang.notes'))->rows(3);
@@ -58,7 +59,7 @@ class ProductSupplierController extends Controller
             $tree->disableCreate();
 
             $tree->branch(function ($branch) {
-                $payload = "&nbsp;<strong>{$branch['sup_name']}</strong>";
+                $payload = "&nbsp;<strong>{$branch['sup_number']} - {$branch['sup_name']}</strong>";
                 return $payload;
             });
         });
@@ -106,7 +107,7 @@ class ProductSupplierController extends Controller
     {
         return Admin::grid(ProductSupplier::class, function (Grid $grid) {
 
-            $grid->supid('ID')->sortable();
+            $grid->sup_number(trans('admin::lang.sup_number'))->sortable();
             $grid->sup_name(trans('admin::lang.name'));
 
             $grid->updated_at(trans('admin::lang.updated_at'));
@@ -123,6 +124,7 @@ class ProductSupplierController extends Controller
     {
         return Admin::form(ProductSupplier::class, function (Form $form) {
 
+            $form->text('sup_number', trans('admin::lang.sup_number'))->rules('required');
             $form->text('sup_name', trans('admin::lang.name'))->rules('required');
             $form->text('sup_alias', trans('admin::lang.alias'));
             $form->textarea('sup_notes', trans('admin::lang.notes'))->rows(3);

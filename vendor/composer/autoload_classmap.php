@@ -9,6 +9,10 @@ return array(
     'AddParentIdToProductCategoryTable' => $baseDir . '/database/migrations/2017_12_11_170148_add_parent_id_to_product_category_table.php',
     'AddResignToSalesTable' => $baseDir . '/database/migrations/2017_12_14_092133_add_resign_to_sales_table.php',
     'AddSalesIdToSalesTable' => $baseDir . '/database/migrations/2017_12_14_093219_add_sales_id_to_sales_table.php',
+<<<<<<< HEAD
+=======
+    'AddSupNumberToProductSupplierTable' => $baseDir . '/database/migrations/2017_12_20_145857_add_sup_number_to_product_supplier_table.php',
+>>>>>>> ca2eee72393706d4d0a3419dc203a45a618d2a73
     'AddWorkDateToSalesTable' => $baseDir . '/database/migrations/2017_12_19_083718_add_work_date_to_sales_table.php',
     'AdminMenuTableSeeder' => $baseDir . '/database/seeds/AdminMenuTableSeeder.php',
     'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
@@ -75,6 +79,7 @@ return array(
     'CreateSalesAssignTable' => $baseDir . '/database/migrations/2017_12_08_152811_create_sales_assign_table.php',
     'CreateSalesNoteTable' => $baseDir . '/database/migrations/2017_12_13_144946_create_sales_note_table.php',
     'CreateSalesTable' => $baseDir . '/database/migrations/2017_12_08_152137_create_sales_table.php',
+    'CreateStockCategoryTable' => $baseDir . '/database/migrations/2017_12_20_153423_create_stock_category_table.php',
     'CreateStockTable' => $baseDir . '/database/migrations/2017_12_14_084524_create_stock_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateWarehouseTable' => $baseDir . '/database/migrations/2017_12_08_163951_create_warehouse_table.php',
@@ -2803,6 +2808,7 @@ return array(
     'Symfony\\Component\\DomCrawler\\FormFieldRegistry' => $vendorDir . '/symfony/dom-crawler/FormFieldRegistry.php',
     'Symfony\\Component\\DomCrawler\\Image' => $vendorDir . '/symfony/dom-crawler/Image.php',
     'Symfony\\Component\\DomCrawler\\Link' => $vendorDir . '/symfony/dom-crawler/Link.php',
+    'Symfony\\Component\\EventDispatcher\\ContainerAwareEventDispatcher' => $vendorDir . '/symfony/event-dispatcher/ContainerAwareEventDispatcher.php',
     'Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcher' => $vendorDir . '/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php',
     'Symfony\\Component\\EventDispatcher\\Debug\\TraceableEventDispatcherInterface' => $vendorDir . '/symfony/event-dispatcher/Debug/TraceableEventDispatcherInterface.php',
     'Symfony\\Component\\EventDispatcher\\Debug\\WrappedListener' => $vendorDir . '/symfony/event-dispatcher/Debug/WrappedListener.php',

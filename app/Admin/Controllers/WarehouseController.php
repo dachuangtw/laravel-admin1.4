@@ -68,6 +68,20 @@ class WarehouseController extends Controller
     }
 
     /**
+     * View interface.
+     *
+     * @param $id
+     * @return Content
+     */
+    public function view($id)
+    {
+        Permission::check(['reader']);
+        // return view('admin::modal');
+
+        return $this->formViewer()->view($id);
+    }
+
+    /**
      * Edit interface.
      *
      * @param $id
@@ -99,7 +113,26 @@ class WarehouseController extends Controller
             $content->body($this->form());
         });
     }
+    /**
+     * Make a form viewer.
+     *
+     * @return Form
+     */
+    protected function formViewer()
+    {
+        Permission::check(['reader']);
+        return Admin::form(Warehouse::class, function (Form $form) {
+            
+            $form->display('wid', 'ID');
+            $form->display('w_name', trans('admin::lang.name'));
+            $form->display('w_phone', trans('admin::lang.phone'));
+            $form->display('w_address', trans('admin::lang.address'));
+            // $form->display('w_notes', trans('admin::lang.notes'));
 
+            $form->display('created_at', trans('admin::lang.created_at'));
+            $form->display('updated_at', trans('admin::lang.updated_at'));
+        });
+    }
     /**
      * Make a grid builder.
      *

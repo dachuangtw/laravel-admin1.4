@@ -2,7 +2,7 @@
     <div class="dd-handle">
         {!! $branchCallback($branch) !!}
         <span class="pull-right dd-nodrag">
-            <a href="{{ $path }}/{{ $branch[$keyName] }}/view" title="{{ trans('admin::lang.view') }}"><i class="fa fa-eye"></i></a>
+            <a href="{{ $path }}/{{ $branch[$keyName] }}/view" class="viewbutton" data-toggle="modal" data-target="#viewmodal" title="{{ trans('admin::lang.view') }}"><i class="fa fa-eye"></i></a>
             &nbsp;
             <a href="{{ $path }}/{{ $branch[$keyName] }}/edit" title="{{ trans('admin::lang.edit') }}"><i class="fa fa-edit"></i></a>
             &nbsp;

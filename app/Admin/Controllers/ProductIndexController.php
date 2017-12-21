@@ -20,6 +20,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Box;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\DB;
 
 class ProductIndexController extends Controller
 {
@@ -194,13 +195,35 @@ class ProductIndexController extends Controller
             });
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             $grid->p_costprice(trans('admin::lang.product_costprice'));
-            $grid->stock(trans('admin::lang.product_stock'))->sum('s_stock')->value(function ($stock) {
-                if(!empty($stock)){
-                    return $stock;
-                }
-                return "<span class='label label-warning'>未填寫庫存</span>";
-            });
-            // $grid->stock(trans('admin::lang.product_stock'))->sum('s_stock');
+            // $grid->stock(trans('admin::lang.product_stock'))->sum('s_stock')->value(function ($stock) {
+            //     return $stock;
+            // });;
+
+            // if(Admin::user()->isAdministrator()){
+            //     //超級管理員可以看所有庫存
+            //     $form->select('wid', trans('admin::lang.warehouse'))->options(
+            //         toArray(Warehouse::all()->pluck('w_name', 'wid'))
+            //     );
+
+            //     $grid->stock(trans('admin::lang.product_stock'))->where('wid', '2')->sum('s_stock')->value(function ($stock) {
+            //         if(!empty($stock)){
+                        
+            //             // $stock->where('wid', Admin::user()->wid)->sum('s_stock');
+            //             return $stock;
+            //         }
+            //         return "<span class='label label-warning'>未填寫庫存</span>";
+            //     });
+
+            // }else{
+                //非超級管理員只能看到自己倉庫的庫存
+                $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('s_stock')->value(function ($stock) {
+                    if(!empty($stock)){
+                        return $stock;
+                    }
+                    return "<span class='label label-warning'>未填寫庫存</span>";
+                });
+            // }
+            
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });
@@ -274,7 +297,6 @@ class ProductIndexController extends Controller
                
             })->tab('款式/庫存', function ($form) {
                 $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
-
                     
                     if(Admin::user()->isAdministrator()){
                         //超級管理員可以自行選擇倉庫
@@ -295,7 +317,21 @@ class ProductIndexController extends Controller
             });
 
             $form->saving(function(Form $form) {
-                $form->p_number = request()->StockCategory.request()->ProductSupplier;
+                $firstTwoCode = request()->StockCategory.request()->ProductSupplier;
+
+                //取得商品資料庫中該分類的最大值
+                $max_number = DB::table('product_index')
+                ->where('p_number', 'like', $firstTwoCode.'%')
+                ->max('p_number');
+
+                //取後六碼做+1計算
+                $lastSixCode = (int)mb_substr($max_number,-6,6,"utf-8");
+                $lastSixCode++;
+                //前補0至六碼
+                $lastSixCode = str_pad($lastSixCode,6,"0",STR_PAD_LEFT);
+
+                //填充到p_number欄位中
+                $form->p_number = $firstTwoCode.$lastSixCode;
             });
             $form->ignore(['StockCategory','ProductSupplier']);
         });
@@ -350,25 +386,39 @@ class ProductIndexController extends Controller
                
             })->tab('款式/庫存', function ($form) {
                 $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
-
                     
                     if(Admin::user()->isAdministrator()){
                         //超級管理員可以自行選擇倉庫
                         $form->select('wid', trans('admin::lang.warehouse'))->options(
                             Warehouse::all()->pluck('w_name', 'wid')
-                        );
+                        )->setWidth('2');
                     }else{
                         //非超級管理員使用本身綁定的倉庫id
                         $form->hidden('wid')->default(Admin::user()->wid);
                     }
                     
-                    $form->text('s_type',trans('admin::lang.product_type'));
-                    $form->text('s_barcode',trans('admin::lang.product_barcode'));
-                    $form->text('s_notes',trans('admin::lang.notes'));
+                    $form->text('s_type',trans('admin::lang.product_type'))->setWidth('5');
+                    $form->text('s_barcode',trans('admin::lang.product_barcode'))->setWidth('5');
+                    $form->text('s_notes',trans('admin::lang.notes'))->setWidth('5');
                     $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
                     $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
-                });         
+                })->setWidth('5');         
             });
+
+            //1.判斷商品編號是否有修改
+            //2.判斷新商品編號有沒有跟資料庫中其他商品重複
+            
+            // $form->saving(function(Form $form) {
+            //     $first2num = mb_substr($form->p_number,0,2,"utf-8");
+
+            //     $max_number = DB::table('product_index')
+            //     ->where('p_number', 'like', $first2num.'%')
+            //     ->max('p_number');
+    
+            //     $fp = fopen('output123.txt', 'a');
+            //     fwrite($fp, $price);
+            //     fclose($fp);
+            // });
         });
     }
 }

@@ -7,6 +7,7 @@ use App\ProductSeries;
 use App\ProductCategory;
 use App\Warehouse;
 use App\StockCategory;
+use App\ProductSupplier;
 
 use Encore\Admin\Auth\Permission;
 use Encore\Admin\Form;
@@ -92,7 +93,7 @@ class ProductIndexController extends Controller
             $content->header(trans('admin::lang.product_index'));
             $content->description(trans('admin::lang.edit'));
 
-            $content->body($this->form()->edit($id));
+            $content->body($this->editform()->edit($id));
         });
     }
 
@@ -214,17 +215,24 @@ class ProductIndexController extends Controller
      */
     protected function form()
     {
-        Permission::check(['creater','editor']);
+        Permission::check(['creater']);
         return Admin::form(ProductIndex::class, function (Form $form) {
 
             $form->tab('商品資訊', function ($form) {
                 
-                $form->text('p_number', trans('admin::lang.product_number'))->readOnly();
+                $form->select('StockCategory', trans('admin::lang.stock_category'))->options(
+                    StockCategory::all()->sortBy('sc_sort')->pluck('sc_name', 'sc_number')->transform(function ($item, $key) {
+                        return $key.' - '.$item;
+                    })
+                );
+                $form->select('ProductSupplier', trans('admin::lang.product_supplier'))->options(
+                    ProductSupplier::all()->pluck('sup_name', 'sup_number')->transform(function ($item, $key) {
+                        return $key.' - '.$item;
+                    })
+                );
+                $form->hidden('p_number');
                 $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
 
-                $form->select('sc_number', trans('admin::lang.stock_category'))->options(
-                    StockCategory::all()->pluck('sc_name', 'sc_number')
-                );
                 $form->multipleSelect('p_category', trans('admin::lang.product_category'))->options(
                     ProductCategory::all()->pluck('pc_name', 'pcid')
                 );
@@ -282,13 +290,80 @@ class ProductIndexController extends Controller
             });
 
             $form->saving(function(Form $form) {
-                $test = request()->sc_number;
-                $form->p_number = $test;
-                $fp = fopen('output123.txt', 'w');
-                fwrite($fp, $test.' '.$form->p_name);
-                fclose($fp);
+                $form->p_number = request()->StockCategory.request()->ProductSupplier;
             });
-            $form->ignore(['sc_number']);
+            $form->ignore(['StockCategory','ProductSupplier']);
+        });
+    }
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
+    protected function editform()
+    {
+        Permission::check(['editor']);
+        return Admin::form(ProductIndex::class, function (Form $form) {
+
+            $form->tab('商品資訊', function ($form) {
+                $form->text('p_number', trans('admin::lang.product_number'))->rules('required');
+                $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
+
+                $form->multipleSelect('p_category', trans('admin::lang.product_category'))->options(
+                    ProductCategory::all()->pluck('pc_name', 'pcid')
+                );
+                $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
+                    ProductSeries::all()->pluck('ps_name', 'psid')
+                );           
+                $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
+                $form->multipleImage('p_images', trans('admin::lang.product_images'));
+                $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
+                $states = [
+                    'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
+                    'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
+                ];            
+                $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
+                $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
+                $form->hidden('update_user')->default(Admin::user()->id);
+                
+            })->tab('價格/業務', function ($form) {
+                                   
+                $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
+                $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
+                $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
+                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
+                // $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
+                $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+
+                $states = [
+                    'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
+                    'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
+                ]; 
+
+                $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
+                $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
+               
+            })->tab('款式/庫存', function ($form) {
+                $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
+
+                    
+                    if(Admin::user()->isAdministrator()){
+                        //超級管理員可以自行選擇倉庫
+                        $form->select('wid', trans('admin::lang.warehouse'))->options(
+                            Warehouse::all()->pluck('w_name', 'wid')
+                        );
+                    }else{
+                        //非超級管理員使用本身綁定的倉庫id
+                        $form->hidden('wid')->default(Admin::user()->wid);
+                    }
+                    
+                    $form->text('s_type',trans('admin::lang.product_type'));
+                    $form->text('s_barcode',trans('admin::lang.product_barcode'));
+                    $form->text('s_notes',trans('admin::lang.notes'));
+                    $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
+                    $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
+                });         
+            });
         });
     }
 }

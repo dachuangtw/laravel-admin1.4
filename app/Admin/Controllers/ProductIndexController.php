@@ -25,6 +25,11 @@ class ProductIndexController extends Controller
 {
     use ModelForm;
 
+    /**覆寫FormModel的update function */
+    public function update($id)
+    {
+        return $this->editform()->update($id);
+    }
     /**
      * Index interface.
      *
@@ -138,9 +143,9 @@ class ProductIndexController extends Controller
                                 
             })->tab('價格/業務', function ($form) {
                                    
-                $form->display('p_price', trans('admin::lang.product_price'));
-                $form->display('p_retailprice', trans('admin::lang.product_retailprice'));
-                $form->display('p_specialprice', trans('admin::lang.product_specialprice'));
+                // $form->display('p_price', trans('admin::lang.product_price'));
+                // $form->display('p_retailprice', trans('admin::lang.product_retailprice'));
+                // $form->display('p_specialprice', trans('admin::lang.product_specialprice'));
                 $form->display('p_salesprice', trans('admin::lang.product_salesprice'));
                 // $form->display('p_staffprice', trans('admin::lang.product_staffprice'));
                 $form->display('p_costprice', trans('admin::lang.product_costprice'));
@@ -210,7 +215,7 @@ class ProductIndexController extends Controller
 
     /**
      * Make a form builder.
-     *
+     * 創建時使用的form表格
      * @return Form
      */
     protected function form()
@@ -252,9 +257,9 @@ class ProductIndexController extends Controller
                 
             })->tab('價格/業務', function ($form) {
                                    
-                $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
-                $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
-                $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
+                // $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
+                // $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
+                // $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
                 $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
                 // $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
                 $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
@@ -297,7 +302,7 @@ class ProductIndexController extends Controller
     }
     /**
      * Make a form builder.
-     *
+     * 編輯時使用的form表格
      * @return Form
      */
     protected function editform()
@@ -328,9 +333,9 @@ class ProductIndexController extends Controller
                 
             })->tab('價格/業務', function ($form) {
                                    
-                $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
-                $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
-                $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
+                // $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
+                // $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
+                // $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
                 $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
                 // $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
                 $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);

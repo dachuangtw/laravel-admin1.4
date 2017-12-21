@@ -16,3 +16,4 @@ yarn-error.log
 public/test.html
 resources/views/admin/modal.blade.php/public/area.php
 /vendor/composer
+/public/area.php

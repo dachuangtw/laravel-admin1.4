@@ -6,6 +6,7 @@ use App\ProductIndex;
 use App\ProductSeries;
 use App\ProductCategory;
 use App\Warehouse;
+use App\StockCategory;
 
 use Encore\Admin\Auth\Permission;
 use Encore\Admin\Form;
@@ -218,9 +219,12 @@ class ProductIndexController extends Controller
 
             $form->tab('商品資訊', function ($form) {
                 
-                $form->text('p_number', trans('admin::lang.product_number'));
+                $form->text('p_number', trans('admin::lang.product_number'))->readOnly();
                 $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
 
+                $form->select('sc_number', trans('admin::lang.stock_category'))->options(
+                    StockCategory::all()->pluck('sc_name', 'sc_number')
+                );
                 $form->multipleSelect('p_category', trans('admin::lang.product_category'))->options(
                     ProductCategory::all()->pluck('pc_name', 'pcid')
                 );
@@ -276,6 +280,15 @@ class ProductIndexController extends Controller
                     $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
                 });            
             });
+
+            $form->saving(function(Form $form) {
+                $test = request()->sc_number;
+                $form->p_number = $test;
+                $fp = fopen('output123.txt', 'w');
+                fwrite($fp, $test.' '.$form->p_name);
+                fclose($fp);
+            });
+            $form->ignore(['sc_number']);
         });
     }
 }

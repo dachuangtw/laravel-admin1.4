@@ -8,6 +8,7 @@ use App\ProductCategory;
 use App\Warehouse;
 use App\StockCategory;
 use App\ProductSupplier;
+use App\Admin\Extensions\ExcelExpoter;
 
 use Encore\Admin\Auth\Permission;
 use Encore\Admin\Form;
@@ -250,7 +251,7 @@ class ProductIndexController extends Controller
                     return "<span class='label label-warning'>無庫存資料</span>";
                 });
             }
-            
+            $grid->exporter(new ExcelExpoter());
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });

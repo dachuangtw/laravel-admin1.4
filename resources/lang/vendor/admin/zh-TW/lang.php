@@ -37,6 +37,7 @@ return [
     'show'                  =>    '每頁顯示', 
     'entries'               =>    '筆', 
     'captcha'               =>    '驗證碼', 
+    'search'                =>    '搜尋', 
 
     'action'            =>    '操作', 
     'title'             =>    '標題', 

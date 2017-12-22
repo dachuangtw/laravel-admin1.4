@@ -63,6 +63,12 @@ class Form implements Renderable
      */
     protected $attributes = [];
 
+    protected $buttons = [
+        'enableSubmit' => true,
+        'enableReset'  => true,
+        'enableSearch' => false,
+    ];
+
     /**
      * Form constructor.
      *
@@ -136,6 +142,42 @@ class Form implements Renderable
         } else {
             $this->attributes[$attr] = $value;
         }
+
+        return $this;
+    }
+
+    /**
+     * Disable form search.
+     *
+     * @return $this
+     */
+    public function enableSearch()
+    {
+        $this->buttons['enableSearch'] = true;
+
+        return $this;
+    }
+
+    /**
+     * Disable form submit.
+     *
+     * @return $this
+     */
+    public function disableSubmit()
+    {
+        $this->buttons['enableSubmit'] = false;
+
+        return $this;
+    }
+
+    /**
+     * Disable form reset.
+     *
+     * @return $this
+     */
+    public function disableReset()
+    {
+        $this->buttons['enableReset'] = false;
 
         return $this;
     }
@@ -216,6 +258,7 @@ class Form implements Renderable
         return [
             'fields'        => $this->fields,
             'attributes'    => $this->formatAttribute(),
+            'buttons'       => $this->buttons,
         ];
     }
 

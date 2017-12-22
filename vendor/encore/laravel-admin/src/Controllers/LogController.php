@@ -45,6 +45,7 @@ class LogController extends Controller
 
                 $grid->actions(function (Grid\Displayers\Actions $actions) {
                     $actions->disableEdit();
+                    $actions->disableView();
                 });
 
                 $grid->disableCreation();

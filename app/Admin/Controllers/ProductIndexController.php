@@ -8,6 +8,7 @@ use App\ProductCategory;
 use App\Warehouse;
 use App\StockCategory;
 use App\ProductSupplier;
+use App\Admin\Extensions\ExcelExpoter;
 
 use Encore\Admin\Auth\Permission;
 use Encore\Admin\Form;
@@ -45,13 +46,29 @@ class ProductIndexController extends Controller
             $content->description(trans('admin::lang.list'));
 
             $content->row(function (Row $row) {
+                /**
+                 * 功能：搜尋商品，
+                 * 可見欄位：商品名
+                 */
+                $row->column(6, function (Column $column) {
+                    $form = new \Encore\Admin\Widgets\Form();
+                    $form->action(admin_url('product'));
+                    $form->method('GET');
+
+                    $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
+                    $form->disableSubmit();
+                    $form->disableReset();
+                    $form->enableSearch();
+
+                    $column->append((new Box(trans('admin::lang.search'), $form))->style('success'));
+                });
+                /**
+                 * 功能：快速新增，
+                 * 可見欄位：商品名、業務價、成本價
+                 * 隱藏欄位：最近更新者
+                 */
                 $row->column(6, function (Column $column) {
 
-                    /**
-                     * 快速新增，
-                     * 可見欄位：商品名、業務價、成本價
-                     * 隱藏欄位：最近更新者
-                     */
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('product'));
 
@@ -187,7 +204,15 @@ class ProductIndexController extends Controller
                 $filter->disableIdFilter();
                 $filter->like('p_name','名稱查詢');
             });
-            $grid->pid('ID')->sortable();
+            /**
+             * 不顯示ID，改顯示序號
+             * https://github.com/z-song/laravel-admin/issues/1374
+             */
+            $grid->number('No');
+            $grid->rows(function ($row, $number) {
+                $row->column('number', $number+1);
+            });
+            // $grid->pid('ID')->sortable();
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
             $grid->p_name(trans('admin::lang.name'));
             $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
@@ -199,31 +224,34 @@ class ProductIndexController extends Controller
             //     return $stock;
             // });;
 
-            // if(Admin::user()->isAdministrator()){
-            //     //超級管理員可以看所有庫存
-            //     $form->select('wid', trans('admin::lang.warehouse'))->options(
-            //         toArray(Warehouse::all()->pluck('w_name', 'wid'))
-            //     );
-
-            //     $grid->stock(trans('admin::lang.product_stock'))->where('wid', '2')->sum('s_stock')->value(function ($stock) {
-            //         if(!empty($stock)){
-                        
-            //             // $stock->where('wid', Admin::user()->wid)->sum('s_stock');
-            //             return $stock;
-            //         }
-            //         return "<span class='label label-warning'>未填寫庫存</span>";
-            //     });
-
-            // }else{
+            if(Admin::user()->isAdministrator()){
+                //超級管理員可以看所有庫存(BUG太大隻，先休兵使用台中倉當固定班底)
+                // $warehouse = Warehouse::all()->pluck('w_name', 'wid')->toArray();
+                // foreach($warehouse as $key => $value){
+                //     $grid->stock($value)->where('wid',$key)->sum('s_stock')->display(function ($stock) {
+                //         if(!empty($stock)){
+                //             return $stock;
+                //         }
+                //         return "<span class='label label-warning'>未填寫庫存</span>";
+                //     });
+                // }
+                //超級管理員暫時只能看台中倉的庫存
+                $grid->stock(trans('admin::lang.product_stock'))->where('wid', '2')->sum('s_stock')->value(function ($stock) {
+                    if(!empty($stock)){
+                        return $stock;
+                    }
+                    return "<span class='label label-warning'>台中倉無庫存</span>";
+                });
+            }else{
                 //非超級管理員只能看到自己倉庫的庫存
                 $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('s_stock')->value(function ($stock) {
                     if(!empty($stock)){
                         return $stock;
                     }
-                    return "<span class='label label-warning'>未填寫庫存</span>";
+                    return "<span class='label label-warning'>無庫存資料</span>";
                 });
-            // }
-            
+            }
+            $grid->exporter(new ExcelExpoter());
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });

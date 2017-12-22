@@ -77,6 +77,7 @@ class RoleController extends Controller
                 if ($actions->row->slug == 'administrator') {
                     $actions->disableDelete();
                 }
+                $actions->disableView();
             });
 
             $grid->tools(function (Grid\Tools $tools) {

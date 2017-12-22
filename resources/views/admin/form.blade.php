@@ -37,7 +37,10 @@
 
                 @if(! $form->option('enableSubmit'))
                 {!! $form->resetButton() !!}
+                {!! $form->searchButton() !!}
                 @endif
+
+                
 
             </div>
 

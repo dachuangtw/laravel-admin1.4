@@ -1082,6 +1082,18 @@ class Form
     }
 
     /**
+     * Disable form search.
+     *
+     * @return $this
+     */
+    public function enableSearch()
+    {
+        $this->builder()->options(['enableSearch' => true]);
+
+        return $this;
+    }
+
+    /**
      * Disable form submit.
      *
      * @return $this

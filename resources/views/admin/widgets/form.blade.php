@@ -23,7 +23,7 @@
         @if($buttons['enableSearch'])
             <div class="col-sm-4">
                 <div class="btn-group pull-right">
-                    <button type="submit" class="btn btn-success pull-right">{{ trans('admin::lang.search') }} <i class="fa fa-search"></i></button>
+                    <button type="submit" class="btn btn-twitter pull-right">{{ trans('admin::lang.search') }} <i class="fa fa-search"></i></button>
                 </div>
             </div>
         @endif

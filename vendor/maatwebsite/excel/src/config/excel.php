@@ -427,6 +427,10 @@ return array(
         | Note: only applies to 'heading' settings 'true' && 'slugged'
         |
         */
+        /**
+         * 預設值：true
+         * 改為false => 為了正常顯示中文(只有標題，內文的編碼問題還要再修改)
+         */
 
         'to_ascii'                => true,
 

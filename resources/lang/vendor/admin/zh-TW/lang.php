@@ -146,7 +146,8 @@ return [
     //店鋪據點
     'web_location'  =>      '店鋪據點',
     'store_id'      =>      '店鋪編號',
-    'store_area'    =>      '地區',
+    'city_id'       =>      '城市',
+    'district_id'   =>      '地區',
     'store_rents'   =>      '租金',
     'store_deposit' =>      '押金',
     'store_contractor'=>    '簽約人',

@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Sales;
 use App\Warehouse;
 use App\WebLocation;
+use App\Admin\Extensions\Tools\SalesResign;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -12,6 +13,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Support\Facades\Request;
 
 class SalesController extends Controller
 {
@@ -74,7 +76,15 @@ class SalesController extends Controller
     protected function grid()
     {
         return Admin::grid(Sales::class, function (Grid $grid) {
-            $grid->model()->where('resign', '=', 0);
+
+            //接收查詢在職or離職
+            if (in_array(Request::get('resign'), ['0', '1'])) {
+                $grid->model()->where('resign', Request::get('resign'));
+            }
+            $grid->tools(function ($tools) {
+                $tools->append(new SalesResign());
+            });
+
             $grid->model()->orderBy('sid', 'desc');
             //查詢過濾器
             $grid->filter(function($filter){
@@ -121,9 +131,9 @@ class SalesController extends Controller
 
                 $form->password('password_confirmation', trans('admin::lang.password_confirmation'))->rules('required')
                 ->default(function ($form) {
-                    return $form->model()->password;});
-                $form->ignore(['password_confirmation']
-                );
+                    return $form->model()->password;
+                });
+                $form->ignore(['password_confirmation']);
 
                 $form->divide();
                 $form->text('sales_name', trans('admin::lang.salesname'))->rules('required');

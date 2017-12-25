@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\WebLocation;
 use App\WebArea;
+use App\Sales;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -80,12 +81,15 @@ class WebLocationController extends Controller
         return Admin::grid(WebLocation::class, function (Grid $grid) {
             $grid->filter(function($filter){
                 // 禁用id查询框
-                //$filter->disableIdFilter();
+                $filter->disableIdFilter();
                 // sql: ... WHERE `user.name` LIKE "%$name%";
                 $filter->like('store_name', trans('admin::lang.store_name'));
             });
+            $grid->model()->orderBy('id', 'DESC');
             $grid->id(trans('admin::lang.store_id'))->sortable();
-            $grid->store_area(trans('admin::lang.store_area'))->sortable();
+            $grid->city_id(trans('admin::lang.city_id'))->sortable()->display(function($city_id){
+                   return WebArea::find($city_id)->area_name;
+            });
             $grid->store_name(trans('admin::lang.store_name'));
             $grid->created_at(trans('admin::lang.created_at'));
             $grid->updated_at(trans('admin::lang.updated_at'));
@@ -106,9 +110,7 @@ class WebLocationController extends Controller
     protected function form()
     {
         return Admin::form(WebLocation::class, function (Form $form) {
-
             $form->method('GET');
-            $form->action('/admin/web/location/');
 
             $form->tab('店鋪基本資料', function ($form) {
 
@@ -119,15 +121,13 @@ class WebLocationController extends Controller
                 //     WebArea::all()->pluck('area_name','id')
                 //     )->rules('required');
 
-                $form->select('store_area', trans('admin::lang.store_area'))->options(
+                $form->select('city_id', trans('admin::lang.city_id'))->options(
                     WebArea::City()->pluck('area_name', 'id')
-                )->load('district', '/admin/api/web_location/district');
+                )->load('district_id', '/admin/api/tw/district')->rules('required');
 
-                $form->select('district')->options(function ($id) {
-
+                $form->select('district_id', trans('admin::lang.district_id'))->options(function ($id) {
                     return WebArea::options($id);
-
-                });
+                })->rules('required');
 
                 $form->text('store_address', trans('admin::lang.store_address'))->rules('required');
 
@@ -137,7 +137,9 @@ class WebLocationController extends Controller
                 $form->currency('store_rents', trans('admin::lang.store_rents'))->symbol('$')->options(['mask' => '']);
                 $form->currency('store_deposit', trans('admin::lang.store_deposit'))->symbol('$')->options(['mask' => '']);
                 $form->text('store_contractor', trans('admin::lang.store_contractor'))->rules('required');
-                $form->text('sales', trans('admin::lang.store_sales'))->rules('required');
+                // $form->text('sales', trans('admin::lang.store_sales'))->rules('required');
+                $form->multipleSelect('sales',trans('admin::lang.store_sales'))
+                ->options(Sales::all()->pluck('sales_name', 'sid'));
 
             })->tab('網頁顯示', function ($form) {
 
@@ -161,7 +163,7 @@ class WebLocationController extends Controller
     {
         $cityId = $request->get('q');
 
-        return WebArea::district()->where('parent_id', $cityId)->get(['id', DB::raw('name as text')]);
+        return WebArea::district()->where('parent_id', $cityId)->get(['id', DB::raw('area_name as text')]);
     }
 }
 

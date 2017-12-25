@@ -8,15 +8,16 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ExcelExpoter extends AbstractExporter
 {
+    protected $creator;
     protected $filename;
     protected $titles = [];
-
-    public function setDetails($titles, $filename)
+    public function setDetails($titles, $filename, $creator)
     {
-        $this->titles = $titles;
+        $this->creator = $creator;
         $this->filename = $filename;
-        return $this;
+        $this->titles = $titles;
     }
+
 
     public function export()
     {
@@ -30,8 +31,8 @@ class ExcelExpoter extends AbstractExporter
     
         Excel::create($filename, function($excel) use ($titlename){        
             
+            
             $excel->sheet((date("Y")-1911).date("md"), function($sheet) use ($titlename){
-
                 //第一列 標題
                 $sheet->row(1,$titlename);
 
@@ -44,28 +45,12 @@ class ExcelExpoter extends AbstractExporter
                     $output = [];
                     foreach($this->titles as $key => $title){
                         $output = array_merge($output,array_only($item, $title));
-                    }                    
+                    }
                     return $output;
                 });
                 $sheet->rows($rows);
             });
-            $excel->setCreator('大創娃娃屋')->setTitle('123')->setDescription('456');
+            $excel->setCreator($this->creator)->setTitle($this->filename)->setSubject($this->filename);
         })->export('xlsx'); 
     }
-
-
-    /**
-     * Remove indexed array.
-     *
-     * @param array $row
-     *
-     * @return array
-     */
-    protected function sanitize(array $row)
-    {
-        return collect($row)->reject(function ($val) {
-            return is_array($val) && !Arr::isAssoc($val);
-        })->toArray();
-    }
-
 }

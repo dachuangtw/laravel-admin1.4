@@ -28,7 +28,7 @@ class WebAreaController extends Controller
             $content->description(trans('admin::lang.list'));
             // $content->body(WebArea::tree());
 
-            $content->body($this->grid());
+            //$content->body($this->grid());
         });
     }
 
@@ -84,7 +84,7 @@ class WebAreaController extends Controller
 
             $grid->id(trans('ID'))->sortable();
             $grid->area_name(trans('admin::lang.name'));
-            $grid->column('area_sort',trans('admin::lang.order'))->editable()->sortable();
+            //$grid->column('area_sort',trans('admin::lang.order'))->editable()->sortable();
             //$grid->area_sort(trans('admin::lang.order'))->sortable();
             //$grid->created_at(trans('admin::lang.created_at'));
             //$grid->updated_at(trans('admin::lang.updated_at'));

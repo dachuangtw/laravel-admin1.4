@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\DB;
 class ProductIndexController extends Controller
 {
     use ModelForm;
+    protected $stock =[];
 
     /**覆寫FormModel的update function */
     public function update($id)
@@ -226,7 +227,7 @@ class ProductIndexController extends Controller
             // $grid->stock(trans('admin::lang.product_stock'))->sum('s_stock')->value(function ($stock) {
             //     return $stock;
             // });;
-
+            
             if(Admin::user()->isAdministrator()){
                 //超級管理員可以看所有庫存(BUG太大隻，先休兵使用台中倉當固定班底)
                 // $warehouse = Warehouse::all()->pluck('w_name', 'wid')->toArray();
@@ -255,11 +256,10 @@ class ProductIndexController extends Controller
                 });
             }
 
-            $titles = ['showfront', 'shownew', 'showsales', 'update_user','created_at','updated_at','p_pic','p_number'];
+            $titles = ['p_name', 'p_number'];
 
             $exporter = new ExcelExpoter();
-            $exporter = $exporter->setDetails($titles,'測試');
-
+            $exporter->setDetails($titles,'商品資訊',Admin::user()->name);
             $grid->exporter($exporter);
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";

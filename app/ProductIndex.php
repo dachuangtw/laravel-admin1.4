@@ -26,34 +26,32 @@ class ProductIndex extends Model
     //一(商品)對多(庫存)關聯資料表
     public function stock()
     {
-        // return $this->hasOne(Stock::class,'pid');
         return $this->hasMany(Stock::class,'pid');
-    }
-    
+    }    
 
     //前台顯示
-    public function scopeShowfront($query)
-    {
-        return $query->where('showfront', 1);
-    }
+    // public function scopeShowfront($query)
+    // {
+    //     return $query->where('showfront', 1);
+    // }
 
     //倉庫庫存，倉庫wid
-    public function scopeOfStock($query, $wid)
-    {
-        return $query->where('wid', $wid)->sum('s_stock');
-    }
+    // public function scopeOfStock($query, $wid)
+    // {
+    //     return $query->where('wid', $wid)->sum('s_stock');
+    // }
     
     //限制分類
-    public function scopeOfCategory($query, $type)
-    {
-        return $query->where('p_category', $type);
-    }
+    // public function scopeOfCategory($query, $type)
+    // {
+    //     return $query->where('p_category', $type);
+    // }
 
     //限制主題系列
-    public function scopeOfSeries($query, $type)
-    {
-        return $query->where('p_series', $type);
-    }
+    // public function scopeOfSeries($query, $type)
+    // {
+    //     return $query->where('p_series', $type);
+    // }
 
     //商品副圖(多圖用|分隔)
     public function setPImagesAttribute($pictures)

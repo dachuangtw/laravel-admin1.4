@@ -15,9 +15,10 @@ class CreateWebLocationTable extends Migration
     {
         Schema::create('web_location', function (Blueprint $table) {
             $table->increments('id')->unique()->index()->comment('店鋪據點id');
-            $table->integer('store_area')->nullable()->comment('地區');
             $table->integer('store_sort')->default(0)->comment('順序');
             $table->string('store_name')->comment('店名');
+            $table->integer('city_id')->nullable()->comment('城市id');
+            $table->integer('district_id')->nullable()->comment('地區id');
             $table->string('store_address')->comment('地址');
             $table->integer('store_rents')->default(0)->comment('租金');
             $table->integer('store_deposit')->default(0)->comment('押金');

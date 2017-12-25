@@ -58,15 +58,15 @@ return array(
     ],
 
     'properties' => [
-        'creator'        => 'Maatwebsite',
-        'lastModifiedBy' => 'Maatwebsite',
-        'title'          => 'Spreadsheet',
-        'description'    => 'Default spreadsheet export',
-        'subject'        => 'Spreadsheet export',
-        'keywords'       => 'maatwebsite, excel, export',
+        'creator'        => '大創娃娃屋',
+        'lastModifiedBy' => '大創娃娃屋',
+        'title'          => '業務庫存管理系統',
+        'description'    => '匯出檔',
+        'subject'        => '大創娃娃屋',
+        'keywords'       => '大創娃娃屋',
         'category'       => 'Excel',
-        'manager'        => 'Maatwebsite',
-        'company'        => 'Maatwebsite',
+        'manager'        => '大創娃娃屋',
+        'company'        => '大創娃娃屋',
     ],
 
     /*
@@ -467,7 +467,7 @@ return array(
         |
         */
 
-        'ignoreEmpty'             => false,
+        'ignoreEmpty'             => true,
 
         /*
         |--------------------------------------------------------------------------

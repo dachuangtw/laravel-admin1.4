@@ -186,16 +186,12 @@ return [
      * EXCEL匯出
      */
     
-    'pid'                   =>    '商品主檔id',
-    'p_description'         =>    '商品說明',
-    'p_notes'               =>    '業務備註',
+    'pid'             =>    '商品id',
+    'p_name'          =>    '商品名稱',
+    'p_notes'         =>    '業務備註',
     'p_number'        =>    '商品編號',
-    'p_price'         =>    '定價',
-    'p_retailprice'   =>    '售價',
     'p_salesprice'    =>    '業務價',
-    'p_staffprice'    =>    '員工價',
     'p_costprice'     =>    '成本價',
-    'p_specialprice'  =>    '優惠價',
     
     'sup_number'      =>     '廠商代號',
     'sc_number'       =>     '庫存代號',

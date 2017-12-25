@@ -75,6 +75,7 @@ class SalesController extends Controller
     {
         return Admin::grid(Sales::class, function (Grid $grid) {
             $grid->model()->where('resign', '=', 0);
+            $grid->model()->orderBy('sid', 'desc');
             //查詢過濾器
             $grid->filter(function($filter){
                 // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
@@ -160,6 +161,7 @@ class SalesController extends Controller
                     $form->password = bcrypt($form->password);
                 }
             });
+
 
         });
     }

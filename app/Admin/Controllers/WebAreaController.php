@@ -26,7 +26,7 @@ class WebAreaController extends Controller
 
             $content->header(trans('admin::lang.web_area'));
             $content->description(trans('admin::lang.list'));
-            $content->body(WebArea::tree());
+            // $content->body(WebArea::tree());
 
             $content->body($this->grid());
         });

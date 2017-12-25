@@ -11,7 +11,7 @@ Route::group([
 ], function (Router $router) {
     // $attributes = ['middleware' => 'admin.permission:allow,administrator'];
     //  $router->group($attributes, function ($router) {
-        
+
         $router->resource('sales/endwork', SalesEndWorkController::class);
         $router->resource('sales/log', SalesLogController::class);
         $router->resource('sales/assign', SalesAssignController::class);
@@ -19,8 +19,7 @@ Route::group([
         $router->resource('sales/refund', SalesRefundController::class);
         $router->resource('sales/notes', SalesNoteController::class);
         $router->resource('sales', SalesController::class);
-        
-        
+
         $router->resource('product/category', ProductCategoryController::class);
         $router->resource('product/series', ProductSeriesController::class);
         $router->resource('product', ProductIndexController::class);
@@ -28,7 +27,7 @@ Route::group([
         $router->resource('web/location', WebLocationController::class);
         $router->resource('web/area', WebAreaController::class);
         $router->resource('warehouse', WarehouseController::class);
-        $router->resource('stock/category', StockCategoryController::class);     
+        $router->resource('stock/category', StockCategoryController::class);
 
     // });
 
@@ -47,6 +46,8 @@ Route::group([
     $router->get('web/location/{id}/view', 'WebLocationController@view');
     $router->get('web/area/{id}/view', 'WebAreaController@view');
     $router->get('warehouse/{id}/view', 'WarehouseController@view');
+
+    $router->get('api/tw/district', 'WebLocationController@district');
 
     $router->get('/', 'HomeController@index');
 });

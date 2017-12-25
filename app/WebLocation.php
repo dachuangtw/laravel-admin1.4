@@ -11,4 +11,21 @@ class WebLocation extends Model
     //主鍵
     protected $primaryKey = 'id';
 
+    //業務(用|分隔)
+    public function getSalesAttribute($sales)
+    {
+        if (is_string($sales)) {
+            return explode('|',$sales);
+        }
+
+        return $sales;
+    }
+
+    public function setSalesAttribute($sales)
+    {
+        if (is_array($sales)) {
+            $this->attributes['sales'] = implode('|',$sales);
+        }
+    }
+
 }

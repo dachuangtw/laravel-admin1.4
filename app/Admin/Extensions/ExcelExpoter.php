@@ -8,29 +8,49 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ExcelExpoter extends AbstractExporter
 {
-    protected $title = [
-        'en' => [],
-        'zh' => [],
-    ]; 
+    protected $filename;
+    protected $titles = [];
+
+    public function setDetails($titles, $filename)
+    {
+        $this->titles = $titles;
+        $this->filename = $filename;
+        return $this;
+    }
+
     public function export()
     {
-        $filename = trans('admin::lang.'.$this->getTable());
-    
-        Excel::create($filename, function($excel) {
-        
-            
-            $excel->sheet((date("Y")-1911).date("md"), function($sheet){
+        $titlename = [];
 
-                
+        foreach($this->titles as $key => $title){
+            $titlename[$key] = trans('admin::lang.'.$title);
+        }
+
+        $filename = $this->filename ?: trans('admin::lang.'.$this->getTable());
+    
+        Excel::create($filename, function($excel) use ($titlename){        
+            
+            $excel->sheet((date("Y")-1911).date("md"), function($sheet) use ($titlename){
+
+                //第一列 標題
                 $sheet->row(1,$titlename);
+
                 $rows = collect($this->getData())->map(function ($item) {
-                    // return array_except($item, ['showfront', 'shownew', 'showsales', 'update_user','created_at','updated_at','deleted_at','stock','p_category','p_series','p_images','p_pic','p_description','stock']);
-                    return array_only($item, ['s_stock', 'p_name', 'p_number', 'p_stock']);
+
+                    /**
+                     * array_only($item, [])第二個參數可以是陣列，但是順序不按照第二個陣列參數，而是依照參數$item做排序
+                     * 為了內容與標題一致，所以改用foreach去一行一行取資料...
+                    */
+                    $output = [];
+                    foreach($this->titles as $key => $title){
+                        $output = array_merge($output,array_only($item, $title));
+                    }                    
+                    return $output;
                 });
                 $sheet->rows($rows);
             });
-            $excel->setCreator('大創娃娃屋')->setTitle('')->setDescription('');
-        })->export('xlsx');
+            $excel->setCreator('大創娃娃屋')->setTitle('123')->setDescription('456');
+        })->export('xlsx'); 
     }
 
 
@@ -48,25 +68,4 @@ class ExcelExpoter extends AbstractExporter
         })->toArray();
     }
 
-    /**
-     * @param $row
-     * @param string $fd
-     * @param string $quot
-     *
-     * @return string
-     */
-    protected static function putcsv($row, $fd = ',', $quot = '"')
-    {
-        $str = '';
-        foreach ($row as $cell) {
-            $cell = str_replace([$quot, "\n"], [$quot.$quot, ''], $cell);
-            if (strstr($cell, $fd) !== false || strstr($cell, $quot) !== false) {
-                $str .= $quot.$cell.$quot.$fd;
-            } else {
-                $str .= $cell.$fd;
-            }
-        }
-
-        return substr($str, 0, -1)."\n";
-    }
 }

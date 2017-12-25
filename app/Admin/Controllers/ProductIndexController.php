@@ -55,7 +55,10 @@ class ProductIndexController extends Controller
                     $form->action(admin_url('product'));
                     $form->method('GET');
 
-                    $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
+                    //Bug：商品編號無法用來搜尋
+                    // $form->text('p_number', trans('admin::lang.product_number'));
+
+                    $form->text('p_name', trans('admin::lang.product_name'));
                     $form->disableSubmit();
                     $form->disableReset();
                     $form->enableSearch();
@@ -208,11 +211,11 @@ class ProductIndexController extends Controller
              * 不顯示ID，改顯示序號
              * https://github.com/z-song/laravel-admin/issues/1374
              */
+            // $grid->pid('ID')->sortable();
             $grid->number('No');
             $grid->rows(function ($row, $number) {
                 $row->column('number', $number+1);
             });
-            // $grid->pid('ID')->sortable();
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
             $grid->p_name(trans('admin::lang.name'));
             $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
@@ -228,7 +231,7 @@ class ProductIndexController extends Controller
                 //超級管理員可以看所有庫存(BUG太大隻，先休兵使用台中倉當固定班底)
                 // $warehouse = Warehouse::all()->pluck('w_name', 'wid')->toArray();
                 // foreach($warehouse as $key => $value){
-                //     $grid->stock($value)->where('wid',$key)->sum('s_stock')->display(function ($stock) {
+                //     $grid->stock($value)->where('wid',$key)->sum('s_stock')->value(function ($stock) {
                 //         if(!empty($stock)){
                 //             return $stock;
                 //         }
@@ -251,7 +254,13 @@ class ProductIndexController extends Controller
                     return "<span class='label label-warning'>無庫存資料</span>";
                 });
             }
-            $grid->exporter(new ExcelExpoter());
+
+            $titles = ['showfront', 'shownew', 'showsales', 'update_user','created_at','updated_at','p_pic','p_number'];
+
+            $exporter = new ExcelExpoter();
+            $exporter = $exporter->setDetails($titles,'測試');
+
+            $grid->exporter($exporter);
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });

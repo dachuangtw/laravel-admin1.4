@@ -20,3 +20,5 @@ resources/views/admin/modal.blade.php/public/area.php
 dompdf
 phpoffice
 jeremeamia
+vendor/maatwebsite/excel/src/config/excel.php
+vendor/maatwebsite/excel/src/config/excel.php

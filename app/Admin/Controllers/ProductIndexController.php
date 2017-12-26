@@ -9,6 +9,7 @@ use App\Warehouse;
 use App\StockCategory;
 use App\ProductSupplier;
 use App\Admin\Extensions\ExcelExpoter;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Encore\Admin\Auth\Permission;
 use Encore\Admin\Form;
@@ -22,6 +23,7 @@ use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Box;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ProductIndexController extends Controller
 {
@@ -465,5 +467,44 @@ class ProductIndexController extends Controller
             //     fclose($fp);
             // });
         });
+    }
+
+    /**
+     * import a file in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        if($request->file('imported-file')){
+            $path = $request->file('imported-file')->getRealPath();
+            $data = Excel::load($path, function($reader){
+            })->get();
+
+            if(!empty($data) && $data->count())
+            {
+                foreach ($data->toArray() as $row){
+                    if(!empty($row)){
+                        $dataArray1[] =[
+                        'p_number' => $row['p_number'],
+                        'p_name' => $row['p_name'],
+                        'p_salesprice' => $row['p_salesprice'],
+                        'p_costprice' => $row['p_costprice'],
+                        ];
+                        $dataArray2[] =[
+                        'pid' => $row['name'],
+                        'wid' => $row['code'],
+                        's_stock' => $row['price'],
+                        ]; 
+                    }
+                }
+                if(!empty($dataArray1))
+                {
+                    ProductIndex::insert($dataArray1);
+                    return back();
+                }
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ class ProductIndex extends Model
 
     //批量賦值
     protected $fillable = [
-        'p_category', 'p_series', 'p_notes', 'showfront', 'update_user',  'updated_at', 'deleted_at'
+        'p_number', 'p_name', 'p_salesprice', 'p_costprice', 'update_user',  'updated_at', 'deleted_at'
     ];
 
     //一(商品)對多(庫存)關聯資料表

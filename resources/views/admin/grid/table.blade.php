@@ -6,6 +6,7 @@
         <div class="pull-right">
             {!! $grid->renderFilter() !!}
             {!! $grid->renderExportButton() !!}
+            {!! $grid->renderImportButton() !!}
             {!! $grid->renderCreateButton() !!}
         </div>
 

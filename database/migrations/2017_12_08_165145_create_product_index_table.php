@@ -20,12 +20,12 @@ class CreateProductIndexTable extends Migration
             $table->text('p_images')->nullable()->comment('商品副圖(用|分隔)');
             $table->text('p_description')->nullable()->comment('商品說明');
             $table->string('p_number',25)->nullable()->comment('商品編號');
-            $table->integer('p_price')->default(0)->comment('定價'); 
-            $table->integer('p_retailprice')->default(0)->comment('售價'); 
-            $table->integer('p_specialprice')->default(0)->comment('優惠價');
-            $table->integer('p_salesprice')->default(0)->comment('業務價');
-            $table->integer('p_staffprice')->default(0)->comment('員工價');
-            $table->integer('p_costprice')->default(0)->comment('進價');
+            $table->decimal('p_price',10,2)->default(0.00)->comment('定價'); 
+            $table->decimal('p_retailprice',10,2)->default(0.00)->comment('售價'); 
+            $table->decimal('p_specialprice',10,2)->default(0.00)->comment('優惠價');
+            $table->decimal('p_salesprice',10,2)->default(0.00)->comment('業務價');
+            $table->decimal('p_staffprice',10,2)->default(0.00)->comment('員工價');
+            $table->decimal('p_costprice',10,2)->default(0.00)->comment('進價');
             $table->text('p_category')->nullable()->comment('商品分類勾選(用|分隔)'); 
             $table->text('p_series')->nullable()->comment('主題系列勾選(用|分隔)');
             $table->text('p_notes')->nullable()->comment('備註');

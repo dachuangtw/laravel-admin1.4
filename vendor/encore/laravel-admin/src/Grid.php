@@ -196,6 +196,7 @@ class Grid
     protected $options = [
         'usePagination'     => true,
         'useFilter'         => true,
+        'useImporter'       => true,
         'useExporter'       => true,
         'useActions'        => true,
         'useRowSelector'    => true,
@@ -219,6 +220,7 @@ class Grid
 
         $this->setupTools();
         $this->setupFilter();
+        $this->setupImporter();
         $this->setupExporter();
     }
 
@@ -238,6 +240,22 @@ class Grid
     protected function setupFilter()
     {
         $this->filter = new Filter($this->model());
+    }
+
+    /**
+     * Setup grid exporter.
+     *
+     * @return void
+     */
+    protected function setupImporter()
+    {
+        if (Input::has(Exporter::$queryName)) {
+            $this->model()->usePaginate(false);
+
+            call_user_func($this->builder, $this);
+
+            (new Exporter($this))->resolve($this->exporter)->export();
+        }
     }
 
     /**
@@ -672,6 +690,36 @@ class Grid
         $this->exporter = $exporter;
 
         return $this;
+    }
+
+    /**
+     * If grid allows import.s.
+     *
+     * @return bool
+     */
+    public function allowImport()
+    {
+        return $this->option('useImporter');
+    }
+
+    /**
+     * Disable import.
+     *
+     * @return $this
+     */
+    public function disableImport()
+    {
+        return $this->option('useImporter', false);
+    }
+
+    /**
+     * Render import button.
+     *
+     * @return Tools\ImportButton
+     */
+    public function renderImportButton()
+    {
+        return new Tools\ImportButton($this);
     }
 
     /**

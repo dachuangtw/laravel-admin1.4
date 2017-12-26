@@ -41,6 +41,7 @@ Route::group([
 
     $router->get('product/category/{id}/view', 'ProductCategoryController@view');
     $router->get('product/series/{id}/view', 'ProductSeriesController@view');
+    $router->post('product/import', 'ProductIndexController@import');
     $router->get('product/{id}/view', 'ProductIndexController@view');
     $router->get('supplier/{id}/view', 'ProductSupplierController@view');
     $router->get('web/location/{id}/view', 'WebLocationController@view');

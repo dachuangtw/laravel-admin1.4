@@ -26,6 +26,7 @@ return [
     'browse'                =>    '瀏覽', 
     'reset'                 =>    '重置', 
     'export'                =>    '匯出', 
+    'import'                =>    '匯入', 
     'batch_delete'          =>    '批量刪除', 
     'save'                  =>    '儲存', 
     'refresh'               =>    '刷新', 

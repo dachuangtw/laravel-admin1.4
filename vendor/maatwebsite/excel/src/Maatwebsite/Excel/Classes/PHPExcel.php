@@ -22,7 +22,6 @@ class PHPExcel extends PHPOffice_PHPExcel {
     public $allowedProperties = [
         'creator',
         'lastModifiedBy',
-        'title',
         'description',
         'subject',
         'keywords',
@@ -30,7 +29,7 @@ class PHPExcel extends PHPOffice_PHPExcel {
         'manager',
         'company'
     ];
-    
+
     /**
      * Create sheet and add it to this workbook
      *

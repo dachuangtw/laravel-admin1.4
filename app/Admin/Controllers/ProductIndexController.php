@@ -256,11 +256,19 @@ class ProductIndexController extends Controller
                 });
             }
 
-            $titles = ['p_name', 'p_number'];
+            //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
+            $titles = ['p_name', 'p_number', 'showfront', 'showsales', 'p_salesprice', 'p_costprice'];
 
             $exporter = new ExcelExpoter();
+            /**
+             * setDetails()參數
+             * 1：資料庫欄位 array
+             * 2：匯出Excel檔案名 string
+             * 3：Excel製作人名稱 string
+             */
             $exporter->setDetails($titles,'商品資訊',Admin::user()->name);
             $grid->exporter($exporter);
+
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });

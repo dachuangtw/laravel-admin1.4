@@ -11,6 +11,7 @@ class ExcelExpoter extends AbstractExporter
     protected $creator;
     protected $filename;
     protected $titles = [];
+    protected $maxwidth;
     public function setDetails($titles, $filename, $creator)
     {
         $this->creator = $creator;
@@ -21,11 +22,12 @@ class ExcelExpoter extends AbstractExporter
 
     public function export()
     {
+        $this->maxwidth = $this->num2alpha(count($this->titles)-1);
         $titlename = [];
 
         foreach($this->titles as $key => $title){
             $titlename[$key] = trans('admin::lang.'.$title);
-        }
+        }        
 
         $filename = $this->filename ?: trans('admin::lang.'.$this->getTable());
     
@@ -35,6 +37,9 @@ class ExcelExpoter extends AbstractExporter
             $excel->sheet((date("Y")-1911).date("md"), function($sheet) use ($titlename){
                 //第一列 標題
                 $sheet->row(1,$titlename);
+                $sheet->row(1,function($row){
+                    $row->setFontWeight('bold');
+                });
 
                 $rows = collect($this->getData())->map(function ($item) {
 
@@ -46,11 +51,49 @@ class ExcelExpoter extends AbstractExporter
                     foreach($this->titles as $key => $title){
                         $output = array_merge($output,array_only($item, $title));
                     }
+
+                    foreach($output as $key => $content){
+
+                        //前四字為show開頭的欄位，判斷1=顯示，0=隱藏
+                        if(mb_substr($key,0,4,"utf-8") === 'show'){
+                            $output[$key] = $content ? '顯示' : '隱藏' ;
+                        }
+                    }
                     return $output;
                 });
-                $sheet->rows($rows);
+
+                //第二列開始 內容
+                $rowName = 2;
+                foreach($rows as $row){
+                    $columName = 0;//A
+                    foreach($row as $content){
+
+                        $sheet->cell($this->num2alpha($columName).$rowName, function($cell) use ($content){
+                            
+                            $cell->setValue($content);
+                            if($content === '隱藏'){
+                                $cell->setFontColor('#ff0000');
+                            }
+                            
+                            $cell->setValignment('middle');
+                        });
+                        $columName++;
+                    }
+
+                    $rowName++;
+                }                
+                // $sheet->setAutoFilter();
+                $sheet->setAutoSize(false);
+                // $sheet->rows($rows);
             });
             $excel->setCreator($this->creator)->setTitle($this->filename)->setSubject($this->filename);
         })->export('xlsx'); 
     }
+
+    public function num2alpha($n)  //數字轉英文(0=>A、1=>B、26=>AA...以此類推)
+    {
+        for($r = ""; $n >= 0; $n = intval($n / 26) - 1)
+            $r = chr($n%26 + 0x41) . $r; 
+        return $r; 
+    }   
 }

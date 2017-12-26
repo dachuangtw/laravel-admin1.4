@@ -58,15 +58,15 @@ return array(
     ],
 
     'properties' => [
-        'creator'        => '大創娃娃屋',
-        'lastModifiedBy' => '大創娃娃屋',
-        'title'          => '業務庫存管理系統',
-        'description'    => '匯出檔',
-        'subject'        => '大創娃娃屋',
-        'keywords'       => '大創娃娃屋',
+        'creator'        => 'Maatwebsite',
+        'lastModifiedBy' => 'Maatwebsite',
+        'title'          => 'Spreadsheet',
+        'description'    => 'Default spreadsheet export',
+        'subject'        => 'Spreadsheet export',
+        'keywords'       => 'maatwebsite, excel, export',
         'category'       => 'Excel',
-        'manager'        => '大創娃娃屋',
-        'company'        => '大創娃娃屋',
+        'manager'        => 'Maatwebsite',
+        'company'        => 'Maatwebsite',
     ],
 
     /*
@@ -106,7 +106,7 @@ return array(
     |
     */
 
-    'creator'    => '大創娃娃屋',
+    'creator'    => 'Maatwebsite',
 
     'csv'        => [
         /*
@@ -291,7 +291,7 @@ return array(
         | PDF Settings
         |--------------------------------------------------------------------------
         */
-        'pdf'                         =>[
+        'pdf'                         => [
 
             /*
             |--------------------------------------------------------------------------
@@ -427,10 +427,6 @@ return array(
         | Note: only applies to 'heading' settings 'true' && 'slugged'
         |
         */
-        /**
-         * 預設值：true
-         * 改為false => 為了正常顯示中文(只有標題，內文的編碼問題還要再修改)
-         */
 
         'to_ascii'                => true,
 
@@ -467,7 +463,7 @@ return array(
         |
         */
 
-        'ignoreEmpty'             => true,
+        'ignoreEmpty'             => false,
 
         /*
         |--------------------------------------------------------------------------

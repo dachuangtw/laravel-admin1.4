@@ -15,7 +15,7 @@ class CreateSalesProfileTable extends Migration
             $table->string('email')->nullable()->comment('電子郵件');
             $table->string('nickname', 50)->nullable()->comment('暱稱');
             $table->string('cellphone', 50)->nullable()->comment('手機號碼');
-        }
+        });
     }
 
     /**

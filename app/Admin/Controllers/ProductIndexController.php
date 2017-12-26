@@ -271,6 +271,9 @@ class ProductIndexController extends Controller
             $exporter->setDetails($titles,'商品資訊',Admin::user()->name);
             $grid->exporter($exporter);
 
+            //不顯示匯入
+            $grid->disableImport();
+
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });
@@ -489,14 +492,14 @@ class ProductIndexController extends Controller
                         $dataArray1[] =[
                         'p_number' => $row['p_number'],
                         'p_name' => $row['p_name'],
-                        'p_salesprice' => $row['p_salesprice'],
+                        // 'p_salesprice' => $row['p_salesprice'],
                         'p_costprice' => $row['p_costprice'],
                         ];
-                        $dataArray2[] =[
-                        'pid' => $row['name'],
-                        'wid' => $row['code'],
-                        's_stock' => $row['price'],
-                        ]; 
+                        // $dataArray2[] =[
+                        // 'pid' => $row['name'],
+                        // 'wid' => $row['code'],
+                        // 's_stock' => $row['price'],
+                        // ]; 
                     }
                 }
                 if(!empty($dataArray1))

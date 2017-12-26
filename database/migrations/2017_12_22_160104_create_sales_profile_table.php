@@ -25,6 +25,6 @@ class CreateSalesProfileTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sales_info');
+        Schema::dropIfExists('sales_profile');
     }
 }

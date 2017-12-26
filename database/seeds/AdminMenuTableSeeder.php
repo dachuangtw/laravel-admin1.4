@@ -297,7 +297,7 @@ class AdminMenuTableSeeder extends Seeder
         'order' => '18',
         'title' => '廠商進貨單',
         'icon' => 'fa-list',
-        'uri' => 'purchase',
+        'uri' => 'product/receipt',
         'created_at' => '2017-12-19 08:21:22',
         'updated_at' => '2017-12-19 08:26:37',
         ],

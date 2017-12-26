@@ -133,7 +133,7 @@ class ProductIndexController extends Controller
      */
     public function create()
     {
-        Permission::check(['creater']);
+        Permission::check(['creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -271,7 +271,7 @@ class ProductIndexController extends Controller
             $exporter->setDetails($titles,'商品資訊',Admin::user()->name);
             $grid->exporter($exporter);
 
-            //不顯示匯入
+            //不顯示匯入按鈕
             $grid->disableImport();
 
             $grid->showfront('前台顯示')->value(function ($showfront) {
@@ -293,7 +293,7 @@ class ProductIndexController extends Controller
      */
     protected function form()
     {
-        Permission::check(['creater']);
+        Permission::check(['creator']);
         return Admin::form(ProductIndex::class, function (Form $form) {
 
             $form->tab('商品資訊', function ($form) {

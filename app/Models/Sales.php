@@ -40,6 +40,4 @@ class Sales extends Model
     {
         return $this->morphToMany('App\WebLocation', 'sales');
     }
-
-
 }

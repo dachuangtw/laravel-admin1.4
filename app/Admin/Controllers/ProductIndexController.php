@@ -80,8 +80,8 @@ class ProductIndexController extends Controller
 
                     $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
 
-                    $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
-                    $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+                    $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
+                    $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
                     
                     $form->hidden('update_user')->default(Admin::user()->id);
 
@@ -166,12 +166,8 @@ class ProductIndexController extends Controller
                 $form->display('shownew', trans('admin::lang.shownew'));
                                 
             })->tab('價格/業務', function ($form) {
-                                   
-                // $form->display('p_price', trans('admin::lang.product_price'));
-                // $form->display('p_retailprice', trans('admin::lang.product_retailprice'));
-                // $form->display('p_specialprice', trans('admin::lang.product_specialprice'));
+
                 $form->display('p_salesprice', trans('admin::lang.product_salesprice'));
-                // $form->display('p_staffprice', trans('admin::lang.product_staffprice'));
                 $form->display('p_costprice', trans('admin::lang.product_costprice'));
 
                 $states = [
@@ -190,8 +186,9 @@ class ProductIndexController extends Controller
                     $form->display('s_type',trans('admin::lang.product_type'));
                     $form->display('s_barcode',trans('admin::lang.product_barcode'));
                     $form->display('s_notes',trans('admin::lang.notes'));
-                    $form->display('s_stock',trans('admin::lang.product_stock'))->default(1);
-                    $form->display('s_collect',trans('admin::lang.product_sales'))->default(1);
+                    $form->display('s_stock',trans('admin::lang.product_stock'));
+                    $form->display('s_unit',trans('admin::lang.sales_unit'));
+                    $form->display('s_collect',trans('admin::lang.product_sales'));
                 });            
             });
         });
@@ -329,13 +326,9 @@ class ProductIndexController extends Controller
                 $form->hidden('update_user')->default(Admin::user()->id);
                 
             })->tab('價格/業務', function ($form) {
-                                   
-                // $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
-                // $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
-                // $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
-                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
-                // $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
-                $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+
+                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
+                $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
 
                 $states = [
                     'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
@@ -361,7 +354,10 @@ class ProductIndexController extends Controller
                     $form->text('s_type',trans('admin::lang.product_type'));
                     $form->text('s_barcode',trans('admin::lang.product_barcode'));
                     $form->text('s_notes',trans('admin::lang.notes'));
-                    $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
+                    $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);                    
+                    $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
+                        ['每人','每間']
+                    )->setWidth('1');
                     $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
                 });            
             });
@@ -422,9 +418,9 @@ class ProductIndexController extends Controller
                 // $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
                 // $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
                 // $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
-                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0]);
+                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
                 // $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
-                $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 0]);
+                $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
 
                 $states = [
                     'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
@@ -451,6 +447,9 @@ class ProductIndexController extends Controller
                     $form->text('s_barcode',trans('admin::lang.product_barcode'))->setWidth('5');
                     $form->text('s_notes',trans('admin::lang.notes'))->setWidth('5');
                     $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
+                    $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
+                        ['每人','每間']
+                    )->setWidth('1');
                     $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
                 })->setWidth('5');         
             });
@@ -495,17 +494,22 @@ class ProductIndexController extends Controller
                         // 'p_salesprice' => $row['p_salesprice'],
                         'p_costprice' => $row['p_costprice'],
                         ];
-                        // $dataArray2[] =[
-                        // 'pid' => $row['name'],
-                        // 'wid' => $row['code'],
-                        // 's_stock' => $row['price'],
-                        // ]; 
+                        if(!empty($dataArray1))
+                        {
+                            $pid = ProductIndex::insertGetId($dataArray1,'pid');
+
+                            $dataArray2[] =[
+                            'pid' => $pid,
+                            'wid' => '2', //台中倉
+                            's_stock' => $row['s_stock'],
+                            ]; 
+                        }
                     }
                 }
-                if(!empty($dataArray1))
+                if(!empty($dataArray2))
                 {
-                    ProductIndex::insert($dataArray1);
-                    return back();
+                    Stock::insert($dataArray2); 
+                    return back();                           
                 }
             }
         }

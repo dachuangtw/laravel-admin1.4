@@ -104,6 +104,7 @@ return [
     'product_type'         =>    '款式',
     'product_stock'        =>    '目前庫存數',
     'product_sales'        =>    '業務可領貨量',
+    'sales_unit'           =>    '業務領貨單位',
     'product_barcode'      =>    '商品條碼',
     'stock_category'                =>    '庫存分類',
 

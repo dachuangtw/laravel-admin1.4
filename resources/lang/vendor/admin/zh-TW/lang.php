@@ -194,6 +194,14 @@ return [
     'p_salesprice'    =>    '業務價',
     'p_costprice'     =>    '成本價',
     
-    'sup_number'      =>     '廠商代號',
-    'sc_number'       =>     '庫存代號',
+    'sup_number'      =>    '廠商代號',
+    'sc_number'       =>    '庫存代號',
+
+    
+    'supid'           =>    '廠商id',
+    're_user'         =>    '進貨人員id',
+    're_amount'       =>    '總金額',
+    're_notes'        =>    '備註',
+    're_delivery'     =>    '進貨日',
+
 ];

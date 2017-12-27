@@ -10,6 +10,8 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Auth\Permission;
+use App\Admin\Extensions\ExcelExpoter;
 
 class ProductReceiptController extends Controller
 {
@@ -76,8 +78,25 @@ class ProductReceiptController extends Controller
 
             $grid->id('ID')->sortable();
 
-            $grid->created_at();
-            $grid->updated_at();
+            //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
+            $titles = ['supid', 'wid', 're_user', 're_amount', 're_notes', 're_delivery'];
+
+            $exporter = new ExcelExpoter();
+            /**
+             * setDetails()參數
+             * 1：資料庫欄位 array
+             * 2：匯出Excel檔案名 string
+             * 3：Excel製作人名稱 string
+             */
+            $exporter->setDetails($titles,'商品資訊',Admin::user()->name);
+            $grid->exporter($exporter);
+
+            //不顯示匯入按鈕
+            $grid->disableImport();
+
+            $grid->created_at(trans('admin::lang.created_at'));
+            $grid->updated_at(trans('admin::lang.updated_at'));
+            $grid->model()->orderBy('reid', 'desc');
         });
     }
 
@@ -92,8 +111,8 @@ class ProductReceiptController extends Controller
 
             $form->display('id', 'ID');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+            $form->display('created_at', trans('admin::lang.created_at'));
+            $form->display('updated_at', trans('admin::lang.updated_at'));
         });
     }
 }

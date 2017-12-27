@@ -13,8 +13,8 @@ class CreateProductReceiptTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_receipt', function (Blueprint $table) {            
-            $table->increments('reid')->comment('庫存id');
+        Schema::create('product_receipt', function (Blueprint $table) {
+            $table->increments('reid')->comment('進貨單id');
             $table->integer('supid')->unsigned()->index()->comment('廠商id');
             $table->integer('wid')->unsigned()->index()->comment('進貨倉庫id');
             $table->integer('re_user')->unsigned()->index()->comment('進貨人員id');

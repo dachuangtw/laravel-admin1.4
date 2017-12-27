@@ -22,7 +22,7 @@ class CreateWebLocationTable extends Migration
             $table->string('store_address')->comment('地址');
             $table->integer('store_rents')->default(0)->comment('租金');
             $table->integer('store_deposit')->default(0)->comment('押金');
-            $table->string('store_contractor')->comment('簽約人');
+            $table->string('store_contractor')->nullable()->comment('簽約人');
             $table->dateTimeTz('store_payment_date')->nullable()->comment('繳款日');
             $table->dateTimeTz('store_lease_start')->nullable()->comment('租約起始日');
             $table->dateTimeTz('store_lease_end')->nullable()->comment('租約結束日');

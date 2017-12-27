@@ -78,14 +78,14 @@ class SalesController extends Controller
         return Admin::grid(Sales::class, function (Grid $grid) {
 
             //接收查詢在職or離職
-            if (in_array(Request::get('resign'), ['0', '1'])) {
+            if (in_array(Request::get('resign'), ['f', 't'])) {
                 $grid->model()->where('resign', Request::get('resign'));
-            }
+            };
             $grid->tools(function ($tools) {
                 $tools->append(new SalesResign());
             });
-
             $grid->model()->orderBy('sid', 'desc');
+            $grid->disableImport();//關閉匯入按鈕
             //查詢過濾器
             $grid->filter(function($filter){
                 // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
@@ -103,9 +103,6 @@ class SalesController extends Controller
                });
             $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
             $grid->sales_name(trans('admin::lang.salesname'));
-            $grid->resign(trans('admin::lang.resign'))->display(function ($released) {
-                return $released ? '是' : '否';
-                });
             // $grid->collect_at(trans('admin::lang.collect_at'));
             //$grid->created_at( trans('admin::lang.created_at'));
             //$grid->updated_at( trans('admin::lang.updated_at'));
@@ -144,7 +141,7 @@ class SalesController extends Controller
                 ->options(WebLocation::all()->pluck('store_name', 'id'));
 
                 $form->divide();
-                $form->radio('resign', trans('admin::lang.resign'))->options(['1' => '是','0' => '否']);
+                $form->radio('resign', trans('admin::lang.resign'))->options(['t' => '是','f' => '否'])->default('f');
                 $form->dateRange('start_work_date', 'end_work_date',  trans('admin::lang.start_end_work_date'));
 
             })->tab('聯絡資訊', function (Form $form) {

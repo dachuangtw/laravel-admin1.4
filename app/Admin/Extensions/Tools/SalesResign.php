@@ -31,8 +31,8 @@ EOT;
 
         $options = [
             'all'   => '全部',
-            '0'     => '在職',
-            '1'     => '離職',
+            'f'     => '在職',
+            't'     => '離職',
         ];
 
         return view('admin.tools.resign', compact('options'));

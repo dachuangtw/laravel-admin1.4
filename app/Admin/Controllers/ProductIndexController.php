@@ -6,6 +6,7 @@ use App\ProductIndex;
 use App\ProductSeries;
 use App\ProductCategory;
 use App\Warehouse;
+use App\Stock;
 use App\StockCategory;
 use App\ProductSupplier;
 use App\Admin\Extensions\ExcelExpoter;
@@ -269,7 +270,7 @@ class ProductIndexController extends Controller
             $grid->exporter($exporter);
 
             //不顯示匯入按鈕
-            $grid->disableImport();
+            // $grid->disableImport();
 
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
@@ -488,7 +489,7 @@ class ProductIndexController extends Controller
             {
                 foreach ($data->toArray() as $row){
                     if(!empty($row)){
-                        $dataArray1[] =[
+                        $dataArray1 = [
                         'p_number' => $row['p_number'],
                         'p_name' => $row['p_name'],
                         // 'p_salesprice' => $row['p_salesprice'],

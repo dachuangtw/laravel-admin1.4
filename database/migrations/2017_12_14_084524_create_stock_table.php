@@ -21,7 +21,6 @@ class CreateStockTable extends Migration
             $table->string('s_barcode',50)->nullable()->comment('條碼');
             $table->integer('s_stock')->default(0)->comment('目前庫存數');
             $table->integer('s_collect')->default(0)->comment('業務可領貨數');
-            // $table->integer('s_safestock')->default(0)->comment('安全庫存');
             $table->text('s_notes')->nullable()->comment('備註');
             $table->boolean('showfront')->default(true)->comment('前台顯示');
             $table->string('update_user',25)->nullable()->comment('最後更新者');

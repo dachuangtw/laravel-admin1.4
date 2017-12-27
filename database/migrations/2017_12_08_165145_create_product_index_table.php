@@ -20,7 +20,7 @@ class CreateProductIndexTable extends Migration
             $table->string('p_pic',100)->nullable()->comment('商品主圖');
             $table->text('p_images')->nullable()->comment('商品副圖(用|分隔)');
             $table->text('p_description')->nullable()->comment('商品說明');
-            $table->string('p_unit',5)->nullable()->comment('單位');
+            $table->string('p_unit',5)->default('個')->comment('單位');
             $table->decimal('p_price',10,2)->default(0.00)->comment('定價'); 
             $table->decimal('p_retailprice',10,2)->default(0.00)->comment('售價'); 
             $table->decimal('p_salesprice',10,2)->default(0.00)->comment('業務價');

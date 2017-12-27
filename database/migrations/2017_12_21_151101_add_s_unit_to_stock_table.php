@@ -14,7 +14,7 @@ class AddSUnitToStockTable extends Migration
     public function up()
     {
         Schema::table('stock', function (Blueprint $table) {
-            $table->string('s_unit')->default('每人')->after('s_collect')->comment('領貨單位');
+            $table->string('s_unit',5)->default('每人')->after('s_collect')->comment('領貨單位');
         });
     }
 

@@ -11,6 +11,8 @@ class AdminMenuTableSeeder extends Seeder
      */
     public function run()
     {
+      
+      DB::table('admin_menu')->delete();
       //MENU
       DB::table('admin_menu')->insert([
         ['id' => '1',

@@ -11,7 +11,8 @@ class WebAreaTableSeeder extends Seeder
      */
     public function run()
     {
-        //WAREHOUSE
+        DB::table('web_area')->delete();
+        //WEBAREA
         DB::table('web_area')->insert([
             ['id' => '1',
             'parent_id' => '0',

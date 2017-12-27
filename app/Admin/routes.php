@@ -22,6 +22,7 @@ Route::group([
 
         $router->resource('product/category', ProductCategoryController::class);
         $router->resource('product/series', ProductSeriesController::class);
+        $router->resource('product/receipt', ProductReceiptController::class);
         $router->resource('product', ProductIndexController::class);
         $router->resource('supplier', ProductSupplierController::class);
         $router->resource('web/location', WebLocationController::class);
@@ -41,6 +42,7 @@ Route::group([
 
     $router->get('product/category/{id}/view', 'ProductCategoryController@view');
     $router->get('product/series/{id}/view', 'ProductSeriesController@view');
+    $router->get('product/receipt/{id}/view', 'ProductReceiptController@view');
     $router->post('product/import', 'ProductIndexController@import');
     $router->get('product/{id}/view', 'ProductIndexController@view');
     $router->get('supplier/{id}/view', 'ProductSupplierController@view');

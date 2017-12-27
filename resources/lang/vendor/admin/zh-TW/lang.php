@@ -106,7 +106,7 @@ return [
     'product_sales'        =>    '業務可領貨量',
     'sales_unit'           =>    '業務領貨單位',
     'product_barcode'      =>    '商品條碼',
-    'stock_category'                =>    '庫存分類',
+    'stock_category'       =>    '庫存種類',
 
     'showsales'     =>    '業務可領貨',
     'shownew'       =>    '新荷入庫',
@@ -194,6 +194,7 @@ return [
     'p_number'        =>    '商品編號',
     'p_salesprice'    =>    '業務價',
     'p_costprice'     =>    '成本價',
+    'p_unit'          =>    '單位',
     
     'sup_number'      =>    '廠商代號',
     'sc_number'       =>    '庫存代號',

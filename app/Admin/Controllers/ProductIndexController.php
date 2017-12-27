@@ -165,6 +165,8 @@ class ProductIndexController extends Controller
                 $form->display('p_description', trans('admin::lang.description'));
                 $form->display('showfront', trans('admin::lang.showfront'));
                 $form->display('shownew', trans('admin::lang.shownew'));
+                $form->display('p_unit', trans('admin::lang.p_unit'));
+                
                                 
             })->tab('價格/業務', function ($form) {
 
@@ -324,6 +326,7 @@ class ProductIndexController extends Controller
                 ];            
                 $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
                 $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
+                $form->text('p_unit', trans('admin::lang.p_unit'))->default('個')->setWidth(1);
                 $form->hidden('update_user')->default(Admin::user()->id);
                 
             })->tab('價格/業務', function ($form) {
@@ -412,6 +415,7 @@ class ProductIndexController extends Controller
                 ];            
                 $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
                 $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
+                $form->text('p_unit', trans('admin::lang.p_unit'))->default('個')->setWidth(1);
                 $form->hidden('update_user')->default(Admin::user()->id);
                 
             })->tab('價格/業務', function ($form) {
@@ -494,6 +498,9 @@ class ProductIndexController extends Controller
                         'p_name' => $row['p_name'],
                         // 'p_salesprice' => $row['p_salesprice'],
                         'p_costprice' => $row['p_costprice'],
+                        'update_user' => Admin::user()->id,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
                         ];
                         if(!empty($dataArray1))
                         {

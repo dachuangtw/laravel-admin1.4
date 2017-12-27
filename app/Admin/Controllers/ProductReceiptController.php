@@ -7,9 +7,12 @@ use App\ProductReceipt;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
+use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Widgets\Box;
 use Encore\Admin\Auth\Permission;
 use App\Admin\Extensions\ExcelExpoter;
 
@@ -107,12 +110,10 @@ class ProductReceiptController extends Controller
      */
     protected function form()
     {
-        return Admin::form(ProductReceipt::class, function (Form $form) {
-
-            $form->display('id', 'ID');
-
-            $form->display('created_at', trans('admin::lang.created_at'));
-            $form->display('updated_at', trans('admin::lang.updated_at'));
+        Permission::check(['reader']);
+               return Admin::form(ProductReceipt::class, function (Form $form) {
+                $form->text('wid', 'ID'); 
+                $form->date('re_delivery', 'ID')->format('DD/MM/YYYY');
         });
     }
 }

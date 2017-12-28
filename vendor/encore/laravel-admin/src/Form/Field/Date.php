@@ -35,6 +35,7 @@ class Date extends Text
     {
         $this->options['format'] = $this->format;
         $this->options['locale'] = config('app.locale');
+        $this->options['defaultDate'] = date('Y-m-d');
 
         $this->script = "$('{$this->getElementClassSelector()}').datetimepicker(".json_encode($this->options).');';
 

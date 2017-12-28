@@ -28,9 +28,4 @@ class Stock extends Model
     {
         return $this->belongsTo(ProductIndex::class,'pid');
     }
-    // 倉庫庫存，倉庫wid
-    // public function scopeOfStock($query, $wid)
-    // {
-    //     return $query->where('wid', $wid)->sum('s_stock');
-    // }
 }

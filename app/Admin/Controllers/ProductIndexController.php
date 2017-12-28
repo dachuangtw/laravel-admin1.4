@@ -206,19 +206,19 @@ class ProductIndexController extends Controller
         Permission::check(['reader']);
         return Admin::grid(ProductIndex::class, function (Grid $grid) {
 
-            $grid->filter(function ($filter) {
-                $filter->disableIdFilter();
-                $filter->like('p_name','名稱查詢');
-            });
             /**
-             * 不顯示ID，改顯示序號
+             * 顯示序號(Bug：只能顯示當頁從1開始的序號，第二頁依然從1開始)
              * https://github.com/z-song/laravel-admin/issues/1374
              */
-            // $grid->pid('ID')->sortable();
-            $grid->number('No');
-            $grid->rows(function ($row, $number) {
-                $row->column('number', $number+1);
+            // $grid->number('No');
+            // $grid->rows(function ($row, $number) {
+            //     $row->column('number', $number+1);
+            // });
+            
+            $grid->filter(function ($filter) {
+                $filter->disableIdFilter();
             });
+            $grid->pid('ID')->sortable();
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
             $grid->p_name(trans('admin::lang.name'));
             $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
@@ -226,28 +226,26 @@ class ProductIndexController extends Controller
             });
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             $grid->p_costprice(trans('admin::lang.product_costprice'));
-            // $grid->stock(trans('admin::lang.product_stock'))->sum('s_stock')->value(function ($stock) {
-            //     return $stock;
-            // });;
             
             if(Admin::user()->isAdministrator()){
-                //超級管理員可以看所有庫存(BUG太大隻，先休兵使用台中倉當固定班底)
-                // $warehouse = Warehouse::all()->pluck('w_name', 'wid')->toArray();
-                // foreach($warehouse as $key => $value){
-                //     $grid->stock($value)->where('wid',$key)->sum('s_stock')->value(function ($stock) {
-                //         if(!empty($stock)){
-                //             return $stock;
-                //         }
-                //         return "<span class='label label-warning'>未填寫庫存</span>";
-                //     });
-                // }
-                //超級管理員暫時只能看台中倉的庫存
-                $grid->stock(trans('admin::lang.product_stock'))->where('wid', '2')->sum('s_stock')->value(function ($stock) {
-                    if(!empty($stock)){
-                        return $stock;
-                    }
-                    return "<span class='label label-warning'>台中倉無庫存</span>";
-                });
+
+                /**
+                 * 超級管理員可以看所有庫存
+                 * 倉庫關聯目前只有寫到stock1~stock4，
+                 * 如果再增加倉庫要到Model去增加function
+                 * 這BUG屬於模組本身架構沒有考慮到這部分，要修正的話工程太浩大，所以就這樣吧。
+                 * (function stock留著，edit頁是用它...)
+                 */
+                $warehouse = Warehouse::all()->pluck('w_name', 'wid')->toArray();
+                foreach($warehouse as $wid => $w_name){
+                    $grid->{'stock'.$wid}($w_name)->where('wid',$wid)->sum('s_stock')->value(function ($stock) {
+                        if(!empty($stock)){
+                            return $stock;
+                        }
+                        return "<span class='label label-warning'>未填寫庫存</span>";
+                    });
+                }
+                
             }else{
                 //非超級管理員只能看到自己倉庫的庫存
                 $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('s_stock')->value(function ($stock) {
@@ -367,21 +365,23 @@ class ProductIndexController extends Controller
             });
 
             $form->saving(function(Form $form) {
-                $firstTwoCode = request()->StockCategory.request()->ProductSupplier;
+                if(!empty(request()->StockCategory)&&!empty(request()->ProductSupplier)){
+                    $firstTwoCode = request()->StockCategory.request()->ProductSupplier;
 
-                //取得商品資料庫中該分類的最大值
-                $max_number = DB::table('product_index')
-                ->where('p_number', 'like', $firstTwoCode.'%')
-                ->max('p_number');
+                    //取得商品資料庫中該分類的最大值
+                    $max_number = DB::table('product_index')
+                    ->where('p_number', 'like', $firstTwoCode.'%')
+                    ->max('p_number');
 
-                //取後六碼做+1計算
-                $lastSixCode = (int)mb_substr($max_number,-6,6,"utf-8");
-                $lastSixCode++;
-                //前補0至六碼
-                $lastSixCode = str_pad($lastSixCode,6,"0",STR_PAD_LEFT);
+                    //取後六碼做+1計算
+                    $lastSixCode = (int)mb_substr($max_number,-6,6,"utf-8");
+                    $lastSixCode++;
+                    //前補0至六碼
+                    $lastSixCode = str_pad($lastSixCode,6,"0",STR_PAD_LEFT);
 
-                //填充到p_number欄位中
-                $form->p_number = $firstTwoCode.$lastSixCode;
+                    //填充到p_number欄位中
+                    $form->p_number = $firstTwoCode.$lastSixCode;
+                }
             });
             $form->ignore(['StockCategory','ProductSupplier']);
         });
@@ -459,19 +459,16 @@ class ProductIndexController extends Controller
                 })->setWidth('5');         
             });
 
-            //1.判斷商品編號是否有修改
-            //2.判斷新商品編號有沒有跟資料庫中其他商品重複
+            //未完成
+            //1.判斷商品編號是否有修改 - OK
+            //2.判斷新商品編號有沒有跟資料庫中其他商品重複 - 
             
             // $form->saving(function(Form $form) {
-            //     $first2num = mb_substr($form->p_number,0,2,"utf-8");
-
-            //     $max_number = DB::table('product_index')
-            //     ->where('p_number', 'like', $first2num.'%')
-            //     ->max('p_number');
-    
-            //     $fp = fopen('output123.txt', 'a');
-            //     fwrite($fp, $price);
-            //     fclose($fp);
+                // //商品編號有修改
+                // if($form->p_number && $form->model()->p_number != $form->p_number)
+                // {
+                //
+                // }
             // });
         });
     }

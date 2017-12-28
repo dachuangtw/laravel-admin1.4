@@ -201,7 +201,8 @@ return [
 
     
     'supid'           =>    '廠商id',
-    're_user'         =>    '進貨人員id',
+    're_user'         =>    '進貨單填寫人',
+    're_number'       =>    '進貨單號',
     're_amount'       =>    '總金額',
     're_notes'        =>    '備註',
     're_delivery'     =>    '進貨日',

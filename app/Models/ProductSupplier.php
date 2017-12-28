@@ -11,6 +11,8 @@ class ProductSupplier extends Model
     use ModelTree, AdminBuilder;
     //主題系列資料表
     protected $table = 'product_supplier';
+    //主鍵
+    protected $primaryKey = 'supid';
     
     public function __construct(array $attributes = [])
     {
@@ -21,12 +23,14 @@ class ProductSupplier extends Model
         $this->setTitleColumn('sup_name');
     }
 
-    //主鍵
-    protected $primaryKey = 'supid';
-
     //前台顯示
     public function scopeShowfront($query)
     {
         return $query->where('showfront', 1);
+    }
+    //前台顯示
+    public function scopeOfSupplier($query,$supid)
+    {
+        return $query->where('supid', $supid)->get();
     }
 }

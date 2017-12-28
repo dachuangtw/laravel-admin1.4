@@ -217,6 +217,7 @@ class ProductIndexController extends Controller
             
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
+                $filter->like('p_name','商品名');
             });
             $grid->pid('ID')->sortable();
             $grid->p_number(trans('admin::lang.product_number'))->sortable();

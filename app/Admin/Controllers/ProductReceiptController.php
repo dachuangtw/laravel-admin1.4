@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\ProductReceipt;
+use App\ProductSupplier;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -15,6 +16,7 @@ use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Box;
 use Encore\Admin\Auth\Permission;
 use App\Admin\Extensions\ExcelExpoter;
+use Illuminate\Support\Facades\DB;
 
 class ProductReceiptController extends Controller
 {
@@ -33,7 +35,29 @@ class ProductReceiptController extends Controller
             $content->header(trans('admin::lang.product_receipt'));
             $content->description(trans('admin::lang.list'));
 
-            $content->body($this->grid());
+            $content->row(function (Row $row) {
+                $row->column(4, function (Column $column) {
+                    $form = new \Encore\Admin\Widgets\Form();
+                    $form->action(admin_url('product/receipt'));
+                    $form->method('GET');
+
+                    $form->select('supid', trans('admin::lang.product_supplier'))->options(
+                        
+                        ProductSupplier::all()->pluck('sup_name', 'supid')
+                    );
+
+                    $form->disableSubmit();
+                    $form->disableReset();
+                    $form->enableSearch();
+
+                    $column->append((new Box(trans('admin::lang.search'), $form))->style('success'));
+                });
+            });
+
+            $content->row(function (Row $row) {
+                $row->column(12, $this->grid());
+
+            });
         });
     }
 
@@ -78,11 +102,27 @@ class ProductReceiptController extends Controller
     protected function grid()
     {
         return Admin::grid(ProductReceipt::class, function (Grid $grid) {
+            $grid->filter(function ($filter) {
+                $filter->disableIdFilter();
+                $filter->is('supid', trans('admin::lang.product_supplier'));
+            });
 
-            $grid->id('ID')->sortable();
+            $grid->reid('ID')->sortable();
+            $grid->re_delivery(trans('admin::lang.re_delivery'));
+            $grid->supid(trans('admin::lang.product_supplier'))->display(function ($supid) {
+                $supplier = ProductSupplier::ofSupplier($supid);
+                return $supplier->toArray()[0]['sup_name'];
+            });
+            $grid->re_number(trans('admin::lang.re_number'));
+            $grid->re_user(trans('admin::lang.re_user'))->display(function ($re_user) {                
+                return Admin::user($re_user)->name;            
+            });
+            $grid->re_amount(trans('admin::lang.re_amount'));
+            $grid->re_notes(trans('admin::lang.re_notes'));
+                        
 
             //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
-            $titles = ['supid', 'wid', 're_user', 're_amount', 're_notes', 're_delivery'];
+            $titles = ['supid', 'wid', 're_number', 're_user', 're_amount', 're_notes', 're_delivery'];
 
             $exporter = new ExcelExpoter();
             /**
@@ -96,9 +136,6 @@ class ProductReceiptController extends Controller
 
             //不顯示匯入按鈕
             $grid->disableImport();
-
-            $grid->created_at(trans('admin::lang.created_at'));
-            $grid->updated_at(trans('admin::lang.updated_at'));
             $grid->model()->orderBy('reid', 'desc');
         });
     }
@@ -111,9 +148,49 @@ class ProductReceiptController extends Controller
     protected function form()
     {
         Permission::check(['reader']);
-               return Admin::form(ProductReceipt::class, function (Form $form) {
-                $form->text('wid', 'ID'); 
-                $form->date('re_delivery', 'ID')->format('DD/MM/YYYY');
-        });
+        return Admin::form(ProductReceipt::class, function (Form $form) {
+            $form->select('supid', trans('admin::lang.product_supplier'))->options(
+                ProductSupplier::all()->pluck('sup_name', 'supid')
+            );
+            $form->date('re_delivery', trans('admin::lang.re_delivery'));//->format('YYYY/MM/DD');
+            $form->currency('re_amount', trans('admin::lang.re_amount'))->options(['digits' => 2]);
+            $form->textarea('re_notes', trans('admin::lang.notes'))->rows(2);
+
+            $form->hidden('wid')->default(Admin::user()->wid);
+            $form->hidden('re_user')->default(Admin::user()->id);
+            $form->hidden('re_number');
+
+
+            $form->saving(function(Form $form) {
+                /**
+                 * 進貨單編碼規則：日期YYMMDD(6)+廠商編號XX(2)+流水號(2)，共10碼
+                 */
+                if(!empty(request()->supid)){
+                    $Todaydate = date('Ymd');
+                    $Supplier = request()->supid;
+
+                    //前補0至兩碼
+                    $Supplier = str_pad($Supplier,2,"0",STR_PAD_LEFT);
+
+                    //取得該日該廠商進貨單號的最大值
+                    $max_number = DB::table('product_receipt')
+                    ->where('re_number', 'like', $Todaydate.$Supplier.'%')
+                    ->max('re_number');
+
+                    if(!empty($max_number)){
+                        //取後兩碼做+1計算
+                        $lastTwoCode = (int)mb_substr($max_number,-2,2,"utf-8");
+                        $lastTwoCode++; 
+                    }else{
+                        $lastTwoCode = 1;
+                    }
+                    //前補0至兩碼
+                    $lastTwoCode = str_pad($lastTwoCode,2,"0",STR_PAD_LEFT);
+
+                    //填充到re_number欄位中
+                    $form->re_number = $Todaydate.$Supplier.$lastTwoCode;
+                }
+            });
+        })->setWidth(5);
     }
 }

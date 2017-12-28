@@ -24,7 +24,7 @@ class SalesNoteController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.sales_note'));            
+            $content->header(trans('admin::lang.sales_note'));
             $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
@@ -72,7 +72,8 @@ class SalesNoteController extends Controller
     protected function grid()
     {
         return Admin::grid(SalesNotes::class, function (Grid $grid) {
-            
+
+            $grid->disableImport();//關閉匯入按鈕
             $grid->filter(function($filter){
                 // 禁用id查詢框
                 $filter->disableIdFilter();
@@ -90,8 +91,7 @@ class SalesNoteController extends Controller
             //$grid->updated_at(trans('admin::lang.updated_at'));
             $grid->update_user(trans('admin::lang.update_user'))->display(function($userId) {
                    return Admin::user($userId)->name;
-               });
-            
+            });
         });
     }
 
@@ -107,14 +107,10 @@ class SalesNoteController extends Controller
             //$form->display('id','ID');
 
             $form->text('note_title', trans('admin::lang.title'))->rules('required');
-            $form->datetime('note_at', trans('admin::lang.note_at'))->format('YYYY-MM-DD HH:mm:ss');
+            $form->datetime('note_at', trans('admin::lang.note_at'))->default(date("Y-m-d G:i:s"));
             $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(Sales::all()->pluck('sales_name', 'sid'))->help('預設為全部');
-
             $form->editor('note_content', trans('admin::lang.note_content'));
-
-
             $form->hidden('update_user')->value(Admin::user()->id);
-          
             $form->display('created_at',trans('admin::lang.created_at'));
             $form->display('updated_at',trans('admin::lang.updated_at'));
         });

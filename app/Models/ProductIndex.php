@@ -23,8 +23,29 @@ class ProductIndex extends Model
         'p_number', 'p_name', 'p_salesprice', 'p_costprice', 'update_user',  'updated_at', 'deleted_at'
     ];
 
+    /**
+     * 單一function無法在Controller的$grid使用2次(會出錯)，
+     * 使用一般的資料表欄位名2次一樣會出錯，應該是模板本身的bug。
+     * 無奈只能多幾個function給$grid使用。
+     */
     //一(商品)對多(庫存)關聯資料表
     public function stock()
+    {
+        return $this->hasMany(Stock::class,'pid');
+    }
+    public function stock1()
+    {
+        return $this->hasMany(Stock::class,'pid');
+    }
+    public function stock2()
+    {
+        return $this->hasMany(Stock::class,'pid');
+    }
+    public function stock3()
+    {
+        return $this->hasMany(Stock::class,'pid');
+    }
+    public function stock4()
     {
         return $this->hasMany(Stock::class,'pid');
     }    
@@ -35,12 +56,6 @@ class ProductIndex extends Model
     //     return $query->where('showfront', 1);
     // }
 
-    //倉庫庫存，倉庫wid
-    // public function scopeOfStock($query, $wid)
-    // {
-    //     return $query->where('wid', $wid)->sum('s_stock');
-    // }
-    
     //限制分類
     // public function scopeOfCategory($query, $type)
     // {

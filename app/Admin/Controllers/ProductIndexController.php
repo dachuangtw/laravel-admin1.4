@@ -504,11 +504,14 @@ class ProductIndexController extends Controller
                         {
                             $pid = ProductIndex::insertGetId($dataArray1,'pid');
 
-                            $dataArray2[] =[
-                            'pid' => $pid,
-                            'wid' => '2', //台中倉
-                            's_stock' => $row['s_stock'],
-                            ]; 
+                            //有庫存才增加庫存資料
+                            if((int)$row['s_stock'] > 0){
+                                $dataArray2[] = [
+                                'pid' => $pid,
+                                'wid' => '2', //台中倉
+                                's_stock' => $row['s_stock'],
+                                ];
+                            } 
                         }
                     }
                 }

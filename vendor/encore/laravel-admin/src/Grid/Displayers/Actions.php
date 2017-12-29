@@ -152,7 +152,7 @@ class Actions extends AbstractDisplayer
     protected function viewAction()
     {
         return <<<EOT
-<a href="{$this->getResource()}/{$this->getKey()}/view" class="viewbutton" data-toggle="modal" data-target="#viewmodal" title="{$this->trans('view')}">
+<a src="{$this->getResource()}/{$this->getKey()}/view" class="viewbutton" data-toggle="modal" data-target="#viewmodal" title="{$this->trans('view')}">
     <i class="fa fa-eye"></i>
 </a>
 EOT;

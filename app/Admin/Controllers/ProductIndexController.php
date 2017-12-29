@@ -61,7 +61,10 @@ class ProductIndexController extends Controller
                     $form->action(admin_url('product'));
                     $form->method('GET');
 
-                    //Bug：商品編號無法用來搜尋
+                    /**
+                     * Bug：搜尋功能和filter密不可分...
+                     * 這裡要什麼欄位，filter就必須有那個欄位，才能正常搜尋
+                     */                    
                     // $form->text('p_number', trans('admin::lang.product_number'));
 
                     $form->text('p_name', trans('admin::lang.product_name'));
@@ -109,20 +112,19 @@ class ProductIndexController extends Controller
         Permission::check(['reader']);
         // return view('admin::modal');
 
-        return $this->formViewer()->view($id);
+        // return $this->formViewer()->view($id);
 
-        // table 2
-        // $headers = ['Keys', 'Values'];
-        // $rows = [
-        //     'name'   => 'Joe',
-        //     'age'    => 25,
-        //     'gender' => 'Male',
-        //     'birth'  => '1989-12-05',
-        // ];
+        $product = ProductIndex::find($id)->toArray();
 
-        // $table = new Table($headers, $rows);
+        $header[] = trans('admin::lang.product_index');
+        foreach($product as $key => $value){
+            $key = trans('admin::lang.'.$key);
+            $rows[$key] = $value;
+        }
 
-        // return $table->render();
+        $table = new Table($header, $rows);
+        $table->class('table test');
+        return $table->render();
     }
     /**
      * Edit interface.
@@ -241,7 +243,9 @@ class ProductIndexController extends Controller
                 return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:50px;max-height:50px;' onerror='this.src=\"".config('app.url')."/images/404.jpg\"'/>";            
             });
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
-            $grid->p_costprice(trans('admin::lang.product_costprice'));
+            if(Admin::user()->inRoles(['administrator','watch'])){
+                $grid->p_costprice(trans('admin::lang.product_costprice'));
+            }
             
             if(Admin::user()->isAdministrator()){
 

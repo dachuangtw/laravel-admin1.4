@@ -200,7 +200,7 @@ class Tree implements Renderable
 
 
         $('.viewbutton').on('click', function() {
-            var url = $(this).attr("href");
+            var url = $(this).attr("src");
             $.get(url, function(data) {
                 $("#viewmodal").find('.modal-body').html(data);
             });

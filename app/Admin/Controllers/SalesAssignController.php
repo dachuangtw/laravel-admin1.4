@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Box;
 use Encore\Admin\Widgets\Table;
+use Illuminate\Support\Facades\URL;
 
 class SalesAssignController extends Controller
 {
@@ -49,6 +50,13 @@ class SalesAssignController extends Controller
             $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
+
+            //$action = URL::current();
+            //標題
+            // $description = '商品清單';
+            // $index = $id;
+
+            // $content->row(view('admin::product', compact('index', 'action','description')));
         });
     }
 
@@ -63,10 +71,13 @@ class SalesAssignController extends Controller
 
             $content->header(trans('admin::lang.sales_assign'));
             $content->description(trans('admin::lang.create'));
-
             $content->body($this->form());
-            $content->row(new Box('title', 'xxxx'));
-            $content->body($this->detail_grid());
+
+            //$action = URL::current();
+            //標題
+            // $description = '商品清單';
+            // $content->row(view('admin::product', compact('description')));
+
         });
     }
 
@@ -78,8 +89,9 @@ class SalesAssignController extends Controller
     protected function grid()
     {
         return Admin::grid(SalesAssign::class, function (Grid $grid) {
+            $grid->disableImport();//關閉匯入按鈕
 
-            $grid->id('序')->sortable();
+            $grid->said('序')->sortable();
             $grid->assign_date(trans('admin::lang.assign_date'))->sortable();
             $grid->assign_id(trans('admin::lang.assign_id'))->sortable();
             $grid->assign_total(trans('admin::lang.assign_total'));
@@ -99,35 +111,14 @@ class SalesAssignController extends Controller
         return Admin::form(SalesAssign::class, function (Form $form) {
 
             //$form->display('id', 'ID');
-
-            $form->datetime('assign_date',trans('admin::lang.assign_date'))->format('YYYY-MM-DD HH:mm:ss')->default('text...');
+            $form->setView('admin::product2');
+            $form->date('assign_date',trans('admin::lang.assign_date'))->defaultdate('YYYY-MM-DD');
             $form->text('assign_id',trans('admin::lang.assign_id'));
-            $form->display('update_user',trans('admin::lang.update_user'));
-
+            $form->textarea('assign_notes',trans('admin::lang.notes'));
+            $form->hidden('update_user')->value(Admin::user()->id);
             $form->display('created_at',trans('admin::lang.created_at'));
             $form->display('updated_at',trans('admin::lang.updated_at'));
+            $form->divide();
         });
     }
-
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function detail_grid()
-    {
-        return Admin::grid(SalesAssignDetails::class, function (Grid $grid) {
-
-            $grid->said('序')->sortable();
-            
-            $grid->assign_date(trans('admin::lang.assign_date'))->sortable();
-            $grid->assign_id(trans('admin::lang.assign_id'))->sortable();
-            $grid->assign_total(trans('admin::lang.assign_total'));
-            
-            //$grid->created_at(trans('admin::lang.created_at'));
-            //$grid->updated_at(trans('admin::lang.updated_at'));
-        });
-    }
-
-
 }

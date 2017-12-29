@@ -12,6 +12,8 @@ use App\ProductSupplier;
 use App\Admin\Extensions\ExcelExpoter;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Encore\Admin\Widgets\Table;
+
 use Encore\Admin\Auth\Permission;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -108,6 +110,19 @@ class ProductIndexController extends Controller
         // return view('admin::modal');
 
         return $this->formViewer()->view($id);
+
+        // table 2
+        // $headers = ['Keys', 'Values'];
+        // $rows = [
+        //     'name'   => 'Joe',
+        //     'age'    => 25,
+        //     'gender' => 'Male',
+        //     'birth'  => '1989-12-05',
+        // ];
+
+        // $table = new Table($headers, $rows);
+
+        // return $table->render();
     }
     /**
      * Edit interface.

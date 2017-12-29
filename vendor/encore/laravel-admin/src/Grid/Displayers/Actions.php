@@ -129,7 +129,6 @@ class Actions extends AbstractDisplayer
         $actions = $this->prepends;
         if ($this->allowView) {
             array_push($actions, $this->viewAction());
-            array_push($actions, $this->viewModal());
         }
 
         if ($this->allowEdit) {
@@ -143,51 +142,6 @@ class Actions extends AbstractDisplayer
         $actions = array_merge($actions, $this->appends);
 
         return implode('', $actions);
-    }
-
-    /**
-     * Built view modal.
-     *
-     * @return string
-     */
-    protected function viewModal()
-    {
-        $script = <<<SCRIPT
-
-$('.viewbutton').on('click', function() {
-    var url = $(this).attr("href");
-    $.get(url, function(data) {
-        $("#viewmodal").find('.modal-body').html(data);
-    });
-});
-$('#viewmodal').on('show.bs.modal', function() {
-    var margin_vertical = parseInt($(this).find('.modal-dialog').css('margin-top')) + parseInt($(this).find('.modal-dialog').css('margin-bottom')) || 0;
-    var height_body = (window.innerHeight - margin_vertical - 150) + 'px';
-    $(this).find('.modal-body').css('max-height', height_body).css('overflow', 'auto');
-});
-
-SCRIPT;
-
-        Admin::script($script);
-
-        $close = trans('admin::lang.close');
-        $title = trans('admin::lang.view');
-        return <<<EOT
-<div class='modal fade' id="viewmodal">
-    <div class='modal-dialog modal-lg'>
-        <div class='modal-content'>
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h3>{$title}</h3>
-            </div>
-            <div class='modal-body'>彈出式視窗(網頁載入)</div>
-            <div class='modal-footer'>
-                <button class='btn btn-default' data-dismiss="modal" aria-hidden="true">{$close}</button>
-            </div>
-        </div>
-    </div>
-</div>
-EOT;
     }
 
     /**

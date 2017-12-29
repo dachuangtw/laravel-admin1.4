@@ -37,6 +37,11 @@ class Actions extends AbstractDisplayer
     protected $resource;
 
     /**
+     * @var string
+     */
+    protected $titleField;
+
+    /**
      * Append a action.
      *
      * @param $action
@@ -117,6 +122,19 @@ class Actions extends AbstractDisplayer
     }
 
     /**
+     * Set resource of current resource.
+     *
+     * @param $resource
+     *
+     * @return void
+     */
+    public function setTitleField($titleField)
+    {
+        $this->titleField = $titleField;
+    }
+
+
+    /**
      * {@inheritdoc}
      */
     public function display($callback = null)
@@ -151,8 +169,9 @@ class Actions extends AbstractDisplayer
      */
     protected function viewAction()
     {
+        $title = htmlentities($this->getTitle($this->titleField));
         return <<<EOT
-<a src="{$this->getResource()}/{$this->getKey()}/view" class="viewbutton" data-toggle="modal" data-target="#viewmodal" title="{$this->trans('view')}">
+<a src="{$this->getResource()}/{$this->getKey()}/view" class="viewbutton" data-toggle="modal" data-target="#viewmodal" data-title="{$title}" title="{$this->trans('view')}">
     <i class="fa fa-eye"></i>
 </a>
 EOT;

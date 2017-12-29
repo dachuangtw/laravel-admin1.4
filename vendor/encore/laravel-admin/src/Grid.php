@@ -234,7 +234,10 @@ class Grid
         $script = <<<SCRIPT
 
 $('.viewbutton').on('click', function() {
-    var url = $(this).attr("src");
+    var url = $(this).attr("src");    
+    var title = $(this).attr("data-title");
+    
+    $("#viewmodal").find('h3').html(title);
     $.get(url, function(data) {
         $("#viewmodal").find('.modal-body').html(data);
     });

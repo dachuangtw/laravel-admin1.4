@@ -62,12 +62,12 @@ class ProductIndexController extends Controller
                     $form->method('GET');
 
                     /**
-                     * Bug：搜尋功能和filter密不可分...
+                     * !important Bug：搜尋功能和filter密不可分...
                      * 這裡要什麼欄位，filter就必須有那個欄位，才能正常搜尋
                      */                    
-                    // $form->text('p_number', trans('admin::lang.product_number'));
-
+                    $form->text('p_number', trans('admin::lang.product_number'));
                     $form->text('p_name', trans('admin::lang.product_name'));
+
                     $form->disableSubmit();
                     $form->disableReset();
                     $form->enableSearch();
@@ -110,20 +110,89 @@ class ProductIndexController extends Controller
     public function view($id)
     {
         Permission::check(['reader']);
-        // return view('admin::modal');
-
-        // return $this->formViewer()->view($id);
 
         $product = ProductIndex::find($id)->toArray();
 
-        $header[] = trans('admin::lang.product_index');
-        foreach($product as $key => $value){
-            $key = trans('admin::lang.'.$key);
-            $rows[$key] = $value;
+        //忽略不顯示的欄位
+        $skipArray = ['pid','p_price','p_retailprice'];
+        //顯示圖片欄位
+        $imgArray = ['p_pic','p_images'];
+
+        //置換商品分類的內容
+        if(is_array($product['p_category'])){
+            $tempArray = [];
+            foreach($product['p_category'] as $value){
+                $tempArray[] = ProductCategory::find($value)->pc_name;
+            }
+            $product['p_category'] = $tempArray;
+        }else if(!empty($product['p_category'])){
+            $product['p_category'] = ProductCategory::find($product['p_category'])->pc_name;
+        }
+
+        //置換主題系列的內容
+        if(is_array($product['p_series'])){
+            $tempArray = [];
+            foreach($product['p_series'] as $value){
+                $tempArray[] = ProductSeries::find($value)->ps_name;
+            }
+            $product['p_series'] = $tempArray;
+        }else if(!empty($product['p_series'])){
+            $product['p_series'] = ProductSeries::find($product['p_series'])->ps_name;
+        }
+
+        //置換最近更新者的內容
+        $product['update_user'] = Admin::user($product['update_user'])->name;
+
+        $header[] = '商品資訊';
+        foreach($product as $key => $value){            
+
+            if(in_array($key,$skipArray) || empty($value))
+                continue;
+            
+            //欄位中文化
+            $newkey = trans('admin::lang.'.$key);
+
+            /**
+             * 內容排版
+             *    ┬ 圖片 ┬ 主圖(string)
+             *    │      └ 副圖(array)---連續印出
+             *    │
+             *    └ 文字 ┬ 分類、系列(array)---用/分隔
+             *           └ 其他(string)
+             */
+
+
+            if(in_array($key,$imgArray)){
+                if(is_array($value)){
+                    $content = '';
+                    foreach($value as $temp){
+                        $content .= '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $temp . '" width="50px" />';
+                    }
+                    $rows[$newkey] = $content;
+                }else{
+                    $rows[$newkey] = '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $value . '" width="50px" />';
+                }
+
+            }else{
+                if(is_array($value)){
+                    $content = '';
+                    foreach($value as $temp){
+                        if(empty($content))
+                            $content = $temp;
+                        else
+                            $content .= ' / ' . $temp;
+                    }
+                    $rows[$newkey] = $content;
+                }else{
+                    $rows[$newkey] = $value;
+                }
+            }
+
+            
         }
 
         $table = new Table($header, $rows);
-        $table->class('table test');
+        $table->class('table table-hover');
         return $table->render();
     }
     /**
@@ -160,59 +229,7 @@ class ProductIndexController extends Controller
             $content->body($this->form());
         });
     }
-    /**
-     * Make a form viewer.
-     *
-     * @return Form
-     */
-    protected function formViewer()
-    {
-        Permission::check(['reader']);
-        return Admin::form(ProductIndex::class, function (Form $form) {
 
-            $form->tab('商品資訊', function ($form) {
-                
-                $form->display('p_number', trans('admin::lang.product_number'));
-                $form->display('p_name', trans('admin::lang.product_name'));
-
-                $form->display('p_category', trans('admin::lang.product_category'));
-                $form->display('p_series', trans('admin::lang.product_series'));
-                $form->display('p_pic', trans('admin::lang.product_pic'));
-                $form->display('p_images', trans('admin::lang.product_images'));
-                $form->display('p_description', trans('admin::lang.description'));
-                $form->display('showfront', trans('admin::lang.showfront'));
-                $form->display('shownew', trans('admin::lang.shownew'));
-                $form->display('p_unit', trans('admin::lang.p_unit'));
-                
-                                
-            })->tab('價格/業務', function ($form) {
-
-                $form->display('p_salesprice', trans('admin::lang.product_salesprice'));
-                $form->display('p_costprice', trans('admin::lang.product_costprice'));
-
-                $states = [
-                    'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
-                    'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
-                ]; 
-
-                $form->display('showsales', trans('admin::lang.showsales'))->states($states);
-                $form->display('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'));
-               
-            })->tab('款式/庫存', function ($form) {
-                $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
-
-                    $form->display('wid')->default(Admin::user()->wid);
-                    
-                    $form->display('s_type',trans('admin::lang.product_type'));
-                    $form->display('s_barcode',trans('admin::lang.product_barcode'));
-                    $form->display('s_notes',trans('admin::lang.notes'));
-                    $form->display('s_stock',trans('admin::lang.product_stock'));
-                    $form->display('s_unit',trans('admin::lang.sales_unit'));
-                    $form->display('s_collect',trans('admin::lang.product_sales'));
-                });            
-            });
-        });
-    }
     /**
      * Make a grid builder.
      *
@@ -235,6 +252,7 @@ class ProductIndexController extends Controller
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
                 $filter->like('p_name','商品名');
+                $filter->like('p_number','商品編號');
             });
             $grid->pid('ID')->sortable();
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
@@ -291,6 +309,11 @@ class ProductIndexController extends Controller
 
             //不顯示匯入按鈕
             // $grid->disableImport();
+
+            //眼睛彈出視窗的Title，請設定資料庫欄位名稱
+            $grid->actions(function ($actions) {
+                $actions->setTitleField('p_name');
+            });
 
             $grid->showfront('前台顯示')->value(function ($showfront) {
                 return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";

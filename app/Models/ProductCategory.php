@@ -38,4 +38,5 @@ class ProductCategory extends Model
     {
         return $query->where('showfront', 1);
     }
+
 }

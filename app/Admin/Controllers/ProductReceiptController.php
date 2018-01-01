@@ -41,10 +41,13 @@ class ProductReceiptController extends Controller
                     $form->action(admin_url('product/receipt'));
                     $form->method('GET');
 
+                    $form->dateRange('re_delivery[start]', 're_delivery[end]', '進貨日');
                     $form->select('supid', trans('admin::lang.product_supplier'))->options(
                         
-                        ProductSupplier::all()->pluck('sup_name', 'supid')
+                        [''=>'--- 請選擇 ---'] + ProductSupplier::all()->pluck('sup_name', 'supid')->toArray()
                     );
+
+                    $form->text('re_number', trans('admin::lang.re_number'));
 
                     $form->disableSubmit();
                     $form->disableReset();
@@ -105,19 +108,25 @@ class ProductReceiptController extends Controller
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
                 $filter->is('supid', trans('admin::lang.product_supplier'));
+                $filter->like('re_number',trans('admin::lang.re_number'));
+                $filter->between('re_delivery', trans('admin::lang.re_delivery'))->date();
             });
 
             $grid->reid('ID')->sortable();
-            $grid->re_delivery(trans('admin::lang.re_delivery'));
+            $grid->re_delivery(trans('admin::lang.re_delivery'))->display(function ($re_delivery) {                
+                return mb_substr($re_delivery,0,10,"utf-8");
+            });
             $grid->supid(trans('admin::lang.product_supplier'))->display(function ($supid) {
                 $supplier = ProductSupplier::ofSupplier($supid);
                 return $supplier->toArray()[0]['sup_name'];
             });
             $grid->re_number(trans('admin::lang.re_number'));
             $grid->re_user(trans('admin::lang.re_user'))->display(function ($re_user) {                
-                return Admin::user($re_user)->name;            
+                return Admin::user($re_user)->name;
             });
-            $grid->re_amount(trans('admin::lang.re_amount'));
+            $grid->re_amount(trans('admin::lang.re_amount'))->display(function ($re_amount) {                
+                return (int) $re_amount;
+            });;
             $grid->re_notes(trans('admin::lang.re_notes'));
                         
 

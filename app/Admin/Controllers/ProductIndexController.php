@@ -280,7 +280,8 @@ class ProductIndexController extends Controller
                         if(!empty($stock)){
                             return $stock;
                         }
-                        return "<span class='label label-warning'>未填寫庫存</span>";
+                        return '';
+                        // return "<span class='label label-warning'>未填寫庫存</span>";
                     });
                 }
                 
@@ -370,7 +371,8 @@ class ProductIndexController extends Controller
                 $form->text('p_unit', trans('admin::lang.p_unit'))->default('個')->setWidth(1);
                 $form->hidden('update_user')->default(Admin::user()->id);
                 
-            })->tab('價格/業務', function ($form) {
+            });
+            $form->tab('價格/業務', function ($form) {
 
                 $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
                 $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
@@ -383,29 +385,32 @@ class ProductIndexController extends Controller
                 $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
                 $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
                
-            })->tab('款式/庫存', function ($form) {
-                $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
-                    
-                    if(Admin::user()->isAdministrator()){
-                        //超級管理員可以自行選擇倉庫
-                        $form->select('wid', trans('admin::lang.warehouse'))->options(
-                            Warehouse::all()->pluck('w_name', 'wid')
-                        );
-                    }else{
-                        //非超級管理員使用本身綁定的倉庫id
-                        $form->hidden('wid')->default(Admin::user()->wid);
-                    }
-                    
-                    $form->text('s_type',trans('admin::lang.product_type'));
-                    $form->text('s_barcode',trans('admin::lang.product_barcode'));
-                    $form->text('s_notes',trans('admin::lang.notes'));
-                    $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);                    
-                    $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
-                        ['每人','每間']
-                    )->setWidth('1');
-                    $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
-                });            
             });
+            if(Admin::user()->isAdministrator()){
+                $form->tab('款式/庫存', function ($form) {
+                    $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
+                        
+                        if(Admin::user()->isAdministrator()){
+                            //超級管理員可以自行選擇倉庫
+                            $form->select('wid', trans('admin::lang.warehouse'))->options(
+                                Warehouse::all()->pluck('w_name', 'wid')
+                            );
+                        }else{
+                            //非超級管理員使用本身綁定的倉庫id
+                            $form->hidden('wid')->default(Admin::user()->wid);
+                        }
+                        
+                        $form->text('s_type',trans('admin::lang.product_type'));
+                        $form->text('s_barcode',trans('admin::lang.product_barcode'));
+                        $form->text('s_notes',trans('admin::lang.notes'));
+                        $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);                    
+                        $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
+                            ['每人','每間']
+                        )->setWidth('1');
+                        $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
+                    });            
+                });
+            }
 
             $form->saving(function(Form $form) {
                 if(!empty(request()->StockCategory)&&!empty(request()->ProductSupplier)){

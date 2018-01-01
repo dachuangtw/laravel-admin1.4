@@ -114,6 +114,35 @@ EOT;
         Admin::script($script);
     }
 
+    public function date($options = [])
+    {
+        $this->view = 'admin::filter.betweenDatetime';
+
+        $this->prepareForDate($options);
+    }
+
+    protected function prepareForDate($options = [])
+    {
+        $options['format'] = array_get($options, 'format', 'YYYY-MM-DD');
+        $options['locale'] = array_get($options, 'locale', config('app.locale'));
+
+        $startOptions = json_encode($options);
+        $endOptions = json_encode($options + ['useCurrent' => false]);
+
+        $script = <<<EOT
+            $('#{$this->id['start']}').datetimepicker($startOptions);
+            $('#{$this->id['end']}').datetimepicker($endOptions);
+            $("#{$this->id['start']}").on("dp.change", function (e) {
+                $('#{$this->id['end']}').data("DateTimePicker").minDate(e.date);
+            });
+            $("#{$this->id['end']}").on("dp.change", function (e) {
+                $('#{$this->id['start']}').data("DateTimePicker").maxDate(e.date);
+            });
+EOT;
+
+        Admin::script($script);
+    }
+
     public function render()
     {
         if (isset($this->view)) {

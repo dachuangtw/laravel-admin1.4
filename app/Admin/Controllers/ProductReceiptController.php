@@ -126,7 +126,8 @@ class ProductReceiptController extends Controller
             });
             $grid->re_amount(trans('admin::lang.re_amount'))->display(function ($re_amount) {                
                 return (int) $re_amount;
-            });;
+            });
+            
             $grid->re_notes(trans('admin::lang.re_notes'));
                         
 
@@ -169,6 +170,8 @@ class ProductReceiptController extends Controller
             $form->hidden('re_user')->default(Admin::user()->id);
             $form->hidden('re_number');
 
+            //btn-append另外寫js的append功能(未完成)
+            $form->button('btn-danger btn-append','+ 進貨商品')->on('click','ShowModal("product");');
 
             $form->saving(function(Form $form) {
                 /**

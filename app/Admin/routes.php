@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Input;
 
 Admin::registerHelpersRoutes();
 
@@ -52,5 +53,15 @@ Route::group([
 
     $router->get('api/tw/district', 'WebLocationController@district');
 
+    //使用參數
+    // $router->get('modal', function () {
+    //     $target = Input::get('t');
+    //     return view('admin.modal',['target'=>$target]);
+    // });
+
+    //使用路徑
+    $router->get('modal/{target}', function ($target) {
+        return view('admin.modal',['target'=>$target]);
+    });
     $router->get('/', 'HomeController@index');
 });

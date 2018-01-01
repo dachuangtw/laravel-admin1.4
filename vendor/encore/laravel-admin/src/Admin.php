@@ -124,14 +124,14 @@ class Admin
     public static function css($css = null)
     {
         if (!is_null($css)) {
-            self::$css = array_merge(self::$css, (array) $css);
+            self::$css = array_merge((array) $css, self::$css);
 
             return;
         }
 
         $css = array_get(Form::collectFieldAssets(), 'css', []);
 
-        static::$css = array_reverse(array_merge(static::$css, $css));
+        static::$css = array_merge($css, static::$css);
 
         return view('admin::partials.css', ['css' => array_unique(static::$css)]);
     }
@@ -146,14 +146,14 @@ class Admin
     public static function js($js = null)
     {
         if (!is_null($js)) {
-            self::$js = array_merge(self::$js, (array) $js);
+            self::$js = array_merge((array) $js, self::$js);
 
             return;
         }
 
         $js = array_get(Form::collectFieldAssets(), 'js', []);
 
-        static::$js = array_merge(static::$js, $js);
+        static::$js = array_merge($js, static::$js);
 
         return view('admin::partials.js', ['js' => array_unique(static::$js)]);
     }

@@ -717,10 +717,13 @@ class Field implements Renderable
 
             foreach ($elementClass as $index => $class) {
                 $classes[$index] = '.'.(is_array($class) ? implode('.', $class) : $class);
+                $classes[$index] = str_replace(' ', '.', $classes[$index]);
             }
-
             return $classes;
         }
+        foreach ($elementClass as $index => $class) {
+            $elementClass[$index] = str_replace(' ', '.', $class);
+        }  
 
         return '.'.implode('.', $elementClass);
     }

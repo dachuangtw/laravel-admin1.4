@@ -502,7 +502,7 @@ class ProductIndexController extends Controller
                     $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
                     $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
                         ['每人','每間']
-                    )->setWidth('1');
+                    );
                     $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
                 })->setWidth('5');         
             });

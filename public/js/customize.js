@@ -4,8 +4,10 @@ function ShowModal(target) {
 
     $.get(url, function(data) {
         $("body").append(data);
-        $('#select' + target).modal('show').on('hidden.bs.modal', function(e) {
-            $(this).remove();
-        });
+        $('#select' + target)
+            .modal('show')
+            .on('hidden.bs.modal', function(e) {
+                $(this).remove();
+            });
     });
 }

@@ -5115,7 +5115,7 @@ button.close {
 
 .fresh {
     line-height: 1.4;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "微軟正黑體", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     font-size: 14px;
     color: #222
 }
@@ -13391,13 +13391,13 @@ body {
 }
 
 ::-moz-selection {
-    background: #0c8f4f;
+    background: #dd4b39;
     text-shadow: none;
     color: #fff
 }
 
 ::selection {
-    background: #0c8f4f;
+    background: #dd4b39;
     text-shadow: none;
     color: #fff
 }

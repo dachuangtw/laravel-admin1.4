@@ -5,15 +5,16 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
                 <h4 class="title">商品資料{{ $target }} </h4>
             </div>
-            <div class='modal-body'>
-                <div class="select2-search ">
+            <div class='
+            '>
+                <div class="select2-search">
                     <div class="flex-row">
                         <div class="flex-col-xs no-padding padding-right-5">
                             <div class="input-group">
-                                <input class="form-control no-border-right ng-untouched ng-pristine ng-valid" id="" placeholder="請輸入搜尋的資料" type="text">
+                                <input class="form-control no-border-right" placeholder="請輸入搜尋的資料" type="text">
                                 <span class="input-group-btn">
-                <button class="btn btn-transparent-grey2" type="button"> <i class="fa fa-search"></i> </button>
-            </span>
+                                <button class="btn btn-transparent-grey2" type="button"> <i class="fa fa-search"></i> </button>
+                                </span>
                             </div>
                         </div>
                         <button class="btn btn-orange flex-col-xs maxmin-72 xs-maxmin-72"> 新增<i class="fa fa-plus margin-left-5"></i> </button>
@@ -25,32 +26,42 @@
 
 
 
-                        <dc-grid-angular class="fresh" enablecolresize="" enablesorting="" style="width: 100%; height: 350px;" suppressmovablecolumns="" suppressrowclickselection="">
-                            <div class="dc-bl dc-bl-full-height dc-layout-normal dc-scrolls dc-ltr" id="borderLayout_eRootPanel">
-                                <div class="dc-bl-center dc-bl-full-height-center" ref="center" style="margin-left: 0px; width: 582px;">
+                        <div class="fresh" style="width: 100%; height: 350px;">
+                            <div class="dc-bl dc-bl-full-height dc-layout-normal dc-ltr" id="borderLayout_eRootPanel">
+                                <div class="dc-bl-center dc-bl-full-height-center" ref="center" style="margin-left: 0px; width: 884px;">
                                     <div class="dc-bl dc-bl-full-height" id="borderLayout_eGridPanel">
-                                        <div class="dc-bl-center dc-bl-full-height-center" ref="center" style="margin-left: 0px; width: 582px;">
+                                        <div class="dc-bl-center dc-bl-full-height-center" ref="center" style="margin-left: 0px; width: 884px;">
                                             <div class="dc-root dc-font-style" role="grid">
-                                                <div class="dc-header dc-pivot-off" role="row" style="height: 30px;">
-                                                    <div class="dc-pinned-left-header" role="presentation" style="display: none; width: 0px;">
-                                                        <div class="dc-header-row" role="presentation" style="top: 0px; height: 30px; width: 0px;"></div>
+                                                <div class="dc-header" role="row" style="height: 30px;">
+                                                    <div class="dc-pinned-left-header" style="display: none; width: 0px;">
+                                                        <div class="dc-header-row" style="top: 0px; height: 30px; width: 0px;"></div>
                                                     </div>
-                                                    <div class="dc-pinned-right-header" role="presentation" style="display: none; width: 0px;">
-                                                        <div class="dc-header-row" role="presentation" style="top: 0px; height: 30px; width: 0px;"></div>
+                                                    <div class="dc-pinned-right-header" style="display: none; width: 0px;">
+                                                        <div class="dc-header-row" style="top: 0px; height: 30px; width: 0px;"></div>
                                                     </div>
-                                                    <div class="dc-header-viewport" role="presentation" style="margin-left: 0px; margin-right: 0px;">
-                                                        <div class="dc-header-container" role="presentation">
-                                                            <div class="dc-header-row" role="presentation" style="top: 0px; height: 30px; width: 543px;">
-                                                                <div class="dc-header-cell dc-header-cell-sortable" role="presentation" col-id="isSelected" style="width: 33px; left: 0px;">
-                                                                    <div ref="eResize" class="dc-header-cell-resize" role="presentation"></div><span class="dc-header-select-all dc-hidden" role="presentation" ref="cbSelectAll">  <span class="dc-checkbox-checked dc-hidden" role="presentation"><span class="dc-icon dc-icon-checkbox-checked"></span></span>
-                                                                    <span class="dc-checkbox-unchecked" role="presentation"><span class="dc-icon dc-icon-checkbox-unchecked"></span></span> <span class="dc-checkbox-indeterminate dc-hidden" role="presentation"><span class="dc-icon dc-icon-checkbox-indeterminate"></span></span>
-                                                                    <span class="dc-checkbox-label" role="presentation"></span></span>
+                                                    <div class="dc-header-viewport" style="margin-left: 0px; margin-right: 0px;">
+                                                        <div class="dc-header-container">
+                                                            <div class="dc-header-row" style="top: 0px; height: 30px; width: 543px;">
+                                                                <div class="dc-header-cell dc-header-cell-sortable" col-id="isSelected" style="width: 33px; left: 0px;">
+                                                                    <div ref="eResize" class="dc-header-cell-resize"></div>
+                                                                    <span class="dc-header-select-all dc-hidden" ref="cbSelectAll">
+                                                                        <span class="dc-checkbox-checked dc-hidden">
+                                                                            <span class="dc-icon dc-icon-checkbox-checked"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-unchecked">
+                                                                            <span class="dc-icon dc-icon-checkbox-unchecked"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-indeterminate dc-hidden">
+                                                                            <span class="dc-icon dc-icon-checkbox-indeterminate"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-label"></span>
+                                                                    </span>
                                                                     <app-is-free>
                                                                         <!---->
 
                                                                         <!---->
                                                                         <div class="ui-grid-cell-contents">
-                                                                            <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126554_NaN">
+                                                                            <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126554_NaN">
                                                                             <label for="IsSelectedCell1514773126554_NaN"></label>
                                                                         </div>
 
@@ -60,66 +71,119 @@
                                                                         <!---->
                                                                     </app-is-free>
                                                                 </div>
-                                                                <div class="dc-header-cell dc-header-cell-sortable" role="presentation" col-id="ID" style="width: 130px; left: 33px;">
-                                                                    <div ref="eResize" class="dc-header-cell-resize" role="presentation"></div><span class="dc-header-select-all dc-hidden" role="presentation" ref="cbSelectAll">  <span class="dc-checkbox-checked dc-hidden" role="presentation"><span class="dc-icon dc-icon-checkbox-checked"></span></span>
-                                                                    <span class="dc-checkbox-unchecked" role="presentation"><span class="dc-icon dc-icon-checkbox-unchecked"></span></span> <span class="dc-checkbox-indeterminate dc-hidden" role="presentation"><span class="dc-icon dc-icon-checkbox-indeterminate"></span></span>
-                                                                    <span class="dc-checkbox-label" role="presentation"></span></span>
-                                                                    <div class="dc-cell-label-container dc-header-cell-sorted-desc" role="presentation">
-                                                                        <div ref="eLabel" class="dc-header-cell-label" role="presentation"> <span ref="eText" class="dc-header-cell-text" role="columnheader">品號</span> <span ref="eFilter" class="dc-header-icon dc-filter-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-filter"></span></span>
-                                                                            <span ref="eSortOrder" class="dc-header-icon dc-sort-order dc-hidden" aria-hidden="true">1</span> <span ref="eSortAsc" class="dc-header-icon dc-sort-ascending-icon dc-hidden"
-                                                                                aria-hidden="true"><span class="dc-icon dc-icon-asc"></span></span> <span ref="eSortDesc" class="dc-header-icon dc-sort-descending-icon" aria-hidden="true"><span class="dc-icon dc-icon-desc"></span></span>
-                                                                            <span ref="eSortNone" class="dc-header-icon dc-sort-none-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-none"></span></span>
+                                                                <div class="dc-header-cell dc-header-cell-sortable" col-id="ID" style="width: 130px; left: 33px;">
+                                                                    <div ref="eResize" class="dc-header-cell-resize"></div>
+                                                                    <span class="dc-header-select-all dc-hidden" ref="cbSelectAll">
+                                                                        <span class="dc-checkbox-checked dc-hidden">
+                                                                            <span class="dc-icon dc-icon-checkbox-checked"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-unchecked">
+                                                                            <span class="dc-icon dc-icon-checkbox-unchecked"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-indeterminate dc-hidden">
+                                                                            <span class="dc-icon dc-icon-checkbox-indeterminate"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-label"></span>
+                                                                    </span>
+                                                                    <div class="dc-cell-label-container dc-header-cell-sorted-desc">
+                                                                        <div ref="eLabel" class="dc-header-cell-label">
+                                                                            <span ref="eText" class="dc-header-cell-text" role="columnheader">品號</span>
+                                                                            <span ref="eFilter" class="dc-header-icon dc-filter-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-filter"></span>
+                                                                            </span>
+                                                                            <span ref="eSortOrder" class="dc-header-icon dc-sort-order dc-hidden" aria-hidden="true">1</span>
+                                                                            <span ref="eSortAsc" class="dc-header-icon dc-sort-ascending-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-asc"></span>
+                                                                            </span>
+                                                                            <span ref="eSortDesc" class="dc-header-icon dc-sort-descending-icon" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-desc"></span>
+                                                                            </span>
+                                                                            <span ref="eSortNone" class="dc-header-icon dc-sort-none-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-none"></span>
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="dc-header-cell dc-header-cell-sortable" role="presentation" col-id="Name" style="width: 300px; left: 163px;">
-                                                                    <div ref="eResize" class="dc-header-cell-resize" role="presentation"></div><span class="dc-header-select-all dc-hidden" role="presentation" ref="cbSelectAll">  <span class="dc-checkbox-checked dc-hidden" role="presentation"><span class="dc-icon dc-icon-checkbox-checked"></span></span>
-                                                                    <span class="dc-checkbox-unchecked" role="presentation"><span class="dc-icon dc-icon-checkbox-unchecked"></span></span> <span class="dc-checkbox-indeterminate dc-hidden" role="presentation"><span class="dc-icon dc-icon-checkbox-indeterminate"></span></span>
-                                                                    <span class="dc-checkbox-label" role="presentation"></span></span>
-                                                                    <div class="dc-cell-label-container dc-header-cell-sorted-none" role="presentation">
-                                                                        <div ref="eLabel" class="dc-header-cell-label" role="presentation"> <span ref="eText" class="dc-header-cell-text" role="columnheader">品名</span> <span ref="eFilter" class="dc-header-icon dc-filter-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-filter"></span></span>
-                                                                            <span ref="eSortOrder" class="dc-header-icon dc-sort-order dc-hidden" aria-hidden="true"></span> <span ref="eSortAsc" class="dc-header-icon dc-sort-ascending-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-asc"></span></span>
-                                                                            <span ref="eSortDesc" class="dc-header-icon dc-sort-descending-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-desc"></span></span>
-                                                                            <span ref="eSortNone" class="dc-header-icon dc-sort-none-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-none"></span></span>
+                                                                <div class="dc-header-cell dc-header-cell-sortable" col-id="Name" style="width: 300px; left: 163px;">
+                                                                    <div ref="eResize" class="dc-header-cell-resize"></div><span class="dc-header-select-all dc-hidden" ref="cbSelectAll">  <span class="dc-checkbox-checked dc-hidden"><span class="dc-icon dc-icon-checkbox-checked"></span></span>
+                                                                    <span class="dc-checkbox-unchecked"><span class="dc-icon dc-icon-checkbox-unchecked"></span></span> <span class="dc-checkbox-indeterminate dc-hidden"><span class="dc-icon dc-icon-checkbox-indeterminate"></span></span>
+                                                                    <span class="dc-checkbox-label"></span></span>
+                                                                    <div class="dc-cell-label-container dc-header-cell-sorted-none">
+                                                                        <div ref="eLabel" class="dc-header-cell-label">
+                                                                            <span ref="eText" class="dc-header-cell-text" role="columnheader">品名</span>
+                                                                            <span ref="eFilter" class="dc-header-icon dc-filter-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-filter"></span>
+                                                                            </span>
+                                                                            <span ref="eSortOrder" class="dc-header-icon dc-sort-order dc-hidden" aria-hidden="true"></span>
+                                                                            <span ref="eSortAsc" class="dc-header-icon dc-sort-ascending-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-asc"></span>
+                                                                            </span>
+                                                                            <span ref="eSortDesc" class="dc-header-icon dc-sort-descending-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-desc"></span>
+                                                                            </span>
+                                                                            <span ref="eSortNone" class="dc-header-icon dc-sort-none-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-none"></span>
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="dc-header-cell dc-header-cell-sortable text-center" role="presentation" col-id="StockUnit" style="width: 80px; left: 463px;">
-                                                                    <div ref="eResize" class="dc-header-cell-resize" role="presentation"></div><span class="dc-header-select-all dc-hidden" role="presentation" ref="cbSelectAll">  <span class="dc-checkbox-checked dc-hidden" role="presentation"><span class="dc-icon dc-icon-checkbox-checked"></span></span>
-                                                                    <span class="dc-checkbox-unchecked" role="presentation"><span class="dc-icon dc-icon-checkbox-unchecked"></span></span> <span class="dc-checkbox-indeterminate dc-hidden" role="presentation"><span class="dc-icon dc-icon-checkbox-indeterminate"></span></span>
-                                                                    <span class="dc-checkbox-label" role="presentation"></span></span>
-                                                                    <div class="dc-cell-label-container dc-header-cell-sorted-none" role="presentation">
-                                                                        <div ref="eLabel" class="dc-header-cell-label" role="presentation"> <span ref="eText" class="dc-header-cell-text" role="columnheader">單位</span> <span ref="eFilter" class="dc-header-icon dc-filter-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-filter"></span></span>
-                                                                            <span ref="eSortOrder" class="dc-header-icon dc-sort-order dc-hidden" aria-hidden="true"></span> <span ref="eSortAsc" class="dc-header-icon dc-sort-ascending-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-asc"></span></span>
-                                                                            <span ref="eSortDesc" class="dc-header-icon dc-sort-descending-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-desc"></span></span>
-                                                                            <span ref="eSortNone" class="dc-header-icon dc-sort-none-icon dc-hidden" aria-hidden="true"><span class="dc-icon dc-icon-none"></span></span>
+                                                                <div class="dc-header-cell dc-header-cell-sortable text-center" col-id="StockUnit" style="width: 80px; left: 463px;">
+                                                                    <div ref="eResize" class="dc-header-cell-resize"></div>
+                                                                    <span class="dc-header-select-all dc-hidden" ref="cbSelectAll">
+                                                                        <span class="dc-checkbox-checked dc-hidden">
+                                                                            <span class="dc-icon dc-icon-checkbox-checked"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-unchecked">
+                                                                            <span class="dc-icon dc-icon-checkbox-unchecked"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-indeterminate dc-hidden">
+                                                                            <span class="dc-icon dc-icon-checkbox-indeterminate"></span>
+                                                                        </span>
+                                                                        <span class="dc-checkbox-label"></span>
+                                                                    </span>
+                                                                    <div class="dc-cell-label-container dc-header-cell-sorted-none">
+                                                                        <div ref="eLabel" class="dc-header-cell-label">
+                                                                            <span ref="eText" class="dc-header-cell-text" role="columnheader">單位</span>
+                                                                            <span ref="eFilter" class="dc-header-icon dc-filter-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-filter"></span>
+                                                                            </span>
+                                                                            <span ref="eSortOrder" class="dc-header-icon dc-sort-order dc-hidden" aria-hidden="true"></span>
+                                                                            <span ref="eSortAsc" class="dc-header-icon dc-sort-ascending-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-asc"></span>
+                                                                            </span>
+                                                                            <span ref="eSortDesc" class="dc-header-icon dc-sort-descending-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-desc"></span>
+                                                                            </span>
+                                                                            <span ref="eSortNone" class="dc-header-icon dc-sort-none-icon dc-hidden" aria-hidden="true">
+                                                                                <span class="dc-icon dc-icon-none"></span>
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="dc-header-overlay" role="presentation" style="height: 30px; top: 0px;"></div>
+                                                    <div class="dc-header-overlay" style="height: 30px; top: 0px;"></div>
                                                 </div>
-                                                <div class="dc-floating-top" role="presentation" style="top: 30px; height: 0px;">
-                                                    <div class="dc-pinned-left-floating-top" role="presentation" style="width: 0px;"></div>
-                                                    <div class="dc-pinned-right-floating-top" role="presentation" style="width: 0px;"></div>
-                                                    <div class="dc-floating-top-viewport" role="presentation">
-                                                        <div class="dc-floating-top-container" role="presentation" style="width: 543px;"></div>
+                                                <div class="dc-floating-top" style="top: 30px; height: 0px;">
+                                                    <div class="dc-pinned-left-floating-top" style="width: 0px;"></div>
+                                                    <div class="dc-pinned-right-floating-top" style="width: 0px;"></div>
+                                                    <div class="dc-floating-top-viewport">
+                                                        <div class="dc-floating-top-container" style="width: 543px;"></div>
                                                     </div>
-                                                    <div class="dc-floating-top-full-width-container dc-hidden" role="presentation"></div>
+                                                    <div class="dc-floating-top-full-width-container dc-hidden"></div>
                                                 </div>
-                                                <div class="dc-floating-bottom" role="presentation" style="height: 0px; top: 350px;">
-                                                    <div class="dc-pinned-left-floating-bottom" role="presentation" style="width: 0px;"></div>
-                                                    <div class="dc-pinned-right-floating-bottom" role="presentation" style="width: 0px;"></div>
-                                                    <div class="dc-floating-bottom-viewport" role="presentation">
-                                                        <div class="dc-floating-bottom-container" role="presentation" style="width: 543px;"></div>
+                                                <div class="dc-floating-bottom" style="height: 0px; top: 350px;">
+                                                    <div class="dc-pinned-left-floating-bottom" style="width: 0px;"></div>
+                                                    <div class="dc-pinned-right-floating-bottom" style="width: 0px;"></div>
+                                                    <div class="dc-floating-bottom-viewport">
+                                                        <div class="dc-floating-bottom-container" style="width: 543px;"></div>
                                                     </div>
-                                                    <div class="dc-floating-bottom-full-width-container dc-hidden" role="presentation"></div>
+                                                    <div class="dc-floating-bottom-full-width-container dc-hidden"></div>
                                                 </div>
-                                                <div class="dc-body" role="presentation" style="top: 30px; height: 320px;">
-                                                    <div class="dc-pinned-left-cols-viewport" role="presentation" style="display: none; width: 0px; height: 320px;">
-                                                        <div class="dc-pinned-left-cols-container" role="presentation" style="height: 750px; top: 0px; width: 0px;">
+                                                <div class="dc-body" style="top: 30px; height: 320px;">
+                                                    <div class="dc-pinned-left-cols-viewport" style="display: none; width: 0px; height: 320px;">
+                                                        <div class="dc-pinned-left-cols-container" style="height: 750px; top: 0px; width: 0px;">
                                                             <div role="row" row-index="0" row-id="24" comp-id="623" class="dc-row dc-row-even dc-row-no-animation dc-row-level-0 dc-row-no-focus" style="height: 30px; top: 0px;  "></div>
                                                             <div role="row" row-index="1" row-id="23" comp-id="628" class="dc-row dc-row-no-focus dc-row-odd dc-row-no-animation dc-row-level-0" style="height: 30px; top: 30px;  "></div>
                                                             <div role="row" row-index="2" row-id="22" comp-id="633" class="dc-row dc-row-even dc-row-no-animation dc-row-level-0 dc-row-no-focus" style="height: 30px; top: 60px;  "></div>
@@ -143,8 +207,8 @@
                                                             <div role="row" row-index="4" row-id="20" comp-id="507" class="dc-row dc-row-even dc-row-no-animation dc-row-level-0 dc-row-no-focus" style="height: 30px; top: 120px;"></div>
                                                         </div>
                                                     </div>
-                                                    <div class="dc-pinned-right-cols-viewport" role="presentation" style="display: none; width: 0px; height: 320px;">
-                                                        <div class="dc-pinned-right-cols-container" role="presentation" style="height: 750px; width: 0px;">
+                                                    <div class="dc-pinned-right-cols-viewport" style="display: none; width: 0px; height: 320px;">
+                                                        <div class="dc-pinned-right-cols-container" style="height: 750px; width: 0px;">
                                                             <div role="row" row-index="0" row-id="24" comp-id="623" class="dc-row dc-row-even dc-row-no-animation dc-row-level-0 dc-row-no-focus" style="height: 30px; top: 0px;  "></div>
                                                             <div role="row" row-index="1" row-id="23" comp-id="628" class="dc-row dc-row-no-focus dc-row-odd dc-row-no-animation dc-row-level-0" style="height: 30px; top: 30px;  "></div>
                                                             <div role="row" row-index="2" row-id="22" comp-id="633" class="dc-row dc-row-even dc-row-no-animation dc-row-level-0 dc-row-no-focus" style="height: 30px; top: 60px;  "></div>
@@ -168,9 +232,9 @@
                                                             <div role="row" row-index="4" row-id="20" comp-id="507" class="dc-row dc-row-even dc-row-no-animation dc-row-level-0 dc-row-no-focus" style="height: 30px; top: 120px;"></div>
                                                         </div>
                                                     </div>
-                                                    <div class="dc-body-viewport-wrapper" role="presentation" style="margin-left: 0px; margin-right: 0px;">
-                                                        <div class="dc-body-viewport" role="presentation" style="overflow-y: auto;">
-                                                            <div class="dc-body-container" role="presentation" style="height: 750px; top: 0px; width: 543px;">
+                                                    <div class="dc-body-viewport-wrapper" style="margin-left: 0px; margin-right: 0px;">
+                                                        <div class="dc-body-viewport" style="overflow-y: auto;">
+                                                            <div class="dc-body-container" style="height: 750px; top: 0px; width: 867px;">
                                                                 <div role="row" row-index="0" row-id="24" comp-id="623" class="dc-row dc-row-even dc-row-no-animation dc-row-level-0 dc-row-no-focus" style="height: 30px; top: 0px;  ">
                                                                     <div tabindex="-1" role="gridcell" comp-id="799" col-id="StockUnit" class="dc-cell dc-cell-not-inline-editing dc-cell-no-focus text-left dc-cell-value" style="width: 80px; left: 463px; ">次</div>
                                                                     <div tabindex="-1" role="gridcell" comp-id="624" col-id="isSelected" class="dc-cell dc-cell-not-inline-editing dc-cell-no-focus text-center dc-cell-value" style="width: 33px; left: 0px; ">
@@ -181,7 +245,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773170776_1">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773170776_1">
                                                                                 <label for="IsSelectedCell1514773170776_1"></label>
                                                                             </div>
 
@@ -202,7 +266,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773170777_2">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773170777_2">
                                                                                 <label for="IsSelectedCell1514773170777_2"></label>
                                                                             </div>
 
@@ -223,7 +287,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773170779_3">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773170779_3">
                                                                                 <label for="IsSelectedCell1514773170779_3"></label>
                                                                             </div>
 
@@ -244,7 +308,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773170780_4">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773170780_4">
                                                                                 <label for="IsSelectedCell1514773170780_4"></label>
                                                                             </div>
 
@@ -267,7 +331,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126888_5">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126888_5">
                                                                                 <label for="IsSelectedCell1514773126888_5"></label>
                                                                             </div>
 
@@ -288,7 +352,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126890_6">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126890_6">
                                                                                 <label for="IsSelectedCell1514773126890_6"></label>
                                                                             </div>
 
@@ -309,7 +373,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126891_7">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126891_7">
                                                                                 <label for="IsSelectedCell1514773126891_7"></label>
                                                                             </div>
 
@@ -330,7 +394,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126892_8">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126892_8">
                                                                                 <label for="IsSelectedCell1514773126892_8"></label>
                                                                             </div>
 
@@ -351,7 +415,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126893_9">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126893_9">
                                                                                 <label for="IsSelectedCell1514773126893_9"></label>
                                                                             </div>
 
@@ -372,7 +436,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126894_10">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126894_10">
                                                                                 <label for="IsSelectedCell1514773126894_10"></label>
                                                                             </div>
 
@@ -393,7 +457,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126895_11">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126895_11">
                                                                                 <label for="IsSelectedCell1514773126895_11"></label>
                                                                             </div>
 
@@ -414,7 +478,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126896_12">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126896_12">
                                                                                 <label for="IsSelectedCell1514773126896_12"></label>
                                                                             </div>
 
@@ -435,7 +499,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126897_13">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126897_13">
                                                                                 <label for="IsSelectedCell1514773126897_13"></label>
                                                                             </div>
 
@@ -456,7 +520,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126898_14">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126898_14">
                                                                                 <label for="IsSelectedCell1514773126898_14"></label>
                                                                             </div>
 
@@ -477,7 +541,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126899_15">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126899_15">
                                                                                 <label for="IsSelectedCell1514773126899_15"></label>
                                                                             </div>
 
@@ -498,7 +562,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126900_16">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126900_16">
                                                                                 <label for="IsSelectedCell1514773126900_16"></label>
                                                                             </div>
 
@@ -519,7 +583,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126901_17">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126901_17">
                                                                                 <label for="IsSelectedCell1514773126901_17"></label>
                                                                             </div>
 
@@ -540,7 +604,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-pristine ng-valid" name="layout" type="checkbox" id="IsSelectedCell1514773126902_18">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126902_18">
                                                                                 <label for="IsSelectedCell1514773126902_18"></label>
                                                                             </div>
 
@@ -561,7 +625,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-valid ng-dirty" name="layout" type="checkbox" id="IsSelectedCell1514773126904_19">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126904_19">
                                                                                 <label for="IsSelectedCell1514773126904_19"></label>
                                                                             </div>
 
@@ -582,7 +646,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-valid ng-dirty" name="layout" type="checkbox" id="IsSelectedCell1514773126905_20">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126905_20">
                                                                                 <label for="IsSelectedCell1514773126905_20"></label>
                                                                             </div>
 
@@ -603,7 +667,7 @@
 
                                                                             <!---->
                                                                             <div class="ui-grid-cell-contents">
-                                                                                <input class="magic-checkbox ng-untouched ng-valid ng-dirty" name="layout" type="checkbox" id="IsSelectedCell1514773126906_21">
+                                                                                <input class="magic-checkbox blue" name="layout" type="checkbox" id="IsSelectedCell1514773126906_21">
                                                                                 <label for="IsSelectedCell1514773126906_21"></label>
                                                                             </div>
 
@@ -615,8 +679,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="dc-full-width-viewport dc-hidden" role="presentation" style="border-right: 17px solid transparent;">
-                                                        <div class="dc-full-width-container" role="presentation" style="height: 750px; top: 0px;"></div>
+                                                    <div class="dc-full-width-viewport dc-hidden" style="border-right: 17px solid transparent;">
+                                                        <div class="dc-full-width-container" style="height: 750px; top: 0px;"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -626,18 +690,16 @@
                                 </div>
                                 <div class="dc-bl-overlay" ref="overlay"></div>
                             </div>
-                        </dc-grid-angular>
+                        </div>
                     </div>
                 </div>
                 <div class="select2-results">
                     <span>共25筆</span>
                 </div>
-                <div class="select2-footer">
-                    <button class="btn btn-submit margin-5"> 確認 <i class="fa fa-check"></i> </button>
-                    <button class="btn btn-red margin-5"> 取消 <i class="fa fa fa-times"> </i> </button>
-                </div>
             </div>
             <div class='modal-footer'>
+                <button class="btn btn-success margin-5"> 加入 <i class="fa fa-check"></i> </button>
+                <button class="btn btn-danger margin-5"> 取消 <i class="fa fa fa-times"></i> </button>
             </div>
         </div>
     </div>

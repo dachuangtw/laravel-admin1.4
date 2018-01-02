@@ -4526,12 +4526,6 @@ button.close {
     background: rgba(0, 0, 0, 0.2)
 }
 
-@media (max-width: 767px) {
-    .grid-list {
-        height: auto
-    }
-}
-
 .modal-content {
     padding: 12px 10px 0
 }

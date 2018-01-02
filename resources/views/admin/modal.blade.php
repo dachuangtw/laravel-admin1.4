@@ -5,32 +5,27 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
                 <h4 class="title">商品資料{{ $target }} </h4>
             </div>
-            <div class='
-            '>
+            <div class='modal-body'>
                 <div class="select2-search">
                     <div class="flex-row">
                         <div class="flex-col-xs no-padding padding-right-5">
                             <div class="input-group">
-                                <input class="form-control no-border-right" placeholder="請輸入搜尋的資料" type="text">
+                                <input class="form-control no-border-right" placeholder="請輸入搜尋的商品" type="text">
                                 <span class="input-group-btn">
                                 <button class="btn btn-transparent-grey2" type="button"> <i class="fa fa-search"></i> </button>
                                 </span>
                             </div>
                         </div>
-                        <button class="btn btn-orange flex-col-xs maxmin-72 xs-maxmin-72"> 新增<i class="fa fa-plus margin-left-5"></i> </button>
+                        <button class="btn btn-orange"> 新增<i class="fa fa-plus margin-left-5"></i> </button>
                     </div>
                 </div>
-                <!---->
                 <div class="select2-results footer-btn-mrgin">
                     <div class="table-responsive ">
-
-
-
                         <div class="fresh" style="width: 100%; height: 350px;">
                             <div class="dc-bl dc-bl-full-height dc-layout-normal dc-ltr" id="borderLayout_eRootPanel">
-                                <div class="dc-bl-center dc-bl-full-height-center" ref="center" style="margin-left: 0px; width: 884px;">
+                                <div class="dc-bl-center dc-bl-full-height-center" ref="center" style="margin-left: 0px; width: 854px;">
                                     <div class="dc-bl dc-bl-full-height" id="borderLayout_eGridPanel">
-                                        <div class="dc-bl-center dc-bl-full-height-center" ref="center" style="margin-left: 0px; width: 884px;">
+                                        <div class="dc-bl-center dc-bl-full-height-center" ref="center" style="margin-left: 0px; width: 854px;">
                                             <div class="dc-root dc-font-style" role="grid">
                                                 <div class="dc-header" role="row" style="height: 30px;">
                                                     <div class="dc-pinned-left-header" style="display: none; width: 0px;">
@@ -234,7 +229,7 @@
                                                     </div>
                                                     <div class="dc-body-viewport-wrapper" style="margin-left: 0px; margin-right: 0px;">
                                                         <div class="dc-body-viewport" style="overflow-y: auto;">
-                                                            <div class="dc-body-container" style="height: 750px; top: 0px; width: 867px;">
+                                                            <div class="dc-body-container" style="height: 750px; top: 0px; width: 837px;">
                                                                 <div role="row" row-index="0" row-id="24" comp-id="623" class="dc-row dc-row-even dc-row-no-animation dc-row-level-0 dc-row-no-focus" style="height: 30px; top: 0px;  ">
                                                                     <div tabindex="-1" role="gridcell" comp-id="799" col-id="StockUnit" class="dc-cell dc-cell-not-inline-editing dc-cell-no-focus text-left dc-cell-value" style="width: 80px; left: 463px; ">次</div>
                                                                     <div tabindex="-1" role="gridcell" comp-id="624" col-id="isSelected" class="dc-cell dc-cell-not-inline-editing dc-cell-no-focus text-center dc-cell-value" style="width: 33px; left: 0px; ">
@@ -254,7 +249,12 @@
                                                                         </app-is-free>
                                                                     </div>
                                                                     <div tabindex="-1" role="gridcell" comp-id="625" col-id="ID" class="dc-cell dc-cell-not-inline-editing text-left dc-cell-value dc-cell-no-focus" style="width: 130px; left: 33px; ">Z2001001-01</div>
-                                                                    <div tabindex="-1" role="gridcell" comp-id="626" col-id="Name" class="dc-cell dc-cell-not-inline-editing dc-cell-no-focus text-left dc-cell-value" style="width: 300px; left: 163px; ">服務費</div>
+                                                                    
+                                                                    <!-- popover彈出式提示視窗 -->
+                                                                    <div tabindex="-1" role="gridcell" comp-id="626" col-id="Name" class="dc-cell dc-cell-not-inline-editing dc-cell-no-focus text-left dc-cell-value" style="width: 300px; left: 163px; "> 
+                                                                        <a href="#" role="button" data-toggle="popover" data-original-title="Popover title" data-container="#selectproduct" data-html="true" data-content="<img src='http://localhost/upload/product/5c870692eb89e8a9a6f7e9b528ddbb3d.png'>">服務費</a>
+                                                                    </div>
+                                                                    
                                                                 </div>
                                                                 <div role="row" row-index="1" row-id="23" comp-id="628" class="dc-row dc-row-no-focus dc-row-odd dc-row-no-animation dc-row-level-0" style="height: 30px; top: 30px;  ">
                                                                     <div tabindex="-1" role="gridcell" comp-id="800" col-id="StockUnit" class="dc-cell dc-cell-not-inline-editing dc-cell-no-focus text-left dc-cell-value" style="width: 80px; left: 463px; ">次</div>
@@ -694,13 +694,18 @@
                     </div>
                 </div>
                 <div class="select2-results">
-                    <span>共25筆</span>
+                    <span>已選擇：25 </span>
                 </div>
             </div>
             <div class='modal-footer'>
                 <button class="btn btn-success margin-5"> 加入 <i class="fa fa-check"></i> </button>
-                <button class="btn btn-danger margin-5"> 取消 <i class="fa fa fa-times"></i> </button>
+                <button class="btn btn-danger margin-5" data-dismiss="modal" aria-hidden="true"> 取消 <i class="fa fa fa-times"></i> </button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>

@@ -22,3 +22,4 @@
 app('view')->prependNamespace('admin', resource_path('views/admin'));
 Admin::css('css/customize.css');
 Admin::js('js/customize.js');
+Admin::js('js/popper.min.js');

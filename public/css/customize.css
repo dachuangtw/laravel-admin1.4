@@ -83,6 +83,12 @@ a:focus i.fa-trash {
     text-align: center;
 }
 
+@media (max-width: 767px) {
+    .modal-body {
+        height: auto
+    }
+}
+
 
 /* 進貨單商品添加時的彈出視窗樣式 */
 
@@ -199,7 +205,8 @@ a:focus i.fa-trash {
     -webkit-box-direction: normal !important;
     -webkit-flex-direction: row !important;
     -ms-flex-direction: row !important;
-    flex-direction: row !important display: -webkit-flex;
+    flex-direction: row !important;
+    display: -webkit-flex;
     display: -ms-flex;
     display: flex;
     -webkit-flex-flow: row wrap;

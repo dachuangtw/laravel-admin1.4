@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductReceipt extends Model
+class ProductReceiptDetails extends Model
 {
-    //進貨單資料表
-    protected $table = 'product_receipt';
+    //進貨單明細資料表
+    protected $table = 'product_receipt_details';
     //主鍵
-    protected $primaryKey = 'reid';
+    protected $primaryKey = 'redid';
 
     //需要被轉換成日期的屬性
     protected $dates = ['deleted_at'];

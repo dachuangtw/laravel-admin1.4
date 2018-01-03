@@ -96,7 +96,7 @@ a:focus i.fa-trash {
     display: inline-block
 }
 
-.dc-ltr {
+.table-ltr {
     direction: ltr
 }
 
@@ -343,10 +343,10 @@ a:focus i.fa-trash {
 }
 
 .input-group .btn,
-.input-group .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .input-group .dc-paging-button,
+.input-group .fresh .table-paging-panel .table-paging-page-summary-panel .table-paging-button,
+.fresh .table-paging-panel .table-paging-page-summary-panel .input-group .table-paging-button,
 button.btn,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel button.dc-paging-button {
+.fresh .table-paging-panel .table-paging-page-summary-panel button.table-paging-button {
     padding: 4px 10px
 }
 
@@ -417,15 +417,15 @@ button.btn,
     border: 0
 }
 
-.fresh .dc-root {
+.fresh .table-root {
     border: 1px solid #ccc !important
 }
 
-.fresh .dc-cell-data-changed {
+.fresh .table-cell-data-changed {
     background-color: #cec
 }
 
-.fresh .dc-cell-data-changed-animation {
+.fresh .table-cell-data-changed-animation {
     background-color: transparent;
     -webkit-transition: background-color 1s;
     -moz-transition: background-color 1s;
@@ -434,66 +434,66 @@ button.btn,
     transition: background-color 1s
 }
 
-.fresh .dc-cell-not-inline-editing {
+.fresh .table-cell-not-inline-editing {
     padding: 2px
 }
 
-.fresh .dc-cell-range-selected-1:not(.dc-cell-focus) {
+.fresh .table-cell-range-selected-1:not(.table-cell-focus) {
     background-color: rgba(120, 120, 120, 0.4)
 }
 
-.fresh .dc-cell-range-selected-2:not(.dc-cell-focus) {
+.fresh .table-cell-range-selected-2:not(.table-cell-focus) {
     background-color: rgba(80, 80, 80, 0.4)
 }
 
-.fresh .dc-cell-range-selected-3:not(.dc-cell-focus) {
+.fresh .table-cell-range-selected-3:not(.table-cell-focus) {
     background-color: rgba(40, 40, 40, 0.4)
 }
 
-.fresh .dc-cell-range-selected-4:not(.dc-cell-focus) {
+.fresh .table-cell-range-selected-4:not(.table-cell-focus) {
     background-color: rgba(0, 0, 0, 0.4)
 }
 
-.fresh .dc-cell-focus {
+.fresh .table-cell-focus {
     border: 1px solid #a9a9a9
 }
 
-.fresh .dc-cell-no-focus {
+.fresh .table-cell-no-focus {
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent
 }
 
-.fresh .dc-ltr .dc-cell-no-focus {
+.fresh .table-ltr .table-cell-no-focus {
     border-right: 1px dotted #808080;
     border-left: 1px solid transparent
 }
 
-.fresh .dc-rtl .dc-cell-no-focus {
+.fresh .table-rtl .table-cell-no-focus {
     border-right: 1px solid transparent;
     border-left: 1px dotted #808080
 }
 
-.fresh .dc-rtl .dc-cell-first-right-pinned {
+.fresh .table-rtl .table-cell-first-right-pinned {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-ltr .dc-cell-first-right-pinned {
+.fresh .table-ltr .table-cell-first-right-pinned {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-rtl .dc-cell-last-left-pinned {
+.fresh .table-rtl .table-cell-last-left-pinned {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-ltr .dc-cell-last-left-pinned {
+.fresh .table-ltr .table-cell-last-left-pinned {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-cell-highlight {
+.fresh .table-cell-highlight {
     border: 1px solid #006400
 }
 
-.fresh .dc-cell-highlight-animation {
+.fresh .table-cell-highlight-animation {
     -webkit-transition: border 1s;
     -moz-transition: border 1s;
     -o-transition: border 1s;
@@ -501,19 +501,19 @@ button.btn,
     transition: border 1s
 }
 
-.fresh .dc-value-change-delta {
+.fresh .table-value-change-delta {
     padding-right: 2px
 }
 
-.fresh .dc-value-change-delta-up {
+.fresh .table-value-change-delta-up {
     color: #006400
 }
 
-.fresh .dc-value-change-delta-down {
+.fresh .table-value-change-delta-down {
     color: #8b0000
 }
 
-.fresh .dc-value-change-value {
+.fresh .table-value-change-value {
     background-color: transparent;
     border-radius: 1px;
     padding-left: 1px;
@@ -525,7 +525,7 @@ button.btn,
     transition: background-color 1s
 }
 
-.fresh .dc-value-change-value-highlight {
+.fresh .table-value-change-value-highlight {
     background-color: #cec;
     -webkit-transition: background-color 0.1s;
     -moz-transition: background-color 0.1s;
@@ -534,38 +534,39 @@ button.btn,
     transition: background-color 0.1s
 }
 
-.fresh .dc-rich-select {
+.fresh .table-rich-select {
     font-size: 14px;
     border: 1px solid #808080;
     background-color: #fff
 }
 
-.fresh .dc-rich-select-value {
+.fresh .table-rich-select-value {
     padding: 2px
 }
 
-.fresh .dc-rich-select-list {
+.fresh .table-rich-select-list {
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .dc-rich-select-row {
+.fresh .table-rich-select-row {
     padding: 2px
 }
 
-.fresh .dc-rich-select-row-selected {
+.fresh .table-rich-select-row-selected {
     background-color: #bde2e5
 }
 
-.fresh .dc-large-text {
+.fresh .table-large-text {
     border: 1px solid #808080
 }
 
-.fresh .dc-header-select-all {
+.fresh .table-header-select-all {
     padding: 5px 0px 0px 3px;
     line-height: 0
 }
 
-.fresh .dc-header {
+
+/* .fresh .table-header {
     color: #000;
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
@@ -574,9 +575,9 @@ button.btn,
     background: linear-gradient(#ffffff, #d3d3d3);
     border-bottom: 1px solid #808080;
     font-weight: normal
-}
+} */
 
-.fresh .dc-header {
+.fresh .table-header {
     background: #ccc !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eee), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #eee, #fff) !important;
@@ -585,7 +586,9 @@ button.btn,
     border-bottom: 1px solid #ccc !important
 }
 
-.fresh.blue-grid .dc-header {
+
+/* 
+.fresh.blue-grid .table-header {
     background: #a9d5ff !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #e3f1ff), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #e3f1ff, #fff) !important;
@@ -594,22 +597,22 @@ button.btn,
     border-bottom: 1px solid #a9d5ff !important
 }
 
-.fresh.red-grid .dc-header {
+.fresh.red-grid .table-header {
     background: #ffb7b7 !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffe9e9), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #ffe9e9, #fff) !important;
     background: -moz-linear-gradient(center bottom, #ffe9e9 0, #fff 100%) !important;
     background: -o-linear-gradient(#fff, #ffe9e9) !important;
     border-bottom: 1px solid #ffb7b7 !important
-}
+} */
 
-.fresh .dc-header-icon {
+.fresh .table-header-icon {
     color: #000;
     stroke: none;
     fill: #000
 }
 
-.fresh .dc-layout-for-print .dc-header-container {
+.fresh .table-layout-for-print .table-header-container {
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
     background: -o-linear-gradient(#fff, #d3d3d3);
@@ -618,65 +621,65 @@ button.btn,
     border-bottom: 1px solid #808080
 }
 
-.fresh .dc-ltr .dc-header-cell {
+.fresh .table-ltr .table-header-cell {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-rtl .dc-header-cell {
+.fresh .table-rtl .table-header-cell {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-header-cell-moving .dc-header-cell-label {
+.fresh .table-header-cell-moving .table-header-cell-label {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .dc-header-cell-moving {
+.fresh .table-header-cell-moving {
     background-color: #bebebe
 }
 
-.fresh .dc-ltr .dc-header-group-cell {
+.fresh .table-ltr .table-header-group-cell {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-rtl .dc-header-group-cell {
+.fresh .table-rtl .table-header-group-cell {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-header-group-cell-with-group {
+.fresh .table-header-group-cell-with-group {
     border-bottom: 1px solid #808080
 }
 
-.fresh .dc-header-cell-label {
+.fresh .table-header-cell-label {
     padding: 4px 2px 4px 2px
 }
 
-.fresh .dc-header-cell-text {
+.fresh .table-header-cell-text {
     padding-left: 2px
 }
 
-.fresh .dc-header-group-cell-label {
+.fresh .table-header-group-cell-label {
     padding: 4px
 }
 
-.fresh .dc-ltr .dc-header-group-cell-label {
+.fresh .table-ltr .table-header-group-cell-label {
     padding-left: 10px
 }
 
-.fresh .dc-rtl .dc-header-group-cell-label {
+.fresh .table-rtl .table-header-group-cell-label {
     padding-right: 10px
 }
 
-.fresh .dc-rtl .dc-header-group-text {
+.fresh .table-rtl .table-header-group-text {
     margin-left: 2px
 }
 
-.fresh .dc-ltr .dc-header-group-text {
+.fresh .table-ltr .table-header-group-text {
     margin-right: 2px
 }
 
-.fresh .dc-header-cell-menu-button {
+.fresh .table-header-cell-menu-button {
     padding: 2px;
     margin-top: 4px;
     margin-left: 1px;
@@ -689,55 +692,55 @@ button.btn,
     line-height: 0px
 }
 
-.fresh .dc-ltr .dc-pinned-right-header {
+.fresh .table-ltr .table-pinned-right-header {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-rtl .dc-pinned-left-header {
+.fresh .table-rtl .table-pinned-left-header {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-header-cell-menu-button:hover {
+.fresh .table-header-cell-menu-button:hover {
     border: 1px solid #808080
 }
 
-.fresh .dc-body {
+.fresh .table-body {
     background-color: #f6f6f6
 }
 
-.fresh .dc-row-odd {
+.fresh .table-row-odd {
     background-color: #f6f6f6
 }
 
-.fresh .dc-row-even {
+.fresh .table-row-even {
     background-color: #fff
 }
 
-.fresh .dc-row-selected {
+.fresh .table-row-selected {
     background-color: #b0e0e6
 }
 
-.fresh .dc-row-stub {
+.fresh .table-row-stub {
     background-color: #f0f0f0
 }
 
-.fresh .dc-stub-cell {
+.fresh .table-stub-cell {
     padding: 2px 2px 2px 10px
 }
 
-.fresh .dc-floating-top .dc-row {
+.fresh .table-floating-top .table-row {
     background-color: #f0f0f0
 }
 
-.fresh .dc-floating-bottom .dc-row {
+.fresh .table-floating-bottom .table-row {
     background-color: #f0f0f0
 }
 
-.fresh .dc-overlay-loading-wrapper {
+.fresh .table-overlay-loading-wrapper {
     background-color: rgba(255, 255, 255, 0.5)
 }
 
-.fresh .dc-overlay-loading-center {
+.fresh .table-overlay-loading-center {
     background-color: #fff;
     border: 1px solid #808080;
     border-radius: 10px;
@@ -745,76 +748,76 @@ button.btn,
     color: #000
 }
 
-.fresh .dc-overlay-no-rows-center {
+.fresh .table-overlay-no-rows-center {
     background-color: #fff;
     border: 1px solid #808080;
     border-radius: 10px;
     padding: 10px
 }
 
-.fresh .dc-group-cell-entire-row {
+.fresh .table-group-cell-entire-row {
     background-color: #f6f6f6;
     padding: 2px
 }
 
-.fresh .dc-footer-cell-entire-row {
+.fresh .table-footer-cell-entire-row {
     background-color: #f6f6f6;
     padding: 2px
 }
 
-.fresh .dc-group-cell {
+.fresh .table-group-cell {
     font-style: italic
 }
 
-.fresh .dc-ltr .dc-group-expanded {
+.fresh .table-ltr .table-group-expanded {
     padding-right: 4px
 }
 
-.fresh .dc-rtl .dc-group-expanded {
+.fresh .table-rtl .table-group-expanded {
     padding-left: 4px
 }
 
-.fresh .dc-ltr .dc-group-contracted {
+.fresh .table-ltr .table-group-contracted {
     padding-right: 4px
 }
 
-.fresh .dc-rtl .dc-group-contracted {
+.fresh .table-rtl .table-group-contracted {
     padding-left: 4px
 }
 
-.fresh .dc-ltr .dc-group-loading {
+.fresh .table-ltr .table-group-loading {
     padding-right: 4px
 }
 
-.fresh .dc-rtl .dc-group-loading {
+.fresh .table-rtl .table-group-loading {
     padding-left: 4px
 }
 
-.fresh .dc-ltr .dc-group-value {
+.fresh .table-ltr .table-group-value {
     padding-right: 2px
 }
 
-.fresh .dc-rtl .dc-group-value {
+.fresh .table-rtl .table-group-value {
     padding-left: 2px
 }
 
-.fresh .dc-ltr .dc-group-checkbox {
+.fresh .table-ltr .table-group-checkbox {
     padding-right: 2px
 }
 
-.fresh .dc-rtl .dc-group-checkbox {
+.fresh .table-rtl .table-group-checkbox {
     padding-left: 2px
 }
 
-.fresh .dc-group-child-count {
+.fresh .table-group-child-count {
     display: inline-block
 }
 
-.fresh .dc-footer-cell {
+.fresh .table-footer-cell {
     font-style: italic
 }
 
-.fresh .dc-menu {
+.fresh .table-menu {
     border: 1px solid #808080;
     background-color: #f6f6f6;
     cursor: default;
@@ -822,11 +825,11 @@ button.btn,
     font-size: 14px
 }
 
-.fresh .dc-menu .dc-tab-header {
+.fresh .table-menu .table-tab-header {
     background-color: #e6e6e6
 }
 
-.fresh .dc-menu .dc-tab {
+.fresh .table-menu .table-tab {
     padding: 6px 8px 6px 8px;
     margin: 2px 2px 0px 2px;
     display: inline-block;
@@ -837,108 +840,108 @@ button.btn,
     border-top-left-radius: 2px
 }
 
-.fresh .dc-menu .dc-tab-selected {
+.fresh .table-menu .table-tab-selected {
     background-color: #f6f6f6;
     border-right: 1px solid #d3d3d3;
     border-left: 1px solid #d3d3d3;
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .dc-menu-separator {
+.fresh .table-menu-separator {
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .dc-menu-option-active {
+.fresh .table-menu-option-active {
     background-color: #bde2e5
 }
 
-.fresh .dc-menu-option-icon {
+.fresh .table-menu-option-icon {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .dc-menu-option-text {
+.fresh .table-menu-option-text {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .dc-menu-option-shortcut {
+.fresh .table-menu-option-shortcut {
     padding: 2px 2px 2px 2px;
     vertical-align: middle
 }
 
-.fresh .dc-menu-option-popup-pointer {
+.fresh .table-menu-option-popup-pointer {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .dc-menu-option-disabled {
+.fresh .table-menu-option-disabled {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .dc-menu-column-select-wrapper {
+.fresh .table-menu-column-select-wrapper {
     margin: 2px
 }
 
-.fresh .dc-filter-checkbox {
+.fresh .table-filter-checkbox {
     position: relative;
     top: 2px;
     left: 2px
 }
 
-.fresh .dc-filter-header-container {
+.fresh .table-filter-header-container {
     border-bottom: 1px solid #d3d3d3
 }
 
-.fresh .dc-filter-apply-panel {
+.fresh .table-filter-apply-panel {
     border-top: 1px solid #d3d3d3;
     padding: 2px
 }
 
-.fresh .dc-filter-value {
+.fresh .table-filter-value {
     margin-left: 4px
 }
 
-.fresh .dc-ltr .dc-selection-checkbox {
+.fresh .table-ltr .table-selection-checkbox {
     padding-right: 4px
 }
 
-.fresh .dc-rtl .dc-selection-checkbox {
+.fresh .table-rtl .table-selection-checkbox {
     padding-left: 4px
 }
 
-.fresh .dc-paging-panel {
+.fresh .table-paging-panel {
     padding: 4px
 }
 
-.fresh .dc-paging-button {
+.fresh .table-paging-button {
     margin-left: 4px;
     margin-right: 4px
 }
 
-.fresh .dc-paging-row-summary-panel {
+.fresh .table-paging-row-summary-panel {
     display: inline-block;
     width: 300px
 }
 
-.fresh .dc-tool-panel {
+.fresh .table-tool-panel {
     background-color: #f6f6f6;
     border-bottom: 1px solid #808080;
     border-top: 1px solid #808080;
     color: #222
 }
 
-.fresh .ltr .dc-tool-panel {
+.fresh .ltr .table-tool-panel {
     border-right: 1px solid #808080
 }
 
-.fresh .rtl .dc-tool-panel {
+.fresh .rtl .table-tool-panel {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-status-bar {
+.fresh .table-status-bar {
     color: #222;
     background-color: #f6f6f6;
     font-size: 14px;
@@ -949,15 +952,15 @@ button.btn,
     padding: 2px
 }
 
-.fresh .dc-status-bar-aggregations {
+.fresh .table-status-bar-aggregations {
     float: right
 }
 
-.fresh .dc-status-bar-item {
+.fresh .table-status-bar-item {
     padding-left: 10px
 }
 
-.fresh .dc-column-drop-cell {
+.fresh .table-column-drop-cell {
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
     background: -o-linear-gradient(#fff, #d3d3d3);
@@ -967,74 +970,74 @@ button.btn,
     border: 1px solid #808080
 }
 
-.fresh .dc-column-drop-cell-ghost {
+.fresh .table-column-drop-cell-ghost {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .dc-column-drop-cell-text {
+.fresh .table-column-drop-cell-text {
     padding-left: 2px;
     padding-right: 2px
 }
 
-.fresh .dc-column-drop-cell-button {
+.fresh .table-column-drop-cell-button {
     border: 1px solid transparent;
     padding-left: 2px;
     padding-right: 2px;
     border-radius: 3px
 }
 
-.fresh .dc-column-drop-cell-button:hover {
+.fresh .table-column-drop-cell-button:hover {
     border: 1px solid #808080
 }
 
-.fresh .dc-column-drop-empty-message {
+.fresh .table-column-drop-empty-message {
     padding-left: 2px;
     padding-right: 2px;
     color: #808080
 }
 
-.fresh .dc-column-drop-icon {
+.fresh .table-column-drop-icon {
     margin: 3px
 }
 
-.fresh .dc-column-drop {
+.fresh .table-column-drop {
     background-color: #f6f6f6
 }
 
-.fresh .dc-column-drop-horizontal {
+.fresh .table-column-drop-horizontal {
     padding: 2px;
     border-top: 1px solid #808080;
     border-left: 1px solid #808080;
     border-right: 1px solid #808080
 }
 
-.fresh .dc-column-drop-vertical {
+.fresh .table-column-drop-vertical {
     padding: 4px 4px 10px 4px;
     border-bottom: 1px solid #808080
 }
 
-.fresh .dc-column-drop-vertical .dc-column-drop-cell {
+.fresh .table-column-drop-vertical .table-column-drop-cell {
     margin-top: 2px
 }
 
-.fresh .dc-column-drop-vertical .dc-column-drop-empty-message {
+.fresh .table-column-drop-vertical .table-column-drop-empty-message {
     text-align: center;
     padding: 5px
 }
 
-.fresh .dc-pivot-mode {
+.fresh .table-pivot-mode {
     border-bottom: 1px solid #808080;
     padding: 4px;
     background-color: #f6f6f6
 }
 
-.fresh .dc-tool-panel .dc-column-select-panel {
+.fresh .table-tool-panel .table-column-select-panel {
     border-bottom: 1px solid #808080
 }
 
-.fresh .dc-select-agg-func-popup {
+.fresh .table-select-agg-func-popup {
     cursor: default;
     position: absolute;
     font-size: 14px;
@@ -1042,16 +1045,16 @@ button.btn,
     border: 1px solid #808080
 }
 
-.fresh .dc-select-agg-func-item {
+.fresh .table-select-agg-func-item {
     padding-left: 2px;
     padding-right: 2px
 }
 
-.fresh .dc-select-agg-func-item:hover {
+.fresh .table-select-agg-func-item:hover {
     background-color: #bde2e5
 }
 
-.dc-bl-overlay {
+.table-bl-overlay {
     pointer-events: none;
     position: absolute;
     height: 100%;
@@ -1060,61 +1063,62 @@ button.btn,
     left: 0px
 }
 
-.dc-bl-full-height {
+.table-bl-full-height {
     height: 100%;
     overflow: auto;
     position: relative
 }
 
-.dc-bl-west {
+.table-bl-west {
     float: left
 }
 
-.dc-bl-full-height-west {
+.table-bl-full-height-west {
     height: 100%
 }
 
-.dc-bl-east {
+.table-bl-east {
     float: right
 }
 
-.dc-bl-full-height-east {
+.table-bl-full-height-east {
     height: 100%
 }
 
-.dc-bl-full-height-center {
-    height: 100%
-}
 
-.dc-bl-normal {
+/* .table-bl-full-height-center {
+    height: 100%
+} */
+
+.table-bl-normal {
     height: 100%;
     position: relative
 }
 
-.dc-bl-normal-center-row {
+.table-bl-normal-center-row {
     height: 100%;
     overflow: hidden
 }
 
-.dc-bl-normal-west {
+.table-bl-normal-west {
     height: 100%;
     float: left
 }
 
-.dc-bl-normal-east {
+.table-bl-normal-east {
     height: 100%;
     float: right
 }
 
-.dc-bl-normal-center {
+.table-bl-normal-center {
     height: 100%
 }
 
-.dc-bl-dont-fill {
+.table-bl-dont-fill {
     position: relative
 }
 
-.dc-root {
+.table-root {
     position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1122,25 +1126,25 @@ button.btn,
     overflow: hidden
 }
 
-.dc-layout-normal .dc-root {
+.table-layout-normal .table-root {
     height: 100%
 }
 
-.dc-layout-normal {
+.table-layout-normal {
     height: 100%
 }
 
-.dc-layout-normal .dc-header {
+.table-layout-normal .table-header {
     position: absolute;
     top: 0px;
     left: 0px
 }
 
-.dc-layout-normal .dc-header-row {
+.table-layout-normal .table-header-row {
     position: absolute
 }
 
-.dc-layout-normal .dc-header-container {
+.table-layout-normal .table-header-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1149,12 +1153,12 @@ button.btn,
     height: 100%
 }
 
-.dc-layout-normal .dc-body {
+.table-layout-normal .table-body {
     height: 100%;
     position: absolute
 }
 
-.dc-floating-top {
+.table-floating-top {
     width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
@@ -1163,12 +1167,12 @@ button.btn,
     overflow: hidden
 }
 
-.dc-layout-normal .dc-floating-top {
+.table-layout-normal .table-floating-top {
     position: absolute;
     left: 0px
 }
 
-.dc-pinned-left-floating-top {
+.table-pinned-left-floating-top {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1178,11 +1182,11 @@ button.btn,
     position: relative
 }
 
-.dc-layout-normal .dc-pinned-left-floating-top {
+.table-layout-normal .table-pinned-left-floating-top {
     height: 100%
 }
 
-.dc-pinned-right-floating-top {
+.table-pinned-right-floating-top {
     float: right;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1192,22 +1196,22 @@ button.btn,
     position: relative
 }
 
-.dc-layout-normal .dc-pinned-right-floating-top {
+.table-layout-normal .table-pinned-right-floating-top {
     height: 100%
 }
 
-.dc-floating-top-viewport {
+.table-floating-top-viewport {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden
 }
 
-.dc-layout-normal .dc-floating-top-viewport {
+.table-layout-normal .table-floating-top-viewport {
     height: 100%
 }
 
-.dc-floating-bottom {
+.table-floating-bottom {
     width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
@@ -1216,31 +1220,31 @@ button.btn,
     overflow: hidden
 }
 
-.dc-layout-normal .dc-floating-bottom {
+.table-layout-normal .table-floating-bottom {
     position: absolute;
     left: 0px
 }
 
-.dc-layout-normal .dc-pinned-left-floating-bottom {
+.table-layout-normal .table-pinned-left-floating-bottom {
     height: 100%
 }
 
-.dc-layout-normal .dc-pinned-right-floating-bottom {
+.table-layout-normal .table-pinned-right-floating-bottom {
     height: 100%
 }
 
-.dc-floating-bottom-viewport {
+.table-floating-bottom-viewport {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden
 }
 
-.dc-layout-normal .dc-floating-bottom-viewport {
+.table-layout-normal .table-floating-bottom-viewport {
     height: 100%
 }
 
-.dc-floating-bottom-container {
+.table-floating-bottom-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1248,35 +1252,33 @@ button.btn,
     white-space: nowrap
 }
 
-.dc-layout-normal .dc-body-viewport-wrapper {
-    height: 100%
-}
 
-.dc-body-viewport {
+/* .table-layout-normal .table-body-viewport-wrapper {
+    height: 100%
+} */
+
+.table-body {
     overflow-x: auto;
-    overflow-y: auto
+    overflow-y: auto;
+    height: 100%;
 }
 
-.dc-layout-normal .dc-body-viewport {
-    height: 100%
-}
-
-.dc-layout-normal .dc-body-container {
+.table-body-container {
     position: relative;
     display: inline-block
 }
 
-.dc-layout-normal .dc-row {
+.table-layout-normal .table-row {
     white-space: nowrap;
     position: absolute;
     width: 100%
 }
 
-.dc-layout-normal .dc-tool-panel {
+.table-layout-normal .table-tool-panel {
     height: 100%
 }
 
-.dc-font-style {
+.table-font-style {
     cursor: default;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -1284,7 +1286,7 @@ button.btn,
     user-select: none
 }
 
-.dc-pinned-left-header {
+.table-pinned-left-header {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1294,7 +1296,7 @@ button.btn,
     height: 100%
 }
 
-.dc-pinned-right-header {
+.table-pinned-right-header {
     float: right;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1304,79 +1306,79 @@ button.btn,
     height: 100%
 }
 
-.dc-header-cell-label {
+.table-header-cell-label {
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden
 }
 
-.dc-header-cell-resize {
+.resizer {
     height: 100%;
     width: 4px;
     cursor: col-resize
 }
 
-.dc-ltr .dc-header-cell-resize {
+.table-ltr .resizer {
     float: right
 }
 
-.dc-ltr .dc-pinned-right-header .dc-header-cell-resize {
+.table-ltr .table-pinned-right-header .resizer {
     float: left
 }
 
-.dc-rtl .dc-header-cell-resize {
+.table-rtl .resizer {
     float: left
 }
 
-.dc-rtl .dc-pinned-left-header .dc-header-cell-resize {
+.table-rtl .table-pinned-left-header .resizer {
     float: right
 }
 
-.dc-ltr .dc-header-select-all {
+.table-ltr .table-header-select-all {
     float: left
 }
 
-.dc-rtl .dc-header-select-all {
+.table-rtl .table-header-select-all {
     float: right
 }
 
-.dc-pinned-left-cols-viewport {
+.table-pinned-left-cols-viewport {
     float: left
 }
 
-.dc-pinned-left-cols-container {
+.table-pinned-left-cols-container {
     display: inline-block;
     position: relative
 }
 
-.dc-pinned-right-cols-viewport {
+.table-pinned-right-cols-viewport {
     float: right
 }
 
-.dc-ltr .dc-pinned-right-cols-viewport {
+.table-ltr .table-pinned-right-cols-viewport {
     overflow-x: hidden;
     overflow-y: auto
 }
 
-.dc-ltr .dc-pinned-left-cols-viewport {
+.table-ltr .table-pinned-left-cols-viewport {
     overflow: hidden
 }
 
-.dc-rtl .dc-pinned-right-cols-viewport {
+.table-rtl .table-pinned-right-cols-viewport {
     overflow: hidden
 }
 
-.dc-rtl .dc-pinned-left-cols-viewport {
+.table-rtl .table-pinned-left-cols-viewport {
     overflow-x: hidden;
     overflow-y: auto
 }
 
-.dc-pinned-right-cols-container {
+.table-pinned-right-cols-container {
     display: inline-block;
     position: relative
 }
 
-.dc-row-animation {
+.table-row-animation {
     -webkit-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
     -moz-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
     -o-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
@@ -1384,7 +1386,7 @@ button.btn,
     transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s
 }
 
-.dc-row-no-animation {
+.table-row-no-animation {
     -webkit-transition: background-color 0.1s;
     -moz-transition: background-color 0.1s;
     -o-transition: background-color 0.1s;
@@ -1392,37 +1394,37 @@ button.btn,
     transition: background-color 0.1s
 }
 
-.dc-row {
+.table-row {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
 }
 
-.dc-layout-normal .dc-row {
+.table-layout-normal .table-row {
     white-space: nowrap;
     position: absolute;
     width: 100%
 }
 
-.dc-layout-auto-height .dc-row {
+.table-layout-auto-height .table-row {
     white-space: nowrap;
     position: relative;
     width: 100%
 }
 
-.dc-layout-for-print .dc-row {
+.table-layout-for-print .table-row {
     position: relative
 }
 
-.fresh.blue-grid .dc-row-odd {
+.fresh.blue-grid .table-row-odd {
     background-color: #f1f8ff
 }
 
-.fresh.red-grid .dc-row-odd {
+.fresh.red-grid .table-row-odd {
     background-color: #fff3f3
 }
 
-.dc-cell {
+.table-cell {
     display: inline-block;
     white-space: nowrap;
     height: 100%;
@@ -1432,24 +1434,25 @@ button.btn,
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
-    position: absolute
+    position: absolute;
+    outline: none;
 }
 
 .text-left {
     text-align: left
 }
 
-.dc-cell-edit-input {
+.table-cell-edit-input {
     width: 100%;
     height: 100%
 }
 
-.dc-header-overlay {
+.table-header-overlay {
     display: block;
     position: absolute
 }
 
-.dc-floating-top-container {
+.table-floating-top-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1457,7 +1460,7 @@ button.btn,
     white-space: nowrap
 }
 
-.dc-floating-top-full-width-container {
+.table-floating-top-full-width-container {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -1468,7 +1471,7 @@ button.btn,
     display: inline
 }
 
-.dc-floating-bottom-full-width-container {
+.table-floating-bottom-full-width-container {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -1642,7 +1645,7 @@ input[type="radio"] {
     cursor: pointer
 }
 
-.dc-header {
+.table-header {
     white-space: nowrap;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1651,7 +1654,7 @@ input[type="radio"] {
     width: 100%
 }
 
-.dc-column-moving .dc-header-cell {
+.table-column-moving .table-header-cell {
     -webkit-transition: left 0.2s;
     -moz-transition: left 0.2s;
     -o-transition: left 0.2s;
@@ -1659,27 +1662,27 @@ input[type="radio"] {
     transition: left 0.2s
 }
 
-.fresh .dc-header-cell .ui-grid-cell-contents:first-of-type {
+.fresh .table-header-cell .ui-grid-cell-contents:first-of-type {
     padding-left: 4px
 }
 
-.fresh .dc-header-cell .ui-grid-cell-contents:first-of-type label[for] {
+.fresh .table-header-cell .ui-grid-cell-contents:first-of-type label[for] {
     top: 1px
 }
 
-.fresh .dc-header-cell {
+.fresh .table-header-cell {
     border-right: 1px solid #ccc !important
 }
 
-.fresh.blue-grid .dc-header-cell {
+.fresh.blue-grid .table-header-cell {
     border-right: 1px solid #a9d5ff !important
 }
 
-.fresh.red-grid .dc-header-cell {
+.fresh.red-grid .table-header-cell {
     border-right: 1px solid #ffb7b7 !important
 }
 
-.dc-header-cell {
+.table-header-cell {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1687,9 +1690,10 @@ input[type="radio"] {
     text-align: center;
     display: inline-block;
     height: 100%;
-    position: absolute
+    position: absolute;
+    padding: 4px 0px 4px 0px;
 }
 
-.dc-large .dc-root {
+.table-large .table-root {
     font-size: 20px
 }

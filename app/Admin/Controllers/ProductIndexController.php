@@ -41,14 +41,20 @@ class ProductIndexController extends Controller
     /**
      * 回傳 商品彈出視窗
      */
-    public function modal($target)
+    public function modalsearch(Request $request)
     {
-        $products = ProductIndex::all()->take(100);
+        // return 'ho';
+        // $search = Request::get('search');
+        $search = $request->search;
+        $products = ProductIndex::where('p_name','like',$search.'%')->orWhere('p_number','like',$search.'%')->get();
+
+        // $products = ProductIndex::where('p_name','like',$search.'%')->take(10);
+        // $products = ProductIndex::all()->take(100);
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
 
         $data = compact('products','rowTop','rowEvenOdd');
-        return view('admin::modal', $data);
+        return view('admin::result', $data);
     }
     /**
      * Index interface.

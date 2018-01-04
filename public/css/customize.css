@@ -34,7 +34,7 @@ a:focus i.fa-trash {
     color: #f3685c
 }
 
-.table-hover {
+.tb-hover {
     font-size: 16px;
 }
 
@@ -96,7 +96,7 @@ a:focus i.fa-trash {
     display: inline-block
 }
 
-.table-ltr {
+.tb-ltr {
     direction: ltr
 }
 
@@ -343,10 +343,10 @@ a:focus i.fa-trash {
 }
 
 .input-group .btn,
-.input-group .fresh .table-paging-panel .table-paging-page-summary-panel .table-paging-button,
-.fresh .table-paging-panel .table-paging-page-summary-panel .input-group .table-paging-button,
+.input-group .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .input-group .tb-paging-button,
 button.btn,
-.fresh .table-paging-panel .table-paging-page-summary-panel button.table-paging-button {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel button.tb-paging-button {
     padding: 4px 10px
 }
 
@@ -417,15 +417,15 @@ button.btn,
     border: 0
 }
 
-.fresh .table-root {
+.fresh .tb-root {
     border: 1px solid #ccc !important
 }
 
-.fresh .table-cell-data-changed {
+.fresh .tb-cell-data-changed {
     background-color: #cec
 }
 
-.fresh .table-cell-data-changed-animation {
+.fresh .tb-cell-data-changed-animation {
     background-color: transparent;
     -webkit-transition: background-color 1s;
     -moz-transition: background-color 1s;
@@ -434,66 +434,66 @@ button.btn,
     transition: background-color 1s
 }
 
-.fresh .table-cell-not-inline-editing {
+.fresh .tb-cell-not-inline-editing {
     padding: 2px
 }
 
-.fresh .table-cell-range-selected-1:not(.table-cell-focus) {
+.fresh .tb-cell-range-selected-1:not(.tb-cell-focus) {
     background-color: rgba(120, 120, 120, 0.4)
 }
 
-.fresh .table-cell-range-selected-2:not(.table-cell-focus) {
+.fresh .tb-cell-range-selected-2:not(.tb-cell-focus) {
     background-color: rgba(80, 80, 80, 0.4)
 }
 
-.fresh .table-cell-range-selected-3:not(.table-cell-focus) {
+.fresh .tb-cell-range-selected-3:not(.tb-cell-focus) {
     background-color: rgba(40, 40, 40, 0.4)
 }
 
-.fresh .table-cell-range-selected-4:not(.table-cell-focus) {
+.fresh .tb-cell-range-selected-4:not(.tb-cell-focus) {
     background-color: rgba(0, 0, 0, 0.4)
 }
 
-.fresh .table-cell-focus {
+.fresh .tb-cell-focus {
     border: 1px solid #a9a9a9
 }
 
-.fresh .table-cell-no-focus {
+.fresh .tb-cell-no-focus {
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent
 }
 
-.fresh .table-ltr .table-cell-no-focus {
+.fresh .tb-ltr .tb-cell-no-focus {
     border-right: 1px dotted #808080;
     border-left: 1px solid transparent
 }
 
-.fresh .table-rtl .table-cell-no-focus {
+.fresh .tb-rtl .tb-cell-no-focus {
     border-right: 1px solid transparent;
     border-left: 1px dotted #808080
 }
 
-.fresh .table-rtl .table-cell-first-right-pinned {
+.fresh .tb-rtl .tb-cell-first-right-pinned {
     border-left: 1px solid #808080
 }
 
-.fresh .table-ltr .table-cell-first-right-pinned {
+.fresh .tb-ltr .tb-cell-first-right-pinned {
     border-left: 1px solid #808080
 }
 
-.fresh .table-rtl .table-cell-last-left-pinned {
+.fresh .tb-rtl .tb-cell-last-left-pinned {
     border-right: 1px solid #808080
 }
 
-.fresh .table-ltr .table-cell-last-left-pinned {
+.fresh .tb-ltr .tb-cell-last-left-pinned {
     border-right: 1px solid #808080
 }
 
-.fresh .table-cell-highlight {
+.fresh .tb-cell-highlight {
     border: 1px solid #006400
 }
 
-.fresh .table-cell-highlight-animation {
+.fresh .tb-cell-highlight-animation {
     -webkit-transition: border 1s;
     -moz-transition: border 1s;
     -o-transition: border 1s;
@@ -501,19 +501,19 @@ button.btn,
     transition: border 1s
 }
 
-.fresh .table-value-change-delta {
+.fresh .tb-value-change-delta {
     padding-right: 2px
 }
 
-.fresh .table-value-change-delta-up {
+.fresh .tb-value-change-delta-up {
     color: #006400
 }
 
-.fresh .table-value-change-delta-down {
+.fresh .tb-value-change-delta-down {
     color: #8b0000
 }
 
-.fresh .table-value-change-value {
+.fresh .tb-value-change-value {
     background-color: transparent;
     border-radius: 1px;
     padding-left: 1px;
@@ -525,7 +525,7 @@ button.btn,
     transition: background-color 1s
 }
 
-.fresh .table-value-change-value-highlight {
+.fresh .tb-value-change-value-highlight {
     background-color: #cec;
     -webkit-transition: background-color 0.1s;
     -moz-transition: background-color 0.1s;
@@ -534,39 +534,39 @@ button.btn,
     transition: background-color 0.1s
 }
 
-.fresh .table-rich-select {
+.fresh .tb-rich-select {
     font-size: 14px;
     border: 1px solid #808080;
     background-color: #fff
 }
 
-.fresh .table-rich-select-value {
+.fresh .tb-rich-select-value {
     padding: 2px
 }
 
-.fresh .table-rich-select-list {
+.fresh .tb-rich-select-list {
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .table-rich-select-row {
+.fresh .tb-rich-select-row {
     padding: 2px
 }
 
-.fresh .table-rich-select-row-selected {
+.fresh .tb-rich-select-row-selected {
     background-color: #bde2e5
 }
 
-.fresh .table-large-text {
+.fresh .tb-large-text {
     border: 1px solid #808080
 }
 
-.fresh .table-header-select-all {
+.fresh .tb-header-select-all {
     padding: 5px 0px 0px 3px;
     line-height: 0
 }
 
 
-/* .fresh .table-header {
+/* .fresh .tb-header {
     color: #000;
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
@@ -577,7 +577,7 @@ button.btn,
     font-weight: normal
 } */
 
-.fresh .table-header {
+.fresh .tb-header {
     background: #ccc !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eee), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #eee, #fff) !important;
@@ -588,7 +588,7 @@ button.btn,
 
 
 /* 
-.fresh.blue-grid .table-header {
+.fresh.blue-grid .tb-header {
     background: #a9d5ff !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #e3f1ff), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #e3f1ff, #fff) !important;
@@ -597,7 +597,7 @@ button.btn,
     border-bottom: 1px solid #a9d5ff !important
 }
 
-.fresh.red-grid .table-header {
+.fresh.red-grid .tb-header {
     background: #ffb7b7 !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffe9e9), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #ffe9e9, #fff) !important;
@@ -606,13 +606,13 @@ button.btn,
     border-bottom: 1px solid #ffb7b7 !important
 } */
 
-.fresh .table-header-icon {
+.fresh .tb-header-icon {
     color: #000;
     stroke: none;
     fill: #000
 }
 
-.fresh .table-layout-for-print .table-header-container {
+.fresh .tb-layout-for-print .tb-header-container {
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
     background: -o-linear-gradient(#fff, #d3d3d3);
@@ -621,65 +621,65 @@ button.btn,
     border-bottom: 1px solid #808080
 }
 
-.fresh .table-ltr .table-header-cell {
+.fresh .tb-ltr .tb-header-cell {
     border-right: 1px solid #808080
 }
 
-.fresh .table-rtl .table-header-cell {
+.fresh .tb-rtl .tb-header-cell {
     border-left: 1px solid #808080
 }
 
-.fresh .table-header-cell-moving .table-header-cell-label {
+.fresh .tb-header-cell-moving .tb-header-cell-label {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .table-header-cell-moving {
+.fresh .tb-header-cell-moving {
     background-color: #bebebe
 }
 
-.fresh .table-ltr .table-header-group-cell {
+.fresh .tb-ltr .tb-header-group-cell {
     border-right: 1px solid #808080
 }
 
-.fresh .table-rtl .table-header-group-cell {
+.fresh .tb-rtl .tb-header-group-cell {
     border-left: 1px solid #808080
 }
 
-.fresh .table-header-group-cell-with-group {
+.fresh .tb-header-group-cell-with-group {
     border-bottom: 1px solid #808080
 }
 
-.fresh .table-header-cell-label {
+.fresh .tb-header-cell-label {
     padding: 4px 2px 4px 2px
 }
 
-.fresh .table-header-cell-text {
+.fresh .tb-header-cell-text {
     padding-left: 2px
 }
 
-.fresh .table-header-group-cell-label {
+.fresh .tb-header-group-cell-label {
     padding: 4px
 }
 
-.fresh .table-ltr .table-header-group-cell-label {
+.fresh .tb-ltr .tb-header-group-cell-label {
     padding-left: 10px
 }
 
-.fresh .table-rtl .table-header-group-cell-label {
+.fresh .tb-rtl .tb-header-group-cell-label {
     padding-right: 10px
 }
 
-.fresh .table-rtl .table-header-group-text {
+.fresh .tb-rtl .tb-header-group-text {
     margin-left: 2px
 }
 
-.fresh .table-ltr .table-header-group-text {
+.fresh .tb-ltr .tb-header-group-text {
     margin-right: 2px
 }
 
-.fresh .table-header-cell-menu-button {
+.fresh .tb-header-cell-menu-button {
     padding: 2px;
     margin-top: 4px;
     margin-left: 1px;
@@ -692,55 +692,55 @@ button.btn,
     line-height: 0px
 }
 
-.fresh .table-ltr .table-pinned-right-header {
+.fresh .tb-ltr .tb-pinned-right-header {
     border-left: 1px solid #808080
 }
 
-.fresh .table-rtl .table-pinned-left-header {
+.fresh .tb-rtl .tb-pinned-left-header {
     border-right: 1px solid #808080
 }
 
-.fresh .table-header-cell-menu-button:hover {
+.fresh .tb-header-cell-menu-button:hover {
     border: 1px solid #808080
 }
 
-.fresh .table-body {
+.fresh .tb-body {
     background-color: #f6f6f6
 }
 
-.fresh .table-row-odd {
-    background-color: #f6f6f6
+.fresh .tb-row-odd {
+    background-color: #eeeeee
 }
 
-.fresh .table-row-even {
+.fresh .tb-row-even {
     background-color: #fff
 }
 
-.fresh .table-row-selected {
+.fresh .tb-row-selected {
     background-color: #b0e0e6
 }
 
-.fresh .table-row-stub {
+.fresh .tb-row-stub {
     background-color: #f0f0f0
 }
 
-.fresh .table-stub-cell {
+.fresh .tb-stub-cell {
     padding: 2px 2px 2px 10px
 }
 
-.fresh .table-floating-top .table-row {
+.fresh .tb-floating-top .tb-row {
     background-color: #f0f0f0
 }
 
-.fresh .table-floating-bottom .table-row {
+.fresh .tb-floating-bottom .tb-row {
     background-color: #f0f0f0
 }
 
-.fresh .table-overlay-loading-wrapper {
+.fresh .tb-overlay-loading-wrapper {
     background-color: rgba(255, 255, 255, 0.5)
 }
 
-.fresh .table-overlay-loading-center {
+.fresh .tb-overlay-loading-center {
     background-color: #fff;
     border: 1px solid #808080;
     border-radius: 10px;
@@ -748,76 +748,76 @@ button.btn,
     color: #000
 }
 
-.fresh .table-overlay-no-rows-center {
+.fresh .tb-overlay-no-rows-center {
     background-color: #fff;
     border: 1px solid #808080;
     border-radius: 10px;
     padding: 10px
 }
 
-.fresh .table-group-cell-entire-row {
+.fresh .tb-group-cell-entire-row {
     background-color: #f6f6f6;
     padding: 2px
 }
 
-.fresh .table-footer-cell-entire-row {
+.fresh .tb-footer-cell-entire-row {
     background-color: #f6f6f6;
     padding: 2px
 }
 
-.fresh .table-group-cell {
+.fresh .tb-group-cell {
     font-style: italic
 }
 
-.fresh .table-ltr .table-group-expanded {
+.fresh .tb-ltr .tb-group-expanded {
     padding-right: 4px
 }
 
-.fresh .table-rtl .table-group-expanded {
+.fresh .tb-rtl .tb-group-expanded {
     padding-left: 4px
 }
 
-.fresh .table-ltr .table-group-contracted {
+.fresh .tb-ltr .tb-group-contracted {
     padding-right: 4px
 }
 
-.fresh .table-rtl .table-group-contracted {
+.fresh .tb-rtl .tb-group-contracted {
     padding-left: 4px
 }
 
-.fresh .table-ltr .table-group-loading {
+.fresh .tb-ltr .tb-group-loading {
     padding-right: 4px
 }
 
-.fresh .table-rtl .table-group-loading {
+.fresh .tb-rtl .tb-group-loading {
     padding-left: 4px
 }
 
-.fresh .table-ltr .table-group-value {
+.fresh .tb-ltr .tb-group-value {
     padding-right: 2px
 }
 
-.fresh .table-rtl .table-group-value {
+.fresh .tb-rtl .tb-group-value {
     padding-left: 2px
 }
 
-.fresh .table-ltr .table-group-checkbox {
+.fresh .tb-ltr .tb-group-checkbox {
     padding-right: 2px
 }
 
-.fresh .table-rtl .table-group-checkbox {
+.fresh .tb-rtl .tb-group-checkbox {
     padding-left: 2px
 }
 
-.fresh .table-group-child-count {
+.fresh .tb-group-child-count {
     display: inline-block
 }
 
-.fresh .table-footer-cell {
+.fresh .tb-footer-cell {
     font-style: italic
 }
 
-.fresh .table-menu {
+.fresh .tb-menu {
     border: 1px solid #808080;
     background-color: #f6f6f6;
     cursor: default;
@@ -825,11 +825,11 @@ button.btn,
     font-size: 14px
 }
 
-.fresh .table-menu .table-tab-header {
+.fresh .tb-menu .tb-tab-header {
     background-color: #e6e6e6
 }
 
-.fresh .table-menu .table-tab {
+.fresh .tb-menu .tb-tab {
     padding: 6px 8px 6px 8px;
     margin: 2px 2px 0px 2px;
     display: inline-block;
@@ -840,108 +840,108 @@ button.btn,
     border-top-left-radius: 2px
 }
 
-.fresh .table-menu .table-tab-selected {
+.fresh .tb-menu .tb-tab-selected {
     background-color: #f6f6f6;
     border-right: 1px solid #d3d3d3;
     border-left: 1px solid #d3d3d3;
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .table-menu-separator {
+.fresh .tb-menu-separator {
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .table-menu-option-active {
+.fresh .tb-menu-option-active {
     background-color: #bde2e5
 }
 
-.fresh .table-menu-option-icon {
+.fresh .tb-menu-option-icon {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .table-menu-option-text {
+.fresh .tb-menu-option-text {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .table-menu-option-shortcut {
+.fresh .tb-menu-option-shortcut {
     padding: 2px 2px 2px 2px;
     vertical-align: middle
 }
 
-.fresh .table-menu-option-popup-pointer {
+.fresh .tb-menu-option-popup-pointer {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .table-menu-option-disabled {
+.fresh .tb-menu-option-disabled {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .table-menu-column-select-wrapper {
+.fresh .tb-menu-column-select-wrapper {
     margin: 2px
 }
 
-.fresh .table-filter-checkbox {
+.fresh .tb-filter-checkbox {
     position: relative;
     top: 2px;
     left: 2px
 }
 
-.fresh .table-filter-header-container {
+.fresh .tb-filter-header-container {
     border-bottom: 1px solid #d3d3d3
 }
 
-.fresh .table-filter-apply-panel {
+.fresh .tb-filter-apply-panel {
     border-top: 1px solid #d3d3d3;
     padding: 2px
 }
 
-.fresh .table-filter-value {
+.fresh .tb-filter-value {
     margin-left: 4px
 }
 
-.fresh .table-ltr .table-selection-checkbox {
+.fresh .tb-ltr .tb-selection-checkbox {
     padding-right: 4px
 }
 
-.fresh .table-rtl .table-selection-checkbox {
+.fresh .tb-rtl .tb-selection-checkbox {
     padding-left: 4px
 }
 
-.fresh .table-paging-panel {
+.fresh .tb-paging-panel {
     padding: 4px
 }
 
-.fresh .table-paging-button {
+.fresh .tb-paging-button {
     margin-left: 4px;
     margin-right: 4px
 }
 
-.fresh .table-paging-row-summary-panel {
+.fresh .tb-paging-row-summary-panel {
     display: inline-block;
     width: 300px
 }
 
-.fresh .table-tool-panel {
+.fresh .tb-tool-panel {
     background-color: #f6f6f6;
     border-bottom: 1px solid #808080;
     border-top: 1px solid #808080;
     color: #222
 }
 
-.fresh .ltr .table-tool-panel {
+.fresh .ltr .tb-tool-panel {
     border-right: 1px solid #808080
 }
 
-.fresh .rtl .table-tool-panel {
+.fresh .rtl .tb-tool-panel {
     border-left: 1px solid #808080
 }
 
-.fresh .table-status-bar {
+.fresh .tb-status-bar {
     color: #222;
     background-color: #f6f6f6;
     font-size: 14px;
@@ -952,15 +952,15 @@ button.btn,
     padding: 2px
 }
 
-.fresh .table-status-bar-aggregations {
+.fresh .tb-status-bar-aggregations {
     float: right
 }
 
-.fresh .table-status-bar-item {
+.fresh .tb-status-bar-item {
     padding-left: 10px
 }
 
-.fresh .table-column-drop-cell {
+.fresh .tb-column-drop-cell {
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
     background: -o-linear-gradient(#fff, #d3d3d3);
@@ -970,74 +970,74 @@ button.btn,
     border: 1px solid #808080
 }
 
-.fresh .table-column-drop-cell-ghost {
+.fresh .tb-column-drop-cell-ghost {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .table-column-drop-cell-text {
+.fresh .tb-column-drop-cell-text {
     padding-left: 2px;
     padding-right: 2px
 }
 
-.fresh .table-column-drop-cell-button {
+.fresh .tb-column-drop-cell-button {
     border: 1px solid transparent;
     padding-left: 2px;
     padding-right: 2px;
     border-radius: 3px
 }
 
-.fresh .table-column-drop-cell-button:hover {
+.fresh .tb-column-drop-cell-button:hover {
     border: 1px solid #808080
 }
 
-.fresh .table-column-drop-empty-message {
+.fresh .tb-column-drop-empty-message {
     padding-left: 2px;
     padding-right: 2px;
     color: #808080
 }
 
-.fresh .table-column-drop-icon {
+.fresh .tb-column-drop-icon {
     margin: 3px
 }
 
-.fresh .table-column-drop {
+.fresh .tb-column-drop {
     background-color: #f6f6f6
 }
 
-.fresh .table-column-drop-horizontal {
+.fresh .tb-column-drop-horizontal {
     padding: 2px;
     border-top: 1px solid #808080;
     border-left: 1px solid #808080;
     border-right: 1px solid #808080
 }
 
-.fresh .table-column-drop-vertical {
+.fresh .tb-column-drop-vertical {
     padding: 4px 4px 10px 4px;
     border-bottom: 1px solid #808080
 }
 
-.fresh .table-column-drop-vertical .table-column-drop-cell {
+.fresh .tb-column-drop-vertical .tb-column-drop-cell {
     margin-top: 2px
 }
 
-.fresh .table-column-drop-vertical .table-column-drop-empty-message {
+.fresh .tb-column-drop-vertical .tb-column-drop-empty-message {
     text-align: center;
     padding: 5px
 }
 
-.fresh .table-pivot-mode {
+.fresh .tb-pivot-mode {
     border-bottom: 1px solid #808080;
     padding: 4px;
     background-color: #f6f6f6
 }
 
-.fresh .table-tool-panel .table-column-select-panel {
+.fresh .tb-tool-panel .tb-column-select-panel {
     border-bottom: 1px solid #808080
 }
 
-.fresh .table-select-agg-func-popup {
+.fresh .tb-select-agg-func-popup {
     cursor: default;
     position: absolute;
     font-size: 14px;
@@ -1045,16 +1045,16 @@ button.btn,
     border: 1px solid #808080
 }
 
-.fresh .table-select-agg-func-item {
+.fresh .tb-select-agg-func-item {
     padding-left: 2px;
     padding-right: 2px
 }
 
-.fresh .table-select-agg-func-item:hover {
+.fresh .tb-select-agg-func-item:hover {
     background-color: #bde2e5
 }
 
-.table-bl-overlay {
+.tb-bl-overlay {
     pointer-events: none;
     position: absolute;
     height: 100%;
@@ -1063,62 +1063,62 @@ button.btn,
     left: 0px
 }
 
-.table-bl-full-height {
+.tb-bl-full-height {
     height: 100%;
     overflow: auto;
     position: relative
 }
 
-.table-bl-west {
+.tb-bl-west {
     float: left
 }
 
-.table-bl-full-height-west {
+.tb-bl-full-height-west {
     height: 100%
 }
 
-.table-bl-east {
+.tb-bl-east {
     float: right
 }
 
-.table-bl-full-height-east {
+.tb-bl-full-height-east {
     height: 100%
 }
 
 
-/* .table-bl-full-height-center {
+/* .tb-bl-full-height-center {
     height: 100%
 } */
 
-.table-bl-normal {
+.tb-bl-normal {
     height: 100%;
     position: relative
 }
 
-.table-bl-normal-center-row {
+.tb-bl-normal-center-row {
     height: 100%;
     overflow: hidden
 }
 
-.table-bl-normal-west {
+.tb-bl-normal-west {
     height: 100%;
     float: left
 }
 
-.table-bl-normal-east {
+.tb-bl-normal-east {
     height: 100%;
     float: right
 }
 
-.table-bl-normal-center {
+.tb-bl-normal-center {
     height: 100%
 }
 
-.table-bl-dont-fill {
+.tb-bl-dont-fill {
     position: relative
 }
 
-.table-root {
+.tb-root {
     position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1126,25 +1126,26 @@ button.btn,
     overflow: hidden
 }
 
-.table-layout-normal .table-root {
+.tb-layout-normal .tb-root {
     height: 100%
 }
 
-.table-layout-normal {
+.tb-layout-normal {
     height: 100%
 }
 
-.table-layout-normal .table-header {
+.tb-layout-normal .tb-header {
     position: absolute;
     top: 0px;
     left: 0px
 }
 
-.table-layout-normal .table-header-row {
-    position: absolute
-}
 
-.table-layout-normal .table-header-container {
+/* .tb-layout-normal .tb-header-row {
+    position: absolute
+} */
+
+.tb-layout-normal .tb-header-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1153,12 +1154,12 @@ button.btn,
     height: 100%
 }
 
-.table-layout-normal .table-body {
+.tb-layout-normal .tb-body {
     height: 100%;
     position: absolute
 }
 
-.table-floating-top {
+.tb-floating-top {
     width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
@@ -1167,12 +1168,12 @@ button.btn,
     overflow: hidden
 }
 
-.table-layout-normal .table-floating-top {
+.tb-layout-normal .tb-floating-top {
     position: absolute;
     left: 0px
 }
 
-.table-pinned-left-floating-top {
+.tb-pinned-left-floating-top {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1182,11 +1183,11 @@ button.btn,
     position: relative
 }
 
-.table-layout-normal .table-pinned-left-floating-top {
+.tb-layout-normal .tb-pinned-left-floating-top {
     height: 100%
 }
 
-.table-pinned-right-floating-top {
+.tb-pinned-right-floating-top {
     float: right;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1196,22 +1197,22 @@ button.btn,
     position: relative
 }
 
-.table-layout-normal .table-pinned-right-floating-top {
+.tb-layout-normal .tb-pinned-right-floating-top {
     height: 100%
 }
 
-.table-floating-top-viewport {
+.tb-floating-top-viewport {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden
 }
 
-.table-layout-normal .table-floating-top-viewport {
+.tb-layout-normal .tb-floating-top-viewport {
     height: 100%
 }
 
-.table-floating-bottom {
+.tb-floating-bottom {
     width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
@@ -1220,31 +1221,31 @@ button.btn,
     overflow: hidden
 }
 
-.table-layout-normal .table-floating-bottom {
+.tb-layout-normal .tb-floating-bottom {
     position: absolute;
     left: 0px
 }
 
-.table-layout-normal .table-pinned-left-floating-bottom {
+.tb-layout-normal .tb-pinned-left-floating-bottom {
     height: 100%
 }
 
-.table-layout-normal .table-pinned-right-floating-bottom {
+.tb-layout-normal .tb-pinned-right-floating-bottom {
     height: 100%
 }
 
-.table-floating-bottom-viewport {
+.tb-floating-bottom-viewport {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden
 }
 
-.table-layout-normal .table-floating-bottom-viewport {
+.tb-layout-normal .tb-floating-bottom-viewport {
     height: 100%
 }
 
-.table-floating-bottom-container {
+.tb-floating-bottom-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1253,32 +1254,32 @@ button.btn,
 }
 
 
-/* .table-layout-normal .table-body-viewport-wrapper {
+/* .tb-layout-normal .tb-body-viewport-wrapper {
     height: 100%
 } */
 
-.table-body {
+.tb-body {
     overflow-x: auto;
     overflow-y: auto;
     height: 100%;
 }
 
-.table-body-container {
+.tb-body-container {
     position: relative;
     display: inline-block
 }
 
-.table-layout-normal .table-row {
+.tb-layout-normal .tb-row {
     white-space: nowrap;
     position: absolute;
     width: 100%
 }
 
-.table-layout-normal .table-tool-panel {
+.tb-layout-normal .tb-tool-panel {
     height: 100%
 }
 
-.table-font-style {
+.tb-font-style {
     cursor: default;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -1286,7 +1287,7 @@ button.btn,
     user-select: none
 }
 
-.table-pinned-left-header {
+.tb-pinned-left-header {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1296,7 +1297,7 @@ button.btn,
     height: 100%
 }
 
-.table-pinned-right-header {
+.tb-pinned-right-header {
     float: right;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1306,79 +1307,80 @@ button.btn,
     height: 100%
 }
 
-.table-header-cell-label {
+.tb-header-cell-label {
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden
 }
 
-.resizer {
+
+/* .resizer {
     height: 100%;
     width: 4px;
     cursor: col-resize
 }
 
-.table-ltr .resizer {
+.tb-ltr .resizer {
     float: right
 }
 
-.table-ltr .table-pinned-right-header .resizer {
+.tb-ltr .tb-pinned-right-header .resizer {
     float: left
 }
 
-.table-rtl .resizer {
+.tb-rtl .resizer {
     float: left
 }
 
-.table-rtl .table-pinned-left-header .resizer {
+.tb-rtl .tb-pinned-left-header .resizer {
+    float: right
+} */
+
+.tb-ltr .tb-header-select-all {
+    float: left
+}
+
+.tb-rtl .tb-header-select-all {
     float: right
 }
 
-.table-ltr .table-header-select-all {
+.tb-pinned-left-cols-viewport {
     float: left
 }
 
-.table-rtl .table-header-select-all {
-    float: right
-}
-
-.table-pinned-left-cols-viewport {
-    float: left
-}
-
-.table-pinned-left-cols-container {
+.tb-pinned-left-cols-container {
     display: inline-block;
     position: relative
 }
 
-.table-pinned-right-cols-viewport {
+.tb-pinned-right-cols-viewport {
     float: right
 }
 
-.table-ltr .table-pinned-right-cols-viewport {
+.tb-ltr .tb-pinned-right-cols-viewport {
     overflow-x: hidden;
     overflow-y: auto
 }
 
-.table-ltr .table-pinned-left-cols-viewport {
+.tb-ltr .tb-pinned-left-cols-viewport {
     overflow: hidden
 }
 
-.table-rtl .table-pinned-right-cols-viewport {
+.tb-rtl .tb-pinned-right-cols-viewport {
     overflow: hidden
 }
 
-.table-rtl .table-pinned-left-cols-viewport {
+.tb-rtl .tb-pinned-left-cols-viewport {
     overflow-x: hidden;
     overflow-y: auto
 }
 
-.table-pinned-right-cols-container {
+.tb-pinned-right-cols-container {
     display: inline-block;
     position: relative
 }
 
-.table-row-animation {
+.tb-row-animation {
     -webkit-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
     -moz-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
     -o-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
@@ -1386,7 +1388,7 @@ button.btn,
     transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s
 }
 
-.table-row-no-animation {
+.tb-row-no-animation {
     -webkit-transition: background-color 0.1s;
     -moz-transition: background-color 0.1s;
     -o-transition: background-color 0.1s;
@@ -1394,39 +1396,41 @@ button.btn,
     transition: background-color 0.1s
 }
 
-.table-row {
+.tb-row {
+    height: 30px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
 }
 
-.table-layout-normal .table-row {
+.tb-layout-normal .tb-row {
     white-space: nowrap;
     position: absolute;
     width: 100%
 }
 
-.table-layout-auto-height .table-row {
+.tb-layout-auto-height .tb-row {
     white-space: nowrap;
     position: relative;
     width: 100%
 }
 
-.table-layout-for-print .table-row {
+.tb-layout-for-print .tb-row {
     position: relative
 }
 
-.fresh.blue-grid .table-row-odd {
+.fresh.blue-grid .tb-row-odd {
     background-color: #f1f8ff
 }
 
-.fresh.red-grid .table-row-odd {
+.fresh.red-grid .tb-row-odd {
     background-color: #fff3f3
 }
 
-.table-cell {
+.tb-cell {
     display: inline-block;
     white-space: nowrap;
+    padding: 4px;
     height: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1442,17 +1446,17 @@ button.btn,
     text-align: left
 }
 
-.table-cell-edit-input {
+.tb-cell-edit-input {
     width: 100%;
     height: 100%
 }
 
-.table-header-overlay {
+.tb-header-overlay {
     display: block;
     position: absolute
 }
 
-.table-floating-top-container {
+.tb-floating-top-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1460,7 +1464,7 @@ button.btn,
     white-space: nowrap
 }
 
-.table-floating-top-full-width-container {
+.tb-floating-top-full-width-container {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -1471,7 +1475,7 @@ button.btn,
     display: inline
 }
 
-.table-floating-bottom-full-width-container {
+.tb-floating-bottom-full-width-container {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -1645,7 +1649,7 @@ input[type="radio"] {
     cursor: pointer
 }
 
-.table-header {
+.tb-header {
     white-space: nowrap;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1654,7 +1658,7 @@ input[type="radio"] {
     width: 100%
 }
 
-.table-column-moving .table-header-cell {
+.tb-column-moving .tb-header-cell {
     -webkit-transition: left 0.2s;
     -moz-transition: left 0.2s;
     -o-transition: left 0.2s;
@@ -1662,27 +1666,27 @@ input[type="radio"] {
     transition: left 0.2s
 }
 
-.fresh .table-header-cell .ui-grid-cell-contents:first-of-type {
+.fresh .tb-header-cell .ui-grid-cell-contents:first-of-type {
     padding-left: 4px
 }
 
-.fresh .table-header-cell .ui-grid-cell-contents:first-of-type label[for] {
+.fresh .tb-header-cell .ui-grid-cell-contents:first-of-type label[for] {
     top: 1px
 }
 
-.fresh .table-header-cell {
+.fresh .tb-header-cell {
     border-right: 1px solid #ccc !important
 }
 
-.fresh.blue-grid .table-header-cell {
+.fresh.blue-grid .tb-header-cell {
     border-right: 1px solid #a9d5ff !important
 }
 
-.fresh.red-grid .table-header-cell {
+.fresh.red-grid .tb-header-cell {
     border-right: 1px solid #ffb7b7 !important
 }
 
-.table-header-cell {
+.tb-header-cell {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1694,6 +1698,6 @@ input[type="radio"] {
     padding: 4px 0px 4px 0px;
 }
 
-.table-large .table-root {
+.tb-large .tb-root {
     font-size: 20px
 }

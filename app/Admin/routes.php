@@ -60,8 +60,12 @@ Route::group([
     // });
 
     //使用路徑
-    $router->get('modal/{target}', function ($target) {
-        return view('admin.modal',['target'=>$target]);
-    });
+    // $router->get('modal/{target}', function ($target) {
+    //     return view('admin.modal',['target'=>$target]);
+    // });
+
+    //使用Controller
+    $router->get('modal/{target}', 'ProductIndexController@modal');
+
     $router->get('/', 'HomeController@index');
 });

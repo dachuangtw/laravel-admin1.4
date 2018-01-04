@@ -39,6 +39,15 @@ class ProductIndexController extends Controller
         return $this->editform()->update($id);
     }
     /**
+     * 回傳 商品彈出視窗
+     */
+    public function modal($target)
+    {
+        $products = ProductIndex::all()->take(100);
+        $data = compact('products');
+        return view('admin::modal', $data);
+    }
+    /**
      * Index interface.
      *
      * @return Content

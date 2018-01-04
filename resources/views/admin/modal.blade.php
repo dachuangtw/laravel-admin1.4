@@ -28,17 +28,12 @@
                                 <div class="tb-root tb-font-style" role="grid">
                                     <div class="tb-header" role="row" style="height: 30px;">
                                         <div class="tb-header-container">
-                                            <div class="tb-header-cell" col-id="isSelected" style="width: 33px; left: 0px;">
+                                            <div class="tb-header-cell" style="width: 33px; left: 0px;">
                                             </div>
-                                            <div class="tb-header-cell" col-id="ID" style="width: 130px; left: 33px;">
-                                                品號
-                                            </div>
-                                            <div class="tb-header-cell" col-id="Name" style="width: 300px; left: 163px;">
-                                                品名
-                                            </div>
-                                            <div class="tb-header-cell" col-id="StockUnit" style="width: 80px; left: 463px;">
-                                                單位
-                                            </div>
+                                            <div class="tb-header-cell" style="width: 130px; left: 33px;">品號</div>
+                                            <div class="tb-header-cell" style="width: 300px; left: 163px;">品名</div>
+                                            <div class="tb-header-cell" style="width: 80px; left: 463px;">單位</div>
+                                            <div class="tb-header-cell" style="width: 80px; left: 543px;">庫存</div>
                                         </div>
                                     </div>
                                     <div class="tb-body" style="top: 30px; height: 320px;">
@@ -46,10 +41,8 @@
                                         
 
                                             <!-- Row (Even) Start-->
-                                            {{ $rowTop = 0 }}
-                                            {{ $rowEvenOdd = 'even' }}
-                                            @foreach($products as $product)
-                                            <div role="row" row-id="{{ $product->pid }}" class="tb-row tb-row-{{ $rowEvenOdd }} tb-row-no-animation" style="top: {{ $rowTop }}px;">
+                                            @foreach($products as $key => $product)
+                                            <div role="row" row-id="{{ $product->pid }}" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
                                                 <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-center" style="width: 33px; left: 0px; ">
                                                     <div class="ui-grid-cell-contents">
                                                         <input class="magic-checkbox blue" name="layout" type="checkbox" id="checkbox{{ $product->pid }}">
@@ -58,16 +51,16 @@
                                                 </div>
                                                 <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 130px; left: 33px; ">{{ $product->p_number }}</div>
                                                 <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 300px; left: 163px; ">
-                                                    <a href="#" role="button" data-toggle="popover" data-container="#selectproduct" data-placement="bottom" data-html="true" data-content="<img src='http://localhost/upload/image/ff31d5ae31bbbea83fd725bd0dd6166d.jpeg' width='150px'>">{{ $product->p_name }}</a>
+                                                    @if($product->p_pic)
+                                                        <a href="#" role="button" data-toggle="popover" data-container="#selectproduct" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
+                                                    @else
+                                                        {{ $product->p_name }}
+                                                    @endif
+                                                    
                                                 </div>
                                                 <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 463px; ">{{ $product->p_unit }}</div>
+                                                <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 543px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('s_stock') }}</div>
                                             </div>
-                                            {{ $rowTop += 30 }}
-                                            @if($rowEvenOdd == 'even')
-                                                {{ $rowEvenOdd = 'odd' }}
-                                            @else
-                                                {{ $rowEvenOdd = 'even' }}
-                                            @endif
                                             @endforeach
 
                                             <!-- Row (Even) End -->

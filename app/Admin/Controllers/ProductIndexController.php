@@ -44,7 +44,10 @@ class ProductIndexController extends Controller
     public function modal($target)
     {
         $products = ProductIndex::all()->take(100);
-        $data = compact('products');
+        $rowTop = -30;
+        $rowEvenOdd = ['even','odd'];
+
+        $data = compact('products','rowTop','rowEvenOdd');
         return view('admin::modal', $data);
     }
     /**

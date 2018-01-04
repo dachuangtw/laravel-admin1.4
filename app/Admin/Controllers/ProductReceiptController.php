@@ -16,7 +16,6 @@ use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Box;
 use Encore\Admin\Auth\Permission;
 use App\Admin\Extensions\ExcelExpoter;
-use Illuminate\Support\Facades\DB;
 
 class ProductReceiptController extends Controller
 {
@@ -185,7 +184,7 @@ class ProductReceiptController extends Controller
                     $Supplier = str_pad($Supplier,2,"0",STR_PAD_LEFT);
 
                     //取得該日該廠商進貨單號的最大值
-                    $max_number = DB::table('product_receipt')
+                    $max_number = ProductReceipt::all()
                     ->where('re_number', 'like', $Todaydate.$Supplier.'%')
                     ->max('re_number');
 

@@ -35,7 +35,7 @@ class SalesAssignController extends Controller
 
             $content->header(trans('admin::lang.sales_assign'));
             $content->description(trans('admin::lang.list'));
-
+            
             $content->body($this->grid());
         });
     }
@@ -103,6 +103,8 @@ class SalesAssignController extends Controller
                     $thismonth = array(date('Y-m-01'),date('Ymt'));
                     $grid->model()->whereBetween('assign_date', $thismonth);
                     break;
+                // default:
+                //     echo Request::get('assign_date');
             }
 
             $grid->assign_date(trans('admin::lang.assign_date'))->sortable();
@@ -128,13 +130,15 @@ class SalesAssignController extends Controller
 
             //$form->display('id', 'ID');
             // $form->setView('admin::product2');
-            $form->date('assign_date',trans('admin::lang.assign_date'))->defaultdate('YYYY-MM-DD');
             //判斷是否為編輯狀態
             $segment = Request::segment(5);//請求片段(5)        
             if ($segment == 'edit') {
+                $form->display('assign_date',trans('admin::lang.assign_date'));
                 $form->display('assign_id',trans('admin::lang.assign_id'));
             } else {
+                $form->date('assign_date',trans('admin::lang.assign_date'))->defaultdate('YYYY-MM-DD');
                 $form->text('assign_id',trans('admin::lang.assign_id'))->value(date('Ymd'))->rules('required');
+                // $form->hidden('assign_id');
             }
             $form->textarea('assign_notes',trans('admin::lang.notes'));
             $form->hidden('update_user')->value(Admin::user()->id);
@@ -150,6 +154,15 @@ class SalesAssignController extends Controller
                 $form->text('p_salesprice_total');
                 $form->hidden('created_at');
             }); 
+            $form->saving(function (Form $form) {
+                if (!empty(request()->assign_id)){
+                    $form->assign_id = str_replace('-','',dump($form->assign_date));
+                }
+                if($form->assign_date !== $form->model()->assign_date && SalesAssign::where('assign_date',$form->assign_date)->value('said')){
+                    $error = new MessageBag(['title'=>'提示','message'=>'此配貨單已存在!']);
+                    return back()->withInput()->with(compact('error'));
+                }
+            });
         });       
     }
 }

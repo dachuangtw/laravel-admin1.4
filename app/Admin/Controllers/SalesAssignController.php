@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Box;
 use Encore\Admin\Widgets\Table;
+use Encore\Admin\Widgets\Alert;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Request;
@@ -81,17 +82,29 @@ class SalesAssignController extends Controller
     {
         return Admin::grid(SalesAssign::class, function (Grid $grid) {
             $grid->disableImport();//關閉匯入按鈕
+            $grid->model()->orderBy('assign_date', 'desc'); // 預設排序
+            $grid->filter(function($filter){
+                $filter->disableIdFilter();
+                $filter->like('assign_id',trans('admin::lang.assign_id'));
+                // $filter->between('assign_date', trans('admin::lang.assign_date'))->date();
+            });
 
             $grid->tools(function ($tools) {
                 $tools->append(new DateChooser());
             });
-
-            if (in_array(Request::get('assign_date'), [date('Ymd'),date('Ymd')-1])) {
-                $grid->model()->where('assign_date', Request::get('assign_date'));
-                // $grid->model()->where('assign_date',date('Ymd'));
+             
+            switch (Request::get('assign_date'))
+            {
+                case 'lastmonth':
+                    $lastmonth = array(date('Y-m-01', strtotime('-1 month')),date('Y-m-t', strtotime('-1 month')));
+                    $grid->model()->whereBetween('assign_date', $lastmonth);
+                    break;
+                case 'thismonth':
+                    $thismonth = array(date('Y-m-01'),date('Ymt'));
+                    $grid->model()->whereBetween('assign_date', $thismonth);
+                    break;
             }
-            
-            // $grid->said('序')->sortable();
+
             $grid->assign_date(trans('admin::lang.assign_date'))->sortable();
             $grid->assign_id(trans('admin::lang.assign_id'))->sortable();
             $grid->assign_total(trans('admin::lang.assign_total'))->sortable();
@@ -100,7 +113,7 @@ class SalesAssignController extends Controller
             });
 
             //$grid->created_at(trans('admin::lang.created_at'));
-            //$grid->updated_at(trans('admin::lang.updated_at'));
+            $grid->updated_at(trans('admin::lang.updated_at'));
         });
     }
 

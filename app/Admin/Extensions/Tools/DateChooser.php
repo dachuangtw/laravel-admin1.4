@@ -28,20 +28,15 @@ EOT;
     public function render()
     {
         Admin::script($this->script());
-        $today = date('Ymd');
-        $yesterday = date('Ymd')-1;
-        // $thismonth_start=mktime(date('m'),1,date('Y'));
-        // $thismonth_end=mktime(date('m'),date('t'),date('Y'));    
+
         $options = [
-            // 'thismonth'   => '本月',
-            // 'lastmonth'   => '上月',
-            // 'lastweek'    => '上周',
-            // 'thisweek'    => '本周',
-            'all'        => '全部',
-            $yesterday   => '昨日',
-            $today       => '今日',
+          
+            'all'         => '全部',
+            'thismonth'   => '本月',
+            'lastmonth'   => '上月',
         ];
 
         return view('admin.tools.datechooser', compact('options'));
     }
+    
 }

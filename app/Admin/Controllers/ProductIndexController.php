@@ -43,17 +43,18 @@ class ProductIndexController extends Controller
      */
     public function modalsearch(Request $request)
     {
-        // return 'ho';
-        // $search = Request::get('search');
         $search = $request->search;
-        $products = ProductIndex::where('p_name','like',$search.'%')->orWhere('p_number','like',$search.'%')->get();
-
-        // $products = ProductIndex::where('p_name','like',$search.'%')->take(10);
+        $selected = $request->selected ?: [];
+        if($search != 'searchall'){
+            $products = ProductIndex::where('p_name','like','%'.$search.'%')->orWhere('p_number','like','%'.$search)->orWhere('p_number','like',$search.'%')->get();
+        }else{
+            $products = ProductIndex::all()->sortByDesc('pid')->take(100);
+        }
         // $products = ProductIndex::all()->take(100);
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
 
-        $data = compact('products','rowTop','rowEvenOdd');
+        $data = compact('products','rowTop','rowEvenOdd','selected');
         return view('admin::result', $data);
     }
     /**

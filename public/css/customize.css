@@ -334,21 +334,22 @@ a:focus i.fa-trash {
     margin-left: 5px !important
 }
 
-.padding-right-5 {
-    padding-right: 5px !important
+.padding-right-10 {
+    padding-right: 10px !important
 }
 
 .no-padding {
     padding: 0 !important
 }
 
-.input-group .btn,
+
+/* .input-group .btn,
 .input-group .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
 .fresh .tb-paging-panel .tb-paging-page-summary-panel .input-group .tb-paging-button,
 button.btn,
 .fresh .tb-paging-panel .tb-paging-page-summary-panel button.tb-paging-button {
     padding: 4px 10px
-}
+} */
 
 .no-border-right {
     border-right: none !important

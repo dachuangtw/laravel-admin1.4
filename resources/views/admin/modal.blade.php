@@ -8,15 +8,15 @@
             <div class='modal-body'>
                 <div class="select2-search">
                     <div class="flex-row">
-                        <div class="flex-col-xs no-padding padding-right-5">
+                        <div class="flex-col-xs no-padding padding-right-10">
                             <div class="input-group">
-                                <input class="form-control no-border-right" placeholder="請輸入搜尋的商品名 或 商品編號" type="text">
+                                <input class="form-control no-border-right" placeholder="請輸入搜尋的商品名 或 商品編號" type="text" id="searchtext">
                                 <span class="input-group-btn">
-                                <button class="btn btn-transparent-grey2" type="button"> <i class="fa fa-search"></i> </button>
+                                <button class="btn btn-transparent-grey2" type="button" id="searchbutton"> <i class="fa fa-search"></i> </button>
                                 </span>
                             </div>
                         </div>
-                        <button class="btn btn-orange"> 新增<i class="fa fa-plus margin-left-5"></i> </button>
+                        <button class="btn btn-sm btn-orange" id="searchall"> 新商品 </button>
                     </div>
                 </div>
                 <div class="select2-results footer-btn-mrgin">
@@ -37,7 +37,7 @@
                                         </div>
                                     </div>
                                     <div class="tb-body" style="top: 30px; height: 320px;">
-                                        <div class="tb-body-container" style="height: 720px; top: 0px; width: 837px;">
+                                        <div class="tb-body-container" style="height: 350px; top: 0px; width: 837px;">
                                         
                                             
                                         </div>
@@ -52,12 +52,12 @@
                     </div>
                 </div>
                 <div class="select2-results">
-                    <span>已選擇：25 </span>
+                    已選擇：<span>0</span>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success margin-5"> 加入 <i class="fa fa-check"></i> </button>
-                <button class="btn btn-danger margin-5" data-dismiss="modal" aria-hidden="true"> 取消 <i class="fa fa-times"></i> </button>
+                <button class="btn btn-sm btn-success margin-5" id="addsubmit"> 加入 <i class="fa fa-check"></i> </button>
+                <button class="btn btn-sm btn-danger margin-5" data-dismiss="modal" aria-hidden="true"> 取消 <i class="fa fa-times"></i> </button>
             </div>
         </div>
     </div>
@@ -73,28 +73,50 @@ $(function() {
         // }
     // });
 
+    var sendsearch = function(text){
+        $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:150px;">Loading...</div>');
 
-    var selectResultArray = [];
-
-    $('.select2-search input').on('keyup', function (e) {
-         if(e.keyCode == 13) {
-
-            $('#selectproduct .tb-body-container').html('<span style="padding:10px;">Loadding...</span>');
-
-
-            $.ajax({
-                url:'/admin/product/search',
-                method: 'post',
-                data: {
-                    search: $(this).val(),
-                    _token: LA.token
-                },
-                success: function (result) {
-                    $('#selectproduct .tb-body-container').html(result);
+        $.ajax({
+            url:'/admin/product/search',
+            method: 'post',
+            data: {
+                search: text,
+                selected: selectResultArray,
+                _token: LA.token
+            },
+            success: function (result) {
+                if(result){
+                    $('#selectproduct .tb-body-container').html(result); 
+                }else{
+                    $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:150px;">查無 【 ' + text + ' 】 資料</div>'); 
                 }
-            });
-            
+            }
+        });
+        $('#searchtext').focus();
+    }
+
+    $('#searchtext')
+    .focus(function(){this.select();})
+    .on('keyup', function (e) {
+         if(e.keyCode == 13) {
+            sendsearch($(this).val());
         }
     });
+
+    $('#searchbutton').on('click', function () {
+        sendsearch($('#searchtext').val());
+    });
+    
+    $('#searchall').on('click', function () {
+        $('#searchtext').val('');
+        sendsearch('searchall');
+    });
+
+    $('#addsubmit').on('click', function () {
+        alert(selectResultArray);
+    });
+
+    
+
 });
 </script>

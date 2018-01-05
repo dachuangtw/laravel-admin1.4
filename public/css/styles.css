@@ -2,26 +2,26 @@
     display: inline-block
 }
 
-.dc-rtl {
+.tb-rtl {
     direction: rtl
 }
 
-.dc-ltr {
+.tb-ltr {
     direction: ltr
 }
 
-.dc-select-agg-func-popup {
+.tb-select-agg-func-popup {
     position: absolute
 }
 
-.dc-body-no-select {
+.tb-body-no-select {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none
 }
 
-.dc-root {
+.tb-root {
     position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -29,11 +29,11 @@
     overflow: hidden
 }
 
-.dc-layout-normal .dc-root {
+.tb-layout-normal .tb-root {
     height: 100%
 }
 
-.dc-font-style {
+.tb-font-style {
     cursor: default;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -41,16 +41,16 @@
     user-select: none
 }
 
-.dc-layout-for-print {
+.tb-layout-for-print {
     white-space: nowrap;
     display: inline-block
 }
 
-.dc-layout-normal {
+.tb-layout-normal {
     height: 100%
 }
 
-.dc-popup-backdrop {
+.tb-popup-backdrop {
     position: fixed;
     left: 0px;
     top: 0px;
@@ -58,7 +58,7 @@
     height: 100%
 }
 
-.dc-header {
+.tb-header {
     white-space: nowrap;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -67,13 +67,13 @@
     width: 100%
 }
 
-.dc-layout-normal .dc-header {
+.tb-layout-normal .tb-header {
     position: absolute;
     top: 0px;
     left: 0px
 }
 
-.dc-pinned-left-header {
+.tb-pinned-left-header {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -83,7 +83,7 @@
     height: 100%
 }
 
-.dc-pinned-right-header {
+.tb-pinned-right-header {
     float: right;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -93,7 +93,7 @@
     height: 100%
 }
 
-.dc-header-viewport {
+.tb-header-viewport {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -101,11 +101,11 @@
     height: 100%
 }
 
-.dc-layout-normal .dc-header-row {
+.tb-layout-normal .tb-header-row {
     position: absolute
 }
 
-.dc-layout-normal .dc-header-container {
+.tb-layout-normal .tb-header-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -114,11 +114,11 @@
     height: 100%
 }
 
-.dc-layout-auto-height .dc-header-row {
+.tb-layout-auto-height .tb-header-row {
     position: absolute
 }
 
-.dc-layout-auto-height .dc-header-container {
+.tb-layout-auto-height .tb-header-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -127,16 +127,16 @@
     height: 100%
 }
 
-.dc-layout-for-print .dc-header-container {
+.tb-layout-for-print .tb-header-container {
     white-space: nowrap
 }
 
-.dc-header-overlay {
+.tb-header-overlay {
     display: block;
     position: absolute
 }
 
-.dc-header-cell {
+.tb-header-cell {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -147,7 +147,7 @@
     position: absolute
 }
 
-.dc-floating-filter {
+.tb-floating-filter {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -155,38 +155,38 @@
     display: inline-block
 }
 
-.dc-floating-filter-body {
+.tb-floating-filter-body {
     margin-right: 25px;
     height: 20px
 }
 
-.dc-floating-filter-full-body {
+.tb-floating-filter-full-body {
     width: 100%;
     height: 20px
 }
 
-.dc-floating-filter-button {
+.tb-floating-filter-button {
     width: 25px;
     height: 20px;
     float: right;
     margin-top: -20px
 }
 
-.dc-floating-filter-button button {
+.tb-floating-filter-button button {
     width: 25px;
     height: 19px;
     padding: 0
 }
 
-.dc-floating-filter-input {
+.tb-floating-filter-input {
     width: 100%
 }
 
-.dc-floating-filter-input:read-only {
+.tb-floating-filter-input:read-only {
     background-color: #eee
 }
 
-.dc-floating-filter-menu {
+.tb-floating-filter-menu {
     position: absolute;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -194,7 +194,7 @@
     user-select: none
 }
 
-.dc-dnd-ghost {
+.tb-dnd-ghost {
     font-size: 14px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     position: absolute;
@@ -215,18 +215,18 @@
     line-height: 1.4
 }
 
-.dc-dnd-ghost-icon {
+.tb-dnd-ghost-icon {
     display: inline-block;
     float: left;
     padding-left: 2px;
     padding-right: 2px
 }
 
-.dc-dnd-ghost-label {
+.tb-dnd-ghost-label {
     display: inline-block
 }
 
-.dc-header-group-cell {
+.tb-header-group-cell {
     height: 100%;
     display: inline-block;
     -webkit-box-sizing: border-box;
@@ -238,70 +238,70 @@
     position: absolute
 }
 
-.dc-header-group-cell-label {
+.tb-header-group-cell-label {
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden
 }
 
-.dc-header-cell-label {
+.tb-header-cell-label {
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden
 }
 
-.dc-header-cell-resize {
+.tb-header-cell-resize {
     height: 100%;
     width: 4px;
     cursor: col-resize
 }
 
-.dc-ltr .dc-header-cell-resize {
+.tb-ltr .tb-header-cell-resize {
     float: right
 }
 
-.dc-ltr .dc-pinned-right-header .dc-header-cell-resize {
+.tb-ltr .tb-pinned-right-header .tb-header-cell-resize {
     float: left
 }
 
-.dc-rtl .dc-header-cell-resize {
+.tb-rtl .tb-header-cell-resize {
     float: left
 }
 
-.dc-rtl .dc-pinned-left-header .dc-header-cell-resize {
+.tb-rtl .tb-pinned-left-header .tb-header-cell-resize {
     float: right
 }
 
-.dc-ltr .dc-header-select-all {
+.tb-ltr .tb-header-select-all {
     float: left
 }
 
-.dc-rtl .dc-header-select-all {
+.tb-rtl .tb-header-select-all {
     float: right
 }
 
-.dc-header-expand-icon {
+.tb-header-expand-icon {
     padding-left: 4px
 }
 
-.dc-header-cell-menu-button {
+.tb-header-cell-menu-button {
     float: right
 }
 
-.dc-overlay-panel {
+.tb-overlay-panel {
     display: table;
     width: 100%;
     height: 100%;
     pointer-events: none
 }
 
-.dc-overlay-wrapper {
+.tb-overlay-wrapper {
     display: table-cell;
     vertical-align: middle;
     text-align: center
 }
 
-.dc-bl-overlay {
+.tb-bl-overlay {
     pointer-events: none;
     position: absolute;
     height: 100%;
@@ -310,73 +310,73 @@
     left: 0px
 }
 
-.dc-bl-full-height {
+.tb-bl-full-height {
     height: 100%;
     overflow: auto;
     position: relative
 }
 
-.dc-bl-west {
+.tb-bl-west {
     float: left
 }
 
-.dc-bl-full-height-west {
+.tb-bl-full-height-west {
     height: 100%
 }
 
-.dc-bl-east {
+.tb-bl-east {
     float: right
 }
 
-.dc-bl-full-height-east {
+.tb-bl-full-height-east {
     height: 100%
 }
 
-.dc-bl-full-height-center {
+.tb-bl-full-height-center {
     height: 100%
 }
 
-.dc-bl-normal {
+.tb-bl-normal {
     height: 100%;
     position: relative
 }
 
-.dc-bl-normal-center-row {
+.tb-bl-normal-center-row {
     height: 100%;
     overflow: hidden
 }
 
-.dc-bl-normal-west {
+.tb-bl-normal-west {
     height: 100%;
     float: left
 }
 
-.dc-bl-normal-east {
+.tb-bl-normal-east {
     height: 100%;
     float: right
 }
 
-.dc-bl-normal-center {
+.tb-bl-normal-center {
     height: 100%
 }
 
-.dc-bl-dont-fill {
+.tb-bl-dont-fill {
     position: relative
 }
 
-.dc-body {
+.tb-body {
     width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
 }
 
-.dc-layout-normal .dc-body {
+.tb-layout-normal .tb-body {
     height: 100%;
     position: absolute
 }
 
-.dc-floating-top {
+.tb-floating-top {
     width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
@@ -385,12 +385,12 @@
     overflow: hidden
 }
 
-.dc-layout-normal .dc-floating-top {
+.tb-layout-normal .tb-floating-top {
     position: absolute;
     left: 0px
 }
 
-.dc-pinned-left-floating-top {
+.tb-pinned-left-floating-top {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -400,11 +400,11 @@
     position: relative
 }
 
-.dc-layout-normal .dc-pinned-left-floating-top {
+.tb-layout-normal .tb-pinned-left-floating-top {
     height: 100%
 }
 
-.dc-pinned-right-floating-top {
+.tb-pinned-right-floating-top {
     float: right;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -414,22 +414,22 @@
     position: relative
 }
 
-.dc-layout-normal .dc-pinned-right-floating-top {
+.tb-layout-normal .tb-pinned-right-floating-top {
     height: 100%
 }
 
-.dc-floating-top-viewport {
+.tb-floating-top-viewport {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden
 }
 
-.dc-layout-normal .dc-floating-top-viewport {
+.tb-layout-normal .tb-floating-top-viewport {
     height: 100%
 }
 
-.dc-floating-top-container {
+.tb-floating-top-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -437,7 +437,7 @@
     white-space: nowrap
 }
 
-.dc-floating-bottom {
+.tb-floating-bottom {
     width: 100%;
     white-space: nowrap;
     -webkit-box-sizing: border-box;
@@ -446,12 +446,12 @@
     overflow: hidden
 }
 
-.dc-layout-normal .dc-floating-bottom {
+.tb-layout-normal .tb-floating-bottom {
     position: absolute;
     left: 0px
 }
 
-.dc-pinned-left-floating-bottom {
+.tb-pinned-left-floating-bottom {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -461,11 +461,11 @@
     position: relative
 }
 
-.dc-layout-normal .dc-pinned-left-floating-bottom {
+.tb-layout-normal .tb-pinned-left-floating-bottom {
     height: 100%
 }
 
-.dc-pinned-right-floating-bottom {
+.tb-pinned-right-floating-bottom {
     float: right;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -475,22 +475,22 @@
     position: relative
 }
 
-.dc-layout-normal .dc-pinned-right-floating-bottom {
+.tb-layout-normal .tb-pinned-right-floating-bottom {
     height: 100%
 }
 
-.dc-floating-bottom-viewport {
+.tb-floating-bottom-viewport {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden
 }
 
-.dc-layout-normal .dc-floating-bottom-viewport {
+.tb-layout-normal .tb-floating-bottom-viewport {
     height: 100%
 }
 
-.dc-floating-bottom-container {
+.tb-floating-bottom-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -498,56 +498,56 @@
     white-space: nowrap
 }
 
-.dc-pinned-left-cols-viewport {
+.tb-pinned-left-cols-viewport {
     float: left
 }
 
-.dc-pinned-left-cols-container {
+.tb-pinned-left-cols-container {
     display: inline-block;
     position: relative
 }
 
-.dc-pinned-right-cols-viewport {
+.tb-pinned-right-cols-viewport {
     float: right
 }
 
-.dc-ltr .dc-pinned-right-cols-viewport {
+.tb-ltr .tb-pinned-right-cols-viewport {
     overflow-x: hidden;
     overflow-y: auto
 }
 
-.dc-ltr .dc-pinned-left-cols-viewport {
+.tb-ltr .tb-pinned-left-cols-viewport {
     overflow: hidden
 }
 
-.dc-rtl .dc-pinned-right-cols-viewport {
+.tb-rtl .tb-pinned-right-cols-viewport {
     overflow: hidden
 }
 
-.dc-rtl .dc-pinned-left-cols-viewport {
+.tb-rtl .tb-pinned-left-cols-viewport {
     overflow-x: hidden;
     overflow-y: auto
 }
 
-.dc-pinned-right-cols-container {
+.tb-pinned-right-cols-container {
     display: inline-block;
     position: relative
 }
 
-.dc-layout-normal .dc-body-viewport-wrapper {
+.tb-layout-normal .tb-body-viewport-wrapper {
     height: 100%
 }
 
-.dc-body-viewport {
+.tb-body-viewport {
     overflow-x: auto;
     overflow-y: auto
 }
 
-.dc-layout-normal .dc-body-viewport {
+.tb-layout-normal .tb-body-viewport {
     height: 100%
 }
 
-.dc-full-width-viewport {
+.tb-full-width-viewport {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -561,13 +561,13 @@
     overflow: hidden
 }
 
-.dc-full-width-container {
+.tb-full-width-container {
     overflow: hidden;
     position: relative;
     width: 100%
 }
 
-.dc-floating-bottom-full-width-container {
+.tb-floating-bottom-full-width-container {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -578,7 +578,7 @@
     display: inline
 }
 
-.dc-floating-top-full-width-container {
+.tb-floating-top-full-width-container {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -589,22 +589,22 @@
     display: inline
 }
 
-.dc-full-width-row {
+.tb-full-width-row {
     pointer-events: all;
     overflow: hidden
 }
 
-.dc-layout-normal .dc-body-container {
+.tb-layout-normal .tb-body-container {
     position: relative;
     display: inline-block
 }
 
-.dc-layout-auto-height .dc-body-container {
+.tb-layout-auto-height .tb-body-container {
     position: relative;
     display: inline-block
 }
 
-.dc-row-animation {
+.tb-row-animation {
     -webkit-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
     -moz-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
     -o-transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s;
@@ -612,7 +612,7 @@
     transition: top 0.4s, height 0.4s, background-color 0.1s, opacity 0.2s
 }
 
-.dc-row-no-animation {
+.tb-row-no-animation {
     -webkit-transition: background-color 0.1s;
     -moz-transition: background-color 0.1s;
     -o-transition: background-color 0.1s;
@@ -620,29 +620,29 @@
     transition: background-color 0.1s
 }
 
-.dc-row {
+.tb-row {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
 }
 
-.dc-layout-normal .dc-row {
+.tb-layout-normal .tb-row {
     white-space: nowrap;
     position: absolute;
     width: 100%
 }
 
-.dc-layout-auto-height .dc-row {
+.tb-layout-auto-height .tb-row {
     white-space: nowrap;
     position: relative;
     width: 100%
 }
 
-.dc-layout-for-print .dc-row {
+.tb-layout-for-print .tb-row {
     position: relative
 }
 
-.dc-column-moving .dc-cell {
+.tb-column-moving .tb-cell {
     -webkit-transition: left 0.2s;
     -moz-transition: left 0.2s;
     -o-transition: left 0.2s;
@@ -650,7 +650,7 @@
     transition: left 0.2s
 }
 
-.dc-column-moving .dc-header-cell {
+.tb-column-moving .tb-header-cell {
     -webkit-transition: left 0.2s;
     -moz-transition: left 0.2s;
     -o-transition: left 0.2s;
@@ -658,7 +658,7 @@
     transition: left 0.2s
 }
 
-.dc-column-moving .dc-header-group-cell {
+.tb-column-moving .tb-header-group-cell {
     -webkit-transition: left 0.2s, width 0.2s;
     -moz-transition: left 0.2s, width 0.2s;
     -o-transition: left 0.2s, width 0.2s;
@@ -666,46 +666,46 @@
     transition: left 0.2s, width 0.2s
 }
 
-.dc-column-drop {
+.tb-column-drop {
     width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
 }
 
-.dc-column-drop-vertical .dc-column-drop-cell {
+.tb-column-drop-vertical .tb-column-drop-cell {
     display: block
 }
 
-.dc-column-drop-vertical .dc-column-drop-empty-message {
+.tb-column-drop-vertical .tb-column-drop-empty-message {
     display: block
 }
 
-.dc-column-drop-vertical .dc-column-drop-cell-button {
+.tb-column-drop-vertical .tb-column-drop-cell-button {
     line-height: 16px
 }
 
-.dc-ltr .dc-column-drop-vertical .dc-column-drop-cell-button {
+.tb-ltr .tb-column-drop-vertical .tb-column-drop-cell-button {
     float: right
 }
 
-.dc-rtl .dc-column-drop-vertical .dc-column-drop-cell-button {
+.tb-rtl .tb-column-drop-vertical .tb-column-drop-cell-button {
     float: left
 }
 
-.dc-column-drop-horizontal {
+.tb-column-drop-horizontal {
     white-space: nowrap
 }
 
-.dc-column-drop-horizontal .dc-column-drop-cell {
+.tb-column-drop-horizontal .tb-column-drop-cell {
     display: inline-block
 }
 
-.dc-column-drop-horizontal .dc-column-drop-empty-message {
+.tb-column-drop-horizontal .tb-column-drop-empty-message {
     display: inline-block
 }
 
-.dc-cell {
+.tb-cell {
     display: inline-block;
     white-space: nowrap;
     height: 100%;
@@ -718,7 +718,7 @@
     position: absolute
 }
 
-.dc-value-slide-out {
+.tb-value-slide-out {
     opacity: 1;
     -ms-filter: none;
     filter: none;
@@ -735,25 +735,25 @@
     transition-timing-function: linear
 }
 
-.dc-value-slide-out-end {
+.tb-value-slide-out-end {
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
     margin-right: 10px
 }
 
-.dc-opacity-zero {
+.tb-opacity-zero {
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0)
 }
 
-.dc-cell-edit-input {
+.tb-cell-edit-input {
     width: 100%;
     height: 100%
 }
 
-.dc-group-cell-entire-row {
+.tb-group-cell-entire-row {
     width: 100%;
     display: inline-block;
     white-space: nowrap;
@@ -766,7 +766,7 @@
     overflow: hidden
 }
 
-.dc-footer-cell-entire-row {
+.tb-footer-cell-entire-row {
     width: 100%;
     display: inline-block;
     white-space: nowrap;
@@ -779,11 +779,11 @@
     overflow: hidden
 }
 
-.dc-large .dc-root {
+.tb-large .tb-root {
     font-size: 20px
 }
 
-.dc-popup-editor {
+.tb-popup-editor {
     position: absolute;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -791,7 +791,7 @@
     user-select: none
 }
 
-.dc-menu {
+.tb-menu {
     position: absolute;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -799,109 +799,109 @@
     user-select: none
 }
 
-.dc-menu-column-select-wrapper {
+.tb-menu-column-select-wrapper {
     width: 200px;
     height: 300px;
     overflow: auto
 }
 
-.dc-menu-list {
+.tb-menu-list {
     display: table;
     border-collapse: collapse
 }
 
-.dc-menu-option {
+.tb-menu-option {
     display: table-row
 }
 
-.dc-menu-option-text {
+.tb-menu-option-text {
     display: table-cell
 }
 
-.dc-menu-option-shortcut {
+.tb-menu-option-shortcut {
     display: table-cell
 }
 
-.dc-menu-option-icon {
+.tb-menu-option-icon {
     display: table-cell
 }
 
-.dc-menu-option-popup-pointer {
+.tb-menu-option-popup-pointer {
     display: table-cell
 }
 
-.dc-menu-separator {
+.tb-menu-separator {
     display: table-row
 }
 
-.dc-menu-separator-cell {
+.tb-menu-separator-cell {
     display: table-cell
 }
 
-.dc-virtual-list-viewport {
+.tb-virtual-list-viewport {
     overflow-x: auto;
     height: 100%;
     width: 100%
 }
 
-.dc-virtual-list-container {
+.tb-virtual-list-container {
     position: relative;
     overflow: hidden
 }
 
-.dc-rich-select {
+.tb-rich-select {
     outline: none
 }
 
-.dc-rich-select-row {
+.tb-rich-select-row {
     white-space: nowrap
 }
 
-.dc-rich-select-list {
+.tb-rich-select-list {
     width: 200px;
     height: 200px
 }
 
-.dc-set-filter-list {
+.tb-set-filter-list {
     width: 200px;
     height: 200px
 }
 
-.dc-set-filter-item {
+.tb-set-filter-item {
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap
 }
 
-.dc-virtual-list-item {
+.tb-virtual-list-item {
     position: absolute;
     width: 100%
 }
 
-.dc-filter-filter {
+.tb-filter-filter {
     width: 170px;
     margin: 4px
 }
 
-.dc-floating-filter-body input {
+.tb-floating-filter-body input {
     width: 100%;
     margin: 0;
     height: 19px
 }
 
-.dc-floating-filter-full-body input {
+.tb-floating-filter-full-body input {
     width: 100%;
     margin: 0;
     height: 19px
 }
 
-.dc-filter-select {
+.tb-filter-select {
     width: 110px;
     margin: 4px 4px 0px 4px
 }
 
-.dc-list-selection {
+.tb-list-selection {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -909,7 +909,7 @@
     cursor: default
 }
 
-.dc-tool-panel {
+.tb-tool-panel {
     width: 200px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -922,55 +922,55 @@
     overflow: auto
 }
 
-.dc-layout-normal .dc-tool-panel {
+.tb-layout-normal .tb-tool-panel {
     height: 100%
 }
 
-.dc-column-select-indent {
+.tb-column-select-indent {
     display: inline-block
 }
 
-.dc-column-select-column {
+.tb-column-select-column {
     white-space: nowrap
 }
 
-.dc-ltr .dc-column-select-column {
+.tb-ltr .tb-column-select-column {
     margin-left: 14px
 }
 
-.dc-rtl .dc-column-select-column {
+.tb-rtl .tb-column-select-column {
     margin-right: 14px
 }
 
-.dc-column-select-column-group {
+.tb-column-select-column-group {
     white-space: nowrap
 }
 
-.dc-hidden {
+.tb-hidden {
     display: none !important
 }
 
-.dc-visibility-hidden {
+.tb-visibility-hidden {
     visibility: hidden !important
 }
 
-.dc-faded {
+.tb-faded {
     opacity: 0.3;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
     filter: alpha(opacity=30)
 }
 
-.dc-width-half {
+.tb-width-half {
     width: 50%;
     display: inline-block
 }
 
-.dc-shake-left-to-right {
-    -webkit-animation-name: dc-shake-left-to-right;
-    -moz-animation-name: dc-shake-left-to-right;
-    -o-animation-name: dc-shake-left-to-right;
-    -ms-animation-name: dc-shake-left-to-right;
-    animation-name: dc-shake-left-to-right;
+.tb-shake-left-to-right {
+    -webkit-animation-name: tb-shake-left-to-right;
+    -moz-animation-name: tb-shake-left-to-right;
+    -o-animation-name: tb-shake-left-to-right;
+    -ms-animation-name: tb-shake-left-to-right;
+    animation-name: tb-shake-left-to-right;
     -webkit-animation-duration: 0.2s;
     -moz-animation-duration: 0.2s;
     -o-animation-duration: 0.2s;
@@ -988,7 +988,7 @@
     animation-direction: alternate
 }
 
-@-moz-keyframes dc-shake-left-to-right {
+@-moz-keyframes tb-shake-left-to-right {
     from {
         padding-left: 6px;
         padding-right: 2px
@@ -999,7 +999,7 @@
     }
 }
 
-@-webkit-keyframes dc-shake-left-to-right {
+@-webkit-keyframes tb-shake-left-to-right {
     from {
         padding-left: 6px;
         padding-right: 2px
@@ -1010,7 +1010,7 @@
     }
 }
 
-@-o-keyframes dc-shake-left-to-right {
+@-o-keyframes tb-shake-left-to-right {
     from {
         padding-left: 6px;
         padding-right: 2px
@@ -1021,7 +1021,7 @@
     }
 }
 
-@keyframes dc-shake-left-to-right {
+@keyframes tb-shake-left-to-right {
     from {
         padding-left: 6px;
         padding-right: 2px
@@ -4310,7 +4310,7 @@
 }
 
 .btn .fa-angle-down,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button .fa-angle-down {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button .fa-angle-down {
     font-size: 20px;
     font-weight: bold
 }
@@ -4359,8 +4359,8 @@
 }
 
 .uib-datepicker .btn-default,
-.uib-datepicker .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .uib-datepicker .dc-paging-button {
+.uib-datepicker .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .uib-datepicker .tb-paging-button {
     border-color: transparent
 }
 
@@ -4413,10 +4413,10 @@
 }
 
 .input-group .btn,
-.input-group .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .input-group .dc-paging-button,
+.input-group .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .input-group .tb-paging-button,
 button.btn,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel button.dc-paging-button {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel button.tb-paging-button {
     padding: 4px 10px
 }
 
@@ -4735,8 +4735,8 @@ button.close {
 }
 
 .fileupload .btn,
-.fileupload .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .fileupload .dc-paging-button {
+.fileupload .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .fileupload .tb-paging-button {
     vertical-align: middle
 }
 
@@ -5119,15 +5119,15 @@ button.close {
     border: 0
 }
 
-.fresh .dc-root {
+.fresh .tb-root {
     border: 1px solid #808080
 }
 
-.fresh .dc-cell-data-changed {
+.fresh .tb-cell-data-changed {
     background-color: #cec
 }
 
-.fresh .dc-cell-data-changed-animation {
+.fresh .tb-cell-data-changed-animation {
     background-color: transparent;
     -webkit-transition: background-color 1s;
     -moz-transition: background-color 1s;
@@ -5136,66 +5136,66 @@ button.close {
     transition: background-color 1s
 }
 
-.fresh .dc-cell-not-inline-editing {
+.fresh .tb-cell-not-inline-editing {
     padding: 2px
 }
 
-.fresh .dc-cell-range-selected-1:not(.dc-cell-focus) {
+.fresh .tb-cell-range-selected-1:not(.tb-cell-focus) {
     background-color: rgba(120, 120, 120, 0.4)
 }
 
-.fresh .dc-cell-range-selected-2:not(.dc-cell-focus) {
+.fresh .tb-cell-range-selected-2:not(.tb-cell-focus) {
     background-color: rgba(80, 80, 80, 0.4)
 }
 
-.fresh .dc-cell-range-selected-3:not(.dc-cell-focus) {
+.fresh .tb-cell-range-selected-3:not(.tb-cell-focus) {
     background-color: rgba(40, 40, 40, 0.4)
 }
 
-.fresh .dc-cell-range-selected-4:not(.dc-cell-focus) {
+.fresh .tb-cell-range-selected-4:not(.tb-cell-focus) {
     background-color: rgba(0, 0, 0, 0.4)
 }
 
-.fresh .dc-cell-focus {
+.fresh .tb-cell-focus {
     border: 1px solid #a9a9a9
 }
 
-.fresh .dc-cell-no-focus {
+.fresh .tb-cell-no-focus {
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent
 }
 
-.fresh .dc-ltr .dc-cell-no-focus {
+.fresh .tb-ltr .tb-cell-no-focus {
     border-right: 1px dotted #808080;
     border-left: 1px solid transparent
 }
 
-.fresh .dc-rtl .dc-cell-no-focus {
+.fresh .tb-rtl .tb-cell-no-focus {
     border-right: 1px solid transparent;
     border-left: 1px dotted #808080
 }
 
-.fresh .dc-rtl .dc-cell-first-right-pinned {
+.fresh .tb-rtl .tb-cell-first-right-pinned {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-ltr .dc-cell-first-right-pinned {
+.fresh .tb-ltr .tb-cell-first-right-pinned {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-rtl .dc-cell-last-left-pinned {
+.fresh .tb-rtl .tb-cell-last-left-pinned {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-ltr .dc-cell-last-left-pinned {
+.fresh .tb-ltr .tb-cell-last-left-pinned {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-cell-highlight {
+.fresh .tb-cell-highlight {
     border: 1px solid #006400
 }
 
-.fresh .dc-cell-highlight-animation {
+.fresh .tb-cell-highlight-animation {
     -webkit-transition: border 1s;
     -moz-transition: border 1s;
     -o-transition: border 1s;
@@ -5203,19 +5203,19 @@ button.close {
     transition: border 1s
 }
 
-.fresh .dc-value-change-delta {
+.fresh .tb-value-change-delta {
     padding-right: 2px
 }
 
-.fresh .dc-value-change-delta-up {
+.fresh .tb-value-change-delta-up {
     color: #006400
 }
 
-.fresh .dc-value-change-delta-down {
+.fresh .tb-value-change-delta-down {
     color: #8b0000
 }
 
-.fresh .dc-value-change-value {
+.fresh .tb-value-change-value {
     background-color: transparent;
     border-radius: 1px;
     padding-left: 1px;
@@ -5227,7 +5227,7 @@ button.close {
     transition: background-color 1s
 }
 
-.fresh .dc-value-change-value-highlight {
+.fresh .tb-value-change-value-highlight {
     background-color: #cec;
     -webkit-transition: background-color 0.1s;
     -moz-transition: background-color 0.1s;
@@ -5236,38 +5236,38 @@ button.close {
     transition: background-color 0.1s
 }
 
-.fresh .dc-rich-select {
+.fresh .tb-rich-select {
     font-size: 14px;
     border: 1px solid #808080;
     background-color: #fff
 }
 
-.fresh .dc-rich-select-value {
+.fresh .tb-rich-select-value {
     padding: 2px
 }
 
-.fresh .dc-rich-select-list {
+.fresh .tb-rich-select-list {
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .dc-rich-select-row {
+.fresh .tb-rich-select-row {
     padding: 2px
 }
 
-.fresh .dc-rich-select-row-selected {
+.fresh .tb-rich-select-row-selected {
     background-color: #bde2e5
 }
 
-.fresh .dc-large-text {
+.fresh .tb-large-text {
     border: 1px solid #808080
 }
 
-.fresh .dc-header-select-all {
+.fresh .tb-header-select-all {
     padding: 5px 0px 0px 3px;
     line-height: 0
 }
 
-.fresh .dc-header {
+.fresh .tb-header {
     color: #000;
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
@@ -5278,13 +5278,13 @@ button.close {
     font-weight: normal
 }
 
-.fresh .dc-header-icon {
+.fresh .tb-header-icon {
     color: #000;
     stroke: none;
     fill: #000
 }
 
-.fresh .dc-layout-for-print .dc-header-container {
+.fresh .tb-layout-for-print .tb-header-container {
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
     background: -o-linear-gradient(#fff, #d3d3d3);
@@ -5293,65 +5293,65 @@ button.close {
     border-bottom: 1px solid #808080
 }
 
-.fresh .dc-ltr .dc-header-cell {
+.fresh .tb-ltr .tb-header-cell {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-rtl .dc-header-cell {
+.fresh .tb-rtl .tb-header-cell {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-header-cell-moving .dc-header-cell-label {
+.fresh .tb-header-cell-moving .tb-header-cell-label {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .dc-header-cell-moving {
+.fresh .tb-header-cell-moving {
     background-color: #bebebe
 }
 
-.fresh .dc-ltr .dc-header-group-cell {
+.fresh .tb-ltr .tb-header-group-cell {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-rtl .dc-header-group-cell {
+.fresh .tb-rtl .tb-header-group-cell {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-header-group-cell-with-group {
+.fresh .tb-header-group-cell-with-group {
     border-bottom: 1px solid #808080
 }
 
-.fresh .dc-header-cell-label {
+.fresh .tb-header-cell-label {
     padding: 4px 2px 4px 2px
 }
 
-.fresh .dc-header-cell-text {
+.fresh .tb-header-cell-text {
     padding-left: 2px
 }
 
-.fresh .dc-header-group-cell-label {
+.fresh .tb-header-group-cell-label {
     padding: 4px
 }
 
-.fresh .dc-ltr .dc-header-group-cell-label {
+.fresh .tb-ltr .tb-header-group-cell-label {
     padding-left: 10px
 }
 
-.fresh .dc-rtl .dc-header-group-cell-label {
+.fresh .tb-rtl .tb-header-group-cell-label {
     padding-right: 10px
 }
 
-.fresh .dc-rtl .dc-header-group-text {
+.fresh .tb-rtl .tb-header-group-text {
     margin-left: 2px
 }
 
-.fresh .dc-ltr .dc-header-group-text {
+.fresh .tb-ltr .tb-header-group-text {
     margin-right: 2px
 }
 
-.fresh .dc-header-cell-menu-button {
+.fresh .tb-header-cell-menu-button {
     padding: 2px;
     margin-top: 4px;
     margin-left: 1px;
@@ -5364,55 +5364,55 @@ button.close {
     line-height: 0px
 }
 
-.fresh .dc-ltr .dc-pinned-right-header {
+.fresh .tb-ltr .tb-pinned-right-header {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-rtl .dc-pinned-left-header {
+.fresh .tb-rtl .tb-pinned-left-header {
     border-right: 1px solid #808080
 }
 
-.fresh .dc-header-cell-menu-button:hover {
+.fresh .tb-header-cell-menu-button:hover {
     border: 1px solid #808080
 }
 
-.fresh .dc-body {
+.fresh .tb-body {
     background-color: #f6f6f6
 }
 
-.fresh .dc-row-odd {
+.fresh .tb-row-odd {
     background-color: #f6f6f6
 }
 
-.fresh .dc-row-even {
+.fresh .tb-row-even {
     background-color: #fff
 }
 
-.fresh .dc-row-selected {
+.fresh .tb-row-selected {
     background-color: #b0e0e6
 }
 
-.fresh .dc-row-stub {
+.fresh .tb-row-stub {
     background-color: #f0f0f0
 }
 
-.fresh .dc-stub-cell {
+.fresh .tb-stub-cell {
     padding: 2px 2px 2px 10px
 }
 
-.fresh .dc-floating-top .dc-row {
+.fresh .tb-floating-top .tb-row {
     background-color: #f0f0f0
 }
 
-.fresh .dc-floating-bottom .dc-row {
+.fresh .tb-floating-bottom .tb-row {
     background-color: #f0f0f0
 }
 
-.fresh .dc-overlay-loading-wrapper {
+.fresh .tb-overlay-loading-wrapper {
     background-color: rgba(255, 255, 255, 0.5)
 }
 
-.fresh .dc-overlay-loading-center {
+.fresh .tb-overlay-loading-center {
     background-color: #fff;
     border: 1px solid #808080;
     border-radius: 10px;
@@ -5420,76 +5420,76 @@ button.close {
     color: #000
 }
 
-.fresh .dc-overlay-no-rows-center {
+.fresh .tb-overlay-no-rows-center {
     background-color: #fff;
     border: 1px solid #808080;
     border-radius: 10px;
     padding: 10px
 }
 
-.fresh .dc-group-cell-entire-row {
+.fresh .tb-group-cell-entire-row {
     background-color: #f6f6f6;
     padding: 2px
 }
 
-.fresh .dc-footer-cell-entire-row {
+.fresh .tb-footer-cell-entire-row {
     background-color: #f6f6f6;
     padding: 2px
 }
 
-.fresh .dc-group-cell {
+.fresh .tb-group-cell {
     font-style: italic
 }
 
-.fresh .dc-ltr .dc-group-expanded {
+.fresh .tb-ltr .tb-group-expanded {
     padding-right: 4px
 }
 
-.fresh .dc-rtl .dc-group-expanded {
+.fresh .tb-rtl .tb-group-expanded {
     padding-left: 4px
 }
 
-.fresh .dc-ltr .dc-group-contracted {
+.fresh .tb-ltr .tb-group-contracted {
     padding-right: 4px
 }
 
-.fresh .dc-rtl .dc-group-contracted {
+.fresh .tb-rtl .tb-group-contracted {
     padding-left: 4px
 }
 
-.fresh .dc-ltr .dc-group-loading {
+.fresh .tb-ltr .tb-group-loading {
     padding-right: 4px
 }
 
-.fresh .dc-rtl .dc-group-loading {
+.fresh .tb-rtl .tb-group-loading {
     padding-left: 4px
 }
 
-.fresh .dc-ltr .dc-group-value {
+.fresh .tb-ltr .tb-group-value {
     padding-right: 2px
 }
 
-.fresh .dc-rtl .dc-group-value {
+.fresh .tb-rtl .tb-group-value {
     padding-left: 2px
 }
 
-.fresh .dc-ltr .dc-group-checkbox {
+.fresh .tb-ltr .tb-group-checkbox {
     padding-right: 2px
 }
 
-.fresh .dc-rtl .dc-group-checkbox {
+.fresh .tb-rtl .tb-group-checkbox {
     padding-left: 2px
 }
 
-.fresh .dc-group-child-count {
+.fresh .tb-group-child-count {
     display: inline-block
 }
 
-.fresh .dc-footer-cell {
+.fresh .tb-footer-cell {
     font-style: italic
 }
 
-.fresh .dc-menu {
+.fresh .tb-menu {
     border: 1px solid #808080;
     background-color: #f6f6f6;
     cursor: default;
@@ -5497,11 +5497,11 @@ button.close {
     font-size: 14px
 }
 
-.fresh .dc-menu .dc-tab-header {
+.fresh .tb-menu .tb-tab-header {
     background-color: #e6e6e6
 }
 
-.fresh .dc-menu .dc-tab {
+.fresh .tb-menu .tb-tab {
     padding: 6px 8px 6px 8px;
     margin: 2px 2px 0px 2px;
     display: inline-block;
@@ -5512,108 +5512,108 @@ button.close {
     border-top-left-radius: 2px
 }
 
-.fresh .dc-menu .dc-tab-selected {
+.fresh .tb-menu .tb-tab-selected {
     background-color: #f6f6f6;
     border-right: 1px solid #d3d3d3;
     border-left: 1px solid #d3d3d3;
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .dc-menu-separator {
+.fresh .tb-menu-separator {
     border-top: 1px solid #d3d3d3
 }
 
-.fresh .dc-menu-option-active {
+.fresh .tb-menu-option-active {
     background-color: #bde2e5
 }
 
-.fresh .dc-menu-option-icon {
+.fresh .tb-menu-option-icon {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .dc-menu-option-text {
+.fresh .tb-menu-option-text {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .dc-menu-option-shortcut {
+.fresh .tb-menu-option-shortcut {
     padding: 2px 2px 2px 2px;
     vertical-align: middle
 }
 
-.fresh .dc-menu-option-popup-pointer {
+.fresh .tb-menu-option-popup-pointer {
     padding: 2px 4px 2px 4px;
     vertical-align: middle
 }
 
-.fresh .dc-menu-option-disabled {
+.fresh .tb-menu-option-disabled {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .dc-menu-column-select-wrapper {
+.fresh .tb-menu-column-select-wrapper {
     margin: 2px
 }
 
-.fresh .dc-filter-checkbox {
+.fresh .tb-filter-checkbox {
     position: relative;
     top: 2px;
     left: 2px
 }
 
-.fresh .dc-filter-header-container {
+.fresh .tb-filter-header-container {
     border-bottom: 1px solid #d3d3d3
 }
 
-.fresh .dc-filter-apply-panel {
+.fresh .tb-filter-apply-panel {
     border-top: 1px solid #d3d3d3;
     padding: 2px
 }
 
-.fresh .dc-filter-value {
+.fresh .tb-filter-value {
     margin-left: 4px
 }
 
-.fresh .dc-ltr .dc-selection-checkbox {
+.fresh .tb-ltr .tb-selection-checkbox {
     padding-right: 4px
 }
 
-.fresh .dc-rtl .dc-selection-checkbox {
+.fresh .tb-rtl .tb-selection-checkbox {
     padding-left: 4px
 }
 
-.fresh .dc-paging-panel {
+.fresh .tb-paging-panel {
     padding: 4px
 }
 
-.fresh .dc-paging-button {
+.fresh .tb-paging-button {
     margin-left: 4px;
     margin-right: 4px
 }
 
-.fresh .dc-paging-row-summary-panel {
+.fresh .tb-paging-row-summary-panel {
     display: inline-block;
     width: 300px
 }
 
-.fresh .dc-tool-panel {
+.fresh .tb-tool-panel {
     background-color: #f6f6f6;
     border-bottom: 1px solid #808080;
     border-top: 1px solid #808080;
     color: #222
 }
 
-.fresh .ltr .dc-tool-panel {
+.fresh .ltr .tb-tool-panel {
     border-right: 1px solid #808080
 }
 
-.fresh .rtl .dc-tool-panel {
+.fresh .rtl .tb-tool-panel {
     border-left: 1px solid #808080
 }
 
-.fresh .dc-status-bar {
+.fresh .tb-status-bar {
     color: #222;
     background-color: #f6f6f6;
     font-size: 14px;
@@ -5624,15 +5624,15 @@ button.close {
     padding: 2px
 }
 
-.fresh .dc-status-bar-aggregations {
+.fresh .tb-status-bar-aggregations {
     float: right
 }
 
-.fresh .dc-status-bar-item {
+.fresh .tb-status-bar-item {
     padding-left: 10px
 }
 
-.fresh .dc-column-drop-cell {
+.fresh .tb-column-drop-cell {
     background: -webkit-linear-gradient(#fff, #d3d3d3);
     background: -moz-linear-gradient(#fff, #d3d3d3);
     background: -o-linear-gradient(#fff, #d3d3d3);
@@ -5642,74 +5642,74 @@ button.close {
     border: 1px solid #808080
 }
 
-.fresh .dc-column-drop-cell-ghost {
+.fresh .tb-column-drop-cell-ghost {
     opacity: 0.5;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50)
 }
 
-.fresh .dc-column-drop-cell-text {
+.fresh .tb-column-drop-cell-text {
     padding-left: 2px;
     padding-right: 2px
 }
 
-.fresh .dc-column-drop-cell-button {
+.fresh .tb-column-drop-cell-button {
     border: 1px solid transparent;
     padding-left: 2px;
     padding-right: 2px;
     border-radius: 3px
 }
 
-.fresh .dc-column-drop-cell-button:hover {
+.fresh .tb-column-drop-cell-button:hover {
     border: 1px solid #808080
 }
 
-.fresh .dc-column-drop-empty-message {
+.fresh .tb-column-drop-empty-message {
     padding-left: 2px;
     padding-right: 2px;
     color: #808080
 }
 
-.fresh .dc-column-drop-icon {
+.fresh .tb-column-drop-icon {
     margin: 3px
 }
 
-.fresh .dc-column-drop {
+.fresh .tb-column-drop {
     background-color: #f6f6f6
 }
 
-.fresh .dc-column-drop-horizontal {
+.fresh .tb-column-drop-horizontal {
     padding: 2px;
     border-top: 1px solid #808080;
     border-left: 1px solid #808080;
     border-right: 1px solid #808080
 }
 
-.fresh .dc-column-drop-vertical {
+.fresh .tb-column-drop-vertical {
     padding: 4px 4px 10px 4px;
     border-bottom: 1px solid #808080
 }
 
-.fresh .dc-column-drop-vertical .dc-column-drop-cell {
+.fresh .tb-column-drop-vertical .tb-column-drop-cell {
     margin-top: 2px
 }
 
-.fresh .dc-column-drop-vertical .dc-column-drop-empty-message {
+.fresh .tb-column-drop-vertical .tb-column-drop-empty-message {
     text-align: center;
     padding: 5px
 }
 
-.fresh .dc-pivot-mode {
+.fresh .tb-pivot-mode {
     border-bottom: 1px solid #808080;
     padding: 4px;
     background-color: #f6f6f6
 }
 
-.fresh .dc-tool-panel .dc-column-select-panel {
+.fresh .tb-tool-panel .tb-column-select-panel {
     border-bottom: 1px solid #808080
 }
 
-.fresh .dc-select-agg-func-popup {
+.fresh .tb-select-agg-func-popup {
     cursor: default;
     position: absolute;
     font-size: 14px;
@@ -5717,12 +5717,12 @@ button.close {
     border: 1px solid #808080
 }
 
-.fresh .dc-select-agg-func-item {
+.fresh .tb-select-agg-func-item {
     padding-left: 2px;
     padding-right: 2px
 }
 
-.fresh .dc-select-agg-func-item:hover {
+.fresh .tb-select-agg-func-item:hover {
     background-color: #bde2e5
 }
 
@@ -7643,11 +7643,11 @@ ngb-datepicker.full {
     content: ""
 }
 
-.fa-fldc-o:before {
+.fa-fltb-o:before {
     content: ""
 }
 
-.fa-fldc-checkered:before {
+.fa-fltb-checkered:before {
     content: ""
 }
 
@@ -10257,8 +10257,8 @@ ngb-datepicker.full {
 }
 
 .mainContent-footer-btns .btn,
-.mainContent-footer-btns .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .mainContent-footer-btns .dc-paging-button {
+.mainContent-footer-btns .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .mainContent-footer-btns .tb-paging-button {
     margin: 2px 0
 }
 
@@ -12157,23 +12157,23 @@ input.input-oneLineHigh {
 }
 
 .panel-grey .panel-tools .btn,
-.panel-grey .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-grey .panel-tools .dc-paging-button,
+.panel-grey .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-grey .panel-tools .tb-paging-button,
 .panel-grey .panel-tools>a,
 .partition-grey .panel-tools .btn,
-.partition-grey .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-grey .panel-tools .dc-paging-button,
+.partition-grey .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-grey .panel-tools .tb-paging-button,
 .partition-grey .panel-tools>a {
     color: rgba(26, 26, 26, 0.7) !important
 }
 
 .panel-grey .panel-tools .btn:hover,
-.panel-grey .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-grey .panel-tools .dc-paging-button:hover,
+.panel-grey .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-grey .panel-tools .tb-paging-button:hover,
 .panel-grey .panel-tools>a:hover,
 .partition-grey .panel-tools .btn:hover,
-.partition-grey .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-grey .panel-tools .dc-paging-button:hover,
+.partition-grey .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-grey .panel-tools .tb-paging-button:hover,
 .partition-grey .panel-tools>a:hover {
     color: #1a1a1a !important
 }
@@ -12194,23 +12194,23 @@ input.input-oneLineHigh {
 }
 
 .panel-light-grey .panel-tools .btn,
-.panel-light-grey .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-light-grey .panel-tools .dc-paging-button,
+.panel-light-grey .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-light-grey .panel-tools .tb-paging-button,
 .panel-light-grey .panel-tools>a,
 .partition-light-grey .panel-tools .btn,
-.partition-light-grey .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-light-grey .panel-tools .dc-paging-button,
+.partition-light-grey .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-light-grey .panel-tools .tb-paging-button,
 .partition-light-grey .panel-tools>a {
     color: rgba(51, 51, 51, 0.7) !important
 }
 
 .panel-light-grey .panel-tools .btn:hover,
-.panel-light-grey .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-light-grey .panel-tools .dc-paging-button:hover,
+.panel-light-grey .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-light-grey .panel-tools .tb-paging-button:hover,
 .panel-light-grey .panel-tools>a:hover,
 .partition-light-grey .panel-tools .btn:hover,
-.partition-light-grey .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-light-grey .panel-tools .dc-paging-button:hover,
+.partition-light-grey .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-light-grey .panel-tools .tb-paging-button:hover,
 .partition-light-grey .panel-tools>a:hover {
     color: #333 !important
 }
@@ -12231,23 +12231,23 @@ input.input-oneLineHigh {
 }
 
 .panel-orange .panel-tools .btn,
-.panel-orange .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-orange .panel-tools .dc-paging-button,
+.panel-orange .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-orange .panel-tools .tb-paging-button,
 .panel-orange .panel-tools>a,
 .partition-orange .panel-tools .btn,
-.partition-orange .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-orange .panel-tools .dc-paging-button,
+.partition-orange .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-orange .panel-tools .tb-paging-button,
 .partition-orange .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-orange .panel-tools .btn:hover,
-.panel-orange .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-orange .panel-tools .dc-paging-button:hover,
+.panel-orange .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-orange .panel-tools .tb-paging-button:hover,
 .panel-orange .panel-tools>a:hover,
 .partition-orange .panel-tools .btn:hover,
-.partition-orange .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-orange .panel-tools .dc-paging-button:hover,
+.partition-orange .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-orange .panel-tools .tb-paging-button:hover,
 .partition-orange .panel-tools>a:hover {
     color: #fff !important
 }
@@ -12268,23 +12268,23 @@ input.input-oneLineHigh {
 }
 
 .panel-purple .panel-tools .btn,
-.panel-purple .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-purple .panel-tools .dc-paging-button,
+.panel-purple .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-purple .panel-tools .tb-paging-button,
 .panel-purple .panel-tools>a,
 .partition-purple .panel-tools .btn,
-.partition-purple .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-purple .panel-tools .dc-paging-button,
+.partition-purple .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-purple .panel-tools .tb-paging-button,
 .partition-purple .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-purple .panel-tools .btn:hover,
-.panel-purple .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-purple .panel-tools .dc-paging-button:hover,
+.panel-purple .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-purple .panel-tools .tb-paging-button:hover,
 .panel-purple .panel-tools>a:hover,
 .partition-purple .panel-tools .btn:hover,
-.partition-purple .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-purple .panel-tools .dc-paging-button:hover,
+.partition-purple .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-purple .panel-tools .tb-paging-button:hover,
 .partition-purple .panel-tools>a:hover {
     color: #fff !important
 }
@@ -12305,23 +12305,23 @@ input.input-oneLineHigh {
 }
 
 .panel-pink .panel-tools .btn,
-.panel-pink .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-pink .panel-tools .dc-paging-button,
+.panel-pink .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-pink .panel-tools .tb-paging-button,
 .panel-pink .panel-tools>a,
 .partition-pink .panel-tools .btn,
-.partition-pink .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-pink .panel-tools .dc-paging-button,
+.partition-pink .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-pink .panel-tools .tb-paging-button,
 .partition-pink .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-pink .panel-tools .btn:hover,
-.panel-pink .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-pink .panel-tools .dc-paging-button:hover,
+.panel-pink .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-pink .panel-tools .tb-paging-button:hover,
 .panel-pink .panel-tools>a:hover,
 .partition-pink .panel-tools .btn:hover,
-.partition-pink .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-pink .panel-tools .dc-paging-button:hover,
+.partition-pink .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-pink .panel-tools .tb-paging-button:hover,
 .partition-pink .panel-tools>a:hover {
     color: #fff !important
 }
@@ -12342,23 +12342,23 @@ input.input-oneLineHigh {
 }
 
 .panel-azure .panel-tools .btn,
-.panel-azure .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-azure .panel-tools .dc-paging-button,
+.panel-azure .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-azure .panel-tools .tb-paging-button,
 .panel-azure .panel-tools>a,
 .partition-azure .panel-tools .btn,
-.partition-azure .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-azure .panel-tools .dc-paging-button,
+.partition-azure .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-azure .panel-tools .tb-paging-button,
 .partition-azure .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-azure .panel-tools .btn:hover,
-.panel-azure .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-azure .panel-tools .dc-paging-button:hover,
+.panel-azure .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-azure .panel-tools .tb-paging-button:hover,
 .panel-azure .panel-tools>a:hover,
 .partition-azure .panel-tools .btn:hover,
-.partition-azure .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-azure .panel-tools .dc-paging-button:hover,
+.partition-azure .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-azure .panel-tools .tb-paging-button:hover,
 .partition-azure .panel-tools>a:hover {
     color: #fff !important
 }
@@ -12379,23 +12379,23 @@ input.input-oneLineHigh {
 }
 
 .panel-bricky .panel-tools .btn,
-.panel-bricky .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-bricky .panel-tools .dc-paging-button,
+.panel-bricky .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-bricky .panel-tools .tb-paging-button,
 .panel-bricky .panel-tools>a,
 .partition-bricky .panel-tools .btn,
-.partition-bricky .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-bricky .panel-tools .dc-paging-button,
+.partition-bricky .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-bricky .panel-tools .tb-paging-button,
 .partition-bricky .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-bricky .panel-tools .btn:hover,
-.panel-bricky .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-bricky .panel-tools .dc-paging-button:hover,
+.panel-bricky .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-bricky .panel-tools .tb-paging-button:hover,
 .panel-bricky .panel-tools>a:hover,
 .partition-bricky .panel-tools .btn:hover,
-.partition-bricky .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-bricky .panel-tools .dc-paging-button:hover,
+.partition-bricky .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-bricky .panel-tools .tb-paging-button:hover,
 .partition-bricky .panel-tools>a:hover {
     color: #fff !important
 }
@@ -12416,23 +12416,23 @@ input.input-oneLineHigh {
 }
 
 .panel-green .panel-tools .btn,
-.panel-green .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-green .panel-tools .dc-paging-button,
+.panel-green .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-green .panel-tools .tb-paging-button,
 .panel-green .panel-tools>a,
 .partition-green .panel-tools .btn,
-.partition-green .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-green .panel-tools .dc-paging-button,
+.partition-green .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-green .panel-tools .tb-paging-button,
 .partition-green .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-green .panel-tools .btn:hover,
-.panel-green .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-green .panel-tools .dc-paging-button:hover,
+.panel-green .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-green .panel-tools .tb-paging-button:hover,
 .panel-green .panel-tools>a:hover,
 .partition-green .panel-tools .btn:hover,
-.partition-green .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-green .panel-tools .dc-paging-button:hover,
+.partition-green .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-green .panel-tools .tb-paging-button:hover,
 .partition-green .panel-tools>a:hover {
     color: #fff !important
 }
@@ -12453,23 +12453,23 @@ input.input-oneLineHigh {
 }
 
 .panel-red .panel-tools .btn,
-.panel-red .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-red .panel-tools .dc-paging-button,
+.panel-red .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-red .panel-tools .tb-paging-button,
 .panel-red .panel-tools>a,
 .partition-red .panel-tools .btn,
-.partition-red .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-red .panel-tools .dc-paging-button,
+.partition-red .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-red .panel-tools .tb-paging-button,
 .partition-red .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-red .panel-tools .btn:hover,
-.panel-red .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-red .panel-tools .dc-paging-button:hover,
+.panel-red .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-red .panel-tools .tb-paging-button:hover,
 .panel-red .panel-tools>a:hover,
 .partition-red .panel-tools .btn:hover,
-.partition-red .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-red .panel-tools .dc-paging-button:hover,
+.partition-red .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-red .panel-tools .tb-paging-button:hover,
 .partition-red .panel-tools>a:hover {
     color: #fff !important
 }
@@ -12490,23 +12490,23 @@ input.input-oneLineHigh {
 }
 
 .panel-blue .panel-tools .btn,
-.panel-blue .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-blue .panel-tools .dc-paging-button,
+.panel-blue .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-blue .panel-tools .tb-paging-button,
 .panel-blue .panel-tools>a,
 .partition-blue .panel-tools .btn,
-.partition-blue .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-blue .panel-tools .dc-paging-button,
+.partition-blue .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-blue .panel-tools .tb-paging-button,
 .partition-blue .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-blue .panel-tools .btn:hover,
-.panel-blue .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-blue .panel-tools .dc-paging-button:hover,
+.panel-blue .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-blue .panel-tools .tb-paging-button:hover,
 .panel-blue .panel-tools>a:hover,
 .partition-blue .panel-tools .btn:hover,
-.partition-blue .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-blue .panel-tools .dc-paging-button:hover,
+.partition-blue .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-blue .panel-tools .tb-paging-button:hover,
 .partition-blue .panel-tools>a:hover {
     color: #fff !important
 }
@@ -12527,23 +12527,23 @@ input.input-oneLineHigh {
 }
 
 .panel-yellow .panel-tools .btn,
-.panel-yellow .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-yellow .panel-tools .dc-paging-button,
+.panel-yellow .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-yellow .panel-tools .tb-paging-button,
 .panel-yellow .panel-tools>a,
 .partition-yellow .panel-tools .btn,
-.partition-yellow .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-yellow .panel-tools .dc-paging-button,
+.partition-yellow .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-yellow .panel-tools .tb-paging-button,
 .partition-yellow .panel-tools>a {
     color: rgba(59, 60, 65, 0.7) !important
 }
 
 .panel-yellow .panel-tools .btn:hover,
-.panel-yellow .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-yellow .panel-tools .dc-paging-button:hover,
+.panel-yellow .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-yellow .panel-tools .tb-paging-button:hover,
 .panel-yellow .panel-tools>a:hover,
 .partition-yellow .panel-tools .btn:hover,
-.partition-yellow .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-yellow .panel-tools .dc-paging-button:hover,
+.partition-yellow .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-yellow .panel-tools .tb-paging-button:hover,
 .partition-yellow .panel-tools>a:hover {
     color: #3b3c41 !important
 }
@@ -12563,23 +12563,23 @@ input.input-oneLineHigh {
 }
 
 .panel-dark .panel-tools .btn,
-.panel-dark .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-dark .panel-tools .dc-paging-button,
+.panel-dark .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-dark .panel-tools .tb-paging-button,
 .panel-dark .panel-tools>a,
 .partition-dark .panel-tools .btn,
-.partition-dark .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-dark .panel-tools .dc-paging-button,
+.partition-dark .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-dark .panel-tools .tb-paging-button,
 .partition-dark .panel-tools>a {
     color: rgba(255, 255, 255, 0.7) !important
 }
 
 .panel-dark .panel-tools .btn:hover,
-.panel-dark .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .panel-dark .panel-tools .dc-paging-button:hover,
+.panel-dark .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .panel-dark .panel-tools .tb-paging-button:hover,
 .panel-dark .panel-tools>a:hover,
 .partition-dark .panel-tools .btn:hover,
-.partition-dark .panel-tools .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .partition-dark .panel-tools .dc-paging-button:hover,
+.partition-dark .panel-tools .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .partition-dark .panel-tools .tb-paging-button:hover,
 .partition-dark .panel-tools>a:hover {
     color: #fff !important
 }
@@ -14155,72 +14155,72 @@ a.text-light:hover {
 }
 
 .btn,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button {
     transition: all 0.3s ease 0s !important;
     border-radius: 2px
 }
 
 .btn-default,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button {
     background-color: #fff;
     border: 1px solid #b3b3b3;
     color: #333
 }
 
 .btn-default:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
 .btn-default:focus,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:focus,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:focus,
 .btn-default:active,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:active,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:active,
 .btn-default.active,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .active.dc-paging-button {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .active.tb-paging-button {
     background-color: #dbdbdb;
     border-color: gray
 }
 
 .btn-default .caret,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button .caret {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button .caret {
     border-top-color: #b3b3b3
 }
 
 .dropup .btn-default .caret,
-.dropup .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button .caret,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dropup .dc-paging-button .caret {
+.dropup .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button .caret,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .dropup .tb-paging-button .caret {
     border-bottom: 4px solid #b3b3b3
 }
 
 .btn-default.disabled,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .disabled.dc-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .disabled.tb-paging-button,
 .btn-default[disabled],
-.fresh .dc-paging-panel .dc-paging-page-summary-panel [disabled].dc-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel [disabled].tb-paging-button,
 fieldset[disabled] .btn-default,
-fieldset[disabled] .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel fieldset[disabled] .dc-paging-button {
+fieldset[disabled] .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel fieldset[disabled] .tb-paging-button {
     color: #a8a8a8
 }
 
 .btn-default.disabled:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .disabled.dc-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .disabled.tb-paging-button:hover,
 .btn-default.disabled:focus,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .disabled.dc-paging-button:focus,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .disabled.tb-paging-button:focus,
 .btn-default.disabled.focus,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .disabled.focus.dc-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .disabled.focus.tb-paging-button,
 .btn-default[disabled]:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel [disabled].dc-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel [disabled].tb-paging-button:hover,
 .btn-default[disabled]:focus,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel [disabled].dc-paging-button:focus,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel [disabled].tb-paging-button:focus,
 .btn-default[disabled].focus,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel [disabled].focus.dc-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel [disabled].focus.tb-paging-button,
 fieldset[disabled] .btn-default:hover,
-fieldset[disabled] .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel fieldset[disabled] .dc-paging-button:hover,
+fieldset[disabled] .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel fieldset[disabled] .tb-paging-button:hover,
 fieldset[disabled] .btn-default:focus,
-fieldset[disabled] .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:focus,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel fieldset[disabled] .dc-paging-button:focus,
+fieldset[disabled] .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:focus,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel fieldset[disabled] .tb-paging-button:focus,
 fieldset[disabled] .btn-default.focus,
-fieldset[disabled] .fresh .dc-paging-panel .dc-paging-page-summary-panel .focus.dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel fieldset[disabled] .focus.dc-paging-button {
+fieldset[disabled] .fresh .tb-paging-panel .tb-paging-page-summary-panel .focus.tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel fieldset[disabled] .focus.tb-paging-button {
     background-color: #fff;
     border-color: #b3b3b3
 }
@@ -15079,8 +15079,8 @@ fieldset[disabled] .fresh .dc-paging-panel .dc-paging-page-summary-panel .focus.
 }
 
 .buttons-widget .btn,
-.buttons-widget .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .buttons-widget .dc-paging-button,
+.buttons-widget .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .buttons-widget .tb-paging-button,
 .buttons-widget .bootstrap-switch,
 .buttons-widget button {
     margin-bottom: 5px
@@ -15089,11 +15089,11 @@ fieldset[disabled] .fresh .dc-paging-panel .dc-paging-page-summary-panel .focus.
 .buttons-widget .btn-group button,
 .buttons-widget .btn-group-vertical button,
 .buttons-widget .btn-group .btn,
-.buttons-widget .btn-group .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .buttons-widget .btn-group .dc-paging-button,
+.buttons-widget .btn-group .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .buttons-widget .btn-group .tb-paging-button,
 .buttons-widget .btn-group-vertical .btn,
-.buttons-widget .btn-group-vertical .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .buttons-widget .btn-group-vertical .dc-paging-button {
+.buttons-widget .btn-group-vertical .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .buttons-widget .btn-group-vertical .tb-paging-button {
     margin-bottom: 0
 }
 
@@ -15378,13 +15378,13 @@ fieldset[disabled] .fresh .dc-paging-panel .dc-paging-page-summary-panel .focus.
 }
 
 .btn.btn-xs.tooltips,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .btn-xs.tooltips.dc-paging-button {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .btn-xs.tooltips.tb-paging-button {
     width: 22px;
     padding: 1px 5px
 }
 
 .btn.btn-xs.tooltips .fa-minus,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .btn-xs.tooltips.dc-paging-button .fa-minus {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .btn-xs.tooltips.tb-paging-button .fa-minus {
     position: relative;
     top: 1px
 }
@@ -16055,7 +16055,7 @@ div.portfolio-info {
     margin-top: 0
 }
 
-.messages-list .messages-item .messages-item-time .messages-item-actions .tdc-icon {
+.messages-list .messages-item .messages-item-time .messages-item-actions .ttb-icon {
     border-radius: 30px;
     display: inline-block;
     height: 11px;
@@ -16063,15 +16063,15 @@ div.portfolio-info {
     width: 11px
 }
 
-.messages-list .messages-item .messages-item-time .messages-item-actions .tdc-icon.red {
+.messages-list .messages-item .messages-item-time .messages-item-actions .ttb-icon.red {
     background: #e66b6b
 }
 
-.messages-list .messages-item .messages-item-time .messages-item-actions .tdc-icon.blue {
+.messages-list .messages-item .messages-item-time .messages-item-actions .ttb-icon.blue {
     background: #5F8295
 }
 
-.messages-list .messages-item .messages-item-time .messages-item-actions .tdc-icon.green {
+.messages-list .messages-item .messages-item-time .messages-item-actions .ttb-icon.green {
     background: #1FBBA6
 }
 
@@ -21584,7 +21584,7 @@ td.small-width {
     font-family: "微軟正黑體", "Helvetica Neue", Helvetica, Arial, sans-serif !important
 }
 
-.fresh .dc-header {
+.fresh .tb-header {
     background: #ccc !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eee), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #eee, #fff) !important;
@@ -21598,48 +21598,48 @@ td.small-width {
     top: -2px
 }
 
-.fresh .dc-header-cell .ui-grid-cell-contents:first-of-type {
+.fresh .tb-header-cell .ui-grid-cell-contents:first-of-type {
     padding-left: 4px
 }
 
-.fresh .dc-header-cell .ui-grid-cell-contents:first-of-type label[for] {
+.fresh .tb-header-cell .ui-grid-cell-contents:first-of-type label[for] {
     top: 1px
 }
 
-.fresh .dc-cell-no-focus {
+.fresh .tb-cell-no-focus {
     border-top: none !important;
     border-bottom: none !important
 }
 
-.fresh .dc-ltr .dc-cell-no-focus {
+.fresh .tb-ltr .tb-cell-no-focus {
     border-right: 1px solid #ccc !important
 }
 
-.fresh .dc-ltr .dc-header-select-all {
+.fresh .tb-ltr .tb-header-select-all {
     float: none !important;
     position: relative;
     top: 4px;
     left: -1px
 }
 
-.fresh .dc-header-cell-label {
+.fresh .tb-header-cell-label {
     padding: 5px 2px 4px 2px !important
 }
 
-.fresh .dc-cell-not-inline-editing {
+.fresh .tb-cell-not-inline-editing {
     padding: 3px;
     padding-top: 5px
 }
 
-.fresh .dc-header-cell {
+.fresh .tb-header-cell {
     border-right: 1px solid #ccc !important
 }
 
-.fresh .dc-root {
+.fresh .tb-root {
     border: 1px solid #ccc !important
 }
 
-.fresh .dc-row-selected {
+.fresh .tb-row-selected {
     background-color: #fff4c0 !important
 }
 
@@ -21666,29 +21666,29 @@ td.small-width {
     content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAO9JREFUeNpi/P//PwND1YT/DKt3Mvz9+o2BFMDMzcXAEOrOwNBWwMj4v7L//98F6xkoAcwJgQyM/1U8/pPqEmwuY6LUEBAAmcGETwHThikMzM8OgjHTxil4DcNrEMPHzwj2p6/YDWBiIsKgb98R7O8/sCr59+8fMQYhaf7+kwKvoRj0gwKD/vxFipp/eJWy4JP8v/cEA4OEMIS95xhegxj/SNr9xy3LyMAgyAdhf/gMClnyvMaYGMjAfGY1GDOmh5HvNUYxoLc42CFsUSGG/2SH0fELDAxq8hD20XP4w4hqmRZcnlAKgGYwUqtgAwgwAA/XYOw13HdGAAAAAElFTkSuQmCC")
 }
 
-.fresh .dc-paging-panel * {
+.fresh .tb-paging-panel * {
     font-size: 13px !important
 }
 
 @media (max-width: 767px) {
-    .fresh .dc-paging-panel * {
+    .fresh .tb-paging-panel * {
         font-size: 12px !important
     }
 }
 
-.fresh .dc-paging-panel .dc-paging-row-summary-panel {
+.fresh .tb-paging-panel .tb-paging-row-summary-panel {
     width: 120px
 }
 
 @media (max-width: 767px) {
-    .fresh .dc-paging-panel .dc-paging-row-summary-panel {
+    .fresh .tb-paging-panel .tb-paging-row-summary-panel {
         display: block;
         width: 100%;
         margin-bottom: 4px
     }
 }
 
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button {
     margin-right: 1px;
     margin-left: 1px
 }
@@ -21697,7 +21697,7 @@ body>.tooltip.bs-tooltip-top {
     margin-top: -38px
 }
 
-.fresh.blue-grid .dc-header {
+.fresh.blue-grid .tb-header {
     background: #a9d5ff !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #e3f1ff), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #e3f1ff, #fff) !important;
@@ -21706,31 +21706,31 @@ body>.tooltip.bs-tooltip-top {
     border-bottom: 1px solid #a9d5ff !important
 }
 
-.fresh.blue-grid .dc-header-cell {
+.fresh.blue-grid .tb-header-cell {
     border-right: 1px solid #a9d5ff !important
 }
 
-.fresh.blue-grid .dc-body {
+.fresh.blue-grid .tb-body {
     background-color: #f1f8ff
 }
 
-.fresh.blue-grid .dc-row-odd {
+.fresh.blue-grid .tb-row-odd {
     background-color: #f1f8ff
 }
 
-.fresh.blue-grid .dc-cell-focus {
+.fresh.blue-grid .tb-cell-focus {
     border: 1px solid #57adff
 }
 
-.fresh.blue-grid .dc-ltr .dc-cell-no-focus {
+.fresh.blue-grid .tb-ltr .tb-cell-no-focus {
     border-right: 1px solid #a9d5ff !important
 }
 
-.fresh.blue-grid .dc-root {
+.fresh.blue-grid .tb-root {
     border: 1px solid #a9d5ff !important
 }
 
-.fresh.red-grid .dc-header {
+.fresh.red-grid .tb-header {
     background: #ffb7b7 !important;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ffe9e9), color-stop(1, #fff)) !important;
     background: -ms-linear-gradient(bottom, #ffe9e9, #fff) !important;
@@ -21739,27 +21739,27 @@ body>.tooltip.bs-tooltip-top {
     border-bottom: 1px solid #ffb7b7 !important
 }
 
-.fresh.red-grid .dc-header-cell {
+.fresh.red-grid .tb-header-cell {
     border-right: 1px solid #ffb7b7 !important
 }
 
-.fresh.red-grid .dc-body {
+.fresh.red-grid .tb-body {
     background-color: #fff3f3
 }
 
-.fresh.red-grid .dc-row-odd {
+.fresh.red-grid .tb-row-odd {
     background-color: #fff3f3
 }
 
-.fresh.red-grid .dc-cell-focus {
+.fresh.red-grid .tb-cell-focus {
     border: 1px solid #ff6565
 }
 
-.fresh.red-grid .dc-ltr .dc-cell-no-focus {
+.fresh.red-grid .tb-ltr .tb-cell-no-focus {
     border-right: 1px solid #ffb7b7 !important
 }
 
-.fresh.red-grid .dc-root {
+.fresh.red-grid .tb-root {
     border: 1px solid #ffb7b7 !important
 }
 
@@ -22944,12 +22944,12 @@ ul.main-navigation-menu li ul.sub-menu li ul.sub-menu li ul.sub-menu li a {
 }
 
 .btn.status i,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .status.dc-paging-button i {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .status.tb-paging-button i {
     color: #1FBBA6 !important
 }
 
 .btn.status.offline i,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .status.offline.dc-paging-button i {
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .status.offline.tb-paging-button i {
     color: rgba(255, 255, 255, 0.3) !important
 }
 
@@ -23386,8 +23386,8 @@ ul.main-navigation-menu li ul.sub-menu li ul.sub-menu li ul.sub-menu li a {
 }
 
 .start .footer .btn,
-.start .footer .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .start .footer .dc-paging-button {
+.start .footer .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .start .footer .tb-paging-button {
     background: #0c8f4f;
     font-size: 20px;
     font-weight: bold;
@@ -23404,8 +23404,8 @@ ul.main-navigation-menu li ul.sub-menu li ul.sub-menu li ul.sub-menu li a {
 }
 
 .start .footer .btn:hover,
-.start .footer .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .start .footer .dc-paging-button:hover {
+.start .footer .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .start .footer .tb-paging-button:hover {
     background: #05733d
 }
 
@@ -23487,8 +23487,8 @@ ul.main-navigation-menu li ul.sub-menu li ul.sub-menu li ul.sub-menu li a {
 }
 
 .teach-tour .btns .btn,
-.teach-tour .btns .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel .teach-tour .btns .dc-paging-button {
+.teach-tour .btns .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel .teach-tour .btns .tb-paging-button {
     animation: fadeIn .5s both;
     width: 80%;
     max-width: 200px;
@@ -23591,14 +23591,14 @@ ul.main-navigation-menu li ul.sub-menu li ul.sub-menu li ul.sub-menu li a {
 }
 
 #pageslide-left .btn,
-#pageslide-left .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel #pageslide-left .dc-paging-button {
+#pageslide-left .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel #pageslide-left .tb-paging-button {
     color: rgba(59, 60, 65, 0.3)
 }
 
 #pageslide-left .btn:hover,
-#pageslide-left .fresh .dc-paging-panel .dc-paging-page-summary-panel .dc-paging-button:hover,
-.fresh .dc-paging-panel .dc-paging-page-summary-panel #pageslide-left .dc-paging-button:hover {
+#pageslide-left .fresh .tb-paging-panel .tb-paging-page-summary-panel .tb-paging-button:hover,
+.fresh .tb-paging-panel .tb-paging-page-summary-panel #pageslide-left .tb-paging-button:hover {
     color: #3b3c41;
     background-color: rgba(209, 215, 226, 0.4)
 }

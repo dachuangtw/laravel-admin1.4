@@ -1,3 +1,5 @@
+var selectResultArray = [];
+
 function ShowModal(target) {
     // var url = '/admin/modal?t=' + target;
     var url = '/admin/modal/' + target;
@@ -8,8 +10,7 @@ function ShowModal(target) {
             .modal('show')
             .on('hidden.bs.modal', function(e) {
                 $(this).remove();
+                selectResultArray = [];
             });
     });
 }
-
-var selectResultArray = [];

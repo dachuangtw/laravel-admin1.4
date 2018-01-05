@@ -2,7 +2,7 @@
 @foreach($products as $key => $product)
 <div role="row" row-id="{{ $product->pid }}" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
     <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-center" style="width: 33px; left: 0px; ">
-        <div class="ui-grid-cell-contents">
+        <div class="ui-grid-cell-contents">        
             <input class="magic-checkbox blue" name="layout" type="checkbox" id="checkbox{{ $product->pid }}" value="{{ $product->pid }}" {{ in_array($product->pid,$selected)?'checked':'' }}>
             <label for="checkbox{{ $product->pid }}"></label>
         </div>
@@ -24,7 +24,7 @@ $(function() {
         trigger: 'hover'
     });    
 
-    $('input.magic-checkbox').on('click', function () {
+    $('#selectproduct input.magic-checkbox').on('click', function () {
         /**
          * 如果pid不在陣列中則把pid塞入陣列，如果pid在陣列中則移除它
          */
@@ -34,7 +34,7 @@ $(function() {
         }else{
             selectResultArray.splice(inArrayIndex,1);
         }
-        $('.select2-results span').text(selectResultArray.length);
+        $('#selectproduct .select2-results span').text(selectResultArray.length);
     });
 });
 </script>

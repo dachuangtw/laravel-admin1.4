@@ -16,7 +16,8 @@
                                 </span>
                             </div>
                         </div>
-                        <button class="btn btn-sm btn-orange" id="searchall"> 新商品 </button>
+                        <button class="btn btn-sm btn-default" id="searchall"> 最新 </button>
+                        <button class="btn btn-sm btn-primary" id="searchselected"> 已選 </button>
                     </div>
                 </div>
                 <div class="select2-results footer-btn-mrgin">
@@ -74,7 +75,7 @@ $(function() {
     // });
 
     var sendsearch = function(text){
-        $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:150px;">Loading...</div>');
+        $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:140px;"><img src="/images/loading.gif"/>Loading...</div>');
 
         $.ajax({
             url:'/admin/product/search',
@@ -88,7 +89,8 @@ $(function() {
                 if(result){
                     $('#selectproduct .tb-body-container').html(result); 
                 }else{
-                    $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:150px;">查無 【 ' + text + ' 】 資料</div>'); 
+                    text = (text == 'searchselected') ? '已選擇' : ' 【 ' + text +' 】 ';
+                    $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:140px;">查無' + text + '資料</div>'); 
                 }
             }
         });
@@ -111,9 +113,30 @@ $(function() {
         $('#searchtext').val('');
         sendsearch('searchall');
     });
+    $('#searchselected').on('click', function () {
+        $('#searchtext').val('');
+        sendsearch('searchselected');
+    });
 
     $('#addsubmit').on('click', function () {
-        alert(selectResultArray);
+        if(selectResultArray.length > 0){
+            $.ajax({
+                url:'/admin/product/receipt',
+                method: 'post',
+                data: {
+                    selected: selectResultArray,
+                    _token: LA.token
+                },
+                success: function (result) {
+                    if(result){
+                        $('.form-horizontal .box-body').append(result); 
+                        $('#selectproduct').modal('hide');
+                    }
+                }
+            });
+        }else{
+            alert('未選擇商品');
+        }
     });
 
     

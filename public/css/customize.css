@@ -1444,7 +1444,15 @@ button.btn,
 }
 
 .text-left {
-    text-align: left
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
 }
 
 .tb-cell-edit-input {
@@ -1701,4 +1709,19 @@ input[type="radio"] {
 
 .tb-large .tb-root {
     font-size: 20px
+}
+
+.editselectall {
+    -webkit-touch-callout: all;
+    /* iOS Safari */
+    -webkit-user-select: all;
+    /* Safari */
+    -khtml-user-select: all;
+    /* Konqueror HTML */
+    -moz-user-select: all;
+    /* Firefox */
+    -ms-user-select: all;
+    /* Internet Explorer/Edge */
+    user-select: all;
+    /* Chrome and Opera */
 }

@@ -38,6 +38,20 @@ class ProductIndexController extends Controller
     {
         return $this->editform()->update($id);
     }
+
+    /**
+     * 回傳 已選的商品
+     */
+    public function receiptdetails(Request $request)
+    {
+        $selected = $request->selected ?: [];
+        $products = ProductIndex::whereIn('pid',$selected)->get();
+        $rowTop = -30;
+        $rowEvenOdd = ['even','odd'];
+
+        $data = compact('products','rowTop','rowEvenOdd','selected');
+        return view('admin::receipt', $data);
+    }
     /**
      * 回傳 商品彈出視窗
      */
@@ -45,10 +59,12 @@ class ProductIndexController extends Controller
     {
         $search = $request->search;
         $selected = $request->selected ?: [];
-        if($search != 'searchall'){
-            $products = ProductIndex::where('p_name','like','%'.$search.'%')->orWhere('p_number','like','%'.$search)->orWhere('p_number','like',$search.'%')->get();
-        }else{
+        if($search == 'searchall'){
             $products = ProductIndex::all()->sortByDesc('pid')->take(100);
+        }else if($search == 'searchselected'){
+            $products = ProductIndex::whereIn('pid',$selected)->get();
+        }else{
+            $products = ProductIndex::where('p_name','like','%'.$search.'%')->orWhere('p_number','like','%'.$search)->orWhere('p_number','like',$search.'%')->get();
         }
         // $products = ProductIndex::all()->take(100);
         $rowTop = -30;

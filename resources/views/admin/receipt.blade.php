@@ -27,8 +27,7 @@
                             </div>
                             <div class="tb-body" style="top: 30px; height: 320px;">
                                 <div class="tb-body-container" style="height: 350px; top: 0px; width: 837px;">
-@endif
-                                    @foreach($products as $key => $product)
+                                    @endif @foreach($products as $key => $product)
                                     <div role="row" row-id="{{ $product->pid }}" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
                                         <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: 33px; left: 0px; ">
                                             <div class="ui-grid-cell-contents">
@@ -38,21 +37,23 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 130px; left: 33px; ">{{ $product->p_number }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 200px; left: 163px; ">
                                             @if($product->p_pic)
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptdetials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
-                                            @else {{ $product->p_name }} 
-                                            @endif
+                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptdetials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>                                            @else {{ $product->p_name }} @endif
 
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 363px; ">{{ $product->p_unit }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 423px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('s_stock') }}</div>
-                                        
-                                        <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 483px;" col-id="red_quantity" contenteditable="true">1</div>
+
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 483px;"><input type="text" name="red_quantity[]" value="1"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 563px;"><input type="text" name="red_price[]" value="{{ $product->p_costprice }}"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 643px;"><input type="text" name="red_amount[]" value="{{ $product->p_costprice }}"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 723px;"><input type="text" name="red_notes[]" value=""></div>
+
+                                        <!-- <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 483px;" col-id="red_quantity" contenteditable="true">1</div>
                                         <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 563px;" col-id="red_price" contenteditable="true">{{ $product->p_costprice }}</div>
                                         <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 643px;" col-id="red_amount" contenteditable="true">{{ $product->p_costprice }}</div>
-                                        <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 723px;" col-id="red_notes" contenteditable="true"></div>
+                                        <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 723px;" col-id="red_notes" contenteditable="true"></div> -->
                                     </div>
-                                    @endforeach
-@if($firsttime)
+                                    @endforeach @if($firsttime)
                                 </div>
                             </div>
                         </div>
@@ -69,42 +70,79 @@
 </div>
 @endif
 <script>
-$(function() {
+    $(function() {
 
-    $('[data-toggle="popover"]').popover({
-        trigger: 'hover'
-    }); 
+        $('[data-toggle="popover"]').popover({
+            trigger: 'hover'
+        });
+        var quantity = 0,
+            price = 0,
+            amount = 0;
 
-    $("#receiptdetials .tb-body div[contenteditable='true']")
-    .click(function(){document.execCommand('selectAll',false,null);})
-    .change(function() {
+        $("#receiptdetials .tb-cell input[type='text']")
+            .focus(function() {
+                this.select();
+            })
+            .keypress(function(e) {
+                if (e.keyCode == 13) {
+                    $(this).blur();
+                    return false;
+                }
+            });
 
-    })
-    .keypress(function(e) {
-        if (e.keyCode == 13) {
-            return false;
-        }
+        $("#receiptdetials .tb-cell input[name='red_quantity[]']")
+            .change(function() {
+                quantity = $(this).val();
+                price = $(this).parent().next().find("input[name='red_price[]']").val();
+                $(this).parent().next().next().find("input[name='red_amount[]']").val(quantity * price);
+            });
+        $("#receiptdetials .tb-cell input[name='red_price[]']")
+            .change(function() {
+                price = $(this).val();
+                quantity = $(this).parent().prev().find("input[name='red_quantity[]']").val();
+                $(this).parent().next().find("input[name='red_amount[]']").val(quantity * price);
+            });
+        $("#receiptdetials .tb-cell input[name='red_amount[]']")
+            .change(function() {
+                amount = $(this).val();
+                quantity = $(this).parent().prev().prev().find("input[name='red_quantity[]']").val();
+                $(this).parent().prev().find("input[name='red_price[]']").val(amount / quantity);
+            });
+
+
+
+        // $("#receiptdetials .tb-body div[contenteditable='true']")
+        //     .click(function() {
+        //         document.execCommand('selectAll', false, null);
+        //     })
+        //     .change(function() {
+
+        //     })
+        //     .keypress(function(e) {
+        //         if (e.keyCode == 13) {
+        //             return false;
+        //         }
+        //     });
+        // var $quantity, $price, $amount;
+        // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[contenteditable='true']", function(){
+
+        //     $quantity = $("#receiptdetials .tb-body div[col-id='red_quantity']").text();
+        //     $price = $("#receiptdetials .tb-body div[col-id='red_price']").text();
+        //     $amount = $("#receiptdetials .tb-body div[col-id='red_amount']").text();
+        // });
+        // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_quantity']", function(){
+
+        //     $("#receiptdetials .tb-body div[col-id='red_amount']").text($quantity*$price);
+        // });
+        // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_price']", function(){
+
+        //     $("#receiptdetials .tb-body div[col-id='red_amount']").text($quantity*$price);
+        // });
+        // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_amount']", function(){
+
+        //     $("#receiptdetials .tb-body div[col-id='red_price']").text($amount/$quantity);
+
+        // });
+
     });
-    // var $quantity, $price, $amount;
-    // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[contenteditable='true']", function(){
-
-    //     $quantity = $("#receiptdetials .tb-body div[col-id='red_quantity']").text();
-    //     $price = $("#receiptdetials .tb-body div[col-id='red_price']").text();
-    //     $amount = $("#receiptdetials .tb-body div[col-id='red_amount']").text();
-    // });
-    // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_quantity']", function(){
-
-    //     $("#receiptdetials .tb-body div[col-id='red_amount']").text($quantity*$price);
-    // });
-    // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_price']", function(){
-
-    //     $("#receiptdetials .tb-body div[col-id='red_amount']").text($quantity*$price);
-    // });
-    // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_amount']", function(){
-
-    //     $("#receiptdetials .tb-body div[col-id='red_price']").text($amount/$quantity);
-
-    // });
-
-});
 </script>

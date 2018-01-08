@@ -100,7 +100,7 @@ $(function() {
     $('#searchtext')
     .focus(function(){this.select();})
     .on('keyup', function (e) {
-         if(e.keyCode == 13) {
+        if(e.keyCode == 13) {
             sendsearch($(this).val());
         }
     });
@@ -120,16 +120,28 @@ $(function() {
 
     $('#addsubmit').on('click', function () {
         if(selectResultArray.length > 0){
+            var firsttime = true;
+            var rowTop;
+            if($('#receiptdetials').length > 0){
+                firsttime = false;
+                rowTop = $("#receiptdetials .tb-body-container .tb-row").last().css("top");
+            }
             $.ajax({
                 url:'/admin/product/receipt',
                 method: 'post',
                 data: {
                     selected: selectResultArray,
+                    firsttime: firsttime,
+                    rowTop: rowTop,
                     _token: LA.token
                 },
                 success: function (result) {
                     if(result){
-                        $('.form-horizontal .box-body').append(result); 
+                        if(firsttime){
+                            $('.form-horizontal .box-body').append(result);  
+                        }else{
+                            $('#receiptdetials .tb-body-container').append(result); 
+                        } 
                         $('#selectproduct').modal('hide');
                     }
                 }

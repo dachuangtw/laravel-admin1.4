@@ -46,10 +46,12 @@ class ProductIndexController extends Controller
     {
         $selected = $request->selected ?: [];
         $products = ProductIndex::whereIn('pid',$selected)->get();
-        $rowTop = -30;
+        $rowTop = (int)$request->rowTop ?: -30;
         $rowEvenOdd = ['even','odd'];
+        $tabindex = 1;
+        $firsttime = filter_var($request->firsttime, FILTER_VALIDATE_BOOLEAN);
 
-        $data = compact('products','rowTop','rowEvenOdd','selected');
+        $data = compact('products','rowTop','rowEvenOdd','selected','tabindex','firsttime');
         return view('admin::receipt', $data);
     }
     /**

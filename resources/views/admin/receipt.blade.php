@@ -1,3 +1,4 @@
+@if($firsttime)
 <div class="form-group 1" id="receiptdetials">
 
     <label for="re_amount" class="col-sm-2 control-label"></label>
@@ -26,7 +27,7 @@
                             </div>
                             <div class="tb-body" style="top: 30px; height: 320px;">
                                 <div class="tb-body-container" style="height: 350px; top: 0px; width: 837px;">
-
+@endif
                                     @foreach($products as $key => $product)
                                     <div role="row" row-id="{{ $product->pid }}" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
                                         <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: 33px; left: 0px; ">
@@ -45,18 +46,13 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 363px; ">{{ $product->p_unit }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 423px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('s_stock') }}</div>
                                         
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 483px;" col-id="red_quantity" contenteditable="true">1</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 563px;" col-id="red_price" contenteditable="true">{{ $product->p_costprice }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 643px;" col-id="red_amount" contenteditable="true">{{ $product->p_costprice }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 723px;" col-id="red_notes" contenteditable="true"></div>
-
-                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 483px;"><input name="red_quantity" type="text" style="width: 100%;height: 100%;" class="text-right" value="1"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 563px;"><input name="red_price" type="text" style="width: 100%;height: 100%;" class="text-right" value="{{ $product->p_costprice }}"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 643px;"><input name="red_amount" type="text" style="width: 100%;height: 100%;" class="text-right" value="{{ $product->p_costprice }}"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 723px;"><input name="red_notes" type="text" style="width: 100%;height: 100%;" value=""></div> -->
+                                        <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 483px;" col-id="red_quantity" contenteditable="true">1</div>
+                                        <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 563px;" col-id="red_price" contenteditable="true">{{ $product->p_costprice }}</div>
+                                        <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 643px;" col-id="red_amount" contenteditable="true">{{ $product->p_costprice }}</div>
+                                        <div tabindex="{{ $tabindex++ }}" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 723px;" col-id="red_notes" contenteditable="true"></div>
                                     </div>
                                     @endforeach
-
+@if($firsttime)
                                 </div>
                             </div>
                         </div>
@@ -71,7 +67,7 @@
 
     </div>
 </div>
-
+@endif
 <script>
 $(function() {
 
@@ -79,19 +75,36 @@ $(function() {
         trigger: 'hover'
     }); 
 
-    $("#receiptdetials .tb-body div[contenteditable='true']").click(function(){document.execCommand('selectAll',false,null);});
+    $("#receiptdetials .tb-body div[contenteditable='true']")
+    .click(function(){document.execCommand('selectAll',false,null);})
+    .change(function() {
 
-    // function selectText(containerid) {
-    //     if (document.selection) {
-    //         var range = document.body.createTextRange();
-    //         range.moveToElementText(document.getElementById(containerid));
-    //         range.select();
-    //     } else if (window.getSelection) {
-    //         var range = document.createRange();
-    //         range.selectNode(document.getElementById(containerid));
-    //         window.getSelection().removeAllRanges();
-    //         window.getSelection().addRange(range);
-    //     }
-    // }
+    })
+    .keypress(function(e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+    });
+    // var $quantity, $price, $amount;
+    // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[contenteditable='true']", function(){
+
+    //     $quantity = $("#receiptdetials .tb-body div[col-id='red_quantity']").text();
+    //     $price = $("#receiptdetials .tb-body div[col-id='red_price']").text();
+    //     $amount = $("#receiptdetials .tb-body div[col-id='red_amount']").text();
+    // });
+    // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_quantity']", function(){
+
+    //     $("#receiptdetials .tb-body div[col-id='red_amount']").text($quantity*$price);
+    // });
+    // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_price']", function(){
+
+    //     $("#receiptdetials .tb-body div[col-id='red_amount']").text($quantity*$price);
+    // });
+    // $("#receiptdetials .tb-body ").on("DOMSubtreeModified", "div[col-id='red_amount']", function(){
+
+    //     $("#receiptdetials .tb-body div[col-id='red_price']").text($amount/$quantity);
+
+    // });
+
 });
 </script>

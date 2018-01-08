@@ -749,7 +749,7 @@ EOT;
      */
     public function allowImport()
     {
-        return $this->option('useImporter');
+        return $this->option('useImporter', false);
     }
 
     /**
@@ -759,7 +759,7 @@ EOT;
      */
     public function disableImport()
     {
-        return $this->option('useImporter', false);
+        return $this->option('useImporter', true);
     }
 
     /**

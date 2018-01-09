@@ -2,7 +2,7 @@
     <thead>
     <tr>
         @foreach($headers as $header)
-            <th>{{ $header }}</th>
+            <th style="min-width:100px;">{{ $header }}</th>
         @endforeach
     </tr>
     </thead>

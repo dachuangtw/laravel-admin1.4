@@ -1280,13 +1280,14 @@ button.btn,
     height: 100%
 }
 
-.tb-font-style {
+
+/* .tb-font-style {
     cursor: default;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none
-}
+} */
 
 .tb-pinned-left-header {
     float: left;

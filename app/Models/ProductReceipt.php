@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductReceipt extends Model
 {
+    //使用軟刪除
+    use SoftDeletes;
+
     //進貨單資料表
     protected $table = 'product_receipt';
     //主鍵

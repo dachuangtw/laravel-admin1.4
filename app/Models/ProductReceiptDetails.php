@@ -16,7 +16,12 @@ class ProductReceiptDetails extends Model
 
     //批量賦值
     protected $fillable = [
-        'update_user',  'updated_at', 'deleted_at'
+        're_number', 'pid',  'red_quantity', 'red_price',  'red_amount', 'red_notes'
     ];
 
+    //進貨單號
+    public function scopeOfselected($query, $re_number)
+    {
+        return $query->where('re_number', $re_number)->get();
+    }
 }

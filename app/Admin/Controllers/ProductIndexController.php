@@ -48,10 +48,9 @@ class ProductIndexController extends Controller
         $products = ProductIndex::whereIn('pid',$selected)->get();
         $rowTop = (int)$request->rowTop ?: -30;
         $rowEvenOdd = ['even','odd'];
-        $tabindex = 1;
         $firsttime = filter_var($request->firsttime, FILTER_VALIDATE_BOOLEAN);
 
-        $data = compact('products','rowTop','rowEvenOdd','selected','tabindex','firsttime');
+        $data = compact('products','rowTop','rowEvenOdd','selected','firsttime');
         return view('admin::receipt', $data);
     }
     /**
@@ -221,7 +220,7 @@ class ProductIndexController extends Controller
                     }
                     $rows[$newkey] = $content;
                 }else{
-                    $rows[$newkey] = $value;
+                    $rows[$newkey] = nl2br($value);
                 }
             }
 
@@ -345,8 +344,8 @@ class ProductIndexController extends Controller
             $exporter->setDetails($titles,'商品資訊',Admin::user()->name);
             $grid->exporter($exporter);
 
-            //不顯示匯入按鈕
-            // $grid->disableImport();
+            //顯示匯入按鈕
+            // $grid->allowImport();
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {

@@ -1,3 +1,5 @@
+@if($target=='product')
+
 <div class='modal fade' id="selectproduct">
     <div class='modal-dialog modal-lg'>
         <div class='modal-content'>
@@ -127,7 +129,7 @@ $(function() {
                 rowTop = $("#receiptdetials .tb-body-container .tb-row").last().css("top");
             }
             $.ajax({
-                url:'/admin/product/receipt',
+                url:'/admin/product/receiptdetails',
                 method: 'post',
                 data: {
                     selected: selectResultArray,
@@ -155,3 +157,4 @@ $(function() {
 
 });
 </script>
+@endif

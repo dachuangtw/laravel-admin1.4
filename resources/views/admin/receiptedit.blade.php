@@ -1,4 +1,3 @@
-@if($firsttime)
 <div class="form-group 1" id="receiptdetials">
 
     <label for="re_amount" class="col-sm-2 control-label"></label>
@@ -18,41 +17,39 @@
                                     <div class="tb-header-cell" style="width: 130px; left: 33px;">商品編號</div>
                                     <div class="tb-header-cell" style="width: 200px; left: 163px;">商品名</div>
                                     <div class="tb-header-cell" style="width: 60px; left: 363px;">單位</div>
-                                    <div class="tb-header-cell" style="width: 60px; left: 423px;">庫存數</div>
-                                    <div class="tb-header-cell" style="width: 80px; left: 483px;">進貨數</div>
-                                    <div class="tb-header-cell" style="width: 80px; left: 563px;">單價</div>
-                                    <div class="tb-header-cell" style="width: 80px; left: 643px;">總價</div>
-                                    <div class="tb-header-cell" style="width: 110px; left: 723px;">備註</div>
+                                    <div class="tb-header-cell" style="width: 80px; left: 423px;">進貨數</div>
+                                    <div class="tb-header-cell" style="width: 80px; left: 503px;">單價</div>
+                                    <div class="tb-header-cell" style="width: 80px; left: 583px;">總價</div>
+                                    <div class="tb-header-cell" style="width: 110px; left: 693px;">備註</div>
                                 </div>
                             </div>
                             <div class="tb-body" style="top: 30px; height: 320px;">
                                 <div class="tb-body-container" style="height: 350px; top: 0px; width: 837px;">
-                                    @endif @foreach($products as $key => $product)
-                                    <div role="row" row-id="{{ $product->pid }}" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
-                                        <input type="hidden" name="pid[]" value="{{ $product->pid }}">
+                                    @foreach($receiptdetails as $key => $receiptdetail)
+                                    <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
+                                        <input type="hidden" name="pid[]" value="{{ $products[$key]['pid'] }}">
                                         <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: 33px; left: 0px; ">
                                             <div class="ui-grid-cell-contents">
                                                 <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>
                                             </div>
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 130px; left: 33px; ">{{ $product->p_number }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 130px; left: 33px; ">{{ $products[$key]['p_number'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 200px; left: 163px; ">
-                                            @if($product->p_pic)
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptdetials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
-                                            @else {{ $product->p_name }} 
+                                            @if($products[$key]['p_pic'])
+                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptdetials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
+                                            @else {{ $products[$key]['p_name'] }} 
                                             @endif
 
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 363px; ">{{ $product->p_unit }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 423px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('s_stock') }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 363px; ">{{ $products[$key]['p_unit'] }}</div>
 
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 483px;"><input type="text" name="red_quantity[]" value="1"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 563px;"><input type="text" name="red_price[]" value="{{ $product->p_costprice }}"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 643px;"><input type="text" name="red_amount[]" value="{{ $product->p_costprice }}"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 723px;"><input type="text" name="red_notes[]" value=""></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 423px;"><input type="text" name="red_quantity[]" value="{{ $receiptdetail->red_quantity }}"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 503px;"><input type="text" name="red_price[]" value="{{ $receiptdetail->red_price }}"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 583px;"><input type="text" name="red_amount[]" value="{{ $receiptdetail->red_amount }}"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 693px;"><input type="text" name="red_notes[]" value="{{ $receiptdetail->red_notes }}"></div>
 
                                     </div>
-                                    @endforeach @if($firsttime)
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -67,7 +64,6 @@
 
     </div>
 </div>
-@endif
 <script>
 $(function() {
     countTotal();

@@ -67,7 +67,8 @@ Route::group([
     //使用Controller
     // $router->get('modal/{target}', 'ProductIndexController@modal');
     $router->post('product/search', 'ProductIndexController@modalsearch');
-    $router->post('product/receipt', 'ProductIndexController@receiptdetails');
+    $router->post('product/receiptdetails', 'ProductIndexController@receiptdetails');
+    $router->get('product/receiptdetails/{id}', 'ProductReceiptController@receiptdetails');
 
     $router->get('/', 'HomeController@index');
 });

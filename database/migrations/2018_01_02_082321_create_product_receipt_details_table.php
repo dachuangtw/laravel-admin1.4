@@ -21,8 +21,6 @@ class CreateProductReceiptDetailsTable extends Migration
             $table->decimal('red_price',10,2)->default(0.00)->comment('單價'); 
             $table->decimal('red_amount',10,2)->default(0.00)->comment('總金額'); 
             $table->string('red_notes',100)->nullable()->comment('備註');
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 

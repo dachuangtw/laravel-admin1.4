@@ -45,13 +45,17 @@ class ProductIndexController extends Controller
      */
     public function receiptdetails(Request $request)
     {
+        $stock = [];
         $selected = $request->selected ?: [];
         $products = ProductIndex::whereIn('pid',$selected)->get();
-        $rowTop = (int)$request->rowTop ?: -30;
+        foreach($products as $key => $product){
+            $stock[$key] = Stock::where('pid',$product->pid)->where('wid',2)->get()->toArray();
+        }        
+        $rowTop = empty($request->rowTop) ? -30 : (int)$request->rowTop ;
         $rowEvenOdd = ['even','odd'];
         $firsttime = filter_var($request->firsttime, FILTER_VALIDATE_BOOLEAN);
 
-        $data = compact('products','rowTop','rowEvenOdd','selected','firsttime');
+        $data = compact('products','rowTop','rowEvenOdd','selected','firsttime','stock');
         return view('admin::receipt', $data);
     }
     /**

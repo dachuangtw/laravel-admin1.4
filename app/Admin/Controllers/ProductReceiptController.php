@@ -8,6 +8,7 @@ use App\ProductSupplier;
 use App\ProductReceiptDetails;
 use App\ProductIndex;
 use App\Warehouse;
+use App\Stock;
 
 use Encore\Admin\Widgets\Table;
 
@@ -35,6 +36,7 @@ class ProductReceiptController extends Controller
         $receiptdetails = ProductReceiptDetails::ofselected($re_number) ?: [];
         foreach($receiptdetails as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
+            $stock[$key] = Stock::where('pid',$value->pid)->where('wid',$value->wid)->get()->toArray()[0];
         }
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
@@ -327,17 +329,19 @@ SCRIPT;
                     $red_price = request()->red_price;
                     $red_quantity = request()->red_quantity;
                     $red_notes = request()->red_notes;
+                    $sid = request()->sid;
                     $dataArray = [];
                     $total = 0;
                     foreach(request()->pid as $key => $pid){
                         $dataArray[] = [
-                            'pid'           => $pid,
-                            're_number'     => $form->re_number,
-                            'red_amount'    => $red_amount[$key],
-                            'red_price'     => $red_price[$key],
-                            'red_quantity'  => $red_quantity[$key],
-                            'red_notes'     => $red_notes[$key],
+                            'pid'           =>  $pid,
+                            're_number'     =>  $form->re_number,
+                            'red_amount'    =>  $red_amount[$key],
+                            'red_price'     =>  $red_price[$key],
+                            'red_quantity'  =>  $red_quantity[$key],
+                            'red_notes'     =>  $red_notes[$key],
                         ];
+                        $sidArray[] = $sid[$key];
                         $total += $red_amount[$key];
                     }
                     if(!empty($dataArray))
@@ -345,6 +349,29 @@ SCRIPT;
                         $form->re_amount = $total;
                         ProductReceiptDetails::where('re_number',$form->re_number)->delete();
                         ProductReceiptDetails::insert($dataArray);
+
+                        foreach($dataArray as $key => $val){
+
+                            $p_costprice = ProductIndex::find($val['pid'])->p_costprice;
+                            if($p_costprice != $val['red_price']){
+
+                                $updateProductIndexArray = [                             
+                                    'p_costprice'   =>  $val['red_price'],
+                                ];
+                                ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
+                            }
+
+                            if(!empty($sidArray[$key])){
+
+                                $s_stock = Stock::find($sidArray[$key])->s_stock ?: 0;
+                                $s_stock = (int) $s_stock + (int) $val['red_quantity'];
+
+                                $updateStockArray = [                                
+                                    's_stock'   =>  $s_stock,
+                                ];
+                                Stock::where('sid',$sidArray[$key])->update($updateStockArray);
+                            }
+                        }
                     }
 
                 }

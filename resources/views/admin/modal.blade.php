@@ -126,7 +126,8 @@ $(function() {
             var rowTop;
             if($('#receiptdetials').length > 0){
                 firsttime = false;
-                rowTop = $("#receiptdetials .tb-body-container .tb-row").last().css("top");
+                rowTop = $("#receiptdetials .tb-body-container").find("div[role='row']").last().css("top");
+                
             }
             $.ajax({
                 url:'/admin/product/receiptdetails',

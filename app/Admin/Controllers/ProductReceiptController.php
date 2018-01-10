@@ -108,7 +108,7 @@ class ProductReceiptController extends Controller
         $receipt['warehouse'] = Warehouse::find($receipt['wid'])->w_name;
         unset($receipt['wid']);
         //置換進貨人員id的內容
-        $receipt['re_user'] = Administrator::user($receipt['re_user'])->name;
+        $receipt['re_user'] = Administrator::find($receipt['re_user'])->name;
 
         $header[] = '進貨單資訊';
         foreach($receipt as $key => $value){            

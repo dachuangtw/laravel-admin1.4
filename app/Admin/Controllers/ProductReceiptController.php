@@ -233,6 +233,27 @@ SCRIPT;
              * 3：Excel製作人名稱 string
              */
             $exporter->setDetails($titles,'進貨單',Admin::user()->name);
+            /**
+             * setForeignKeys($foreignKeys)外部鍵設定
+             */
+            $foreignKeys = [
+                'supid'  =>  [
+                    'dbname' =>  'product_supplier',
+                    'id' =>  'supid',
+                    'target' =>  'sup_name',
+                ],
+                'wid'  =>  [
+                    'dbname' =>  'warehouse',
+                    'id' =>  'wid',
+                    'target' =>  'w_name',
+                ],
+                're_user'  =>  [
+                    'dbname' =>  'Admin',
+                    'id' =>  're_user',
+                    'target' =>  'name',
+                ],
+            ];
+            $exporter->setForeignKeys($foreignKeys);
             $grid->exporter($exporter);
 
             //顯示匯入按鈕

@@ -2,9 +2,11 @@
 
 namespace App\Admin\Extensions;
 
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Grid\Exporters\AbstractExporter;
 use Illuminate\Support\Arr;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class ExcelExpoter extends AbstractExporter
 {
@@ -12,6 +14,8 @@ class ExcelExpoter extends AbstractExporter
     protected $filename;
     protected $titles = [];
     protected $maxwidth;
+    protected $foreignKeys = [];
+
     public function setDetails($titles, $filename, $creator)
     {
         $this->creator = $creator;
@@ -19,6 +23,28 @@ class ExcelExpoter extends AbstractExporter
         $this->titles = $titles;
     }
 
+    public function setForeignKeys($foreignKeys)
+    {
+        /**
+         * 外部鍵陣列範例：
+         * $foreignKeys => [
+         *      [supid] => [
+         *          [dbname] => 'product_supplier',
+         *          [id] => 'supid',
+         *          [target] => 'sup_name',
+         *      ],
+         *      [wid] => [
+         *          [dbname] => 'warehouse',
+         *          [id] => 'wid',
+         *          [target] => 'w_name',
+         *      ],
+         * ]
+         * 
+         * Notice：'dbname' =>  'Admin' 另外設定user->{{$foreignKeys['target']}}
+         * (['target'] 可以是name、wid、id...etc)
+         */
+        $this->foreignKeys = $foreignKeys;
+    }
 
     public function export()
     {
@@ -49,7 +75,24 @@ class ExcelExpoter extends AbstractExporter
                     */
                     $output = [];
                     foreach($this->titles as $key => $title){
-                        $output = array_merge($output,array_only($item, $title));
+                        $tempoutput = array_only($item, $title);
+
+                        //如果是外部鍵從id轉換成name
+                        if(isset($this->foreignKeys[$title])){
+                            if($this->foreignKeys[$title]['dbname'] != 'Admin'){
+                                $foreignNames = DB::table($this->foreignKeys[$title]['dbname'])->pluck($this->foreignKeys[$title]['target'], $this->foreignKeys[$title]['id']);
+                            }
+                            foreach($tempoutput as $key2 => $value2){
+                                if($this->foreignKeys[$title]['dbname'] != 'Admin'){
+                                    $tempoutput[$key2] = $foreignNames[$value2];
+                                }else{
+                                    $tempoutput[$key2] = Admin::user($value2)->{$this->foreignKeys[$title]['target']}; 
+                                }
+                            }
+                        }
+
+
+                        $output = array_merge($output,$tempoutput);
                     }
 
                     foreach($output as $key => $content){

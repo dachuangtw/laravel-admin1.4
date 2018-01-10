@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use Encore\Admin\Auth\Database\Administrator;
 use App\ProductIndex;
 use App\ProductSeries;
 use App\ProductCategory;
@@ -177,7 +178,7 @@ class ProductIndexController extends Controller
         }
 
         //置換最近更新者的內容
-        $product['update_user'] = Admin::user($product['update_user'])->name;
+        $product['update_user'] = Administrator::find($product['update_user'])->name;
 
         $header[] = '商品資訊';
         foreach($product as $key => $value){            
@@ -345,11 +346,11 @@ class ProductIndexController extends Controller
             $grid->exporter($exporter);
 
             //顯示匯入按鈕
-            $grid->allowImport();
+            // $grid->allowImport();
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
-                $actions->setTitleField('p_name');
+                $actions->setTitleField(['p_name']);
             });
 
             $grid->showfront('前台顯示')->value(function ($showfront) {

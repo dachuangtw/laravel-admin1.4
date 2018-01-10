@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,5 +23,4 @@ class ProductReceipt extends Model
     protected $fillable = [
         'update_user',  'updated_at', 'deleted_at'
     ];
-
 }

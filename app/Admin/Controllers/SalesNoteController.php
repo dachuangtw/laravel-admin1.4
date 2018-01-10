@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use Encore\Admin\Auth\Database\Administrator;
 use App\SalesNotes;
 use App\Sales;
 
@@ -90,7 +91,7 @@ class SalesNoteController extends Controller
            //$grid->created_at(trans('admin::lang.created_at'));
             //$grid->updated_at(trans('admin::lang.updated_at'));
             $grid->update_user(trans('admin::lang.update_user'))->display(function($userId) {
-                   return Admin::user($userId)->name;
+                   return Administrator::find($userId)->name;
             });
         });
     }

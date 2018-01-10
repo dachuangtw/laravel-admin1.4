@@ -42,6 +42,11 @@ class Actions extends AbstractDisplayer
     protected $titleField;
 
     /**
+     * @var string
+     */
+    protected $titleExtra;
+
+    /**
      * Append a action.
      *
      * @param $action
@@ -132,7 +137,11 @@ class Actions extends AbstractDisplayer
     {
         $this->titleField = $titleField;
     }
-
+    
+    public function setTitleExtra($titleExtra)
+    {
+        $this->titleExtra = $titleExtra;
+    }
 
     /**
      * {@inheritdoc}
@@ -169,7 +178,16 @@ class Actions extends AbstractDisplayer
      */
     protected function viewAction()
     {
-        $title = htmlentities($this->getTitle($this->titleField));
+        $title = '';
+        if($this->titleField){
+            foreach($this->titleField as $val){
+                $title = ($title ? $title . ' ' : '') . $this->getTitle($val);
+            }
+        }
+        if($this->titleExtra){
+            $title = $this->titleExtra . $title;
+        }
+        $title = htmlentities($title);
         return <<<EOT
 <a src="{$this->getResource()}/{$this->getKey()}/view" class="viewbutton" data-toggle="modal" data-target="#viewmodal" data-title="{$title}" title="{$this->trans('view')}">
     <i class="fa fa-eye"></i>

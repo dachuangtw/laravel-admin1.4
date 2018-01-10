@@ -6,6 +6,7 @@ use App\SalesAssign;
 use App\SalesAssignDetails;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Auth\Permission;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
@@ -36,6 +37,18 @@ class SalesAssignController extends Controller
             $content->header(trans('admin::lang.sales_assign'));
             $content->description(trans('admin::lang.list'));
             
+
+            $content->row(function (Row $row) {
+                $row->column(5, function (Column $column){
+                    $count = SalesAssign::where('assign_id', date('Ymd'))->count();
+                    if ($count > 0){        
+                        $column->append((new Alert('今日已配貨!!'))->style('warning')->icon('cubes'));
+                    }else {
+                        // $column->append((new Alert('今日未配貨!!'))->style('info')->icon('cubes'));
+                    }
+                });
+            });
+
             $content->body($this->grid());
         });
     }
@@ -48,6 +61,7 @@ class SalesAssignController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.sales_assign'));
@@ -64,6 +78,7 @@ class SalesAssignController extends Controller
      */
     public function create()
     {
+        Permission::check(['creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_assign'));
@@ -80,8 +95,9 @@ class SalesAssignController extends Controller
      */
     protected function grid()
     {
+        Permission::check(['reader']);
         return Admin::grid(SalesAssign::class, function (Grid $grid) {
-            $grid->disableImport();//關閉匯入按鈕
+            
             $grid->model()->orderBy('assign_date', 'desc'); // 預設排序
             $grid->filter(function($filter){
                 $filter->disableIdFilter();

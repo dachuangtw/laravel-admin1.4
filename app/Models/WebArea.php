@@ -8,57 +8,34 @@ use Illuminate\Database\Eloquent\Model;
 
 class WebArea extends Model
 {
-	use ModelTree, AdminBuilder;
+    //DB2
+    protected $connection = 'mysql2';
     //地區資料表
-    protected $table = 'web_area';
+    protected $table = 'district';
     //主鍵
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'district_id';
     public $timestamps = false;
-
-    public function __construct(array $attributes = [])
+    
+    public function children()
     {
-        parent::__construct($attributes);
-
-        $this->setParentColumn('parent_id');
-        $this->setOrderColumn('area_sort');
-        $this->setTitleColumn('area_name');
+        return $this->hasMany(WebArea::class, 'city_id');
     }
-
-    // public function scopeProvince()
-    // {
-    //     return $this->where('type', 1);
-    // }
-
-    public function scopeCity()
-    {
-        return $this->where('type', 1);
-    }
-
-    public function scopeDistrict()
-    {
-        return $this->where('type', 2);
-	}
 
     public function parent()
     {
-        return $this->belongsTo(WebArea::class, 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(WebArea::class, 'parent_id');
+        return $this->belongsTo(Location::class, 'city_id');
     }
 
     public function brothers()
     {
         return $this->parent->children();
     }
-
+    
     public static function options($id)
     {
         if (! $self = static::find($id)) {
             return [];
         }
-        return $self->brothers()->pluck('area_name', 'id');
+        return $self->brothers()->pluck('district_name', 'district_id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\WebLocation;
 use App\WebArea;
 use App\Sales;
+use App\Location;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -85,11 +86,11 @@ class WebLocationController extends Controller
                 // sql: ... WHERE `user.name` LIKE "%$name%";
                 $filter->like('store_name', trans('admin::lang.store_name'));
             });
-            $grid->model()->orderBy('id', 'DESC');
-            $grid->id(trans('admin::lang.store_id'))->sortable();
-            $grid->city_id(trans('admin::lang.city_id'))->sortable()->display(function($city_id){
-                   return WebArea::find($city_id)->area_name;
-            });
+            $grid->model()->orderBy('location_id', 'DESC');
+            $grid->location_id(trans('admin::lang.store_id'))->sortable();
+            // $grid->city_id(trans('admin::lang.city_id'))->sortable()->display(function($city_id){
+            //        return WebArea::find($city_id)->area_name;
+            // });
             $grid->store_name(trans('admin::lang.store_name'));
             $grid->created_at(trans('admin::lang.created_at'));
             $grid->updated_at(trans('admin::lang.updated_at'));
@@ -97,7 +98,7 @@ class WebLocationController extends Controller
                 'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
                 'off' => ['value' => 2, 'text' => 'OFF', 'color' => 'danger'],
             ];
-            $grid->column('showfront',trans('admin::lang.showfront'))->status()->switch($states);
+            $grid->column('show',trans('admin::lang.showfront'))->status()->switch($states);
         });
 
     }
@@ -111,24 +112,25 @@ class WebLocationController extends Controller
     {
         return Admin::form(WebLocation::class, function (Form $form) {
             $form->method('GET');
-
+            
             $form->tab('店鋪基本資料', function ($form) {
 
-                $form->display('id', trans('admin::lang.store_id'));
+                $form->display('location_id', trans('admin::lang.store_id'));
                 $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
-
-                // $form->select('store_area', trans('admin::lang.store_area'))->options(
-                //     WebArea::all()->pluck('area_name','id')
-                //     )->rules('required');
-
                 $form->select('city_id', trans('admin::lang.city_id'))->options(
-                    WebArea::City()->pluck('area_name', 'id')
+                    // DB::connection('mysql2')->table('city')->pluck('city_name', 'city_id')
+                    Location::pluck('city_name', 'city_id')
                 )->load('district_id', '/admin/api/tw/district')->rules('required');
-
                 $form->select('district_id', trans('admin::lang.district_id'))->options(function ($id) {
                     return WebArea::options($id);
                 })->rules('required');
 
+                // $form->select('city_id', trans('admin::lang.city_id'))->options(
+                //     WebArea::City()->pluck('area_name', 'id')
+                // )->load('district_id', '/admin/api/tw/district')->rules('required');
+                // $form->select('district_id', trans('admin::lang.district_id'))->options(function ($id) {
+                //     return WebArea::options($id);
+                // })->rules('required');
                 $form->text('store_address', trans('admin::lang.store_address'))->rules('required');
 
                 $form->divide();
@@ -136,24 +138,27 @@ class WebLocationController extends Controller
                 $form->date('store_payment_date', trans('admin::lang.store_payment_date'))->format('YYYY-MM-DD');
                 $form->currency('store_rents', trans('admin::lang.store_rents'))->symbol('$')->options(['mask' => '']);
                 $form->currency('store_deposit', trans('admin::lang.store_deposit'))->symbol('$')->options(['mask' => '']);
-                $form->text('store_contractor', trans('admin::lang.store_contractor'))->rules('required');
-                // $form->text('sales', trans('admin::lang.store_sales'))->rules('required');
-                $form->multipleSelect('sales',trans('admin::lang.store_sales'))
-                ->options(Sales::all()->pluck('sales_name', 'sid'));
+                $form->text('store_contractor', trans('admin::lang.store_contractor'));
+                // $form->select('sales', trans('admin::lang.store_sales'))
+                // ->options(Sales::all()->pluck('sales_name','sid'));
 
             })->tab('網頁顯示', function ($form) {
 
                 $form->editor('map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
                 //$form->map($latitude, $longitude,'GPS'); //經度,緯度
-                $form->image('store_pic', trans('admin::lang.store_pic'))->move('/location','store_pic');
+                $form->image('store_picture', trans('admin::lang.store_pic'))->move('/location','store_pic');
                 $states = [
                     'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
                     'off' => ['value' => 0, 'text' => 'OFF', 'color' => 'danger'],
                 ];
-                $form->switch('showfront',trans('admin::lang.showfront'))->states($states);
+                $form->switch('show',trans('admin::lang.showfront'))->states($states);
                 $form->textarea('comment',trans('admin::lang.comment'))->rows(10);
                 $form->display('created_at',trans('admin::lang.created_at'));
                 $form->display('updated_at',trans('admin::lang.updated_at'));
+            });
+
+            $form->saving(function (Form $form) {
+
             });
 
         });
@@ -162,8 +167,8 @@ class WebLocationController extends Controller
     public function district(Request $request)
     {
         $cityId = $request->get('q');
-
-        return WebArea::district()->where('parent_id', $cityId)->get(['id', DB::raw('area_name as text')]);
+        // return   DB::connection('mysql2')->table('district')->where('city_id',$cityId)->get(['district_id', DB::raw('district_name as text')]);
+        return WebArea::where('city_id', $cityId)->get(['district_id', DB::raw('district_name as text')]);
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use Encore\Admin\Auth\Database\Administrator;
 use App\SalesAssign;
 use App\SalesAssignDetails;
 use Encore\Admin\Form;
@@ -111,7 +112,7 @@ class SalesAssignController extends Controller
             $grid->assign_id(trans('admin::lang.assign_id'))->sortable();
             $grid->assign_total(trans('admin::lang.assign_total'))->sortable();
             $grid->update_user(trans('admin::lang.update_user'))->display(function($userId) {
-                   return Admin::user($userId)->name;
+                   return Administrator::find($userId)->name;
             });
 
             //$grid->created_at(trans('admin::lang.created_at'));

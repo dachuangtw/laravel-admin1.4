@@ -2,6 +2,7 @@
 
 namespace App\Admin\Extensions;
 
+use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Grid\Exporters\AbstractExporter;
 use Illuminate\Support\Arr;
@@ -86,7 +87,7 @@ class ExcelExpoter extends AbstractExporter
                                 if($this->foreignKeys[$title]['dbname'] != 'Admin'){
                                     $tempoutput[$key2] = $foreignNames[$value2];
                                 }else{
-                                    $tempoutput[$key2] = Admin::user($value2)->{$this->foreignKeys[$title]['target']}; 
+                                    $tempoutput[$key2] = Administrator::find($value2)->{$this->foreignKeys[$title]['target']}; 
                                 }
                             }
                         }

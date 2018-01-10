@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use Encore\Admin\Auth\Database\Administrator;
 use App\ProductReceipt;
 use App\ProductSupplier;
 use App\ProductReceiptDetails;
@@ -80,7 +81,6 @@ class ProductReceiptController extends Controller
 
             $content->row(function (Row $row) {
                 $row->column(12, $this->grid());
-
             });
         });
     }
@@ -108,7 +108,7 @@ class ProductReceiptController extends Controller
         $receipt['warehouse'] = Warehouse::find($receipt['wid'])->w_name;
         unset($receipt['wid']);
         //置換進貨人員id的內容
-        $receipt['re_user'] = Admin::user($receipt['re_user'])->name;
+        $receipt['re_user'] = Administrator::user($receipt['re_user'])->name;
 
         $header[] = '進貨單資訊';
         foreach($receipt as $key => $value){            
@@ -201,8 +201,9 @@ SCRIPT;
             })->sortable();
             $grid->re_number(trans('admin::lang.re_number'))->sortable();;
             $grid->re_user(trans('admin::lang.re_user'))->display(function ($re_user) {                
-                return Admin::user($re_user)->name;
+                return Administrator::find($re_user)->name;
             })->sortable();
+            
             $grid->re_amount(trans('admin::lang.re_amount'))->display(function ($re_amount) { 
                 if(strpos($re_amount,'.00'))               
                     return (int) $re_amount;
@@ -216,10 +217,11 @@ SCRIPT;
                 else
                     return '';
             });
-                        
+
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
-            $grid->actions(function ($actions) {
-                $actions->setTitleField('re_number');
+            $grid->actions(function ($actions){
+                $actions->setTitleExtra('進貨單號：'); // 自訂，標題前面提示
+                $actions->setTitleField(['re_number']);
             });
 
             //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)

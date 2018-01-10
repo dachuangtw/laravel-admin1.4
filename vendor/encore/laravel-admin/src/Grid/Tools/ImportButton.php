@@ -40,7 +40,7 @@ class ImportButton extends AbstractTool
             <input type="file" name="imported-file"/>
         </div>
         <div class="col-md-6">
-            <button class="btn btn-primary" type="submit"><i class="fa fa-upload"></i>&nbsp;&nbsp;{$import}</button>
+            <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-upload"></i>&nbsp;&nbsp;{$import}</button>
         </div>
     </form>
 </div>

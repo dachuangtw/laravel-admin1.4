@@ -36,13 +36,11 @@ class ProductReceiptController extends Controller
         $receiptdetails = ProductReceiptDetails::ofselected($re_number) ?: [];
         foreach($receiptdetails as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
-            $stock[$key] = Stock::where('pid',$value->pid)->where('wid',$value->wid)->get()->toArray()[0];
+            // $stock[$key] = Stock::where('pid',$value->pid)->where('wid',$value->wid)->get()->toArray();
         }
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
         $data = compact('products','rowTop','rowEvenOdd','receiptdetails');
-
-
 
         return view('admin::receiptedit', $data);
     }
@@ -322,8 +320,10 @@ SCRIPT;
 
                     //填充到re_number欄位中
                     $form->re_number = $Todaydate.$Supplier.$lastTwoCode;
-                    
                 }
+                /**
+                 * 新增 進貨單明細/庫存
+                 */
                 if(!empty(request()->pid)){
                     $red_amount = request()->red_amount;
                     $red_price = request()->red_price;
@@ -352,25 +352,200 @@ SCRIPT;
 
                         foreach($dataArray as $key => $val){
 
+                            /* 商品成本變更 */
                             $p_costprice = ProductIndex::find($val['pid'])->p_costprice;
                             if($p_costprice != $val['red_price']){
 
-                                $updateProductIndexArray = [                             
+                                $updateProductIndexArray = [
                                     'p_costprice'   =>  $val['red_price'],
+                                    'last_delivery'   =>  date('Y-m-d H:i:s'),
+                                    'update_user'   =>  Admin::user()->id,
+                                ];
+                                ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
+                            }else{
+
+                                $updateProductIndexArray = [
+                                    'last_delivery'   =>  date('Y-m-d H:i:s'),
+                                    'update_user'   =>  Admin::user()->id,
                                 ];
                                 ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
                             }
-
+                            /* 庫存變更 */
+                            $retailStock = 0; //原始庫存
                             if(!empty($sidArray[$key])){
 
-                                $s_stock = Stock::find($sidArray[$key])->s_stock ?: 0;
-                                $s_stock = (int) $s_stock + (int) $val['red_quantity'];
+                                $retailStock = Stock::find($sidArray[$key])->s_stock ?: 0;
+                                $s_stock = (int) $retailStock + (int) $val['red_quantity'];
 
                                 $updateStockArray = [                                
                                     's_stock'   =>  $s_stock,
                                 ];
                                 Stock::where('sid',$sidArray[$key])->update($updateStockArray);
+                            }else{
+                                $s_stock = $val['red_quantity'];
+                                $insertStockArray = [
+                                    'pid'           =>  $val['pid'],
+                                    'wid'           =>  Admin::user()->wid,
+                                    's_type'        =>  '不分款',
+                                    's_stock'       =>  $val['red_quantity'],
+                                    'update_user'   =>  Admin::user()->id,
+                                ];
+                                Stock::insert($insertStockArray);
                             }
+                            /**
+                             *  庫存變更紀錄 (未完成)
+                             */
+                            // $insertStockLogArray = [
+                            //     'pid'           =>  $val['pid'],
+                            //     'wid'           =>  Admin::user()->wid,
+                            //     'sid'           =>  '不分款',
+                            //     'calc'          =>  '-',
+                            //     'quantity'      =>  $val['red_quantity'],
+                            //     'update_user'   =>  Admin::user()->id,
+                            //     'created_at'    =>  date('Y-m-d H:i:s'),
+                            // ];
+                            // StockLog::insert($insertStockLogArray);
+                        }
+                    }
+
+            
+                }
+                /**
+                 * 編輯 進貨單明細/庫存
+                 */
+                elseif(!empty(request()->pid)){
+                    $red_amount = request()->red_amount;
+                    $red_price = request()->red_price;
+                    $red_quantity = request()->red_quantity;
+                    $red_notes = request()->red_notes;
+                    $sid = request()->sid;
+                    $redid = request()->redid;
+                    $dataArray = [];
+                    $total = 0;
+
+                    //原本的進貨明細[redid => red_quantity]
+                    $retailProductReceipt = ProductReceiptDetails::where('re_number',$form->re_number)->pluck('red_quantity','redid');
+
+                    //欲刪除的進貨明細 - 使用unset($deleteRedid[$redid])移除沒有要刪除的進貨明細
+                    $deleteRedid = $retailProductReceipt;
+
+                    /**
+                     *  進貨明細更新
+                     *  方法1. 
+                     *      刪掉原本的，insert目前頁面的明細內容
+                     *  方法2.(嘗試中)
+                     *      刪掉沒有的，更新原本的，insert新增加的
+                     */                    
+                    foreach(request()->pid as $key => $pid){
+                        //insert新增加的
+                        if(empty($redid[$key])){
+
+                            $insertProductReceiptArray[] = [
+                                'pid'           =>  $pid,
+                                're_number'     =>  $form->re_number,
+                                'red_amount'    =>  $red_amount[$key],
+                                'red_price'     =>  $red_price[$key],
+                                'red_quantity'  =>  $red_quantity[$key],
+                                'red_notes'     =>  $red_notes[$key],
+                            ];
+                        }
+                        //更新原本的                        
+                        elseif(isset($retailProductReceipt[$redid[$key]])){
+                            $updateProductReceiptArray = [
+                                'red_amount'    =>  $red_amount[$key],
+                                'red_price'     =>  $red_price[$key],
+                                'red_quantity'  =>  $red_quantity[$key],
+                                'red_notes'     =>  $red_notes[$key],
+                            ];
+
+                            ProductReceiptDetails::where('redid',$redid[$key])->update($updateProductReceiptArray);
+
+                            //此筆進貨明細不刪
+                            unset($deleteRedid[$redid]);
+                        }
+                        $sidArray[] = $sid[$key];
+                        $total += $red_amount[$key];
+
+                        /**
+                         * 商品價格變更紀錄 (未完成)
+                         */
+                        // $insertProductLogArray = [
+                        //     'pid'           =>  $val['pid'],
+                        //     'wid'           =>  Admin::user()->wid,
+                        //     'sid'           =>  '不分款',
+                        //     'calc'          =>  '-',
+                        //     'quantity'      =>  $val['red_quantity'],
+                        //     'update_user'   =>  Admin::user()->id,
+                        //     'created_at'    =>  date('Y-m-d H:i:s'),
+                        // ];
+                        // StockLog::insert($insertProductLogArray);
+
+                        
+                    }
+
+                    ProductReceiptDetails::insert($insertProductReceiptArray);
+                    ProductReceiptDetails::where('redid',$redid)->delete();
+
+
+                    if(!empty($dataArray))
+                    {
+                        $form->re_amount = $total;
+
+                        foreach($dataArray as $key => $val){
+
+                            /* 商品成本變更 */
+                            $p_costprice = ProductIndex::find($val['pid'])->p_costprice;
+                            if($p_costprice != $val['red_price']){
+
+                                $updateProductIndexArray = [
+                                    'p_costprice'   =>  $val['red_price'],
+                                    'last_delivery'   =>  date('Y-m-d H:i:s'),
+                                    'update_user'   =>  Admin::user()->id,
+                                ];
+                                ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
+                            }else{
+
+                                $updateProductIndexArray = [
+                                    'last_delivery'   =>  date('Y-m-d H:i:s'),
+                                    'update_user'   =>  Admin::user()->id,
+                                ];
+                                ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
+                            }
+                            /* 庫存變更 */
+                            $retailStock = 0;
+                            if(!empty($sidArray[$key])){
+
+                                $retailStock = Stock::find($sidArray[$key])->s_stock ?: 0;
+                                $s_stock = (int) $retailStock + (int) $val['red_quantity'];
+
+                                $updateStockArray = [                                
+                                    's_stock'   =>  $s_stock,
+                                ];
+                                Stock::where('sid',$sidArray[$key])->update($updateStockArray);
+                            }else{
+                                $s_stock = $val['red_quantity'];
+                                $insertStockArray = [
+                                    'pid'           =>  $val['pid'],
+                                    'wid'           =>  Admin::user()->wid,
+                                    's_type'        =>  '不分款',
+                                    's_stock'       =>  $val['red_quantity'],
+                                    'update_user'   =>  Admin::user()->id,
+                                ];
+                                Stock::insert($insertStockArray);
+                            }
+                            /**
+                             *  庫存變更紀錄 (未完成)
+                             */
+                            // $insertStockLogArray = [
+                            //     'pid'           =>  $val['pid'],
+                            //     'wid'           =>  Admin::user()->wid,
+                            //     'sid'           =>  '不分款',
+                            //     'calc'          =>  '-',
+                            //     'quantity'      =>  $val['red_quantity'],
+                            //     'update_user'   =>  Admin::user()->id,
+                            //     'created_at'    =>  date('Y-m-d H:i:s'),
+                            // ];
+                            // StockLog::insert($insertStockLogArray);
                         }
                     }
 

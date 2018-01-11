@@ -350,7 +350,7 @@ class ProductIndexController extends Controller
             $grid->exporter($exporter);
 
             //顯示匯入按鈕
-            // $grid->allowImport();
+            $grid->allowImport();
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
@@ -444,11 +444,11 @@ class ProductIndexController extends Controller
                         $form->text('s_type',trans('admin::lang.product_type'));
                         $form->text('s_barcode',trans('admin::lang.product_barcode'));
                         $form->text('s_notes',trans('admin::lang.notes'));
-                        $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);                    
+                        $form->number('s_stock',trans('admin::lang.product_stock'))->default(0);                    
                         $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
                             ['每人','每間']
                         )->setWidth('1');
-                        $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
+                        $form->number('s_collect',trans('admin::lang.product_sales'))->default(0);
                     });            
                 });
             }
@@ -540,11 +540,11 @@ class ProductIndexController extends Controller
                     $form->text('s_type',trans('admin::lang.product_type'))->setWidth('5');
                     $form->text('s_barcode',trans('admin::lang.product_barcode'))->setWidth('5');
                     $form->text('s_notes',trans('admin::lang.notes'))->setWidth('5');
-                    $form->number('s_stock',trans('admin::lang.product_stock'))->default(1);
+                    $form->number('s_stock',trans('admin::lang.product_stock'))->default(0);
                     $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
                         ['每人','每間']
                     );
-                    $form->number('s_collect',trans('admin::lang.product_sales'))->default(1);
+                    $form->number('s_collect',trans('admin::lang.product_sales'))->default(0);
                 })->setWidth('5');         
             });
 
@@ -577,6 +577,24 @@ class ProductIndexController extends Controller
 
             if(!empty($data) && $data->count())
             {
+                <<<EOT
+                <div class="loading-fullpage">
+                    <div class="loading-circle">
+                        <div class="loading-circle1 loading-child"></div>
+                        <div class="loading-circle2 loading-child"></div>
+                        <div class="loading-circle3 loading-child"></div>
+                        <div class="loading-circle4 loading-child"></div>
+                        <div class="loading-circle5 loading-child"></div>
+                        <div class="loading-circle6 loading-child"></div>
+                        <div class="loading-circle7 loading-child"></div>
+                        <div class="loading-circle8 loading-child"></div>
+                        <div class="loading-circle9 loading-child"></div>
+                        <div class="loading-circle10 loading-child"></div>
+                        <div class="loading-circle11 loading-child"></div>
+                        <div class="loading-circle12 loading-child"></div>
+                    </div>
+                </div>
+EOT;
                 foreach ($data->toArray() as $row){
                     if(!empty($row)){
                         $dataArray1 = [
@@ -595,9 +613,10 @@ class ProductIndexController extends Controller
                             //有庫存才增加庫存資料
                             if((int)$row['s_stock'] > 0){
                                 $dataArray2[] = [
-                                'pid' => $pid,
-                                'wid' => '2', //台中倉
-                                's_stock' => $row['s_stock'],
+                                'pid'       => $pid,
+                                'wid'       => '2', //台中倉
+                                's_type'    => '不分款',
+                                's_stock'   => $row['s_stock'],
                                 ];
                             } 
                         }
@@ -605,10 +624,10 @@ class ProductIndexController extends Controller
                 }
                 if(!empty($dataArray2))
                 {
-                    Stock::insert($dataArray2); 
-                    return back();                           
+                    Stock::insert($dataArray2);
                 }
             }
         }
+        return back();
     }
 }

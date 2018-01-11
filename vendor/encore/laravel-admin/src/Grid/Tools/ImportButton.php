@@ -40,9 +40,25 @@ class ImportButton extends AbstractTool
             <input type="file" name="imported-file"/>
         </div>
         <div class="col-md-6">
-            <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-upload"></i>&nbsp;&nbsp;{$import}</button>
+            <button class="btn btn-sm btn-primary" type="submit" onclick="$('.loading-fullpage').show();"><i class="fa fa-upload"></i>&nbsp;&nbsp;{$import}</button>
         </div>
     </form>
+</div>
+<div class="loading-fullpage" style="display: none;">
+<div class="loading-circle">
+    <div class="loading-circle1 loading-child"></div>
+    <div class="loading-circle2 loading-child"></div>
+    <div class="loading-circle3 loading-child"></div>
+    <div class="loading-circle4 loading-child"></div>
+    <div class="loading-circle5 loading-child"></div>
+    <div class="loading-circle6 loading-child"></div>
+    <div class="loading-circle7 loading-child"></div>
+    <div class="loading-circle8 loading-child"></div>
+    <div class="loading-circle9 loading-child"></div>
+    <div class="loading-circle10 loading-child"></div>
+    <div class="loading-circle11 loading-child"></div>
+    <div class="loading-circle12 loading-child"></div>
+</div>
 </div>
 
 EOT;

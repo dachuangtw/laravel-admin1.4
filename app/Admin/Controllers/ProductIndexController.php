@@ -26,7 +26,6 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Box;
 use Illuminate\Support\MessageBag;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class ProductIndexController extends Controller
@@ -458,8 +457,7 @@ class ProductIndexController extends Controller
                     $firstTwoCode = request()->StockCategory.request()->ProductSupplier;
 
                     //取得商品資料庫中該分類的最大值
-                    $max_number = DB::table('product_index')
-                    ->where('p_number', 'like', $firstTwoCode.'%')
+                    $max_number = ProductIndex::where('p_number', 'like', $firstTwoCode.'%')
                     ->max('p_number');
 
                     //取後六碼做+1計算

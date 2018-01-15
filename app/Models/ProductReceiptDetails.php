@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductReceiptDetails extends Model
 {
+    public $timestamps = false;
+    
     //進貨單明細資料表
     protected $table = 'product_receipt_details';
     //主鍵

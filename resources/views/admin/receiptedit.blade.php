@@ -47,17 +47,19 @@
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 283px; ">{{ $products[$key]['p_unit'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 343px;">
-                                            @if(!empty($stock[$key]) && empty($receiptdetail->redid))
-                                            <select name="stid[]">
-                                                @foreach($stock[$key] as $val)
-                                                    <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
-                                                @endforeach
-                                            </select>
-                                            @elseif(!empty($stock[$receiptdetail->stid]) && !empty($receiptdetail->redid))
+                                            @if(isset($stock[$receiptdetail->stid]))
+                                                @if(empty($receiptdetail->redid))
+                                                <select name="stid[]">
+                                                    @foreach($stock as $val)
+                                                        <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @else                                            
                                                 <input type="hidden" name="stid[]" value="{{ $receiptdetail->stid }}">
-                                                {{ $stock[$receiptdetail->stid]['st_type'] }}
+                                                {{ $stock[$receiptdetail->stid] }}
+                                                @endif
                                             @else
-                                                <input type="hidden" name="stid[]" value="new">
+                                                <input type="hidden" name="stid[]" value="{{$receiptdetail->stid}}">
                                                 不分款
                                             @endif
                                         

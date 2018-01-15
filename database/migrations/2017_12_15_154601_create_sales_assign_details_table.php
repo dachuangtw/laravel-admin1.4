@@ -17,7 +17,7 @@ class CreateSalesAssignDetailsTable extends Migration
             $table->increments('said')->unique()->index()->comment('配貨id');
             $table->string('assign_id')->unique()->comment('配貨單號');
             $table->string('pid')->nullable()->comment('產品編號');
-            $table->string('s_type',50)->nullable()->comment('款式');
+            $table->string('st_type',50)->nullable()->comment('款式');
             $table->integer('p_salesprice')->default(0)->comment('業務單價');  
             $table->integer('p_quantity')->default(0)->comment('數量');         
             $table->integer('p_salesprice_total')->default(0)->comment('金額(數量*單價)');

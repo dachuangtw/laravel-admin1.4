@@ -13,13 +13,13 @@ class Stock extends Model
     //庫存資料表
     protected $table = 'stock';
     //主鍵
-    protected $primaryKey = 'sid';
+    protected $primaryKey = 'stid';
     //需要被轉換成日期的屬性
     protected $dates = ['deleted_at'];
 
     //批量賦值
     protected $fillable = [
-        'pid',  'wid',  's_type',  's_barcode',  's_stock',  's_collect', 's_notes',  'showfront',  
+        'pid',  'wid',  'st_type',  'st_barcode',  'st_stock',  'st_collect', 'st_notes', 'st_unit', 'showfront',  
         'update_user',  'updated_at', 'deleted_at'
     ];
 

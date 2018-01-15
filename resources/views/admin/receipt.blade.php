@@ -28,7 +28,14 @@
                             </div>
                             <div class="tb-body" style="top: 30px; height: 320px;">
                                 <div class="tb-body-container" style="height: 350px; top: 0px; width: 837px;">
-                                    @endif 
+                                <input type="hidden" name="action" id="action" value="create">
+                                    @endif
+
+
+
+
+
+                                    @if($action != 'edit')
                                     @foreach($products as $key => $product)
                                     <div role="row" row-id="{{ $product->pid }}" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
                                         <input type="hidden" name="pid[]" value="{{ $product->pid }}">
@@ -46,16 +53,22 @@
 
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 50px; left: 283px; ">{{ $product->p_unit }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 333px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('s_stock') }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 333px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('st_stock') }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 393px;">
                                             @if(!empty($stock[$key]))
-                                            <select name="sid[]">
+                                            @if(count($stock[$key]) == 1 && $val = $stock[$key][0])
+                                            <input type="hidden" name="stid[]" value="{{ $val['stid'] }}">
+                                            {{ $val['st_type'] }}
+                                            @else
+                                            <select name="stid[]">
                                                 @foreach($stock[$key] as $val)
-                                                    <option value="{{ $val['sid'] }}">{{ $val['s_type'] }}</option>
+                                                    <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
                                                 @endforeach
                                             </select>
+                                            @endif
                                             @else
-                                                無                                            
+                                                <input type="hidden" name="stid[]" value="">
+                                                不分款
                                             @endif
                                         
                                         </div>
@@ -65,7 +78,53 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 90px; left: 713px;"><input type="text" name="red_notes[]" value=""></div>
 
                                     </div>
-                                    @endforeach @if($firsttime)
+                                    @endforeach
+                                    @endif
+
+
+
+
+                                    @if($action=='edit')
+                                    @foreach($products as $key => $product)
+                                    <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
+                                        <input type="hidden" name="pid[]" value="{{ $product->pid }}">
+                                        <input type="hidden" name="redid[]" value="">
+                                        <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: 33px; left: 0px; ">
+                                            <div class="ui-grid-cell-contents">
+                                                <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 100px; left: 33px; ">{{ $product->p_number }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 150px; left: 133px; ">
+                                            @if($product->p_pic)
+                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptdetials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
+                                            @else {{ $product->p_name }} 
+                                            @endif
+                                        </div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 283px; ">{{ $product->p_unit }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 343px;">
+                                            @if(!empty($stock[$key]))
+                                            <select name="stid[]">
+                                                @foreach($stock[$key] as $val)
+                                                    <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
+                                                @endforeach
+                                            </select>
+                                            @else
+                                                <input type="hidden" name="stid[]" value="">
+                                                不分款
+                                            @endif
+                                        
+                                        </div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 423px;"><input type="text" name="red_quantity[]" value="1"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 503px;"><input type="text" name="red_price[]" value="{{ $product->p_costprice }}"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 583px;"><input type="text" name="red_amount[]" value="{{ $product->p_costprice }}"></div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 110px; left: 693px;"><input type="text" name="red_notes[]" value=""></div>
+
+                                    </div>
+                                    @endforeach
+                                    @endif
+
+                                    @if($firsttime)
                                 </div>
                             </div>
                         </div>

@@ -165,7 +165,7 @@ class SalesAssignController extends Controller
             
             $form->hasMany('salesassigndetails','商品清單', function (Form\NestedForm $form) {          
                 $form->text('pid');
-                $form->text('s_type');
+                $form->text('st_type');
                 $form->text('p_salesprice');
                 $form->text('p_quantity');
                 $form->text('p_salesprice_total');

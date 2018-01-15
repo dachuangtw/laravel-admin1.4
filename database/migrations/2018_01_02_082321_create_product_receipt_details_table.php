@@ -17,7 +17,7 @@ class CreateProductReceiptDetailsTable extends Migration
             $table->increments('redid')->comment('進貨單明細id');
             $table->string('re_number',50)->comment('進貨單號');
             $table->integer('pid')->unsigned()->index()->comment('商品主檔id');
-            $table->integer('sid')->unsigned()->index()->comment('庫存id');
+            $table->integer('stid')->unsigned()->index()->comment('庫存id');
             $table->integer('red_quantity')->default(0)->comment('數量');
             $table->decimal('red_price',10,2)->default(0.00)->comment('單價'); 
             $table->decimal('red_amount',10,2)->default(0.00)->comment('總金額'); 

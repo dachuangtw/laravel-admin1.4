@@ -1,3 +1,4 @@
+@if($firsttime)
 <div class="form-group 1" id="receiptdetials">
 
     <label for="re_amount" class="col-sm-2 control-label"></label>
@@ -14,9 +15,10 @@
                                 <div class="tb-header-container">
                                     <div class="tb-header-cell" style="width: 33px; left: 0px;">
                                     </div>
-                                    <div class="tb-header-cell" style="width: 130px; left: 33px;">商品編號</div>
-                                    <div class="tb-header-cell" style="width: 200px; left: 163px;">商品名</div>
-                                    <div class="tb-header-cell" style="width: 60px; left: 363px;">單位</div>
+                                    <div class="tb-header-cell" style="width: 100px; left: 33px;">商品編號</div>
+                                    <div class="tb-header-cell" style="width: 150px; left: 133px;">商品名</div>
+                                    <div class="tb-header-cell" style="width: 60px; left: 283px;">單位</div>
+                                    <div class="tb-header-cell" style="width: 80px; left: 343px;">款式</div>
                                     <div class="tb-header-cell" style="width: 80px; left: 423px;">進貨數</div>
                                     <div class="tb-header-cell" style="width: 80px; left: 503px;">單價</div>
                                     <div class="tb-header-cell" style="width: 80px; left: 583px;">總價</div>
@@ -25,6 +27,8 @@
                             </div>
                             <div class="tb-body" style="top: 30px; height: 320px;">
                                 <div class="tb-body-container" style="height: 350px; top: 0px; width: 837px;">
+                                <input type="hidden" name="action" id="action" value="edit">
+                                @endif
                                     @foreach($receiptdetails as $key => $receiptdetail)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
                                         <input type="hidden" name="pid[]" value="{{ $products[$key]['pid'] }}">
@@ -34,16 +38,30 @@
                                                 <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>
                                             </div>
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 130px; left: 33px; ">{{ $products[$key]['p_number'] }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 200px; left: 163px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 100px; left: 33px; ">{{ $products[$key]['p_number'] }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 150px; left: 133px; ">
                                             @if($products[$key]['p_pic'])
                                             <a href="#" role="button" data-toggle="popover" data-container="#receiptdetials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
-
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 363px; ">{{ $products[$key]['p_unit'] }}</div>
-
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 283px; ">{{ $products[$key]['p_unit'] }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 343px;">
+                                            @if(!empty($stock[$key]) && empty($receiptdetail->redid))
+                                            <select name="stid[]">
+                                                @foreach($stock[$key] as $val)
+                                                    <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
+                                                @endforeach
+                                            </select>
+                                            @elseif(!empty($stock[$receiptdetail->stid]) && !empty($receiptdetail->redid))
+                                                <input type="hidden" name="stid[]" value="{{ $receiptdetail->stid }}">
+                                                {{ $stock[$receiptdetail->stid]['st_type'] }}
+                                            @else
+                                                <input type="hidden" name="stid[]" value="new">
+                                                不分款
+                                            @endif
+                                        
+                                        </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 423px;"><input type="text" name="red_quantity[]" value="{{ $receiptdetail->red_quantity }}"></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 503px;"><input type="text" name="red_price[]" value="{{ $receiptdetail->red_price }}"></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 583px;"><input type="text" name="red_amount[]" value="{{ $receiptdetail->red_amount }}"></div>
@@ -51,6 +69,7 @@
 
                                     </div>
                                     @endforeach
+                                    @if($firsttime)
                                 </div>
                             </div>
                         </div>
@@ -65,6 +84,7 @@
 
     </div>
 </div>
+@endif
 <script>
 $(function() {
     countTotal();

@@ -47,15 +47,16 @@ class ProductIndexController extends Controller
     {
         $stock = [];
         $selected = $request->selected ?: [];
+        $action = $request->action;
         $products = ProductIndex::whereIn('pid',$selected)->get();
         foreach($products as $key => $product){
-            $stock[$key] = Stock::where('pid',$product->pid)->where('wid',2)->get()->toArray();
-        }        
+            $stock[$key] = Stock::where('pid',$product->pid)->where('wid',Admin::user()->wid)->get()->toArray();
+        }
         $rowTop = empty($request->rowTop) ? -30 : (int)$request->rowTop ;
         $rowEvenOdd = ['even','odd'];
         $firsttime = filter_var($request->firsttime, FILTER_VALIDATE_BOOLEAN);
 
-        $data = compact('products','rowTop','rowEvenOdd','selected','firsttime','stock');
+        $data = compact('products','rowTop','rowEvenOdd','selected','firsttime','stock','action');
         return view('admin::receipt', $data);
     }
     /**
@@ -72,7 +73,6 @@ class ProductIndexController extends Controller
         }else{
             $products = ProductIndex::where('p_name','like','%'.$search.'%')->orWhere('p_number','like','%'.$search)->orWhere('p_number','like',$search.'%')->get();
         }
-        // $products = ProductIndex::all()->take(100);
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
 
@@ -317,7 +317,7 @@ class ProductIndexController extends Controller
                  */
                 $warehouse = Warehouse::all()->pluck('w_name', 'wid')->toArray();
                 foreach($warehouse as $wid => $w_name){
-                    $grid->{'stock'.$wid}($w_name)->where('wid',$wid)->sum('s_stock')->value(function ($stock) {
+                    $grid->{'stock'.$wid}($w_name)->where('wid',$wid)->sum('st_stock')->value(function ($stock) {
                         if(!empty($stock)){
                             return $stock;
                         }
@@ -328,7 +328,7 @@ class ProductIndexController extends Controller
                 
             }else{
                 //非超級管理員只能看到自己倉庫的庫存
-                $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('s_stock')->value(function ($stock) {
+                $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('st_stock')->value(function ($stock) {
                     if(!empty($stock)){
                         return $stock;
                     }
@@ -441,14 +441,14 @@ class ProductIndexController extends Controller
                             $form->hidden('wid')->default(Admin::user()->wid);
                         }
                         
-                        $form->text('s_type',trans('admin::lang.product_type'));
-                        $form->text('s_barcode',trans('admin::lang.product_barcode'));
-                        $form->text('s_notes',trans('admin::lang.notes'));
-                        $form->number('s_stock',trans('admin::lang.product_stock'))->default(0);                    
-                        $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
+                        $form->text('st_type',trans('admin::lang.product_type'));
+                        $form->text('st_barcode',trans('admin::lang.product_barcode'));
+                        $form->text('st_notes',trans('admin::lang.notes'));
+                        $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);                    
+                        $form->select('st_unit',trans('admin::lang.sales_unit'))->options(
                             ['每人','每間']
                         )->setWidth('1');
-                        $form->number('s_collect',trans('admin::lang.product_sales'))->default(0);
+                        $form->number('st_collect',trans('admin::lang.product_sales'))->default(0);
                     });            
                 });
             }
@@ -537,14 +537,14 @@ class ProductIndexController extends Controller
                         $form->hidden('wid')->default(Admin::user()->wid);
                     }
                     
-                    $form->text('s_type',trans('admin::lang.product_type'))->setWidth('5');
-                    $form->text('s_barcode',trans('admin::lang.product_barcode'))->setWidth('5');
-                    $form->text('s_notes',trans('admin::lang.notes'))->setWidth('5');
-                    $form->number('s_stock',trans('admin::lang.product_stock'))->default(0);
-                    $form->select('s_unit',trans('admin::lang.sales_unit'))->options(
+                    $form->text('st_type',trans('admin::lang.product_type'))->setWidth('5');
+                    $form->text('st_barcode',trans('admin::lang.product_barcode'))->setWidth('5');
+                    $form->text('st_notes',trans('admin::lang.notes'))->setWidth('5');
+                    $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);
+                    $form->select('st_unit',trans('admin::lang.sales_unit'))->options(
                         ['每人','每間']
                     );
-                    $form->number('s_collect',trans('admin::lang.product_sales'))->default(0);
+                    $form->number('st_collect',trans('admin::lang.product_sales'))->default(0);
                 })->setWidth('5');         
             });
 
@@ -593,12 +593,12 @@ class ProductIndexController extends Controller
                             $pid = ProductIndex::insertGetId($dataArray1,'pid');
 
                             //有庫存才增加庫存資料
-                            if((int)$row['s_stock'] > 0){
+                            if((int)$row['st_stock'] > 0){
                                 $dataArray2[] = [
                                 'pid'       => $pid,
                                 'wid'       => '2', //台中倉
-                                's_type'    => '不分款',
-                                's_stock'   => $row['s_stock'],
+                                'st_type'    => '不分款',
+                                'st_stock'   => $row['st_stock'],
                                 ];
                             } 
                         }

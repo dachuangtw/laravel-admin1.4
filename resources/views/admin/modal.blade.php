@@ -36,7 +36,8 @@
                                             <div class="tb-header-cell" style="width: 130px; left: 33px;">商品編號</div>
                                             <div class="tb-header-cell" style="width: 300px; left: 163px;">商品名</div>
                                             <div class="tb-header-cell" style="width: 80px; left: 463px;">單位</div>
-                                            <div class="tb-header-cell" style="width: 80px; left: 543px;">庫存數</div>
+                                            <div class="tb-header-cell" style="width: 80px; left: 543px;">總庫存</div>
+                                            <div class="tb-header-cell" style="width: 200px; left: 623px;"></div>
                                         </div>
                                     </div>
                                     <div class="tb-body" style="top: 30px; height: 320px;">
@@ -127,12 +128,12 @@ $(function() {
             if($('#receiptdetials').length > 0){
                 firsttime = false;
                 rowTop = $("#receiptdetials .tb-body-container").find("div[role='row']").last().css("top");
-                
             }
             $.ajax({
                 url:'/admin/product/receiptdetails',
                 method: 'post',
                 data: {
+                    action: $("#receiptdetials #action").val(),
                     selected: selectResultArray,
                     firsttime: firsttime,
                     rowTop: rowTop,
@@ -147,7 +148,25 @@ $(function() {
                         } 
                         $('#selectproduct').modal('hide');
                     }
-                }
+                },error: function (jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    alert(msg + '\n\n網頁出了問題，請通知相關人員處理');
+                },
             });
         }else{
             alert('未選擇商品');

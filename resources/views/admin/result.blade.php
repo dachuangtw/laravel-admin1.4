@@ -13,8 +13,10 @@
         <a href="#" role="button" data-toggle="popover" data-container="#selectproduct" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>        @else {{ $product->p_name }} @endif
 
     </div>
-    <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 463px; ">{{ $product->p_unit }}</div>
-    <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 80px; left: 543px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('s_stock') }}</div>
+    <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 463px; ">{{ $product->p_unit }}</div>
+    <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 543px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('st_stock') }}</div>
+
+    <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: 200px; left: 623px; "></div>
 </div>
 @endforeach
 

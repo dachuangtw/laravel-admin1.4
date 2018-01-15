@@ -11,7 +11,7 @@ class SalesAssignDetails extends Model
     //主鍵
     protected $primaryKey = 'said';
 
-    protected $fillable = ['pid','s_type', 'p_salesprice','p_quantity','p_salesprice_total','created_at'];
+    protected $fillable = ['pid','st_type', 'p_salesprice','p_quantity','p_salesprice_total','created_at'];
 
     //關聯 SalesAssign
     public function SalesAssign()

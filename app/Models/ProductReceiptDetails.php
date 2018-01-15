@@ -24,4 +24,10 @@ class ProductReceiptDetails extends Model
     {
         return $query->where('re_number', $re_number)->get();
     }
+    
+    //一(商品)對多(庫存)關聯資料表
+    // public function stock()
+    // {
+    //     return $this->belongsTo(Stock::class,'pid');
+    // }
 }

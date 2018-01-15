@@ -443,7 +443,7 @@ class ProductIndexController extends Controller
                         $form->text('st_type',trans('admin::lang.product_type'));
                         $form->text('st_barcode',trans('admin::lang.product_barcode'));
                         $form->text('st_notes',trans('admin::lang.notes'));
-                        $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);                    
+                        // $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);
                         $form->select('st_unit',trans('admin::lang.sales_unit'))->options(
                             ['每人','每間']
                         )->setWidth('1');
@@ -538,7 +538,7 @@ class ProductIndexController extends Controller
                     $form->text('st_type',trans('admin::lang.product_type'))->setWidth('5');
                     $form->text('st_barcode',trans('admin::lang.product_barcode'))->setWidth('5');
                     $form->text('st_notes',trans('admin::lang.notes'))->setWidth('5');
-                    $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);
+                    $form->display('st_stock',trans('admin::lang.product_stock'))->default(0);
                     $form->select('st_unit',trans('admin::lang.sales_unit'))->options(
                         ['每人','每間']
                     );

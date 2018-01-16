@@ -12,7 +12,7 @@ class WebArea extends Model
     //DB2
     protected $connection = 'mysql2';
     //地區資料表
-    protected $table = 'web_area';
+    protected $table = 'tw_area';
     //主鍵
     protected $primaryKey = 'id';
     public $timestamps = false;

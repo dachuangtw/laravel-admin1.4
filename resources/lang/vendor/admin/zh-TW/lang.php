@@ -57,6 +57,7 @@ return [
     'save_succeeded'    =>    '保存成功！', 
     'refresh_succeeded' =>    '刷新成功！', 
     'login_successful'  =>    '登入成功！', 
+    'status'            =>    '狀態',
 
     'choose'        =>    '選擇', 
     'choose_file'   =>    '選擇文件', 
@@ -149,6 +150,7 @@ return [
     //店鋪據點
     'web_location'  =>      '店鋪據點',
     'store_id'      =>      '店鋪編號',
+    'location_area' =>      '所屬區域',
     'city_id'       =>      '城市',
     'district_id'   =>      '地區',
     'store_rents'   =>      '租金',

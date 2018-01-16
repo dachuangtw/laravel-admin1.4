@@ -13,4 +13,4 @@ class WebLocation extends Model
     //主鍵
     protected $primaryKey = 'location_id';
 
-}
+ }

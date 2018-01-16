@@ -45,7 +45,7 @@
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 283px; ">{{ $products[$key]['p_unit'] }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 283px; ">{{ $products[$key]['p_unit'] }}</div>                                        
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 343px;">
                                             @if(isset($stock[$receiptdetail->stid]))
                                                 @if(empty($receiptdetail->redid))

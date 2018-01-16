@@ -8,6 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
@@ -26,9 +27,20 @@ class WebAreaController extends Controller
 
             $content->header(trans('admin::lang.web_area'));
             $content->description(trans('admin::lang.list'));
-            // $content->body(WebArea::tree());
+             $content->row(function (Row $row) {
+                $row->column(6, $this->treeView()->render());
+             });  
+            // $content->body($this->grid());
+        });
+    }
 
-            //$content->body($this->grid());
+    /**
+     * @return \Encore\Admin\Tree
+     */
+    protected function treeView()
+    {
+        return WebArea::tree(function (Tree $tree) {
+            $tree->disableCreate();
         });
     }
 

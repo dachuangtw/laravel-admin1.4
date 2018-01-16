@@ -92,8 +92,8 @@ class WebLocationController extends Controller
             //        return WebArea::find($city_id)->area_name;
             // });
             $grid->store_name(trans('admin::lang.store_name'));
-            $grid->created_at(trans('admin::lang.created_at'));
-            $grid->updated_at(trans('admin::lang.updated_at'));
+            // $grid->created_at(trans('admin::lang.created_at'));
+            // $grid->updated_at(trans('admin::lang.updated_at'));
             $states = [
                 'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
                 'off' => ['value' => 2, 'text' => 'OFF', 'color' => 'danger'],
@@ -111,26 +111,21 @@ class WebLocationController extends Controller
     protected function form()
     {
         return Admin::form(WebLocation::class, function (Form $form) {
-            $form->method('GET');
             
             $form->tab('店鋪基本資料', function ($form) {
 
                 $form->display('location_id', trans('admin::lang.store_id'));
                 $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
+                $form->select('area_id', trans('admin::lang.location_area'))
+                ->options(
+                    [''=>'--- 請選擇 ---'] + DB::table('warehouse')->pluck('w_name','wid')->toArray()
+                )->rules('required');
                 $form->select('city_id', trans('admin::lang.city_id'))->options(
-                    // DB::connection('mysql2')->table('city')->pluck('city_name', 'city_id')
-                    Location::pluck('city_name', 'city_id')
+                    [''=>'--- 請選擇 ---'] + WebArea::City()->pluck('area_name', 'id')->toArray()
                 )->load('district_id', '/admin/api/tw/district')->rules('required');
                 $form->select('district_id', trans('admin::lang.district_id'))->options(function ($id) {
                     return WebArea::options($id);
                 })->rules('required');
-
-                // $form->select('city_id', trans('admin::lang.city_id'))->options(
-                //     WebArea::City()->pluck('area_name', 'id')
-                // )->load('district_id', '/admin/api/tw/district')->rules('required');
-                // $form->select('district_id', trans('admin::lang.district_id'))->options(function ($id) {
-                //     return WebArea::options($id);
-                // })->rules('required');
                 $form->text('store_address', trans('admin::lang.store_address'))->rules('required');
 
                 $form->divide();
@@ -139,13 +134,18 @@ class WebLocationController extends Controller
                 $form->currency('store_rents', trans('admin::lang.store_rents'))->symbol('$')->options(['mask' => '']);
                 $form->currency('store_deposit', trans('admin::lang.store_deposit'))->symbol('$')->options(['mask' => '']);
                 $form->text('store_contractor', trans('admin::lang.store_contractor'));
+                $states = [
+                    'on'  => ['value' => 1, 'text' => '開店', 'color' => 'success'],
+                    'off' => ['value' => 0, 'text' => '閉店', 'color' => 'danger'],
+                ];
+
+                $form->switch('store_status', trans('admin::lang.status'))->states($states);
                 // $form->select('sales', trans('admin::lang.store_sales'))
                 // ->options(Sales::all()->pluck('sales_name','sid'));
 
             })->tab('網頁顯示', function ($form) {
 
-                $form->editor('map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
-                //$form->map($latitude, $longitude,'GPS'); //經度,緯度
+                // $form->editor('store_map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
                 $form->image('store_picture', trans('admin::lang.store_pic'))->move('/location','store_pic');
                 $states = [
                     'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
@@ -167,8 +167,7 @@ class WebLocationController extends Controller
     public function district(Request $request)
     {
         $cityId = $request->get('q');
-        // return   DB::connection('mysql2')->table('district')->where('city_id',$cityId)->get(['district_id', DB::raw('district_name as text')]);
-        return WebArea::where('city_id', $cityId)->get(['district_id', DB::raw('district_name as text')]);
+        return WebArea::District()->where('parent_id', $cityId)->get(['id', DB::raw('area_name as text')]);
     }
 }
 

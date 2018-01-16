@@ -1,15 +1,15 @@
 @if(Admin::user()->visible($item['roles']))
     @if(!isset($item['children']))
         <li>
-            <a href="{{ Admin::url($item['uri']) }}"><i class="fa {{$item['icon']}}"></i>
-                <span>{{$item['title']}}</span>
+            <a href="{{ Admin::url($item['uri']) }}"><i style="font-size:medium;" class="fa {{$item['icon']}}"></i>
+                <span  style="font-size:medium;">{{$item['title']}}</span>
             </a>
         </li>
     @else
         <li class="treeview">
             <a href="#">
-                <i class="fa {{$item['icon']}}"></i>
-                <span>{{$item['title']}}</span>
+                <i style="font-size:medium;" class="fa {{$item['icon']}}"></i>
+                <span style="font-size:medium;">{{$item['title']}}</span>
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">

@@ -109,7 +109,7 @@ class SalesNoteController extends Controller
 
             $form->text('note_title', trans('admin::lang.title'))->rules('required');
             $form->datetime('note_at', trans('admin::lang.note_at'))->default(date("Y-m-d G:i:s"));
-            $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(Sales::all()->pluck('sales_name', 'sid'))->help('預設為全部');
+            $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(Sales::all()->pluck('name', 'sales_id'))->help('預設為全部');
             $form->editor('note_content', trans('admin::lang.note_content'));
             $form->hidden('update_user')->value(Admin::user()->id);
             $form->display('created_at',trans('admin::lang.created_at'));

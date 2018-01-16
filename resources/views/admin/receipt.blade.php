@@ -56,16 +56,16 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 60px; left: 333px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('st_stock') }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: 80px; left: 393px;">
                                             @if(!empty($stock[$key]))
-                                            @if(count($stock[$key]) == 1 && $val = $stock[$key][0])
-                                            <input type="hidden" name="stid[]" value="{{ $val['stid'] }}">
-                                            {{ $val['st_type'] }}
-                                            @else
-                                            <select name="stid[]">
-                                                @foreach($stock[$key] as $val)
-                                                    <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
-                                                @endforeach
-                                            </select>
-                                            @endif
+                                                @if(count($stock[$key]) == 1 && $val = $stock[$key][0])
+                                                <input type="hidden" name="stid[]" value="{{ $val['stid'] }}">
+                                                {{ $val['st_type'] }}
+                                                @else
+                                                <select name="stid[]">
+                                                    @foreach($stock[$key] as $val)
+                                                        <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @endif
                                             @else
                                                 <input type="hidden" name="stid[]" value="">
                                                 不分款

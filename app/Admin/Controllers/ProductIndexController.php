@@ -124,8 +124,19 @@ class ProductIndexController extends Controller
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('product'));
 
-                    $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
+                    $form->select('StockCategory', trans('admin::lang.stock_category'))->options(
+                        StockCategory::all()->sortBy('sc_sort')->pluck('sc_name', 'sc_number')->transform(function ($item, $key) {
+                            return $key.' - '.$item;
+                        })
+                    );
+                    $form->select('ProductSupplier', trans('admin::lang.product_supplier'))->options(
+                        ProductSupplier::all()->pluck('sup_name', 'sup_number')->transform(function ($item, $key) {
+                            return $key.' - '.$item;
+                        })
+                    );
+                    $form->hidden('p_number');
 
+                    $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
                     $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
                     $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
                     
@@ -349,19 +360,25 @@ class ProductIndexController extends Controller
             $grid->exporter($exporter);
 
             //顯示匯入按鈕
-            $grid->allowImport();
+            // $grid->allowImport();
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
                 $actions->setTitleField(['p_name']);
             });
+            $states = [
+                'on'  => ['value' => 1, 'text' => 'YES', 'color' => 'success'],
+                'off' => ['value' => 2, 'text' => 'No', 'color' => 'danger'],
+            ];
+            $grid->showfront(trans('admin::lang.showfront'))->status()->switch($states);
+            $grid->showsales(trans('admin::lang.showsales'))->status()->switch($states);
 
-            $grid->showfront('前台顯示')->value(function ($showfront) {
-                return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
-            });
-            $grid->showsales('業務顯示')->value(function ($showsales) {
-                return $showsales ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
-            });
+            // $grid->showfront('前台顯示')->value(function ($showfront) {
+            //     return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
+            // });
+            // $grid->showsales('業務顯示')->value(function ($showsales) {
+            //     return $showsales ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
+            // });
             $grid->updated_at(trans('admin::lang.updated_at'));
             $grid->model()->orderBy('pid', 'desc');
             $grid->define_preg(url('/admin/product'),'返回');

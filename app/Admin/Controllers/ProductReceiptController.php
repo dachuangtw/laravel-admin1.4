@@ -39,11 +39,11 @@ class ProductReceiptController extends Controller
         foreach($receiptdetails as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
             // $stock[$key] = Stock::where('pid',$value->pid)->where('wid',$value->wid)->get()->toArray();
-            $stock = Stock::where('pid',$value->pid)->where('wid',$value->wid)->pluck('st_type','stid');
+            $stock[$value->stid] = Stock::where('stid',$value->stid)->pluck('st_type')[0];
         }
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        $data = compact('products','rowTop','rowEvenOdd','receiptdetails','firsttime');
+        $data = compact('products','rowTop','rowEvenOdd','receiptdetails','firsttime','stock');
 
         return view('admin::receiptedit', $data);
     }
@@ -564,9 +564,8 @@ SCRIPT;
                             if(!empty($stidArray[$key])){
 
                                 $retailStock = Stock::find($stidArray[$key])->st_stock ?: 0;
-                                $deleteStock = $deleteStockArray[$stidArray[$key]] ?: 0;
 
-                                $st_stock = (int) $retailStock - (int) $deleteStock + (int) $val['red_quantity'];
+                                $st_stock = (int) $retailStock + (int) $val['red_quantity'];
 
                                 $updateStockArray = [                                
                                     'st_stock'   =>  $st_stock,
@@ -574,6 +573,7 @@ SCRIPT;
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                                 Stock::where('stid',$stidArray[$key])->update($updateStockArray);
+                                $insertProductReceiptArray[$key]['stid'] = $stidArray[$key];
                             }else{
                                 $st_stock = $val['red_quantity'];
                                 $insertStockArray = [

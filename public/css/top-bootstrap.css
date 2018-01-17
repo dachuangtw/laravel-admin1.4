@@ -1593,7 +1593,9 @@ pre code {
   }
 }
 @media (min-width: 1200px) {
-  .container 
+  .container {
+    width: 1170px;
+   }
 }
 .container-fluid {
   padding-right: 15px;
@@ -3439,7 +3441,7 @@ tbody.collapse.in {
   font-size: 14px;
   text-align: left;
   list-style: none;
-  background-color: #fff;
+  background-color: #46bcf7a6;
   -webkit-background-clip: padding-box;
           background-clip: padding-box;
   border: 1px solid #ccc;

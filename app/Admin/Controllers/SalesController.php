@@ -5,7 +5,7 @@ namespace App\Admin\Controllers;
 use App\Sales;
 use App\Warehouse;
 use App\WebLocation;
-
+use Encore\Admin\Auth\Permission;
 use App\Admin\Extensions\Tools\SalesResign;
 
 use Encore\Admin\Form;
@@ -28,6 +28,7 @@ class SalesController extends Controller
      */
     public function index()
     {
+        Permission::check(['reader']);        
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales'));
@@ -48,6 +49,7 @@ class SalesController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.sales'));
@@ -68,6 +70,7 @@ class SalesController extends Controller
      */
     public function create()
     {
+        Permission::check(['creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales'));
@@ -102,18 +105,28 @@ class SalesController extends Controller
             //查詢過濾器
             $grid->filter(function($filter){
                 // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
-                $filter->useModal();
+                // $filter->useModal();
                 // 禁用id查询框
                 $filter->disableIdFilter();
                 // sql: ... WHERE `user.name` LIKE "%$name%";
-                $filter->like('sales_name', trans('admin::lang.salesname'));
-                $filter->like('sales_id', trans('admin::lang.sales_id'));
+                $filter->like('name', trans('admin::lang.salesname'));
+                // $filter->like('sales_id', trans('admin::lang.sales_id'));
             });
 
-            $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
-            $grid->area_id(trans('admin::lang.location_area'))->sortable()->display(function($wid) {
-                   return Warehouse::find($wid)->w_name;
-               });
+            // $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
+            $grid->number('No.')->sortable();
+            $grid->rows(function ($row, $number) {
+                $row->column('number', $number+1);
+            });
+
+            //超級管理員可看到所有業務資料，其他為各倉庫
+            if(Admin::user()->isAdministrator()){
+                $grid->area_id(trans('admin::lang.location_area'))->sortable()->display(function($wid) {
+                    return Warehouse::find($wid)->w_name;
+                })->label('info');
+            }else{
+                $grid->model()->where('area_id', '=', Admin::user()->wid);
+            }
             $grid->name(trans('admin::lang.salesname'));
             $grid->collect_at(trans('admin::lang.collect_at'));
             $grid->created_at( trans('admin::lang.created_at'));
@@ -148,8 +161,15 @@ class SalesController extends Controller
                 $form->divide();
                 $form->text('name', trans('admin::lang.salesname'))->rules('required');
                 $form->text('nickname', trans('admin::lang.nickname'));
-                $form->select('area_id', trans('admin::lang.location_area'))
-                ->options(Warehouse::all()->pluck('w_name','wid'));
+
+                if(Admin::user()->isAdministrator()){
+                    //超級管理員可以自行選擇倉庫
+                    $form->select('area_id', trans('admin::lang.location_area'))
+                    ->options(Warehouse::all()->pluck('w_name','wid'));
+                }else{
+                    //非超級管理員使用本身綁定的倉庫id
+                    $form->hidden('area_id')->default(Admin::user()->wid);
+                }
                 // $form->multipleSelect('store_location',trans('admin::lang.web_location'))
                 // ->options(WebLocation::all()->pluck('store_name', 'id'));
 

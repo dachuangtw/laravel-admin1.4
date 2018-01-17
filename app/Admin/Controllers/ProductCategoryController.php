@@ -30,7 +30,9 @@ class ProductCategoryController extends Controller
 
             $content->header(trans('admin::lang.product_category'));
             $content->description(trans('admin::lang.list'));
-            
+             $content->breadcrumb(
+                ['text' => trans('admin::lang.product_category')]
+            );            
             //$content->body(ProductCategory::tree());
 
             $content->row(function (Row $row) {
@@ -75,7 +77,10 @@ class ProductCategoryController extends Controller
 
             $content->header(trans('admin::lang.product_category'));
             $content->description(trans('admin::lang.edit'));
-
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.product_category'), 'url' => '/product/category'],
+                ['text' => trans('admin::lang.edit')]
+            ); 
             $content->body($this->form()->edit($id));
         });
     }
@@ -91,7 +96,10 @@ class ProductCategoryController extends Controller
 
             $content->header(trans('admin::lang.product_category'));
             $content->description(trans('admin::lang.create'));
-
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.product_category'), 'url' => '/product/category'],
+                ['text' => trans('admin::lang.create')]
+            ); 
             $content->body($this->form());
         });
     }

@@ -30,6 +30,9 @@ class WarehouseController extends Controller
 
             $content->header(trans('admin::lang.warehouse'));
             $content->description(trans('admin::lang.list'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.warehouse')]
+            );            
 
             // $content->body($this->grid());
 
@@ -93,6 +96,10 @@ class WarehouseController extends Controller
 
             $content->header(trans('admin::lang.warehouse'));
             $content->description(trans('admin::lang.edit'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.warehouse'), 'url' => '/warehouse'],
+                ['text' => trans('admin::lang.edit')]
+            );  
 
             $content->body($this->form()->edit($id));
         });
@@ -109,6 +116,10 @@ class WarehouseController extends Controller
 
             $content->header(trans('admin::lang.warehouse'));
             $content->description(trans('admin::lang.create'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.warehouse'), 'url' => '/warehouse'],
+                ['text' => trans('admin::lang.create')]
+            );  
 
             $content->body($this->form());
         });

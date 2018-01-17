@@ -27,9 +27,12 @@ class WebAreaController extends Controller
 
             $content->header(trans('admin::lang.web_area'));
             $content->description(trans('admin::lang.list'));
-             $content->row(function (Row $row) {
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.web_area')]
+            );
+            $content->row(function (Row $row) {
                 $row->column(6, $this->treeView()->render());
-             });  
+            });  
             // $content->body($this->grid());
         });
     }
@@ -56,6 +59,10 @@ class WebAreaController extends Controller
 
             $content->header(trans('admin::lang.web_area'));
             $content->description(trans('admin::lang.edit'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.web_area'), 'url' => '/web/area'],
+                ['text' => trans('admin::lang.edit')]
+            );
 
             $content->body($this->form()->edit($id));
         });
@@ -72,6 +79,10 @@ class WebAreaController extends Controller
 
             $content->header(trans('admin::lang.web_area'));
             $content->description(trans('admin::lang.new'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.web_area'), 'url' => '/web/area'],
+                ['text' => trans('admin::lang.new')]
+            );
 
             $content->body($this->form());
         });

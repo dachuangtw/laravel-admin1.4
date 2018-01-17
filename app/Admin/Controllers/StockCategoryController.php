@@ -30,7 +30,9 @@ class StockCategoryController extends Controller
 
             $content->header(trans('admin::lang.stock_category'));
             $content->description(trans('admin::lang.list'));
-
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.stock_category')]
+            );
             $content->row(function (Row $row) {
                 $row->column(6, $this->treeView()->render());
 
@@ -75,6 +77,10 @@ class StockCategoryController extends Controller
 
             $content->header(trans('admin::lang.stock_category'));
             $content->description(trans('admin::lang.edit'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.stock_category'), 'url' => '/category'],
+                ['text' => trans('admin::lang.edit')]
+            );
 
             $content->body($this->form()->edit($id));
         });

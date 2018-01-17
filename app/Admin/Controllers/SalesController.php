@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Sales;
 use App\Warehouse;
 use App\WebLocation;
+
 use App\Admin\Extensions\Tools\SalesResign;
 
 use Encore\Admin\Form;
@@ -14,6 +15,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
 {
@@ -30,6 +32,9 @@ class SalesController extends Controller
 
             $content->header(trans('admin::lang.sales'));
             $content->description(trans('admin::lang.list'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales')]
+            );
 
             $content->body($this->grid());
         });
@@ -47,6 +52,10 @@ class SalesController extends Controller
 
             $content->header(trans('admin::lang.sales'));
             $content->description(trans('admin::lang.edit'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales'), 'url' => '/sales'],
+                ['text' => trans('admin::lang.edit')]
+            );
 
             $content->body($this->form()->edit($id));
         });
@@ -63,6 +72,10 @@ class SalesController extends Controller
 
             $content->header(trans('admin::lang.sales'));
             $content->description(trans('admin::lang.new'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales'), 'url' => '/sales'],
+                ['text' => trans('admin::lang.new')]
+            );
 
             $content->body($this->form());
         });
@@ -84,7 +97,7 @@ class SalesController extends Controller
             $grid->tools(function ($tools) {
                 $tools->append(new SalesResign());
             });
-            $grid->model()->orderBy('sid', 'desc');
+            $grid->model()->orderBy('sales_id', 'desc');
             $grid->disableImport();//關閉匯入按鈕
             //查詢過濾器
             $grid->filter(function($filter){
@@ -97,15 +110,14 @@ class SalesController extends Controller
                 $filter->like('sales_id', trans('admin::lang.sales_id'));
             });
 
-            $grid->sid(trans('ID'))->sortable();
-            $grid->wid(trans('admin::lang.warehouse'))->sortable()->display(function($wid) {
+            $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
+            $grid->area_id(trans('admin::lang.location_area'))->sortable()->display(function($wid) {
                    return Warehouse::find($wid)->w_name;
                });
-            $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
-            $grid->sales_name(trans('admin::lang.salesname'));
-            // $grid->collect_at(trans('admin::lang.collect_at'));
-            //$grid->created_at( trans('admin::lang.created_at'));
-            //$grid->updated_at( trans('admin::lang.updated_at'));
+            $grid->name(trans('admin::lang.salesname'));
+            $grid->collect_at(trans('admin::lang.collect_at'));
+            $grid->created_at( trans('admin::lang.created_at'));
+            $grid->updated_at( trans('admin::lang.updated_at'));
         });
     }
 
@@ -120,8 +132,9 @@ class SalesController extends Controller
             $form->model()->makeVisible('password');
 
             $form->tab('基本資料', function (Form $form) {
-                //$form->display('sid', 'ID');
-                $form->text('sales_id', trans('admin::lang.sales_id'))->rules('required');
+
+                $form->display('sales_id', trans('admin::lang.sales_id'));
+                $form->text('account','帳號')->rules('required');
                 $form->password('password', trans('admin::lang.password'))->rules('required|confirmed')->default(function ($form) {
                     return $form->model()->password;
                 });
@@ -133,12 +146,12 @@ class SalesController extends Controller
                 $form->ignore(['password_confirmation']);
 
                 $form->divide();
-                $form->text('sales_name', trans('admin::lang.salesname'))->rules('required');
+                $form->text('name', trans('admin::lang.salesname'))->rules('required');
                 $form->text('nickname', trans('admin::lang.nickname'));
-                $form->select('wid', trans('admin::lang.warehouse'))
+                $form->select('area_id', trans('admin::lang.location_area'))
                 ->options(Warehouse::all()->pluck('w_name','wid'));
-                $form->multipleSelect('store_location',trans('admin::lang.web_location'))
-                ->options(WebLocation::all()->pluck('store_name', 'id'));
+                // $form->multipleSelect('store_location',trans('admin::lang.web_location'))
+                // ->options(WebLocation::all()->pluck('store_name', 'id'));
 
                 $form->divide();
                 $form->radio('resign', trans('admin::lang.resign'))->options(['t' => '是','f' => '否'])->default('f');
@@ -146,7 +159,6 @@ class SalesController extends Controller
 
             })->tab('聯絡資訊', function (Form $form) {
 
-                $form->text('email', 'Email');
                 $form->mobile('cellphone',trans('admin::lang.cellphone'))->options(['mask' => '9999 999 999']);;
                 $form->textarea('remarks',trans('admin::lang.notes'));
 

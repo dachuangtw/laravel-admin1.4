@@ -37,8 +37,10 @@ class SalesAssignController extends Controller
 
             $content->header(trans('admin::lang.sales_assign'));
             $content->description(trans('admin::lang.list'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales_assign')]
+            );
             
-
             $content->row(function (Row $row) {
                 $row->column(5, function (Column $column){
                     $count = SalesAssign::where('assign_id', date('Ymd'))->count();
@@ -67,6 +69,10 @@ class SalesAssignController extends Controller
 
             $content->header(trans('admin::lang.sales_assign'));
             $content->description(trans('admin::lang.edit'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales_assign'), 'url' => '/sales/assign'],
+                ['text' => trans('admin::lang.edit')]
+            );
             $content->body($this->form()->edit($id));
 
         });
@@ -84,6 +90,10 @@ class SalesAssignController extends Controller
 
             $content->header(trans('admin::lang.sales_assign'));
             $content->description(trans('admin::lang.create'));   
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales_assign'), 'url' => '/sales/assign'],
+                ['text' => trans('admin::lang.create')]
+            );
             $content->body($this->form());
 
         });
@@ -147,9 +157,8 @@ class SalesAssignController extends Controller
 
             //$form->display('id', 'ID');
             // $form->setView('admin::product2');
-            //判斷是否為編輯狀態
-            $segment = Request::segment(5);//請求片段(5)        
-            if ($segment == 'edit') {
+            //判斷是否為編輯狀態     
+            if(strpos(url()->current(), '/edit') !== false) {
                 $form->display('assign_date',trans('admin::lang.assign_date'));
                 $form->display('assign_id',trans('admin::lang.assign_id'));
             } else {

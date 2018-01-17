@@ -32,6 +32,9 @@ class WebLocationController extends Controller
 
             $content->header(trans('admin::lang.web_location'));
             $content->description(trans('admin::lang.list'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.web_location')]
+            );
 
             $content->body($this->grid());
 
@@ -51,6 +54,10 @@ class WebLocationController extends Controller
 
             $content->header(trans('admin::lang.web_location'));
             $content->description(trans('admin::lang.edit'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.web_location'), 'url' => '/web/location'],
+                ['text' => trans('admin::lang.edit')]
+            );
 
             $content->body($this->form()->edit($id));
         });
@@ -67,6 +74,10 @@ class WebLocationController extends Controller
 
             $content->header(trans('admin::lang.web_location'));
             $content->description(trans('admin::lang.new'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.web_location'), 'url' => '/web/location'],
+                ['text' => trans('admin::lang.new')]
+            );
 
             $content->body($this->form());
         });

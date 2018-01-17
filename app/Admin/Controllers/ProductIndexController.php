@@ -90,7 +90,9 @@ class ProductIndexController extends Controller
 
             $content->header(trans('admin::lang.product_index'));
             $content->description(trans('admin::lang.list'));
-
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.product_index')]
+            );   
             $content->row(function (Row $row) {
                 /**
                  * 功能：搜尋商品，
@@ -259,7 +261,10 @@ class ProductIndexController extends Controller
 
             $content->header(trans('admin::lang.product_index'));
             $content->description(trans('admin::lang.edit'));
-
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.product_index'), 'url' => '/product'],
+                ['text' => trans('admin::lang.edit')]
+            );   
             $content->body($this->editform()->edit($id));
         });
     }
@@ -276,7 +281,10 @@ class ProductIndexController extends Controller
 
             $content->header(trans('admin::lang.product_index'));
             $content->description(trans('admin::lang.create'));            
-
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.product_index'), 'url' => '/product'],
+                ['text' => trans('admin::lang.create')]
+            ); 
             $content->body($this->form());
         });
     }

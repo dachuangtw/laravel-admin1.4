@@ -27,6 +27,9 @@ class SalesNoteController extends Controller
 
             $content->header(trans('admin::lang.sales_note'));
             $content->description(trans('admin::lang.list'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales_note')]
+            );
 
             $content->body($this->grid());
         });
@@ -44,7 +47,10 @@ class SalesNoteController extends Controller
 
             $content->header(trans('admin::lang.sales_note'));
             $content->description(trans('admin::lang.edit'));
-
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales_note'), 'url' => '/sales/note'],
+                ['text' => trans('admin::lang.edit')]
+            );
             $content->body($this->form()->edit($id));
         });
     }
@@ -60,6 +66,10 @@ class SalesNoteController extends Controller
 
             $content->header(trans('admin::lang.sales_note'));
             $content->description(trans('admin::lang.new'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.sales_note'), 'url' => '/sales/note'],
+                ['text' => trans('admin::lang.new')]
+            );
 
             $content->body($this->form());
         });

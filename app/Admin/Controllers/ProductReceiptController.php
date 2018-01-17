@@ -61,6 +61,9 @@ class ProductReceiptController extends Controller
 
             $content->header(trans('admin::lang.product_receipt'));
             $content->description(trans('admin::lang.list'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.product_receipt')]
+            );             
 
             $content->row(function (Row $row) {
                 $row->column(4, function (Column $column) {
@@ -155,6 +158,10 @@ class ProductReceiptController extends Controller
 
             $content->header(trans('admin::lang.product_receipt'));
             $content->description(trans('admin::lang.edit'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.product_receipt'), 'url' => '/product/receipt'],
+                ['text' => trans('admin::lang.edit')]
+            );             
 
             $content->body($this->editform()->edit($id));
             $script = <<<SCRIPT
@@ -176,7 +183,10 @@ SCRIPT;
 
             $content->header(trans('admin::lang.product_receipt'));
             $content->description(trans('admin::lang.create'));
-
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.product_receipt'), 'url' => '/product/receipt'],
+                ['text' => trans('admin::lang.create')]
+            );   
             $content->body($this->form());
         });
     }

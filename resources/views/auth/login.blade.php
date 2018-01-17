@@ -1,6 +1,8 @@
 {{--  @extends('layouts.app')  --}}
 @extends('layouts.website')
 @section('title','登入')
+@section('banner')
+@show
 @section('content')
 <div class="account">
 	<div class="container">

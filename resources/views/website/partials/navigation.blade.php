@@ -1,6 +1,6 @@
 <div class="navigation">
     @section('navigation')
-    <div class="navigation-agileits">
+    <div class="navigation-agileits navbar-collapse-center">
 		<div class="container">
 			<nav class="navbar navbar-default">
 			    <!-- Brand and toggle get grouped for better mobile display -->
@@ -13,7 +13,7 @@
 				    </button>
 			    </div> 
 			    <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
-				    <ul class="nav navbar-nav">
+				    <ul class="nav navbar-nav navbar-center">
 					    <li class="active"></li>	
 					    <!-- Mega Menu -->
 					    <li class="dropdown">
@@ -164,5 +164,37 @@
             paypal.minicart.reset();
         }
     </script>	
+    <script type="text/javascript">
+        $(function() {
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300)  {          /* 要滑動到選單的距離 */
+                    $('.navigation-agileits').addClass('navFixed');   /* 幫選單加上固定效果 */
+                } else {
+                    $('.navigation-agileits').removeClass('navFixed'); /* 移除選單固定效果 */
+                }
+            });
+        });
+    </script> 
+    <style>
+    .navFixed {
+        z-index: 10;          
+        position: fixed;      
+        top: 0;
+        left: 0;
+        margin-top: 0;
+        min-width: 100%;
+        opacity: 0.94;
+        transition: opacity .5s ease-out;   
+    }
+    .navbar-center {
+        display: inline-block;
+        float: none;
+        vertical-align: top;
+    }
+
+    .navbar-collapse-center {
+        text-align: center;
+    }
+    </style> 
 @show
 </div>

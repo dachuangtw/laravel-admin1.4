@@ -1,5 +1,5 @@
 @extends('layouts.website')
-
+@section('title','登入')
 @section('content')
 <div class="container">
     <div class="row">
@@ -11,7 +11,7 @@
                             {{ session('status') }}
                         </div>
                     @endif  
-                    {{ Auth::user()->name }} 登入成功!
+                    Hi~ {{ Auth::user()->name }} 登入成功!
                     <meta http-equiv="refresh" content="3;URL=/">
             </div>
         </div>

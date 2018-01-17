@@ -6,7 +6,7 @@ return [
     'logout'                =>    '登出', 
     'setting'               =>    '設置', 
     'name'                  =>    '名稱' , 
-    'username'              =>    '用戶名', 
+    'username'              =>    '帳號', 
     'password'              =>    '密碼', 
     'password_confirmation' =>    '確認密碼', 
     'remember_me'           =>    '記住我', 

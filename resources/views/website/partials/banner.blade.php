@@ -2,7 +2,7 @@
 <div class="banner">
     @section('banner')
 	<div class="col-sm-3 banner-mat">
-		<img class="img-responsive"	src="images/ba1.jpg" alt="">
+		{{--  <img class="img-responsive"	src="images/ba1.jpg" alt="">  --}}
 	</div>
 	<div class="col-sm-6 matter-banner">
 	 	<div class="slider">

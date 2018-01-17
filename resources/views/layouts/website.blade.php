@@ -8,7 +8,9 @@
 
   <body>
       @include('website.partials.navigation')
-      {{--  @include('website.partials.banner')  --}}
+      @section('banner')
+        @include('website.partials.banner')
+      @show
       <div class="container">
             @yield('content')
       </div>

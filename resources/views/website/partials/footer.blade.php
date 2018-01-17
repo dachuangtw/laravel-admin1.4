@@ -29,9 +29,10 @@
 				  <div class="col-sm-3 footer-bottom-cate">
 					  <h6>大創娃娃屋</h6>
 					  <ul>
-						  <li><a href="index.html">首頁</a></li>
+						  <li><a href="/">首頁</a></li>
 						  <li><a href="products.html">全部商品</a></li>
-					  	<li><a href="https://www.facebook.com/daisodoll/">粉絲團</a></li>						
+							<li><a href="https://www.facebook.com/daisodoll/">粉絲團</a>		
+							<i class="fa fa-facebook-official" aria-hidden="true"></i></li>				
 					  </ul>
 				  </div>
 				  <div class="col-sm-3 footer-bottom-cate cate-bottom">
@@ -39,7 +40,7 @@
 					  <ul>
 						  <li>台中市東區復興路四段114號</li>
 						  <li>LINE：@uph8721c</li>
-						  <li>ele0935723121@yahoo.com.tw</li>
+						  {{--  <li>ele0935723121@yahoo.com.tw</li>  --}}
 					  </ul>
 				  </div>
 				  <div class="clearfix"> </div>

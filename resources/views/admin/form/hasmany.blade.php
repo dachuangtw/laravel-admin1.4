@@ -39,7 +39,7 @@
             <div class="form-group">
                 <label class="col-sm-{{$width['label']}} control-label"></label>
                 <div class="col-sm-{{$width['field']}}">
-                    <div class="remove btn btn-warning btn-sm pull-right"><i class="fa fa-trash"></i>&nbsp;{{ trans('admin::lang.product_type') }}{{ trans('admin::lang.remove') }}</div>
+                    <div class="remove btn btn-warning btn-sm pull-right"><i class="fa fa-trash">&nbsp;</i>{{ trans('admin::lang.remove') }}</div>
                 </div>
             </div>
             <hr>
@@ -49,7 +49,7 @@
     <div class="form-group">
         <label class="col-sm-{{$width['label']}} control-label"></label>
         <div class="col-sm-{{$width['field']}}">
-            <div class="add btn btn-success btn-sm"><i class="fa fa-plus-square-o"></i>&nbsp;{{ trans('admin::lang.product_type') }}{{ trans('admin::lang.stock') }}</div>
+            <div class="add btn btn-success btn-sm"><i class="fa fa-plus-square-o">&nbsp;</i>{{ trans('admin::lang.new') }}</div>
         </div>
     </div>
 

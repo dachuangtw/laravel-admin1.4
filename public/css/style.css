@@ -248,7 +248,7 @@ ul.callbacks_tabs.callbacks1_tabs {
 	position: relative;
 	bottom: 15px;
 	z-index: 999;
-	left: 37%;
+  text-align:center;
 }
 .banner{
 	border-bottom:1px solid #bcbcbc;

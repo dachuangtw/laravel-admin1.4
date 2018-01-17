@@ -61,7 +61,7 @@
 	<div class="agileits_header">
 		<div class="container">
 			<div class="w3l_offers">
-				<p>百種超夯超可愛商品。怎麼抓都不夠<a href="#">SHOP NOW</a></p>
+				<p>百種超夯超可愛商品。怎麼抓都不夠<a href="#"></a></p>
 			</div>
 			<div class="agile-login">
 				<ul>
@@ -70,34 +70,33 @@
 						<li><a href="{{ route('register') }}">註冊會員</a></li>
 					@else
 					<li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+							{{ Auth::user()->name }} <span class="caret"></span>
+						</a>
 
-                                <ul class="dropdown-menu" role="menu">
-									<li>
-										<a href="">
-                                            個人帳戶
-                                        </a>
-									</li>
-									<li>
-										<a href="">
-                                            交易紀錄
-                                        </a>
-									</li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            登出
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a href="">
+									個人帳戶
+								</a>
+							</li>
+							<li>
+								<a href="">
+									交易紀錄
+								</a>
+							</li>
+							<li>
+								<a href="{{ route('logout') }}"
+									onclick="event.preventDefault();
+											document.getElementById('logout-form').submit();">
+									登出
+								</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </li>
+                        </ul>
+                    </li>
 					@endif
 				</ul>
 			</div>

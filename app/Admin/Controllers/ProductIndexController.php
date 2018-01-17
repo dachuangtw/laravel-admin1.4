@@ -482,7 +482,7 @@ class ProductIndexController extends Controller
                     $firstTwoCode = request()->StockCategory.request()->ProductSupplier;
 
                     //取得商品資料庫中該分類的最大值
-                    $max_number = ProductIndex::where('p_number', 'like', $firstTwoCode.'%')
+                    $max_number = ProductIndex::withTrashed()->where('p_number', 'like', $firstTwoCode.'%')
                     ->max('p_number');
 
                     //取後六碼做+1計算

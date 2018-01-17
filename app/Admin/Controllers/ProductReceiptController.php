@@ -319,7 +319,7 @@ SCRIPT;
                     $Supplier = str_pad($Supplier,2,"0",STR_PAD_LEFT);
 
                     //取得該日該廠商進貨單號的最大值
-                    $max_number = ProductReceipt::where('re_number', 'like', $Todaydate.$Supplier.'%')
+                    $max_number = ProductReceipt::withTrashed()->where('re_number', 'like', $Todaydate.$Supplier.'%')
                     ->max('re_number');
                     
                     if(!empty($max_number)){

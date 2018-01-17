@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductSupplier extends Model
 {    
     use ModelTree, AdminBuilder;
-    //主題系列資料表
+    //廠商資料表
     protected $table = 'product_supplier';
     //主鍵
     protected $primaryKey = 'supid';

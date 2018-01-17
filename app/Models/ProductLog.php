@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductLog extends Model
 {
-    //商品主檔資料表
+    //資料表名稱
     protected $table = 'product_log';
 }

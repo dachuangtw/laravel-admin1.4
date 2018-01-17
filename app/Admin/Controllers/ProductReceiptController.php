@@ -450,12 +450,12 @@ SCRIPT;
                 elseif(request()->action == 'edit'){
 
                     //原本的進貨明細
-                    $retailRedid = ProductReceiptDetails::where('re_number',$form->re_number)->pluck('red_quantity','redid');
+                    $retailRedid = ProductReceiptDetails::where('re_number',$form->re_number)->pluck('red_quantity','redid')->toArray();
                     // $retailProductReceipt = ProductReceiptDetails::where('re_number',$form->re_number)->get()->toArray();
 
                     //欲刪除的進貨明細 - 使用unset($deleteRedid[$redid])移除沒有要刪除的進貨明細
-                    $deleteRedid = $retailRedid;
-
+                    $deleteRedid = array_keys($retailRedid);
+                    
                     /**
                      *  進貨明細更新
                      *  方法1. 
@@ -495,7 +495,8 @@ SCRIPT;
                             ProductReceiptDetails::find($redid[$key])->update($updateProductReceiptArray);
 
                             //此筆進貨明細不刪
-                            unset($deleteRedid[$redid[$key]]);
+                            $unsetKey = array_search($redid[$key],$deleteRedid);
+                            unset($deleteRedid[$unsetKey]);
 
 
                             /* 商品成本變更 */
@@ -644,7 +645,7 @@ SCRIPT;
                                 $insertStockLogArray[] = [
                                     'pid'          =>  $val['pid'],
                                     'wid'          =>  Admin::user()->wid,
-                                    'stid'         =>  $stidArray[$key],
+                                    'stid'         =>  $insertProductReceiptArray[$key]['stid'],
                                     'sl_calc'      =>  ($st_stock - $retailStock) > 0 ? '+' : '-',
                                     'sl_quantity'  =>  ($st_stock - $retailStock) > 0 
                                                             ? ($st_stock - $retailStock) 
@@ -662,6 +663,29 @@ SCRIPT;
                         ProductReceiptDetails::insert($insertProductReceiptArray);
                     }
                     //刪除沒有的
+
+                    $ProductReceiptDetails = ProductReceiptDetails::whereIn('redid',$deleteRedid)->pluck('red_quantity','stid');
+
+                    $insertStockLogArray = [];
+                    foreach($ProductReceiptDetails as $stid => $quantity){
+                        $stock = Stock::where('stid',$stid)->select('pid', 'wid','st_stock')->first();
+
+                        $st_stock = (int) $stock->st_stock - (int) $quantity;
+                        Stock::find($stid)->update(['st_stock' => $st_stock]);
+
+                        $insertStockLogArray[] = [
+                            'pid'          =>  $stock->pid,
+                            'wid'          =>  $stock->wid,
+                            'stid'         =>  $stid,
+                            'sl_calc'      =>  '-',
+                            'sl_quantity'  =>  $quantity,
+                            'sl_stock'     =>  $st_stock,
+                            'sl_notes'     =>  '進貨單：'.$form->re_number.'-明細刪除',
+                            'update_user'  =>  Admin::user()->id,
+                            'update_at'    =>  date('Y-m-d H:i:s'),
+                        ];
+                    }
+                    $insertStockLogArray && StockLog::insert($insertStockLogArray); 
                     ProductReceiptDetails::whereIn('redid',$deleteRedid)->delete();
                 }
                 $form->re_amount = $total;

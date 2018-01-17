@@ -19,7 +19,7 @@ class StockCategory extends Model
         $this->setTitleColumn('sc_name');
     }
 
-    //庫存資料表
+    //庫存分類資料表
     protected $table = 'stock_category';
     //主鍵
     protected $primaryKey = 'scid';

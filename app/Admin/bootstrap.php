@@ -17,9 +17,14 @@
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
+use App\Admin\Extensions\Column\ExpandRow;
+use Encore\Admin\Grid\Column;
 
 //Encore\Admin\Form::forget(['map', 'editor']);
 app('view')->prependNamespace('admin', resource_path('views/admin'));
 Admin::css('css/customize.css');
 Admin::js('js/customize.js');
 Admin::js('js/popper.min.js');
+
+//擴展
+Column::extend('expand', ExpandRow::class);

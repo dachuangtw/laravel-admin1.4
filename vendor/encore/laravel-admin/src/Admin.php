@@ -282,14 +282,17 @@ class Admin
         ], $attributes);
 
         Route::group($attributes, function ($router) {
+            $attributes = ['middleware' => 'admin.permission:allow,administrator'];
 
             /* @var \Illuminate\Routing\Router $router */
-            $router->get('terminal/database', 'Encore\Admin\Controllers\TerminalController@database');
-            $router->post('terminal/database', 'Encore\Admin\Controllers\TerminalController@runDatabase');
-            $router->get('terminal/artisan', 'Encore\Admin\Controllers\TerminalController@artisan');
-            $router->post('terminal/artisan', 'Encore\Admin\Controllers\TerminalController@runArtisan');
-            $router->get('scaffold', 'Encore\Admin\Controllers\ScaffoldController@index');
-            $router->post('scaffold', 'Encore\Admin\Controllers\ScaffoldController@store');
+            $router->group($attributes, function ($router) {
+                $router->get('terminal/database', 'Encore\Admin\Controllers\TerminalController@database');
+                $router->post('terminal/database', 'Encore\Admin\Controllers\TerminalController@runDatabase');
+                $router->get('terminal/artisan', 'Encore\Admin\Controllers\TerminalController@artisan');
+                $router->post('terminal/artisan', 'Encore\Admin\Controllers\TerminalController@runArtisan');
+                $router->get('scaffold', 'Encore\Admin\Controllers\ScaffoldController@index');
+                $router->post('scaffold', 'Encore\Admin\Controllers\ScaffoldController@store');
+            });
         });
     }
 }

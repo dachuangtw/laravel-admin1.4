@@ -10,6 +10,8 @@ class Warehouse extends Model
 {
     use ModelTree, AdminBuilder;
 
+    //DB2
+    protected $connection = 'mysql2';
     //倉庫資料表
     protected $table = 'warehouse';
 

@@ -15,6 +15,7 @@ class CreateTransferTable extends Migration
     {
         Schema::create('transfer', function (Blueprint $table) {
             $table->increments('tid')->comment('調撥單id');
+            $table->string('t_number',50)->comment('調撥單號');
             $table->integer('wid_send')->unsigned()->index()->comment('出貨倉庫id');
             $table->integer('wid_receive')->unsigned()->index()->comment('進貨倉庫id');
             $table->integer('send_user')->unsigned()->index()->comment('調撥人id');

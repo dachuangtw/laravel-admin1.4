@@ -3,11 +3,10 @@
 namespace App\Admin\Controllers;
 
 use Encore\Admin\Auth\Database\Administrator;
-use App\ProductReceipt;
-use App\ProductSupplier;
-use App\ProductReceiptDetails;
-use App\ProductIndex;
+use App\Transfer;
 use App\Warehouse;
+use App\TransferDetails;
+use App\ProductIndex;
 use App\Stock;
 use App\StockLog;
 use App\ProductLog;
@@ -27,21 +26,23 @@ use Illuminate\Support\MessageBag;
 use Encore\Admin\Auth\Permission;
 use App\Admin\Extensions\ExcelExpoter;
 
-class ProductReceiptController extends Controller
+class TransferController extends Controller
 {
     use ModelForm;
+
+
     /**
      * 回傳 進貨單明細
      */
-    public function receiptdetails($id)
+    public function transferdetail($id)
     {
         $stock = $rowWidth = $rowLeft = $rowTitle = [];
         $action = 'edit';
 
         $firsttime = true;
         
-        $re_number = ProductReceipt::find($id)->re_number;
-        $savedDetails = ProductReceiptDetails::ofselected($re_number) ?: [];
+        $re_number = Transfer::find($id)->re_number;
+        $savedDetails = TransferDetails::ofselected($re_number) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::find($value->pid);
             $stock[$value->stid] = Stock::find($value->stid)->st_type;
@@ -66,25 +67,29 @@ class ProductReceiptController extends Controller
         Permission::check(['reader']);
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_receipt'));
+            $content->header(trans('admin::lang.transfer'));
             $content->description(trans('admin::lang.list'));
             $content->breadcrumb(
-                ['text' => trans('admin::lang.product_receipt')]
+                ['text' => trans('admin::lang.transfer')]
             );             
 
             $content->row(function (Row $row) {
                 $row->column(4, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('product/receipt'));
+                    $form->action(admin_url('product/transfer'));
                     $form->method('GET');
 
-                    $form->dateRange('re_delivery[start]', 're_delivery[end]', '進貨日');
-                    $form->select('supid', trans('admin::lang.product_supplier'))->options(
-                        
-                        [''=>'--- 請選擇 ---'] + ProductSupplier::all()->pluck('sup_name', 'supid')->toArray()
-                    );
+                    $form->dateRange('send_at[start]', 'send_at[end]', '調撥日');
 
-                    $form->text('re_number', trans('admin::lang.re_number'));
+                    $warehouses = Warehouse::all()->pluck('w_name', 'wid')->toArray();
+                    $form->select('wid_send', trans('admin::lang.warehouse'))->options(
+                        
+                        [''=>'--- 請選擇 ---'] + $warehouses
+                    );
+                    $form->select('wid_receive', trans('admin::lang.warehouse'))->options(
+                        
+                        [''=>'--- 請選擇 ---'] + $warehouses
+                    );
 
                     $form->disableSubmit();
                     $form->disableReset();
@@ -109,24 +114,21 @@ class ProductReceiptController extends Controller
     {
         Permission::check(['reader']);
 
-        $receipt = ProductReceipt::find($id)->toArray();
+        $transfer = Transfer::find($id)->toArray();
 
         //忽略不顯示的欄位
-        $skipArray = ['reid','created_at','updated_at','deleted_at'];
+        $skipArray = ['tid','created_at','updated_at','deleted_at'];
         //顯示圖片欄位
         $imgArray = [];
         
-        //置換廠商id的內容
-        $receipt['product_supplier'] = ProductSupplier::find($receipt['supid'])->sup_name;
-        unset($receipt['supid']);
         //置換進貨倉庫id的內容
-        $receipt['warehouse'] = Warehouse::find($receipt['wid'])->w_name;
-        unset($receipt['wid']);
+        $transfer['warehouse'] = Warehouse::find($transfer['wid'])->w_name;
+        unset($transfer['wid']);
         //置換進貨人員id的內容
-        $receipt['re_user'] = Administrator::find($receipt['re_user'])->name;
+        $transfer['t_user'] = Administrator::find($transfer['t_user'])->name;
 
         $header[] = '進貨單資訊';
-        foreach($receipt as $key => $value){            
+        foreach($transfer as $key => $value){            
 
             if(in_array($key,$skipArray) || empty($value))
                 continue;
@@ -141,17 +143,17 @@ class ProductReceiptController extends Controller
         $table = new Table($header, $rows);
         $table->class('table table-hover');
 
-        $re_number = ProductReceipt::where('reid',$id)->pluck('re_number');
-        $savedDetails = ProductReceiptDetails::ofselected($re_number) ?: [];
-        foreach($savedDetails as $key => $value){
+        $t_number = Transfer::where('tid',$id)->pluck('t_number');
+        $transferdetail = TransferDetails::ofselected($t_number) ?: [];
+        foreach($transferdetail as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
         }
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        $data = compact('products','rowTop','rowEvenOdd','selected','savedDetails');
+        $data = compact('products','rowTop','rowEvenOdd','selected','transferdetail');
         
 
-        return $table->render().view('admin::receiptview', $data);
+        return $table->render().view('admin::transferview', $data);
     }
     /**
      * Edit interface.
@@ -163,16 +165,16 @@ class ProductReceiptController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header(trans('admin::lang.product_receipt'));
+            $content->header(trans('admin::lang.transfer'));
             $content->description(trans('admin::lang.edit'));
             $content->breadcrumb(
-                ['text' => trans('admin::lang.product_receipt'), 'url' => '/product/receipt'],
+                ['text' => trans('admin::lang.transfer'), 'url' => 'transfer'],
                 ['text' => trans('admin::lang.edit')]
             );             
 
             $content->body($this->editform()->edit($id));
             $script = <<<SCRIPT
-            ShowReceiptDetails();
+            ShowTransferDetails();
 SCRIPT;
          Admin::script($script);
                 
@@ -188,10 +190,10 @@ SCRIPT;
     {
         return Admin::content(function (Content $content) {
 
-            $content->header(trans('admin::lang.product_receipt'));
+            $content->header(trans('admin::lang.transfer'));
             $content->description(trans('admin::lang.create'));
             $content->breadcrumb(
-                ['text' => trans('admin::lang.product_receipt'), 'url' => '/product/receipt'],
+                ['text' => trans('admin::lang.transfer'), 'url' => 'transfer'],
                 ['text' => trans('admin::lang.create')]
             );   
             $content->body($this->form());
@@ -205,49 +207,61 @@ SCRIPT;
      */
     protected function grid()
     {
-        return Admin::grid(ProductReceipt::class, function (Grid $grid) {
+        return Admin::grid(Transfer::class, function (Grid $grid) {
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
-                $filter->is('supid', trans('admin::lang.product_supplier'));
-                $filter->like('re_number',trans('admin::lang.re_number'));
-                $filter->between('re_delivery', trans('admin::lang.re_delivery'))->date();
+                $filter->is('wid_send', trans('admin::lang.wid_send'));
+                $filter->like('t_number',trans('admin::lang.t_number'));
+                $filter->between('send_at', trans('admin::lang.send_at'))->date();
             });
 
-            $grid->reid('ID')->sortable();
-            $grid->re_delivery(trans('admin::lang.re_delivery'))->display(function ($re_delivery) {                
-                return mb_substr($re_delivery,0,10,"utf-8");
+            $grid->tid('ID')->sortable();
+            $grid->send_at(trans('admin::lang.send_at'))->display(function ($send_at) {                
+                return mb_substr($send_at,0,10,"utf-8");
             })->sortable();
-            $grid->supid(trans('admin::lang.product_supplier'))->display(function ($supid) {
-                $supplier = ProductSupplier::ofSupplier($supid);
-                return $supplier->toArray()[0]['sup_name'];
+
+            $grid->wid_send(trans('admin::lang.wid_send'))->display(function ($wid_send) {
+                $warehouse = Warehouse::ofWarehouse($wid_send);
+                return $warehouse->toArray()[0]['w_name'];
             })->sortable();
-            $grid->re_number(trans('admin::lang.re_number'))->sortable();;
-            $grid->re_user(trans('admin::lang.re_user'))->display(function ($re_user) {                
-                return Administrator::find($re_user)->name;
+
+            $grid->wid_receive(trans('admin::lang.wid_receive'))->display(function ($wid_receive) {
+                $warehouse = Warehouse::ofWarehouse($wid_receive);
+                return $warehouse->toArray()[0]['w_name'];
             })->sortable();
+
+            $grid->receive_at(trans('admin::lang.receive_at'))->display(function ($receive_at) {                
+                return mb_substr($receive_at,0,10,"utf-8");
+            })->sortable();
+
+            $grid->t_number(trans('admin::lang.t_number'))->sortable();
             
-            $grid->re_amount(trans('admin::lang.re_amount'))->display(function ($re_amount) { 
-                if(strpos($re_amount,'.00'))               
-                    return (int) $re_amount;
+            $grid->t_amount(trans('admin::lang.t_amount'))->display(function ($t_amount) { 
+                if(strpos($t_amount,'.00'))               
+                    return (int) $t_amount;
                 else 
-                    return $re_amount;
+                    return $t_amount;
             })->sortable();
             
-            $grid->re_notes(trans('admin::lang.re_notes'))->display(function($re_notes) {
-                if($re_notes)
-                    return str_limit($re_notes, 10, '...');
-                else
-                    return '';
+
+            $grid->update_user(trans('admin::lang.update_user'))->display(function ($update_user) {                
+                return Administrator::find($update_user)->name;
+            })->sortable();
+
+            $grid->t_checked(trans('admin::lang.t_checked'))->value(function ($t_checked) {
+                return $t_checked ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
             });
+
+            
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions){
-                $actions->setTitleExtra('進貨單號：'); // 自訂，標題前面提示
-                $actions->setTitleField(['re_number']);
+                $actions->setTitleExtra('調撥單號：'); // 自訂，標題前面提示
+                $actions->setTitleField(['t_number']);
             });
 
             //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
-            $titles = ['supid', 'wid', 're_number', 're_user', 're_amount', 're_notes', 're_delivery'];
+            $titles = ['t_number', 'send_at', 'wid_sent', 'wid_receieve', 't_amount', 'receive_user'];
 
             $exporter = new ExcelExpoter();
             /**
@@ -256,24 +270,24 @@ SCRIPT;
              * 2：匯出Excel檔案名 string
              * 3：Excel製作人名稱 string
              */
-            $exporter->setDetails($titles,'進貨單',Admin::user()->name);
+            $exporter->setDetails($titles,'調撥單',Admin::user()->name);
             /**
              * setForeignKeys($foreignKeys)外部鍵設定
              */
             $foreignKeys = [
-                'supid'  =>  [
-                    'dbname' =>  'product_supplier',
-                    'id' =>  'supid',
-                    'target' =>  'sup_name',
-                ],
-                'wid'  =>  [
+                'wid_sent'  =>  [
                     'dbname' =>  'warehouse',
                     'id' =>  'wid',
                     'target' =>  'w_name',
                 ],
-                're_user'  =>  [
+                'wid_receieve'  =>  [
+                    'dbname' =>  'warehouse',
+                    'id' =>  'wid',
+                    'target' =>  'w_name',
+                ],
+                'receive_user'  =>  [
                     'dbname' =>  'Admin',
-                    'id' =>  're_user',
+                    'id' =>  'receive_user',
                     'target' =>  'name',
                 ],
             ];
@@ -282,7 +296,7 @@ SCRIPT;
 
             //顯示匯入按鈕
             // $grid->allowImport();
-            $grid->model()->orderBy('reid', 'desc');
+            $grid->model()->orderBy('tid', 'desc');
         });
     }
 
@@ -294,21 +308,21 @@ SCRIPT;
     protected function form()
     {
         Permission::check(['reader']);
-        return Admin::form(ProductReceipt::class, function (Form $form) {
-            $form->select('supid', trans('admin::lang.product_supplier'))->options(
-                ProductSupplier::all()->pluck('sup_name', 'supid')
-            );
-            $form->date('re_delivery', trans('admin::lang.re_delivery'));//->format('YYYY/MM/DD');
-            // $form->currency('re_amount', trans('admin::lang.re_amount'))->options(['digits' => 2]);
-            $form->textarea('re_notes', trans('admin::lang.notes'))->rows(2);
+        return Admin::form(Transfer::class, function (Form $form) {
 
-            $form->hidden('wid')->default(Admin::user()->wid);
-            $form->hidden('re_user')->default(Admin::user()->id);
-            $form->hidden('re_number');
-            $form->hidden('re_amount');
+            $form->select('wid_receive', trans('admin::lang.wid_receive'))->options(
+                Warehouse::all()->pluck('w_name', 'wid')
+            );
+            $form->date('send_at', trans('admin::lang.send_at'));
+            $form->textarea('t_notes', trans('admin::lang.notes'))->rows(2);
+
+            $form->hidden('wid_send')->default(Admin::user()->wid);
+            $form->hidden('send_user')->default(Admin::user()->id);
+            $form->hidden('t_number');
+            $form->hidden('t_amount');
 
             //btn-append有另外寫js的append功能
-            $form->button('btn-danger btn-append','+ 進貨商品')->on('click','ShowModal("product");');
+            $form->button('btn-danger btn-append','+ 選擇商品')->on('click','ShowModal("product");');
 
             /**
              * 不打算修正的BUG：laravel-admin模組原本的bug
@@ -318,16 +332,14 @@ SCRIPT;
                 /**
                  * 進貨單編碼規則：日期YYMMDD(6)+廠商編號XX(2)+流水號(2)，共10碼
                  */
-                if(!empty(request()->supid) && empty(request()->re_number)){
-                    $Todaydate = date('Ymd');
-                    $Supplier = request()->supid;
-
-                    //前補0至兩碼
-                    $Supplier = str_pad($Supplier,2,"0",STR_PAD_LEFT);
+                if(!empty(request()->wid_receive) && empty(request()->t_number)){
+                    $Todaydate = (date('Y') - 1911) . date('md');
+                    $wid_send = str_pad(request()->wid_send,2,"0",STR_PAD_LEFT);
+                    $wid_receive = str_pad(request()->wid_receive,2,"0",STR_PAD_LEFT);
 
                     //取得該日該廠商進貨單號的最大值
-                    $max_number = ProductReceipt::withTrashed()->where('re_number', 'like', $Todaydate.$Supplier.'%')
-                    ->max('re_number');
+                    $max_number = Transfer::withTrashed()->where('t_number', 'like', $Todaydate.$wid_send.$wid_receive.'%')
+                    ->max('t_number');
                     
                     if(!empty($max_number)){
                         //取後兩碼做+1計算
@@ -339,20 +351,20 @@ SCRIPT;
                     //前補0至兩碼
                     $lastTwoCode = str_pad($lastTwoCode,2,"0",STR_PAD_LEFT);
 
-                    //填充到re_number欄位中
-                    $form->re_number = $Todaydate.$Supplier.$lastTwoCode;
+                    //填充到t_number欄位中
+                    $form->t_number = $Todaydate.$wid_send.$wid_receive.$lastTwoCode;
                 }
                 if(empty(request()->pid)){
-                    $error = new MessageBag(['title'=>'提示','message'=>'未填寫進貨商品!']);
+                    $error = new MessageBag(['title'=>'提示','message'=>'未填寫調撥商品!']);
                     return back()->withInput()->with(compact('error'));
                 }
 
-                $red_amount = request()->amount;
-                $red_price = request()->price;
-                $red_quantity = request()->quantity;
-                $red_notes = request()->notes;
+                $td_amount = request()->td_amount;
+                $td_price = request()->td_price;
+                $td_quantity = request()->td_quantity;
+                $td_notes = request()->td_notes;
                 $stid = request()->stid;
-                $redid = request()->redid;
+                $tdid = request()->tdid;
                 $insertProductLogArray = [];
                 $insertStockLogArray = [];
                 $dataArray = [];
@@ -366,14 +378,14 @@ SCRIPT;
                     foreach(request()->pid as $key => $pid){
                         $dataArray[] = [
                             'pid'           =>  $pid,
-                            're_number'     =>  $form->re_number,
-                            'red_amount'    =>  $red_amount[$key],
-                            'red_price'     =>  $red_price[$key],
-                            'red_quantity'  =>  $red_quantity[$key],
-                            'red_notes'     =>  $red_notes[$key],
+                            't_number'     =>  $form->t_number,
+                            'td_amount'    =>  $td_amount[$key],
+                            'td_price'     =>  $td_price[$key],
+                            'td_quantity'  =>  $td_quantity[$key],
+                            'td_notes'     =>  $td_notes[$key],
                         ];
                         $stidArray[] = $stid[$key];
-                        $total += $red_amount[$key];
+                        $total += $td_amount[$key];
                     }
                     if(!empty($dataArray))
                     {
@@ -381,10 +393,10 @@ SCRIPT;
 
                             /* 商品成本變更 */
                             $p_costprice = ProductIndex::find($val['pid'])->p_costprice;
-                            if($p_costprice != $val['red_price']){
+                            if($p_costprice != $val['td_price']){
 
                                 $updateProductIndexArray = [
-                                    'p_costprice'   =>  $val['red_price'],
+                                    'p_costprice'   =>  $val['td_price'],
                                     'last_delivery'   =>  date('Y-m-d H:i:s'),
                                     'update_user'   =>  Admin::user()->id,
                                 ];
@@ -395,8 +407,8 @@ SCRIPT;
                                 $insertProductLogArray[] = [
                                     'pid'          =>  $val['pid'],
                                     'pl_price1'    =>  $p_costprice,
-                                    'pl_price2'    =>  $val['red_price'],
-                                    'pl_notes'     =>  '進貨單：'.$form->re_number.'-新增',
+                                    'pl_price2'    =>  $val['td_price'],
+                                    'pl_notes'     =>  '進貨單：'.$form->t_number.'-新增',
                                     'update_user'  =>  Admin::user()->id,
                                     'update_at'    =>  date('Y-m-d H:i:s'),
                                 ];
@@ -413,7 +425,7 @@ SCRIPT;
                             if(!empty($stidArray[$key])){ //該倉庫該商品有庫存資料
 
                                 $retailStock = Stock::find($stidArray[$key])->st_stock ?: 0;
-                                $st_stock = (int) $retailStock + (int) $val['red_quantity'];
+                                $st_stock = (int) $retailStock + (int) $val['td_quantity'];
 
                                 $updateStockArray = [                                
                                     'st_stock'   =>  $st_stock,
@@ -423,7 +435,7 @@ SCRIPT;
                                 Stock::where('stid',$stidArray[$key])->update($updateStockArray);
                                 $dataArray[$key]['stid'] = $stidArray[$key];
                             }else{
-                                $st_stock = $val['red_quantity'];
+                                $st_stock = $val['td_quantity'];
                                 $insertStockArray = [
                                     'pid'           =>  $val['pid'],
                                     'wid'           =>  Admin::user()->wid,
@@ -436,15 +448,15 @@ SCRIPT;
                             /**
                              *  庫存變更紀錄 (未完成)
                              */
-                            if($val['red_quantity'] > 0){
+                            if($val['td_quantity'] > 0){
                                 $insertStockLogArray[] = [
                                     'pid'          =>  $val['pid'],
                                     'wid'          =>  Admin::user()->wid,
                                     'stid'         =>  $dataArray[$key]['stid'],
                                     'sl_calc'      =>  '+',
-                                    'sl_quantity'  =>  $val['red_quantity'],
+                                    'sl_quantity'  =>  $val['td_quantity'],
                                     'sl_stock'     =>  $st_stock,
-                                    'sl_notes'     =>  '進貨單：'.$form->re_number.'-新增',
+                                    'sl_notes'     =>  '進貨單：'.$form->t_number.'-新增',
                                     'update_user'  =>  Admin::user()->id,
                                     'update_at'    =>  date('Y-m-d H:i:s'),
                                 ];
@@ -454,8 +466,8 @@ SCRIPT;
                         $insertProductLogArray && ProductLog::insert($insertProductLogArray);
                         $insertStockLogArray && StockLog::insert($insertStockLogArray);
 
-                        ProductReceiptDetails::where('re_number',$form->re_number)->delete();
-                        ProductReceiptDetails::insert($dataArray);
+                        TransferDetails::where('t_number',$form->t_number)->delete();
+                        TransferDetails::insert($dataArray);
                     }
             
                 }
@@ -467,10 +479,10 @@ SCRIPT;
                 elseif(request()->action == 'edit'){
 
                     //原本的進貨明細
-                    $retailRedid = ProductReceiptDetails::where('re_number',$form->re_number)->pluck('red_quantity','redid')->toArray();
-                    // $retailProductReceipt = ProductReceiptDetails::where('re_number',$form->re_number)->get()->toArray();
+                    $retailRedid = TransferDetails::where('t_number',$form->t_number)->pluck('td_quantity','tdid')->toArray();
+                    // $retailTransfer = TransferDetails::where('t_number',$form->t_number)->get()->toArray();
 
-                    //欲刪除的進貨明細 - 使用unset($deleteRedid[$redid])移除沒有要刪除的進貨明細
+                    //欲刪除的進貨明細 - 使用unset($deleteRedid[$tdid])移除沒有要刪除的進貨明細
                     $deleteRedid = array_keys($retailRedid);
                     
                     /**
@@ -483,45 +495,45 @@ SCRIPT;
                     foreach(request()->pid as $key => $pid){
                         
                         //insert新增加的
-                        if(empty($redid[$key])){
+                        if(empty($tdid[$key])){
 
-                            $insertProductReceiptArray[] = [
+                            $insertTransferArray[] = [
                                 'pid'           =>  $pid,
-                                're_number'     =>  $form->re_number,
-                                'red_amount'    =>  $red_amount[$key],
-                                'red_price'     =>  $red_price[$key],
-                                'red_quantity'  =>  $red_quantity[$key],
-                                'red_notes'     =>  $red_notes[$key],
+                                't_number'     =>  $form->t_number,
+                                'td_amount'    =>  $td_amount[$key],
+                                'td_price'     =>  $td_price[$key],
+                                'td_quantity'  =>  $td_quantity[$key],
+                                'td_notes'     =>  $td_notes[$key],
                             ];
 
                             $stidArray[] = $stid[$key];
                         }
                         //更新原本的                        
-                        elseif(isset($retailRedid[$redid[$key]])){
-                            $updateProductReceiptArray = [
-                                'red_amount'    =>  $red_amount[$key],
-                                'red_price'     =>  $red_price[$key],
-                                'red_quantity'  =>  $red_quantity[$key],
-                                'red_notes'     =>  $red_notes[$key],
+                        elseif(isset($retailRedid[$tdid[$key]])){
+                            $updateTransferArray = [
+                                'td_amount'    =>  $td_amount[$key],
+                                'td_price'     =>  $td_price[$key],
+                                'td_quantity'  =>  $td_quantity[$key],
+                                'td_notes'     =>  $td_notes[$key],
                             ];
 
                             //將應扣去的庫存數先儲存在陣列中
-                            $deleteStockArray[$stid[$key]] = $retailRedid[$redid[$key]] ?: 0;
+                            $deleteStockArray[$stid[$key]] = $retailRedid[$tdid[$key]] ?: 0;
 
                             //更新進貨明細
-                            ProductReceiptDetails::find($redid[$key])->update($updateProductReceiptArray);
+                            TransferDetails::find($tdid[$key])->update($updateTransferArray);
 
                             //此筆進貨明細不刪
-                            $unsetKey = array_search($redid[$key],$deleteRedid);
+                            $unsetKey = array_search($tdid[$key],$deleteRedid);
                             unset($deleteRedid[$unsetKey]);
 
 
                             /* 商品成本變更 */
                             $p_costprice = ProductIndex::find($pid)->p_costprice;
-                            if($p_costprice != $red_price[$key]){
+                            if($p_costprice != $td_price[$key]){
 
                                 $updateProductIndexArray = [
-                                    'p_costprice'   =>  $red_price[$key],
+                                    'p_costprice'   =>  $td_price[$key],
                                     'update_user'   =>  Admin::user()->id,
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
@@ -533,8 +545,8 @@ SCRIPT;
                                 $insertProductLogArray[] = [
                                     'pid'          =>  $pid,
                                     'pl_price1'    =>  $p_costprice,
-                                    'pl_price2'    =>  $red_price[$key],
-                                    'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
+                                    'pl_price2'    =>  $td_price[$key],
+                                    'pl_notes'     =>  '進貨單：'.$form->t_number.'-修改',
                                     'update_user'  =>  Admin::user()->id,
                                     'update_at'    =>  date('Y-m-d H:i:s'),
                                 ];
@@ -548,7 +560,7 @@ SCRIPT;
                                 $retailStock = (int) Stock::find($stid[$key])->st_stock ?: 0;
                                 $deleteStock = $deleteStockArray[$stid[$key]] ?: 0;
 
-                                $st_stock = $retailStock - (int) $deleteStock + (int) $red_quantity[$key];
+                                $st_stock = $retailStock - (int) $deleteStock + (int) $td_quantity[$key];
 
                                 $updateStockArray = [                                
                                     'st_stock'      =>  $st_stock,
@@ -570,7 +582,7 @@ SCRIPT;
                                                                 ? ($st_stock - $retailStock) 
                                                                 : ($retailStock - $st_stock),
                                         'sl_stock'     =>  $st_stock,
-                                        'sl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
+                                        'sl_notes'     =>  '進貨單：'.$form->t_number.'-修改',
                                         'update_user'  =>  Admin::user()->id,
                                         'update_at'    =>  date('Y-m-d H:i:s'),
                                     ];
@@ -578,7 +590,7 @@ SCRIPT;
                             }
                         }
                         
-                        $total += $red_amount[$key];
+                        $total += $td_amount[$key];
                     }
 
                     $insertProductLogArray && ProductLog::insert($insertProductLogArray);
@@ -589,17 +601,17 @@ SCRIPT;
                      * 編輯 進貨單明細/庫存
                      * 新增明細  的  商品&庫存變更
                      */
-                    if(!empty($insertProductReceiptArray))
+                    if(!empty($insertTransferArray))
                     {
 
-                        foreach($insertProductReceiptArray as $key => $val){
+                        foreach($insertTransferArray as $key => $val){
 
                             /* 商品成本變更 */
                             $p_costprice = ProductIndex::find($val['pid'])->p_costprice;
-                            if($p_costprice != $val['red_price']){
+                            if($p_costprice != $val['td_price']){
 
                                 $updateProductIndexArray = [
-                                    'p_costprice'   =>  $val['red_price'],
+                                    'p_costprice'   =>  $val['td_price'],
                                     'last_delivery'   =>  date('Y-m-d H:i:s'),
                                     'update_user'   =>  Admin::user()->id,
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
@@ -611,8 +623,8 @@ SCRIPT;
                                 $insertProductLogArray[] = [
                                     'pid'          =>  $val['pid'],
                                     'pl_price1'    =>  $p_costprice,
-                                    'pl_price2'    =>  $val['red_price'],
-                                    'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
+                                    'pl_price2'    =>  $val['td_price'],
+                                    'pl_notes'     =>  '進貨單：'.$form->t_number.'-修改',
                                     'update_user'  =>  Admin::user()->id,
                                     'update_at'    =>  date('Y-m-d H:i:s'),
                                 ];
@@ -633,7 +645,7 @@ SCRIPT;
 
                                 $retailStock = Stock::find($stidArray[$key])->st_stock ?: 0;
 
-                                $st_stock = (int) $retailStock + (int) $val['red_quantity'];
+                                $st_stock = (int) $retailStock + (int) $val['td_quantity'];
 
                                 $updateStockArray = [                                
                                     'st_stock'   =>  $st_stock,
@@ -641,9 +653,9 @@ SCRIPT;
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                                 Stock::where('stid',$stidArray[$key])->update($updateStockArray);
-                                $insertProductReceiptArray[$key]['stid'] = $stidArray[$key];
+                                $insertTransferArray[$key]['stid'] = $stidArray[$key];
                             }else{
-                                $st_stock = $val['red_quantity'];
+                                $st_stock = $val['td_quantity'];
                                 $insertStockArray = [
                                     'pid'           =>  $val['pid'],
                                     'wid'           =>  Admin::user()->wid,
@@ -653,7 +665,7 @@ SCRIPT;
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                                 //新增庫存資料
-                                $insertProductReceiptArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
+                                $insertTransferArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
                             }
                             /**
                              *  庫存變更紀錄 (未完成)
@@ -662,13 +674,13 @@ SCRIPT;
                                 $insertStockLogArray[] = [
                                     'pid'          =>  $val['pid'],
                                     'wid'          =>  Admin::user()->wid,
-                                    'stid'         =>  $insertProductReceiptArray[$key]['stid'],
+                                    'stid'         =>  $insertTransferArray[$key]['stid'],
                                     'sl_calc'      =>  ($st_stock - $retailStock) > 0 ? '+' : '-',
                                     'sl_quantity'  =>  ($st_stock - $retailStock) > 0 
                                                             ? ($st_stock - $retailStock) 
                                                             : ($retailStock - $st_stock),
                                     'sl_stock'     =>  $st_stock,
-                                    'sl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
+                                    'sl_notes'     =>  '進貨單：'.$form->t_number.'-修改',
                                     'update_user'  =>  Admin::user()->id,
                                     'update_at'    =>  date('Y-m-d H:i:s'),
                                 ];
@@ -677,14 +689,14 @@ SCRIPT;
                         $insertProductLogArray && ProductLog::insert($insertProductLogArray);
                         $insertStockLogArray && StockLog::insert($insertStockLogArray);
                         //新增進貨明細
-                        ProductReceiptDetails::insert($insertProductReceiptArray);
+                        TransferDetails::insert($insertTransferArray);
                     }
                     //刪除沒有的
 
-                    $ProductReceiptDetails = ProductReceiptDetails::whereIn('redid',$deleteRedid)->pluck('red_quantity','stid');
+                    $TransferDetails = TransferDetails::whereIn('tdid',$deleteRedid)->pluck('td_quantity','stid');
 
                     $insertStockLogArray = [];
-                    foreach($ProductReceiptDetails as $stid => $quantity){
+                    foreach($TransferDetails as $stid => $quantity){
                         $stock = Stock::where('stid',$stid)->select('pid', 'wid','st_stock')->first();
 
                         $st_stock = (int) $stock->st_stock - (int) $quantity;
@@ -697,15 +709,15 @@ SCRIPT;
                             'sl_calc'      =>  '-',
                             'sl_quantity'  =>  $quantity,
                             'sl_stock'     =>  $st_stock,
-                            'sl_notes'     =>  '進貨單：'.$form->re_number.'-明細刪除',
+                            'sl_notes'     =>  '進貨單：'.$form->t_number.'-明細刪除',
                             'update_user'  =>  Admin::user()->id,
                             'update_at'    =>  date('Y-m-d H:i:s'),
                         ];
                     }
                     $insertStockLogArray && StockLog::insert($insertStockLogArray); 
-                    ProductReceiptDetails::whereIn('redid',$deleteRedid)->delete();
+                    TransferDetails::whereIn('tdid',$deleteRedid)->delete();
                 }
-                $form->re_amount = $total;
+                $form->t_amount = $total;
             });
         })->setWidth(5);
     }
@@ -717,19 +729,16 @@ SCRIPT;
     protected function editform()
     {
         Permission::check(['reader']);
-        return Admin::form(ProductReceipt::class, function (Form $form) {
-            $form->select('supid', trans('admin::lang.product_supplier'))->options(
-                ProductSupplier::all()->pluck('sup_name', 'supid')
-            )->readOnly();
-            // $form->display('supid', trans('admin::lang.product_supplier'))->with(function($supid) {
-            //     return ProductSupplier::where('supid',$supid)->pluck('sup_name')[0];
-            // });
-            $form->date('re_delivery', trans('admin::lang.re_delivery'))->readOnly();
-            $form->textarea('re_notes', trans('admin::lang.notes'))->rows(2);
+        return Admin::form(Transfer::class, function (Form $form) {
+            $form->select('wid', trans('admin::lang.warehouse'))->options(
+                Warehouse::all()->pluck('w_name', 'wid')
+            );
+            $form->date('t_delivery', trans('admin::lang.t_delivery'))->readOnly();
+            $form->textarea('t_notes', trans('admin::lang.notes'))->rows(2);
 
-            $form->hidden('re_number');
-            $form->hidden('re_amount');
-            $form->hidden('reid');
+            $form->hidden('t_number');
+            $form->hidden('t_amount');
+            $form->hidden('tid');
 
             //btn-append有另外寫js的append功能
             $form->button('btn-danger btn-append','+ 進貨商品')->on('click','ShowModal("product");');

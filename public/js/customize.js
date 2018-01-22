@@ -17,8 +17,17 @@ function ShowModal(target) {
 }
 
 /** 展開進貨單明細 */
-function ShowDetails() {
+function ShowReceiptDetails() {
     var url = '/admin/product/receiptdetails/' + $("input[name='reid']").val();
+
+    $.get(url, function(data) {
+        $('.form-horizontal .box-body:first').append(data);
+    });
+}
+
+/** 展開調撥單明細 */
+function ShowTransferDetails() {
+    var url = '/admin/product/transferdetails/' + $("input[name='tid']").val();
 
     $.get(url, function(data) {
         $('.form-horizontal .box-body:first').append(data);

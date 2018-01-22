@@ -31,6 +31,8 @@ Route::group([
         $router->resource('warehouse', WarehouseController::class);
         $router->resource('stock/category', StockCategoryController::class);
 
+        $router->resource('transfer', TransferController::class);
+
     // });
 
     $router->get('sales/endwork/{id}/view', 'SalesEndWorkController@view');
@@ -67,8 +69,12 @@ Route::group([
     //使用Controller
     // $router->get('modal/{target}', 'ProductIndexController@modal');
     $router->post('product/search', 'ProductIndexController@modalsearch');
-    $router->post('product/receiptdetails', 'ProductIndexController@receiptdetails');
+
+    $router->post('product/receiptdetails', 'ProductIndexController@selectedproduct');
     $router->get('product/receiptdetails/{id}', 'ProductReceiptController@receiptdetails');
+    
+    $router->post('transfer/transferdetails', 'ProductIndexController@selectedproduct');
+    $router->get('transfer/transferdetails/{id}', 'TransferController@transferdetails');
 
     $router->get('/', 'HomeController@index');
 });

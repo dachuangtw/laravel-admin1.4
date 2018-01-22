@@ -21,9 +21,10 @@ class CreateTransferTable extends Migration
             $table->integer('send_user')->unsigned()->index()->comment('調撥人id');
             $table->integer('receive_user')->unsigned()->index()->comment('簽收人id');
             $table->decimal('t_amount',10,2)->default(0.00)->comment('總金額');
+            $table->string('t_notes',100)->nullable()->comment('備註');
             $table->timestamp('send_at')->nullable()->comment('調撥時間');
             $table->timestamp('receive_at')->nullable()->comment('簽收時間');
-            $table->boolean('checked')->default(false)->comment('確認簽收');
+            $table->boolean('t_checked')->default(false)->comment('確認簽收');
             $table->integer('update_user')->nullable()->comment('最後更新者id');
             $table->timestamps();
             $table->softDeletes();

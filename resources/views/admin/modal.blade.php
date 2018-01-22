@@ -71,11 +71,6 @@ $(function() {
     $('[data-toggle="popover"]').popover({
         trigger: 'hover'
     });
-    // $('.select2-search input').keypress(function(e) {
-        // if(e.which == 13) {
-        //     alert('hi~');
-        // }
-    // });
 
     var sendsearch = function(text){
         $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:140px;"><img src="/images/loading.gif"/>Loading...</div>');
@@ -123,17 +118,26 @@ $(function() {
 
     $('#addsubmit').on('click', function () {
         if(selectResultArray.length > 0){
+
+            //從網址獲知目前動作並設定只能在create或edit頁面使用 
+            var str = window.location.href;
+            action = str.slice(str.lastIndexOf("/")+1); 
+            if(action != 'create' && action != 'edit'){
+                alert('網頁出了問題，請通知相關人員處理');
+                return false;
+            }
+
             var firsttime = true;
-            var rowTop;
-            if($('#receiptdetials').length > 0){
+            var rowTop, action;
+            if($('#detials').length > 0){
                 firsttime = false;
-                rowTop = $("#receiptdetials .tb-body-container").find("div[role='row']").last().css("top");
+                rowTop = $("#detials .tb-body-container").find("div[role='row']").last().css("top");
             }
             $.ajax({
                 url:'/admin/product/receiptdetails',
                 method: 'post',
                 data: {
-                    action: $("#receiptdetials #action").val(),
+                    action: action,
                     selected: selectResultArray,
                     firsttime: firsttime,
                     rowTop: rowTop,
@@ -144,7 +148,7 @@ $(function() {
                         if(firsttime){
                             $('.form-horizontal .box-body').append(result);  
                         }else{
-                            $('#receiptdetials .tb-body-container').append(result); 
+                            $('#detials .tb-body-container').append(result); 
                         } 
                         $('#selectproduct').modal('hide');
                     }
@@ -171,9 +175,7 @@ $(function() {
         }else{
             alert('未選擇商品');
         }
-    });
-
-    
+    });    
 
 });
 </script>

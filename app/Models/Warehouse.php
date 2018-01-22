@@ -39,4 +39,9 @@ class Warehouse extends Model
         return $query->where('showfront', 1);
     }
 
+    //前台顯示
+    public function scopeOfWarehouse($query,$wid)
+    {
+        return $query->where('wid', $wid)->get();
+    }
 }

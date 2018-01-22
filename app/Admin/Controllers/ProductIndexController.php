@@ -42,21 +42,37 @@ class ProductIndexController extends Controller
     /**
      * 回傳 已選的商品
      */
-    public function receiptdetails(Request $request)
+    public function selectedproduct(Request $request)
     {
-        $stock = [];
+        $stock = $rowWidth = $rowLeft = $rowTitle = [];
         $selected = $request->selected ?: [];
         $action = $request->action;
+
         $products = ProductIndex::whereIn('pid',$selected)->get();
         foreach($products as $key => $product){
             $stock[$key] = Stock::where('pid',$product->pid)->where('wid',Admin::user()->wid)->get()->toArray();
         }
+        
         $rowTop = empty($request->rowTop) ? -30 : (int)$request->rowTop ;
         $rowEvenOdd = ['even','odd'];
         $firsttime = filter_var($request->firsttime, FILTER_VALIDATE_BOOLEAN);
+        $showprice = 'p_costprice';
 
-        $data = compact('products','rowTop','rowEvenOdd','selected','firsttime','stock','action');
-        return view('admin::receipt', $data);
+        if($action == 'create'){
+            $rowWidth = [33,100,150,50,60,80,80,80,80,90];
+            $rowLeft = [0,33,133,283,333,393,473,553,633,713];
+            $rowTitle = ['','商品編號','商品名','單位','庫存數','款式','進貨數','單價','總價','備註'];
+
+        }elseif($action == 'edit'){
+
+            $action = 'editadd';
+            $rowWidth = [33,100,150,60,80,80,80,80,110];
+            $rowLeft = [0,33,133,283,343,423,503,583,693];
+            $rowTitle = ['','商品編號','商品名','單位','款式','進貨數','單價','總價','備註'];
+        }
+
+        $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
+        return view('admin::detials', $data);
     }
     /**
      * 回傳 商品彈出視窗
@@ -167,7 +183,11 @@ class ProductIndexController extends Controller
         $product = ProductIndex::find($id)->toArray();
 
         //忽略不顯示的欄位
-        $skipArray = ['pid','p_price','p_retailprice'];
+        $skipArray = ['pid','p_price','p_retailprice','p_costprice'];
+        //某些角色顯示欄位
+        $showArray = [
+            'p_costprice' => ['administrator','Boss','SuperWarehouse'],
+        ];
         //顯示圖片欄位
         $imgArray = ['p_pic','p_images'];
 
@@ -199,8 +219,11 @@ class ProductIndexController extends Controller
         $header[] = '商品資訊';
         foreach($product as $key => $value){            
 
-            if(in_array($key,$skipArray) || empty($value))
-                continue;
+            if(in_array($key,$skipArray) || empty($value)){
+                if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
+                    continue;
+                }
+            }
             
             //欄位中文化
             $newkey = trans('admin::lang.'.$key);

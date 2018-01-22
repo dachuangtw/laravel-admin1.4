@@ -27,4 +27,21 @@ class SalesNotes extends Model
             $this->attributes['note_target'] = implode('|',$note_target);
         }
     }
+
+    //倉庫(用|分隔)
+    public function getNoteWidAttribute($note_wid)
+    {
+        if (is_string($note_wid)) {
+            return explode('|',$note_wid);
+        }
+
+        return $note_wid;
+    }
+
+    public function setNoteWidAttribute($note_wid)
+    {
+        if (is_array($note_wid)) {
+            $this->attributes['note_wid'] = implode('|',$note_wid);
+        }
+    }
 }

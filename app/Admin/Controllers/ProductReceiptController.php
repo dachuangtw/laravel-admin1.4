@@ -442,7 +442,10 @@ SCRIPT;
                                     'wid'           =>  Admin::user()->wid,
                                     'st_type'       =>  '不分款',
                                     'st_stock'      =>  $st_stock,
+                                    'st_unit'       =>  '每人',
                                     'update_user'   =>  Admin::user()->id,
+                                    'created_at'    =>  date('Y-m-d H:i:s'),
+                                    'update_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                                 $dataArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
                             }
@@ -662,8 +665,10 @@ SCRIPT;
                                     'wid'           =>  Admin::user()->wid,
                                     'st_type'       =>  '不分款',
                                     'st_stock'      =>  $st_stock,
+                                    'st_unit'       =>  '每人',
                                     'update_user'   =>  Admin::user()->id,
-                                    'updated_at'    =>  date('Y-m-d H:i:s'),
+                                    'created_at'    =>  date('Y-m-d H:i:s'),
+                                    'update_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                                 //新增庫存資料
                                 $insertProductReceiptArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');

@@ -153,6 +153,7 @@ class ProductIndexController extends Controller
                         })
                     );
                     $form->hidden('p_number');
+                    $form->hidden('inserttype')->default('quick');
 
                     $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
                     $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
@@ -516,6 +517,22 @@ class ProductIndexController extends Controller
 
                     //填充到p_number欄位中
                     $form->p_number = $firstTwoCode.$lastSixCode;
+
+                }
+            });
+            $form->saved(function(Form $form) {
+                if(!empty(request()->StockCategory)&&!empty(request()->ProductSupplier)&&!empty(request()->inserttype)){
+                    
+                    $insertstock = [
+                        'pid'           =>  $form->model()->pid,
+                        'wid'           =>  Admin::user()->wid,
+                        'st_type'       =>  '不分款',
+                        'st_stock'      =>  0,
+                        'update_user'   =>  Admin::user()->id,
+                        'created_at'    =>  date('Y-m-d H:i:s'),
+                        'update_at'     =>  date('Y-m-d H:i:s'),
+                    ];
+                    Stock::insert($insertstock);
                 }
             });
             $form->ignore(['StockCategory','ProductSupplier']);
@@ -641,10 +658,13 @@ class ProductIndexController extends Controller
                             //有庫存才增加庫存資料
                             if((int)$row['st_stock'] > 0){
                                 $dataArray2[] = [
-                                'pid'       => $pid,
-                                'wid'       => '2', //台中倉
-                                'st_type'    => '不分款',
-                                'st_stock'   => $row['st_stock'],
+                                'pid'           =>  $pid,
+                                'wid'           =>  '2', //台中倉
+                                'st_type'       =>  '不分款',
+                                'st_stock'      =>  $row['st_stock'],
+                                'update_user'   =>  Admin::user()->id,
+                                'created_at'    =>  date('Y-m-d H:i:s'),
+                                'update_at'     =>  date('Y-m-d H:i:s'),
                                 ];
                             } 
                         }

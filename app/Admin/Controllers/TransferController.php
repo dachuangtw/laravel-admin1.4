@@ -41,8 +41,8 @@ class TransferController extends Controller
 
         $firsttime = true;
         
-        $re_number = Transfer::find($id)->re_number;
-        $savedDetails = TransferDetails::ofselected($re_number) ?: [];
+        $t_number = Transfer::find($id)->t_number;
+        $savedDetails = TransferDetails::ofselected($t_number) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::find($value->pid);
             $stock[$value->stid] = Stock::find($value->stid)->st_type;
@@ -55,7 +55,7 @@ class TransferController extends Controller
         $rowEvenOdd = ['even','odd'];
         $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','savedDetails','stock');
         
-        return view('admin::detials', $data);
+        return view('admin::productdetails', $data);
     }
     /**
      * Index interface.
@@ -81,14 +81,14 @@ class TransferController extends Controller
 
                     $form->dateRange('send_at[start]', 'send_at[end]', '調撥日');
 
-                    $warehouses = Warehouse::all()->pluck('w_name', 'wid')->toArray();
+                    $warehouses = Warehouse::all()->pluck('w_name', 'wid');
                     $form->select('wid_send', trans('admin::lang.warehouse'))->options(
                         
-                        [''=>'--- 請選擇 ---'] + $warehouses
+                        $warehouses
                     );
                     $form->select('wid_receive', trans('admin::lang.warehouse'))->options(
                         
-                        [''=>'--- 請選擇 ---'] + $warehouses
+                        $warehouses
                     );
 
                     $form->disableSubmit();
@@ -143,17 +143,27 @@ class TransferController extends Controller
         $table = new Table($header, $rows);
         $table->class('table table-hover');
 
-        $t_number = Transfer::where('tid',$id)->pluck('t_number');
-        $transferdetail = TransferDetails::ofselected($t_number) ?: [];
-        foreach($transferdetail as $key => $value){
+        
+        $stock = $rowWidth = $rowLeft = $rowTitle = [];
+        $re_number = Transfer::where('reid',$id)->pluck('re_number');
+        $savedDetails = TransferDetails::ofselected($re_number) ?: [];
+        foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
+            $stock[$key] = Stock::find($value->stid)->st_type;
         }
+        $action = 'view';
+        
+        $firsttime = true;
+        $rowWidth = [33,100,150,60,80,80,80,80,110];
+        $rowLeft = [0,33,133,283,343,423,503,583,693];
+        $rowTitle = ['','商品編號','商品名','單位','款式','進貨數','單價','總價','備註'];
+        $showprice = 'p_costprice';
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        $data = compact('products','rowTop','rowEvenOdd','selected','transferdetail');
         
-
-        return $table->render().view('admin::transferview', $data);
+        $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','savedDetails','stock');
+        
+        return $table->render().view('admin::productdetails', $data);
     }
     /**
      * Edit interface.
@@ -329,6 +339,10 @@ SCRIPT;
              * $form->saving()功能只在form()中有用，放在另外寫的editform()中無作用
              */
             $form->saving(function(Form $form) {
+                if(empty(request()->pid)){
+                    $error = new MessageBag(['title'=>'提示','message'=>'未填寫調撥商品!']);
+                    return back()->withInput()->with(compact('error'));
+                }
                 /**
                  * 進貨單編碼規則：日期YYMMDD(6)+廠商編號XX(2)+流水號(2)，共10碼
                  */
@@ -353,10 +367,6 @@ SCRIPT;
 
                     //填充到t_number欄位中
                     $form->t_number = $Todaydate.$wid_send.$wid_receive.$lastTwoCode;
-                }
-                if(empty(request()->pid)){
-                    $error = new MessageBag(['title'=>'提示','message'=>'未填寫調撥商品!']);
-                    return back()->withInput()->with(compact('error'));
                 }
 
                 $td_amount = request()->td_amount;

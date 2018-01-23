@@ -1,8 +1,12 @@
 @if($firsttime)
-<div class="form-group 1" id="detials">
+<div class="form-group 1" id="productdetails">
 
     <label for="re_amount" class="col-sm-2 control-label"></label>
+    @if($action == 'view')
+    <div class="col-sm-12">
+    @else
     <div class="col-sm-8">
+    @endif
 
         <div class="select2-results footer-btn-mrgin">
             <div class="tb-responsive">
@@ -45,7 +49,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $product->p_number }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($product->p_pic)
-                                            <a href="#" role="button" data-toggle="popover" data-container="#detials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#productdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
                                             @else {{ $product->p_name }} 
                                             @endif
 
@@ -98,7 +102,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $products[$key]['p_number'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($products[$key]['p_pic'])
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptdetials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
@@ -148,7 +152,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $product->p_number }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($product->p_pic)
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptdetials" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
                                             @else {{ $product->p_name }} 
                                             @endif
                                         </div>
@@ -179,7 +183,35 @@
                                     @endforeach
                                     @endif
 
-                                    @if($firsttime)
+
+                                    <!-- 眼睛查看 -->
+                                    @if($action == 'view')
+                                    @foreach($savedDetails as $key => $savedDetail)
+                                    <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
+                                        <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[0] }}px; left: {{ $rowLeft[0] }}px; ">
+                                            <div class="ui-grid-cell-contents">
+                                                <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $products[$key]['p_number'] }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
+                                            @if($products[$key]['p_pic'])
+                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
+                                            @else {{ $products[$key]['p_name'] }} 
+                                            @endif
+                                        </div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $stock[$key] }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->red_quantity }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">{{ $savedDetail->red_price }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->red_amount }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">{{ $savedDetail->red_notes }}</div>
+
+                                    </div>
+                                    @endforeach
+                                    @endif
+
+@if($firsttime)
                                 </div>
                             </div>
                         </div>
@@ -199,10 +231,10 @@ $(function() {
     var quantity = 0,
         price = 0,
         amount = 0;
-    $(document).on("focus","#detials .tb-cell input[type='text']",function(){
+    $(document).on("focus","#productdetails .tb-cell input[type='text']",function(){
         this.select();
     });
-    $(document).on("keypress","#detials .tb-cell input[type='text']",function(e){
+    $(document).on("keypress","#productdetails .tb-cell input[type='text']",function(e){
         if (e.keyCode == 13) {
             $(this).blur();
             return false;
@@ -211,21 +243,21 @@ $(function() {
 
 
 
-    $(document).on("change","#detials .tb-cell input[name='quantity[]']",function(){
+    $(document).on("change","#productdetails .tb-cell input[name='quantity[]']",function(){
         quantity = $(this).val();
         price = $(this).parent().next().find("input[name='price[]']").val();
         $(this).parent().next().next().find("input[name='amount[]']").val(quantity * price);
 
         countTotal();
     });
-    $(document).on("change","#detials .tb-cell input[name='price[]']",function(){
+    $(document).on("change","#productdetails .tb-cell input[name='price[]']",function(){
         price = $(this).val();
         quantity = $(this).parent().prev().find("input[name='quantity[]']").val();
         $(this).parent().next().find("input[name='amount[]']").val(quantity * price);
 
         countTotal();
     });
-    $(document).on("change","#detials .tb-cell input[name='amount[]']",function(){
+    $(document).on("change","#productdetails .tb-cell input[name='amount[]']",function(){
         amount = $(this).val();
         quantity = $(this).parent().prev().prev().find("input[name='quantity[]']").val();
         var tempamount = amount / quantity;
@@ -237,29 +269,30 @@ $(function() {
     $(document).on("click","a.removerow",function(){
         $(this).parent().parent().parent().remove();
         var top = -30;
-        $("#detials .tb-row").each(function(){
+        $("#productdetails .tb-row").each(function(){
             $(this).css("top",top +=30);
 
         });
-        $("#detials .tb-row:even").removeClass("tb-row-odd").addClass("tb-row-even");
-        $("#detials .tb-row:odd").removeClass("tb-row-even").addClass("tb-row-odd");
+        $("#productdetails .tb-row:even").removeClass("tb-row-odd").addClass("tb-row-even");
+        $("#productdetails .tb-row:odd").removeClass("tb-row-even").addClass("tb-row-odd");
         countTotal();
     });
 });
 function countTotal(){
     var total = 0,quantity = 0;
 
-    $("#detials .tb-cell input[name='amount[]']").each(function() {
+    $("#productdetails .tb-cell input[name='amount[]']").each(function() {
         total += parseInt($(this).val());
     });
-    $("#detials .tb-cell input[name='quantity[]']").each(function() {
+    $("#productdetails .tb-cell input[name='quantity[]']").each(function() {
         quantity += parseInt($(this).val());
     });
-    $("#detials .search-footer span:first").text(quantity);
-    $("#detials .search-footer span:last").text(total);
+    $("#productdetails .search-footer span:first").text(quantity);
+    $("#productdetails .search-footer span:last").text(total);
 }
 </script>
 @endif
+
 <script>
 $(function() {
     countTotal();

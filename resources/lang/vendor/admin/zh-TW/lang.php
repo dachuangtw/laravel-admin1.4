@@ -217,4 +217,19 @@ return [
     're_notes'        =>    '備註',
     're_delivery'     =>    '進貨日',
 
+    
+    'transfer'      =>    '調撥單',
+    'send_at'       =>    '調撥日',
+    'receive_at'    =>    '收貨日',
+    'wid_send'      =>    '調出倉',
+    'wid_receive'   =>    '收貨倉',
+    't_number'      =>    '調撥單號',
+    't_amount'      =>    '總金額',
+    't_checked'     =>    '收貨確認',
+    // ''     =>    '',
+    // ''     =>    '',
+    // ''     =>    '',
+    // ''     =>    '',
+    // ''     =>    '',
+
 ];

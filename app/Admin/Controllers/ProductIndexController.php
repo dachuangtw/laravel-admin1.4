@@ -72,7 +72,7 @@ class ProductIndexController extends Controller
         }
 
         $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
-        return view('admin::detials', $data);
+        return view('admin::productdetails', $data);
     }
     /**
      * 回傳 商品彈出視窗

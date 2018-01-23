@@ -129,9 +129,9 @@ $(function() {
 
             var firsttime = true;
             var rowTop, action;
-            if($('#detials').length > 0){
+            if($('#productdetails').length > 0){
                 firsttime = false;
-                rowTop = $("#detials .tb-body-container").find("div[role='row']").last().css("top");
+                rowTop = $("#productdetails .tb-body-container").find("div[role='row']").last().css("top");
             }
             $.ajax({
                 url:'/admin/product/receiptdetails',
@@ -148,7 +148,7 @@ $(function() {
                         if(firsttime){
                             $('.form-horizontal .box-body').append(result);  
                         }else{
-                            $('#detials .tb-body-container').append(result); 
+                            $('#productdetails .tb-body-container').append(result); 
                         } 
                         $('#selectproduct').modal('hide');
                     }

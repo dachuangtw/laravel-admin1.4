@@ -54,7 +54,7 @@ class ProductReceiptController extends Controller
         $rowEvenOdd = ['even','odd'];
         $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','savedDetails','stock');
         
-        return view('admin::detials', $data);
+        return view('admin::productdetails', $data);
     }
     /**
      * Index interface.
@@ -81,7 +81,7 @@ class ProductReceiptController extends Controller
                     $form->dateRange('re_delivery[start]', 're_delivery[end]', '進貨日');
                     $form->select('supid', trans('admin::lang.product_supplier'))->options(
                         
-                        [''=>'--- 請選擇 ---'] + ProductSupplier::all()->pluck('sup_name', 'supid')->toArray()
+                        ProductSupplier::all()->pluck('sup_name', 'supid')
                     );
 
                     $form->text('re_number', trans('admin::lang.re_number'));
@@ -141,17 +141,27 @@ class ProductReceiptController extends Controller
         $table = new Table($header, $rows);
         $table->class('table table-hover');
 
+        
+        $stock = $rowWidth = $rowLeft = $rowTitle = [];
         $re_number = ProductReceipt::where('reid',$id)->pluck('re_number');
         $savedDetails = ProductReceiptDetails::ofselected($re_number) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
+            $stock[$key] = Stock::find($value->stid)->st_type;
         }
+        $action = 'view';
+        
+        $firsttime = true;
+        $rowWidth = [33,100,150,60,80,80,80,80,110];
+        $rowLeft = [0,33,133,283,343,423,503,583,693];
+        $rowTitle = ['','商品編號','商品名','單位','款式','進貨數','單價','總價','備註'];
+        $showprice = 'p_costprice';
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        $data = compact('products','rowTop','rowEvenOdd','selected','savedDetails');
         
-
-        return $table->render().view('admin::receiptview', $data);
+        $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','savedDetails','stock');
+        
+        return $table->render().view('admin::productdetails', $data);
     }
     /**
      * Edit interface.
@@ -315,6 +325,13 @@ SCRIPT;
              * $form->saving()功能只在form()中有用，放在另外寫的editform()中無作用
              */
             $form->saving(function(Form $form) {
+                if(empty(request()->pid)){
+                    $error = new MessageBag(['title'=>'提示','message'=>'未填寫進貨商品!']);
+                    return back()->withInput()->with(compact('error'));
+                }elseif(empty(request()->supid)){
+                    $error = new MessageBag(['title'=>'提示','message'=>'未選擇進貨廠商!']);
+                    return back()->withInput()->with(compact('error'));
+                }
                 /**
                  * 進貨單編碼規則：日期YYMMDD(6)+廠商編號XX(2)+流水號(2)，共10碼
                  */
@@ -341,10 +358,6 @@ SCRIPT;
 
                     //填充到re_number欄位中
                     $form->re_number = $Todaydate.$Supplier.$lastTwoCode;
-                }
-                if(empty(request()->pid)){
-                    $error = new MessageBag(['title'=>'提示','message'=>'未填寫進貨商品!']);
-                    return back()->withInput()->with(compact('error'));
                 }
 
                 $red_amount = request()->amount;

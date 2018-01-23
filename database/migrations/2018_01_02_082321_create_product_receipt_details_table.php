@@ -15,7 +15,7 @@ class CreateProductReceiptDetailsTable extends Migration
     {
         Schema::create('product_receipt_details', function (Blueprint $table) {
             $table->increments('redid')->comment('進貨單明細id');
-            $table->integer('reid')->unsigned()->index()->comment('進貨單id');
+            $table->string('re_number',50)->comment('進貨單號');
             $table->integer('pid')->unsigned()->index()->comment('商品主檔id');
             $table->integer('stid')->unsigned()->index()->comment('庫存id');
             $table->integer('red_quantity')->default(0)->comment('數量');

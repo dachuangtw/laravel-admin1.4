@@ -2,12 +2,11 @@ var selectResultArray = [];
 
 /** 秀出商品LIST */
 function ShowModal(target) {
-    // var url = '/admin/modal?t=' + target;
     var url = '/admin/modal/' + target;
 
     $.get(url, function(data) {
         $("body").append(data);
-        $('#select' + target)
+        $('#selectproduct')
             .modal('show')
             .on('hidden.bs.modal', function(e) {
                 $(this).remove();

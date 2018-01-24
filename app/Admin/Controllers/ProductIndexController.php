@@ -95,6 +95,35 @@ class ProductIndexController extends Controller
         return view('admin::result', $data);
     }
     /**
+     * 回傳 商品彈出視窗
+     */
+    public function modalsearchstock(Request $request)
+    {
+        $search = $request->search;
+        $selected = $request->selected ?: [];
+        if($search == 'searchall'){
+
+            $temp = Stock::where('wid', Admin::user()->wid)->where('st_stock','>',0)->pluck('pid');
+            $products = ProductIndex::whereIn('pid',$temp)->get()->sortByDesc('pid')->take(100);
+
+        }else if($search == 'searchselected'){
+            $products = ProductIndex::whereIn('pid',$selected)->get();
+        }else{
+            
+            $temp = Stock::where('wid', Admin::user()->wid)->where('st_stock', '>', 0)->pluck('pid');            
+            $products = ProductIndex::where(function ($query) use ($search) {
+                $query->where('p_name', 'like', '%'.$search.'%')
+                      ->orWhere('p_number', 'like', '%'.$search)
+                      ->orWhere('p_number', 'like', $search.'%');
+            })->whereIn('pid', $temp)->get();
+        }
+        $rowTop = -30;
+        $rowEvenOdd = ['even','odd'];
+
+        $data = compact('products','rowTop','rowEvenOdd','selected');
+        return view('admin::result', $data);
+    }
+    /**
      * Index interface.
      *
      * @return Content

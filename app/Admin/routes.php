@@ -69,6 +69,7 @@ Route::group([
     //使用Controller
     // $router->get('modal/{target}', 'ProductIndexController@modal');
     $router->post('product/search', 'ProductIndexController@modalsearch');
+    $router->post('product/searchstock', 'ProductIndexController@modalsearchstock');
 
     $router->post('product/receiptdetails', 'ProductIndexController@selectedproduct');
     $router->get('product/receiptdetails/{id}', 'ProductReceiptController@receiptdetails');

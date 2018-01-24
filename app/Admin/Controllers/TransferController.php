@@ -332,7 +332,7 @@ SCRIPT;
             $form->hidden('t_amount');
 
             //btn-append有另外寫js的append功能
-            $form->button('btn-danger btn-append','+ 選擇商品')->on('click','ShowModal("product");');
+            $form->button('btn-danger btn-append','+ 選擇商品')->on('click','ShowModal("hasstock");');
 
             /**
              * 不打算修正的BUG：laravel-admin模組原本的bug
@@ -369,12 +369,13 @@ SCRIPT;
                     $form->t_number = $Todaydate.$wid_send.$wid_receive.$lastTwoCode;
                 }
 
-                $td_amount = request()->td_amount;
-                $td_price = request()->td_price;
-                $td_quantity = request()->td_quantity;
-                $td_notes = request()->td_notes;
+                $td_amount = request()->amount;
+                $td_price = request()->price;
+                $td_quantity = request()->quantity;
+                $td_notes = request()->notes;
                 $stid = request()->stid;
                 $tdid = request()->tdid;
+                $wid_receive = request()->wid_receive;
                 $insertProductLogArray = [];
                 $insertStockLogArray = [];
                 $dataArray = [];
@@ -387,7 +388,7 @@ SCRIPT;
                 if(request()->action == 'create'){
                     foreach(request()->pid as $key => $pid){
                         $dataArray[] = [
-                            'pid'           =>  $pid,
+                            'pid'          =>  $pid,
                             't_number'     =>  $form->t_number,
                             'td_amount'    =>  $td_amount[$key],
                             'td_price'     =>  $td_price[$key],
@@ -401,49 +402,55 @@ SCRIPT;
                     {
                         foreach($dataArray as $key => $val){
 
-                            /* 商品成本變更 */
-                            $p_costprice = ProductIndex::find($val['pid'])->p_costprice;
-                            if($p_costprice != $val['td_price']){
+                            // /* 商品成本變更 */
+                            // $p_costprice = ProductIndex::find($val['pid'])->p_costprice;
+                            // if($p_costprice != $val['td_price']){
 
-                                $updateProductIndexArray = [
-                                    'p_costprice'   =>  $val['td_price'],
-                                    'last_delivery'   =>  date('Y-m-d H:i:s'),
-                                    'update_user'   =>  Admin::user()->id,
-                                ];
-                                ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
-                                /**
-                                 * 商品價格變更紀錄 (未完成)
-                                 */
-                                $insertProductLogArray[] = [
-                                    'pid'          =>  $val['pid'],
-                                    'pl_price1'    =>  $p_costprice,
-                                    'pl_price2'    =>  $val['td_price'],
-                                    'pl_notes'     =>  '進貨單：'.$form->t_number.'-新增',
-                                    'update_user'  =>  Admin::user()->id,
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
-                                ];
-                            }else{
+                            //     $updateProductIndexArray = [
+                            //         'p_costprice'   =>  $val['td_price'],
+                            //         'last_delivery'   =>  date('Y-m-d H:i:s'),
+                            //         'update_user'   =>  Admin::user()->id,
+                            //     ];
+                            //     ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
+                            //     /**
+                            //      * 商品價格變更紀錄 (未完成)
+                            //      */
+                            //     $insertProductLogArray[] = [
+                            //         'pid'          =>  $val['pid'],
+                            //         'pl_price1'    =>  $p_costprice,
+                            //         'pl_price2'    =>  $val['td_price'],
+                            //         'pl_notes'     =>  '進貨單：'.$form->t_number.'-新增',
+                            //         'update_user'  =>  Admin::user()->id,
+                            //         'update_at'    =>  date('Y-m-d H:i:s'),
+                            //     ];
+                            // }else{
 
-                                $updateProductIndexArray = [
-                                    'last_delivery'   =>  date('Y-m-d H:i:s'),
-                                    'update_user'   =>  Admin::user()->id,
-                                ];
-                                ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
-                            }
+                            //     $updateProductIndexArray = [
+                            //         'last_delivery'   =>  date('Y-m-d H:i:s'),
+                            //         'update_user'   =>  Admin::user()->id,
+                            //     ];
+                            //     ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
+                            // }
                             /* 庫存變更 */
                             $retailStock = 0; //原始庫存
                             if(!empty($stidArray[$key])){ //該倉庫該商品有庫存資料
+                                $stockdata = Stock::find($stidArray[$key]);
+                                $retailStock = $stockdata->st_stock ?: 0;
+                                $st_stock = (int) $retailStock - (int) $val['td_quantity'];
 
-                                $retailStock = Stock::find($stidArray[$key])->st_stock ?: 0;
-                                $st_stock = (int) $retailStock + (int) $val['td_quantity'];
-
-                                $updateStockArray = [                                
-                                    'st_stock'   =>  $st_stock,
+                                //更新原本的出貨倉庫存
+                                $updateStockArray1 = [                                
+                                    'st_stock'      =>  $st_stock,
                                     'update_user'   =>  Admin::user()->id,
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
-                                Stock::where('stid',$stidArray[$key])->update($updateStockArray);
-                                $dataArray[$key]['stid'] = $stidArray[$key];
+                                Stock::find($stidArray[$key])->update($updateStockArray1);
+
+                                //更新收貨倉的庫存
+
+                                $receiveStockdata = Stock::where('wid',$wid_receive)->where('pid',$val['pid'])->where('st_type',$stockdata->st_type)->first();                               
+
+                                $dataArray[$key]['stid'] = $receiveStockdata->stid;
                             }else{
                                 $st_stock = $val['td_quantity'];
                                 $insertStockArray = [
@@ -452,6 +459,8 @@ SCRIPT;
                                     'st_type'       =>  '不分款',
                                     'st_stock'      =>  $st_stock,
                                     'update_user'   =>  Admin::user()->id,
+                                    'created_at'    =>  date('Y-m-d H:i:s'),
+                                    'update_at'     =>  date('Y-m-d H:i:s'),
                                 ];
                                 $dataArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
                             }
@@ -751,7 +760,7 @@ SCRIPT;
             $form->hidden('tid');
 
             //btn-append有另外寫js的append功能
-            $form->button('btn-danger btn-append','+ 進貨商品')->on('click','ShowModal("product");');
+            $form->button('btn-danger btn-append','+ 選擇商品')->on('click','ShowModal("hasstock");');
         })->setWidth(7);
     }
 }

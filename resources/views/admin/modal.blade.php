@@ -1,6 +1,5 @@
-@if($target=='product')
-
 <div class='modal fade' id="selectproduct">
+    <input type="hidden" id="target" value="{{ $target }}">
     <div class='modal-dialog modal-lg'>
         <div class='modal-content'>
             <div class="modal-header">
@@ -74,9 +73,18 @@ $(function() {
 
     var sendsearch = function(text){
         $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:140px;"><img src="/images/loading.gif"/>Loading...</div>');
+        var url = '';
+        if($('#target').val() == 'product'){
+            url = '/admin/product/search';
+        }else if($('#target').val() == 'hasstock'){
+            url = '/admin/product/searchstock';
+        }else{
+            alert("ERROR");
+            return false;
+        }
 
         $.ajax({
-            url:'/admin/product/search',
+            url: url,
             method: 'post',
             data: {
                 search: text,
@@ -179,4 +187,3 @@ $(function() {
 
 });
 </script>
-@endif

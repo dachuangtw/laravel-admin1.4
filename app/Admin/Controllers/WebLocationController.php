@@ -129,10 +129,10 @@ class WebLocationController extends Controller
                 $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
                 $form->select('area_id', trans('admin::lang.location_area'))
                 ->options(
-                    [''=>'--- 請選擇 ---'] + DB::table('warehouse')->pluck('w_name','wid')->toArray()
+                    DB::table('warehouse')->pluck('w_name','wid')->toArray()
                 )->rules('required');
                 $form->select('city_id', trans('admin::lang.city_id'))->options(
-                    [''=>'--- 請選擇 ---'] + WebArea::City()->pluck('area_name', 'id')->toArray()
+                    WebArea::City()->pluck('area_name', 'id')->toArray()
                 )->load('district_id', '/admin/api/tw/district')->rules('required');
                 $form->select('district_id', trans('admin::lang.district_id'))->options(function ($id) {
                     return WebArea::options($id);

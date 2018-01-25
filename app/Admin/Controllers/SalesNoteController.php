@@ -16,6 +16,7 @@ use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Table;
+use Illuminate\Support\MessageBag;
 
 class SalesNoteController extends Controller
 {
@@ -57,7 +58,16 @@ class SalesNoteController extends Controller
                 ['text' => trans('admin::lang.sales_note'), 'url' => '/sales/notes'],
                 ['text' => trans('admin::lang.edit')]
             );
-            $content->body($this->form()->edit($id));
+            //比對是否為update_user，否則無權訪問編輯及刪除公告，超級管理員權限all(暫定)
+            $check_update_user = SalesNotes::all()->where('id',$id)->pluck('update_user');
+            if($check_update_user [0] ==  Admin::user()->id || Admin::user()->isAdministrator()){
+                $content->body($this->form()->edit($id));
+            }else{
+                $error = new MessageBag([
+                    'title'  => trans('admin::lang.deny'),
+                ]);
+                return back()->with(compact('error'));
+            }
         });
     }
 
@@ -93,11 +103,16 @@ class SalesNoteController extends Controller
             //關閉眼睛功能
             $grid->actions(function ($actions) {
                 $actions->disableView();
-                    // 没有`delete-image`权限的角色不显示删除按钮
+                // 没有`deleter權限角色不顯示刪除按鈕
                 if (!Admin::user()->can('deleter')) {
                     $actions->disableDelete();
                 }
-            }); 
+                //判斷是否為更新者可編輯及刪除
+                if ($actions->row->update_user != Admin::user()->id) {
+                    $actions->disableDelete();
+                    $actions->disableEdit();
+                }
+            });
             $grid->filter(function($filter){
                 $filter->disableIdFilter();// 禁用id查詢框
                 if(Admin::user()->isAdministrator()){
@@ -122,21 +137,20 @@ class SalesNoteController extends Controller
             $grid->note_at(trans('admin::lang.note_at'))->sortable();
             $grid->note_title(trans('admin::lang.title'));
 
-            //超級管理員可看到所有業務資料，其他為各倉庫
-            //可以看到系統管理員給各倉庫業務公告但不能修改刪除動作
-            if(Admin::user()->isAdministrator()){
-              
-            }else{
+            //各倉庫可以看到系統管理員給各倉庫業務公告
+            // if(Admin::user()->isAdministrator()){            
+            // }else{
+            if(!Admin::user()->isAdministrator()){
                 $grid->model()->where(function ($query) {
                     $query->where('note_wid',  Admin::user()->wid)
                         ->orWhere('note_wid', 'like', '%'.Admin::user()->wid.'|')
                         ->orWhere('note_wid', 'like', Admin::user()->wid.'|%')
-                        ->orWhere('note_wid', 'like', '%|'.Admin::user()->wid.'|%');
-                        // ->orWhere('note_wid', '-1');
+                        ->orWhere('note_wid', 'like', '%|'.Admin::user()->wid.'|%')
+                        ->orWhere('note_wid', '-1');
                 });           
             }
-            
-            $grid->note_wid(trans('admin::lang.warehouse'))//->pluck()
+
+            $grid->note_wid(trans('admin::lang.warehouse'))
                 ->display(function($wid){
                     $note_wid = implode('|',$wid);                       
                     if ($note_wid == '-1'){

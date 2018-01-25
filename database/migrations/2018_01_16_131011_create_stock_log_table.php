@@ -23,7 +23,7 @@ class CreateStockLogTable extends Migration
             $table->integer('sl_stock')->default(0)->comment('變更後庫存');
             $table->string('sl_notes',100)->nullable()->comment('變更事由');
             $table->string('update_user',25)->nullable()->comment('變更人');
-            $table->timestamp('update_at')->nullable()->comment('變更時間');
+            $table->timestamp('updated_at')->nullable()->comment('變更時間');
         });
     }
 

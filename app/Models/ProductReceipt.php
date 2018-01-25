@@ -48,7 +48,7 @@ class ProductReceipt extends Model
                     'sl_stock'     =>  $st_stock,
                     'sl_notes'     =>  '進貨單：'.$model->re_number.'-刪除',
                     'update_user'  =>  Admin::user()->id,
-                    'update_at'    =>  date('Y-m-d H:i:s'),
+                    'updated_at'    =>  date('Y-m-d H:i:s'),
                 ];
             }
             $insertStockLogArray && StockLog::insert($insertStockLogArray);

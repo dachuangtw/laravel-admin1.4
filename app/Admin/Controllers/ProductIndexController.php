@@ -429,7 +429,7 @@ class ProductIndexController extends Controller
             $grid->exporter($exporter);
 
             //顯示匯入按鈕
-            // $grid->allowImport();
+            $grid->allowImport();
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
@@ -567,7 +567,7 @@ class ProductIndexController extends Controller
                         'st_stock'      =>  0,
                         'update_user'   =>  Admin::user()->id,
                         'created_at'    =>  date('Y-m-d H:i:s'),
-                        'update_at'     =>  date('Y-m-d H:i:s'),
+                        'updated_at'     =>  date('Y-m-d H:i:s'),
                     ];
                     Stock::insert($insertstock);
                 }
@@ -701,7 +701,7 @@ class ProductIndexController extends Controller
                                 'st_stock'      =>  $row['st_stock'],
                                 'update_user'   =>  Admin::user()->id,
                                 'created_at'    =>  date('Y-m-d H:i:s'),
-                                'update_at'     =>  date('Y-m-d H:i:s'),
+                                'updated_at'     =>  date('Y-m-d H:i:s'),
                                 ];
                             } 
                         }

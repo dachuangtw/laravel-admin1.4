@@ -412,7 +412,7 @@ SCRIPT;
                                     'pl_price2'    =>  $val['red_price'],
                                     'pl_notes'     =>  '進貨單：'.$form->re_number.'-新增',
                                     'update_user'  =>  Admin::user()->id,
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                             }else{
 
@@ -446,7 +446,7 @@ SCRIPT;
                                     'st_unit'       =>  '每人',
                                     'update_user'   =>  Admin::user()->id,
                                     'created_at'    =>  date('Y-m-d H:i:s'),
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                                 $dataArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
                             }
@@ -463,7 +463,7 @@ SCRIPT;
                                     'sl_stock'     =>  $st_stock,
                                     'sl_notes'     =>  '進貨單：'.$form->re_number.'-新增',
                                     'update_user'  =>  Admin::user()->id,
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                             }
                             
@@ -553,7 +553,7 @@ SCRIPT;
                                     'pl_price2'    =>  $red_price[$key],
                                     'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
                                     'update_user'  =>  Admin::user()->id,
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                             }
 
@@ -589,7 +589,7 @@ SCRIPT;
                                         'sl_stock'     =>  $st_stock,
                                         'sl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
                                         'update_user'  =>  Admin::user()->id,
-                                        'update_at'    =>  date('Y-m-d H:i:s'),
+                                        'updated_at'    =>  date('Y-m-d H:i:s'),
                                     ];
                                 }
                             }
@@ -631,7 +631,7 @@ SCRIPT;
                                     'pl_price2'    =>  $val['red_price'],
                                     'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
                                     'update_user'  =>  Admin::user()->id,
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                             }else{
 
@@ -669,7 +669,7 @@ SCRIPT;
                                     'st_unit'       =>  '每人',
                                     'update_user'   =>  Admin::user()->id,
                                     'created_at'    =>  date('Y-m-d H:i:s'),
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                                 //新增庫存資料
                                 $insertProductReceiptArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
@@ -689,7 +689,7 @@ SCRIPT;
                                     'sl_stock'     =>  $st_stock,
                                     'sl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
                                     'update_user'  =>  Admin::user()->id,
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                             }
                         }
@@ -718,7 +718,7 @@ SCRIPT;
                             'sl_stock'     =>  $st_stock,
                             'sl_notes'     =>  '進貨單：'.$form->re_number.'-明細刪除',
                             'update_user'  =>  Admin::user()->id,
-                            'update_at'    =>  date('Y-m-d H:i:s'),
+                            'updated_at'    =>  date('Y-m-d H:i:s'),
                         ];
                     }
                     $insertStockLogArray && StockLog::insert($insertStockLogArray); 

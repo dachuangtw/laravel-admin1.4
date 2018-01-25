@@ -433,7 +433,7 @@ SCRIPT;
                                     'sl_stock'     =>  $st_stock,
                                     'sl_notes'     =>  '調撥單：'.$form->t_number.'-新增',
                                     'update_user'  =>  Admin::user()->id,
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                             }
                             
@@ -531,7 +531,7 @@ SCRIPT;
                                         'sl_stock'     =>  $st_stock,
                                         'sl_notes'     =>  '調撥單：'.$form->t_number.'-修改',
                                         'update_user'  =>  Admin::user()->id,
-                                        'update_at'    =>  date('Y-m-d H:i:s'),
+                                        'updated_at'    =>  date('Y-m-d H:i:s'),
                                     ];
                                 }
                             }
@@ -596,7 +596,7 @@ SCRIPT;
                                     'sl_stock'     =>  $st_stock,
                                     'sl_notes'     =>  '調撥單：'.$form->t_number.'-修改',
                                     'update_user'  =>  Admin::user()->id,
-                                    'update_at'    =>  date('Y-m-d H:i:s'),
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
                             }
                         }
@@ -624,7 +624,7 @@ SCRIPT;
                             'sl_stock'     =>  $st_stock,
                             'sl_notes'     =>  '調撥單：'.$form->t_number.'-明細刪除',
                             'update_user'  =>  Admin::user()->id,
-                            'update_at'    =>  date('Y-m-d H:i:s'),
+                            'updated_at'    =>  date('Y-m-d H:i:s'),
                         ];
                     }
                     $insertStockLogArray && StockLog::insert($insertStockLogArray); 

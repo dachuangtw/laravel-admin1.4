@@ -20,7 +20,7 @@ class CreateProductLogTable extends Migration
             $table->decimal('pl_price2',10,2)->default(0.00)->comment('新成本價');
             $table->string('pl_notes',100)->nullable()->comment('變更事由');
             $table->string('update_user',25)->nullable()->comment('變更人');
-            $table->timestamp('update_at')->nullable()->comment('變更時間');
+            $table->timestamp('updated_at')->nullable()->comment('變更時間');
         });
     }
 

@@ -16,7 +16,6 @@ class CreateTransferDetailTable extends Migration
         Schema::create('transfer_detail', function (Blueprint $table) {
             $table->increments('tdid')->comment('調撥單明細id');
             $table->string('t_number',50)->index()->comment('調撥單號');
-            $table->integer('tid')->unsigned()->index()->comment('調撥單id');
             $table->integer('pid')->unsigned()->index()->comment('商品id');
             $table->integer('stid')->unsigned()->index()->comment('庫存id');
             $table->decimal('td_price',10,2)->default(0.00)->comment('單價(業務價)');

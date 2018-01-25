@@ -77,9 +77,9 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
-                                            <input type="text" name="price[]" value="{{ $product->$showprice }}"></div>
+                                            <input type="text" name="price[]" value="{{ $product->$showprice }}" {{ $inputtext ? '' : 'readonly' }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
-                                            <input type="text" name="amount[]" value="{{ $product->$showprice }}"></div>
+                                            <input type="text" name="amount[]" value="{{ $product->$showprice }}" {{ $inputtext ? '' : 'readonly' }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[9] }}px; left: {{ $rowLeft[9] }}px; ">
                                             <input type="text" name="notes[]" value=""></div>
 
@@ -93,7 +93,7 @@
                                     @foreach($savedDetails as $key => $savedDetail)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
                                         <input type="hidden" name="pid[]" value="{{ $products[$key]['pid'] }}">
-                                        <input type="hidden" name="redid[]" value="{{ $savedDetail->redid }}">
+                                        <input type="hidden" name="{{ $detailid }}[]" value="{{ $savedDetail->$detailid }}">
                                         <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[0] }}px; left: {{ $rowLeft[0] }}px; ">
                                             <div class="ui-grid-cell-contents">
                                                 <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>
@@ -109,7 +109,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             @if(isset($stock[$savedDetail->stid]))
-                                                @if(empty($savedDetail->redid))
+                                                @if(empty($savedDetail->$detailid))
                                                 <select name="stid[]">
                                                     @foreach($stock as $val)
                                                         <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
@@ -143,7 +143,7 @@
                                     @foreach($products as $key => $product)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
                                         <input type="hidden" name="pid[]" value="{{ $product->pid }}">
-                                        <input type="hidden" name="redid[]" value="">
+                                        <input type="hidden" name="{{ $detailid }}[]" value="">
                                         <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[0] }}px; left: {{ $rowLeft[0] }}px; ">
                                             <div class="ui-grid-cell-contents">
                                                 <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>

@@ -1880,3 +1880,8 @@ input[type="radio"] {
     -webkit-animation-delay: -0.1s;
     animation-delay: -0.1s;
 }
+
+input[readonly] {
+    border: 0px;
+    background: rgba(0, 0, 0, 0);
+}

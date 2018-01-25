@@ -30,7 +30,7 @@ class ProductReceipt extends Model
 
         static::deleted(function ($model) {
 
-            $ProductReceiptDetails = ProductReceiptDetails::where('reid',$model->reid)->pluck('red_quantity','stid');
+            $ProductReceiptDetails = ProductReceiptDetails::where('re_number',$model->re_number)->pluck('red_quantity','stid');
 
             $insertStockLogArray = [];
             foreach($ProductReceiptDetails as $stid => $quantity){

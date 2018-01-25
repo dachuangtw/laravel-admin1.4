@@ -128,6 +128,9 @@ $(function() {
         if(selectResultArray.length > 0){
 
             //從網址獲知目前動作並設定只能在create或edit頁面使用 
+
+            var firsttime = inputtext = true;
+            var rowTop, action;
             var str = window.location.href;
             action = str.slice(str.lastIndexOf("/")+1); 
             if(action != 'create' && action != 'edit'){
@@ -135,8 +138,10 @@ $(function() {
                 return false;
             }
 
-            var firsttime = true;
-            var rowTop, action;
+            if($('#target').val() == 'hasstock'){
+                inputtext = false;
+            }
+
             if($('#productdetails').length > 0){
                 firsttime = false;
                 rowTop = $("#productdetails .tb-body-container").find("div[role='row']").last().css("top");
@@ -146,6 +151,8 @@ $(function() {
                 method: 'post',
                 data: {
                     action: action,
+                    target: $('#target').val(),
+                    inputtext: inputtext,
                     selected: selectResultArray,
                     firsttime: firsttime,
                     rowTop: rowTop,

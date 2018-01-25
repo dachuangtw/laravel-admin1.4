@@ -47,6 +47,7 @@ class ProductIndexController extends Controller
         $stock = $rowWidth = $rowLeft = $rowTitle = [];
         $selected = $request->selected ?: [];
         $action = $request->action;
+        $target = $request->target;
 
         $products = ProductIndex::whereIn('pid',$selected)->get();
         foreach($products as $key => $product){
@@ -56,22 +57,29 @@ class ProductIndexController extends Controller
         $rowTop = empty($request->rowTop) ? -30 : (int)$request->rowTop ;
         $rowEvenOdd = ['even','odd'];
         $firsttime = filter_var($request->firsttime, FILTER_VALIDATE_BOOLEAN);
-        $showprice = 'p_costprice';
+        $inputtext = filter_var($request->inputtext, FILTER_VALIDATE_BOOLEAN);
+
+        //調貨單使用業務價
+        if($target == 'hasstock'){
+            $showprice = 'p_salesprice';
+        }else{            
+            $showprice = 'p_costprice';
+        }
 
         if($action == 'create'){
             $rowWidth = [33,100,150,50,60,80,80,80,80,90];
             $rowLeft = [0,33,133,283,333,393,473,553,633,713];
-            $rowTitle = ['','商品編號','商品名','單位','庫存數','款式','進貨數','單價','總價','備註'];
+            $rowTitle = ['','商品編號','商品名','單位','庫存數','款式','數量','單價','總價','備註'];
 
         }elseif($action == 'edit'){
 
             $action = 'editadd';
             $rowWidth = [33,100,150,60,80,80,80,80,110];
             $rowLeft = [0,33,133,283,343,423,503,583,693];
-            $rowTitle = ['','商品編號','商品名','單位','款式','進貨數','單價','總價','備註'];
+            $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
         }
 
-        $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
+        $data = compact('action','inputtext','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
         return view('admin::productdetails', $data);
     }
     /**

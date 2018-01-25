@@ -37,6 +37,7 @@ class ProductReceiptController extends Controller
     {
         $stock = $rowWidth = $rowLeft = $rowTitle = [];
         $action = 'edit';
+        $detailid = 'redid';
 
         $firsttime = true;
         
@@ -52,7 +53,7 @@ class ProductReceiptController extends Controller
         $showprice = 'p_costprice';
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','savedDetails','stock');
+        $data = compact('action','detailid','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','savedDetails','stock');
         
         return view('admin::productdetails', $data);
     }
@@ -403,7 +404,7 @@ SCRIPT;
                                 ];
                                 ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
                                 /**
-                                 * 商品價格變更紀錄 (未完成)
+                                 * 商品價格變更紀錄
                                  */
                                 $insertProductLogArray[] = [
                                     'pid'          =>  $val['pid'],
@@ -450,7 +451,7 @@ SCRIPT;
                                 $dataArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
                             }
                             /**
-                             *  庫存變更紀錄 (未完成)
+                             *  庫存變更紀錄
                              */
                             if($val['red_quantity'] > 0){
                                 $insertStockLogArray[] = [
@@ -544,7 +545,7 @@ SCRIPT;
                                 ProductIndex::where('pid',$pid)->update($updateProductIndexArray);
 
                                 /**
-                                 * 商品價格變更紀錄 (未完成)
+                                 * 商品價格變更紀錄
                                  */
                                 $insertProductLogArray[] = [
                                     'pid'          =>  $pid,
@@ -574,7 +575,7 @@ SCRIPT;
                                 Stock::where('stid',$stid[$key])->update($updateStockArray);
 
                                 /**
-                                 *  庫存變更紀錄 (未完成)
+                                 *  庫存變更紀錄
                                  */
                                 if($st_stock - $retailStock != 0){
                                     $insertStockLogArray[] = [
@@ -622,7 +623,7 @@ SCRIPT;
                                 ];
                                 ProductIndex::where('pid',$val['pid'])->update($updateProductIndexArray);
                                 /**
-                                 * 商品價格變更紀錄 (未完成)
+                                 * 商品價格變更紀錄
                                  */
                                 $insertProductLogArray[] = [
                                     'pid'          =>  $val['pid'],
@@ -674,7 +675,7 @@ SCRIPT;
                                 $insertProductReceiptArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
                             }
                             /**
-                             *  庫存變更紀錄 (未完成)
+                             *  庫存變更紀錄
                              */
                             if($st_stock - $retailStock != 0){
                                 $insertStockLogArray[] = [

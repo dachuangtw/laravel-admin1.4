@@ -54,7 +54,7 @@ class SalesNoteController extends Controller
             $content->header(trans('admin::lang.sales_note'));
             $content->description(trans('admin::lang.edit'));
             $content->breadcrumb(
-                ['text' => trans('admin::lang.sales_note'), 'url' => '/sales/note'],
+                ['text' => trans('admin::lang.sales_note'), 'url' => '/sales/notes'],
                 ['text' => trans('admin::lang.edit')]
             );
             $content->body($this->form()->edit($id));
@@ -74,7 +74,7 @@ class SalesNoteController extends Controller
             $content->header(trans('admin::lang.sales_note'));
             $content->description(trans('admin::lang.new'));
             $content->breadcrumb(
-                ['text' => trans('admin::lang.sales_note'), 'url' => '/sales/note'],
+                ['text' => trans('admin::lang.sales_note'), 'url' => '/sales/notes'],
                 ['text' => trans('admin::lang.new')]
             );
 
@@ -93,8 +93,11 @@ class SalesNoteController extends Controller
             //關閉眼睛功能
             $grid->actions(function ($actions) {
                 $actions->disableView();
+                    // 没有`delete-image`权限的角色不显示删除按钮
+                if (!Admin::user()->can('deleter')) {
+                    $actions->disableDelete();
+                }
             }); 
-
             $grid->filter(function($filter){
                 $filter->disableIdFilter();// 禁用id查詢框
                 if(Admin::user()->isAdministrator()){
@@ -146,7 +149,6 @@ class SalesNoteController extends Controller
                         return $w_name;
                     }
             })->label('info');
-                
 
             $grid->column('公告詳情')->expand(function (){
                 $header = [trans('admin::lang.note_content')];
@@ -185,20 +187,19 @@ class SalesNoteController extends Controller
                 )->rules('required');
             }else{
                 //各倉庫發業務公告
-                $form->multipleSelect('note_wid',trans('admin::lang.note_target'))
-                ->options(Warehouse::all()->pluck('w_name', 'wid'))->default([Admin::user()->wid])->readonly();
-                // $form->hidden('note_wid')->default(Admin::user()->wid);
+                $form->multipleSelect('note_wid',trans('admin::lang.warehouse'))->options(
+                    Warehouse::all()->where('wid',Admin::user()->wid)->pluck('w_name', 'wid'))
+                    ->default([Admin::user()->wid])->rules('required');
                 $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(
                     ['-1' => '全部業務'] + Sales::all()->where('area_id',Admin::user()->wid)
                     ->pluck('name', 'sales_id')->toArray()
-                )->rules('required');
+                )->default('-1')->rules('required');
             }
             $form->editor('note_content', trans('admin::lang.note_content'));
             $form->hidden('update_user')->default(Admin::user()->id);
             $form->display('created_at',trans('admin::lang.created_at'));
             $form->display('updated_at',trans('admin::lang.updated_at'));
-            $form->saving(function (Form $form) {
-                
+            $form->saving(function (Form $form) {              
                 $form->update_user = Admin::user()->id;
                 if (!Admin::user()->isAdministrator()){
                     $form->note_wid = [Admin::user()->wid];

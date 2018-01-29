@@ -95,7 +95,7 @@ $(function() {
                 if(result){
                     $('#selectproduct .tb-body-container').html(result); 
                 }else{
-                    text = (text == 'searchselected') ? '已選擇' : ' 【 ' + text +' 】 ';
+                    text = (text == 'searchselected') ? '已選擇' : (text == 'searchall') ? '' : ' 【 ' + text +' 】 ';
                     $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:140px;">查無' + text + '資料</div>'); 
                 }
             }
@@ -138,20 +138,28 @@ $(function() {
                 return false;
             }
 
-            if($('#target').val() == 'hasstock'){
-                inputtext = false;
-            }
 
             if($('#productdetails').length > 0){
                 firsttime = false;
                 rowTop = $("#productdetails .tb-body-container").find("div[role='row']").last().css("top");
             }
+
+            var url = '',target = $('#target').val();
+            if(target == 'product'){
+                url = '/admin/product/receiptdetails';
+            }else if(target == 'hasstock'){
+                url = '/admin/transfer/transferdetails';
+                inputtext = false;
+            }else{
+                alert("ERROR");
+                return false;
+            }
             $.ajax({
-                url:'/admin/product/receiptdetails',
+                url: url,
                 method: 'post',
                 data: {
                     action: action,
-                    target: $('#target').val(),
+                    target: target,
                     inputtext: inputtext,
                     selected: selectResultArray,
                     firsttime: firsttime,

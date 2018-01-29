@@ -16,8 +16,8 @@ function ShowModal(target) {
 }
 
 /** 展開進貨單明細 */
-function ShowReceiptDetails() {
-    var url = '/admin/product/receiptdetails/' + $("input[name='reid']").val();
+function ShowReceiptDetails(reid) {
+    var url = '/admin/product/receiptdetails/' + reid; //$("input[name='reid']").val();
 
     $.get(url, function(data) {
         $('.form-horizontal .box-body:first').append(data);
@@ -25,8 +25,8 @@ function ShowReceiptDetails() {
 }
 
 /** 展開調撥單明細 */
-function ShowTransferDetails() {
-    var url = '/admin/product/transferdetails/' + $("input[name='tid']").val();
+function ShowTransferDetails(tid) {
+    var url = '/admin/transfer/transferdetails/' + tid; //$("input[name='tid']").val();
 
     $.get(url, function(data) {
         $('.form-horizontal .box-body:first').append(data);

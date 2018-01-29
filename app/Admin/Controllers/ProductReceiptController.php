@@ -40,7 +40,9 @@ class ProductReceiptController extends Controller
         $detailid = 'redid';
 
         $firsttime = true;
-        
+        $inputtext = true;
+        $allReadonly = '';
+
         $re_number = ProductReceipt::find($id)->re_number;
         $savedDetails = ProductReceiptDetails::ofselected($re_number) ?: [];
         foreach($savedDetails as $key => $value){
@@ -48,12 +50,15 @@ class ProductReceiptController extends Controller
             $stock[$value->stid] = Stock::find($value->stid)->st_type;
         }
         $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,693];
+        $rowLeft = [0,33,133,283,343,423,503,583,663];
         $rowTitle = ['','商品編號','商品名','單位','款式','進貨數','單價','總價','備註'];
-        $showprice = 'p_costprice';
+        $showPrice = 'red_price';
+        $showQuantity = 'red_quantity';
+        $showAmount = 'red_amount';
+        $showNotes = 'red_notes';
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        $data = compact('action','detailid','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','savedDetails','stock');
+        $data = compact('action','detailid','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','allReadonly','savedDetails','stock');
         
         return view('admin::productdetails', $data);
     }
@@ -153,14 +158,19 @@ class ProductReceiptController extends Controller
         $action = 'view';
         
         $firsttime = true;
+        $inputtext = true;
+
         $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,693];
+        $rowLeft = [0,33,133,283,343,423,503,583,663];
         $rowTitle = ['','商品編號','商品名','單位','款式','進貨數','單價','總價','備註'];
-        $showprice = 'p_costprice';
+        $showPrice = 'red_price';
+        $showQuantity = 'red_quantity';
+        $showAmount = 'red_amount';
+        $showNotes = 'red_notes';
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
         
-        $data = compact('action','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','savedDetails','stock');
+        $data = compact('action','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','savedDetails','stock');
         
         return $table->render().view('admin::productdetails', $data);
     }
@@ -183,7 +193,7 @@ class ProductReceiptController extends Controller
 
             $content->body($this->editform()->edit($id));
             $script = <<<SCRIPT
-            ShowReceiptDetails();
+            ShowReceiptDetails('$id');
 SCRIPT;
          Admin::script($script);
                 
@@ -329,7 +339,7 @@ SCRIPT;
                 if(empty(request()->pid)){
                     $error = new MessageBag(['title'=>'提示','message'=>'未填寫進貨商品!']);
                     return back()->withInput()->with(compact('error'));
-                }elseif(empty(request()->supid)){
+                }elseif(empty(request()->supid) && request()->action == 'create'){
                     $error = new MessageBag(['title'=>'提示','message'=>'未選擇進貨廠商!']);
                     return back()->withInput()->with(compact('error'));
                 }
@@ -725,6 +735,7 @@ SCRIPT;
                     ProductReceiptDetails::whereIn('redid',$deleteRedid)->delete();
                 }
                 $form->re_amount = $total;
+                $form->update_user =  Admin::user()->id;
             });
         })->setWidth(5);
     }
@@ -740,15 +751,13 @@ SCRIPT;
             $form->select('supid', trans('admin::lang.product_supplier'))->options(
                 ProductSupplier::all()->pluck('sup_name', 'supid')
             )->readOnly();
-            // $form->display('supid', trans('admin::lang.product_supplier'))->with(function($supid) {
-            //     return ProductSupplier::where('supid',$supid)->pluck('sup_name')[0];
-            // });
+
             $form->date('re_delivery', trans('admin::lang.re_delivery'))->readOnly();
             $form->textarea('re_notes', trans('admin::lang.notes'))->rows(2);
 
             $form->hidden('re_number');
             $form->hidden('re_amount');
-            $form->hidden('reid');
+            $form->hidden('update_user');
 
             //btn-append有另外寫js的append功能
             $form->button('btn-danger btn-append','+ 進貨商品')->on('click','ShowModal("product");');

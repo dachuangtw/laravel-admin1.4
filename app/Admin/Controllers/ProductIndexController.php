@@ -61,9 +61,11 @@ class ProductIndexController extends Controller
 
         //調貨單使用業務價
         if($target == 'hasstock'){
-            $showprice = 'p_salesprice';
+            $showPrice = 'p_salesprice';
+            $detailid = 'tdid';
         }else{            
-            $showprice = 'p_costprice';
+            $showPrice = 'p_costprice';
+            $detailid = 'redid';
         }
 
         if($action == 'create'){
@@ -75,11 +77,11 @@ class ProductIndexController extends Controller
 
             $action = 'editadd';
             $rowWidth = [33,100,150,60,80,80,80,80,110];
-            $rowLeft = [0,33,133,283,343,423,503,583,693];
+            $rowLeft = [0,33,133,283,343,423,503,583,663];
             $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
         }
 
-        $data = compact('action','inputtext','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
+        $data = compact('action','inputtext','products','showPrice','detailid','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
         return view('admin::productdetails', $data);
     }
     /**
@@ -429,7 +431,7 @@ class ProductIndexController extends Controller
             $grid->exporter($exporter);
 
             //顯示匯入按鈕
-            $grid->allowImport();
+            // $grid->allowImport();
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {

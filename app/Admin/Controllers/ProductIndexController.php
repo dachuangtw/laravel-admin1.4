@@ -8,6 +8,7 @@ use App\ProductSeries;
 use App\ProductCategory;
 use App\Warehouse;
 use App\Stock;
+use App\StockLog;
 use App\StockCategory;
 use App\ProductSupplier;
 use App\Admin\Extensions\ExcelExpoter;
@@ -381,7 +382,7 @@ class ProductIndexController extends Controller
             $grid->p_name(trans('admin::lang.name'));
             $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
                 return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"".config('app.url')."/images/404.jpg\"'/>";            
-            });
+            });//->image('',150,100);
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             if(Admin::user()->inRoles(['administrator','watch'])){
                 $grid->p_costprice(trans('admin::lang.product_costprice'));
@@ -696,22 +697,35 @@ class ProductIndexController extends Controller
 
                             //有庫存才增加庫存資料
                             if((int)$row['st_stock'] > 0){
-                                $dataArray2[] = [
+                                $dataArray2 = [
                                 'pid'           =>  $pid,
-                                'wid'           =>  '2', //台中倉
+                                'wid'           =>  Admin::user()->wid,
                                 'st_type'       =>  '不分款',
                                 'st_stock'      =>  $row['st_stock'],
                                 'update_user'   =>  Admin::user()->id,
                                 'created_at'    =>  date('Y-m-d H:i:s'),
                                 'updated_at'     =>  date('Y-m-d H:i:s'),
                                 ];
+                                $stid = Stock::insertGetId($dataArray2,'stid');
+
+                                $insertStockLogArray[] = [
+                                    'pid'          =>  $pid,
+                                    'wid'          =>  Admin::user()->wid,
+                                    'stid'         =>  $stid,
+                                    'sl_calc'      =>  '+',
+                                    'sl_quantity'  =>  $row['st_stock'],
+                                    'sl_stock'     =>  $row['st_stock'],
+                                    'sl_notes'     =>  '商品匯入',
+                                    'update_user'  =>  Admin::user()->id,
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
+                                ];
                             } 
                         }
                     }
                 }
-                if(!empty($dataArray2))
+                if(!empty($insertStockLogArray))
                 {
-                    Stock::insert($dataArray2);
+                    StockLog::insert($insertStockLogArray);
                 }
             }
         }

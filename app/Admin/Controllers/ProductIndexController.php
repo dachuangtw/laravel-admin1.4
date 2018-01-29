@@ -380,7 +380,7 @@ class ProductIndexController extends Controller
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
             $grid->p_name(trans('admin::lang.name'));
             $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
-                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:50px;max-height:50px;' onerror='this.src=\"".config('app.url')."/images/404.jpg\"'/>";            
+                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"".config('app.url')."/images/404.jpg\"'/>";            
             });
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             if(Admin::user()->inRoles(['administrator','watch'])){

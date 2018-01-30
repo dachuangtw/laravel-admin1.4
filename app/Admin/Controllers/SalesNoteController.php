@@ -28,7 +28,7 @@ class SalesNoteController extends Controller
      */
     public function index()
     {
-        Permission::check(['reader']);   
+        Permission::check(['SalesNotes-reader']);   
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_note'));
@@ -49,7 +49,7 @@ class SalesNoteController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['editor']);
+        Permission::check(['SalesNotes-editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.sales_note'));
@@ -78,7 +78,7 @@ class SalesNoteController extends Controller
      */
     public function create()
     {
-        Permission::check(['creator']);
+        Permission::check(['SalesNotes-creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_note'));
@@ -104,7 +104,7 @@ class SalesNoteController extends Controller
             $grid->actions(function ($actions) {
                 $actions->disableView();
                 // 没有`deleter權限角色不顯示刪除按鈕
-                if (!Admin::user()->can('deleter')) {
+                if (!Admin::user()->can('SalesNotes-deleter')) {
                     $actions->disableDelete();
                 }
                 //判斷是否為更新者可編輯及刪除
@@ -147,7 +147,8 @@ class SalesNoteController extends Controller
                         ->orWhere('note_wid', 'like', Admin::user()->wid.'|%')
                         ->orWhere('note_wid', 'like', '%|'.Admin::user()->wid.'|%')
                         ->orWhere('note_wid', '-1');
-                });           
+                });     
+                $grid->disableRowSelector();      
             }
 
             $grid->note_wid(trans('admin::lang.warehouse'))
@@ -196,8 +197,9 @@ class SalesNoteController extends Controller
                 $form->multipleSelect('note_wid',trans('admin::lang.warehouse'))->options(
                     ['-1'=> '全部倉庫'] + Warehouse::all()->pluck('w_name', 'wid')->toArray()
                 )->rules('required');
+
                 $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(
-                    ['-1' => '全部業務'] + Sales::all()->pluck('name', 'sales_id')->toArray()
+                    ['-1' => '全部業務']+ Sales::all()->pluck('name', 'sales_id')->toArray()
                 )->rules('required');
             }else{
                 //各倉庫發業務公告
@@ -205,7 +207,7 @@ class SalesNoteController extends Controller
                     Warehouse::all()->where('wid',Admin::user()->wid)->pluck('w_name', 'wid'))
                     ->default([Admin::user()->wid])->rules('required');
                 $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(
-                    ['-1' => '全部業務'] + Sales::all()->where('area_id',Admin::user()->wid)
+                    ['-1' => '全部業務'] + Sales::all()->where('wid', Admin::user()->wid)
                     ->pluck('name', 'sales_id')->toArray()
                 )->default('-1')->rules('required');
             }
@@ -222,3 +224,4 @@ class SalesNoteController extends Controller
         });
     }
 }
+

@@ -17,5 +17,11 @@ class DatabaseSeeder extends Seeder
       $this->call(WarehouseTableSeeder::class);
       //WEBAREA
       $this->call(WebAreaTableSeeder::class);
+      //ROLES
+      $this->call(AdminRolesTableSeeder::class);
+      //PERMISSIONS
+      $this->call(AdminPermissionsTableSeeder::class);
+      //ROLES and PERMISSIONS
+      $this->call(AdminRolePermissionsTableSeeder::class);
     }
 }

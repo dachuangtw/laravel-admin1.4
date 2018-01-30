@@ -18,10 +18,10 @@ class CreateSalesAssignDetailsTable extends Migration
             $table->string('assign_id')->unique()->comment('配貨單號');
             $table->string('pid')->nullable()->comment('商品編號');
             $table->integer('stid')->unsigned()->index()->comment('庫存id');
-            $table->string('st_type',50)->nullable()->comment('款式');
             $table->decimal('sad_salesprice',10,2)->default(0.00)->comment('業務單價');  
             $table->integer('sad_quantity')->default(0)->comment('數量');         
             $table->decimal('sad_amount')->default(0.00)->comment('金額(數量*單價)');
+            $table->text('sad_notes')->nullable()->comment('備註');
             $table->timestamps();
         });
     }

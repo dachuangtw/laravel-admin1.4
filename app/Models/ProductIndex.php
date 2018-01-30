@@ -57,10 +57,10 @@ class ProductIndex extends Model
     // }
 
     //限制分類
-    // public function scopeOfCategory($query, $type)
-    // {
-    //     return $query->where('p_category', $type);
-    // }
+    public function scopeOfCategory($query, $type)
+    {
+        return $query->where('p_category', $type);
+    }
 
     //限制主題系列
     // public function scopeOfSeries($query, $type)

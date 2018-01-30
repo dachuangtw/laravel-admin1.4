@@ -387,7 +387,7 @@ SCRIPT;
 
             $form->hidden('receive_user');
             $form->hidden('receive_at');
-            $form->hidden('t_checked');
+            $form->hidden('t_checked')->default(0);
 
             /**
              * 不打算修正的BUG：laravel-admin模組原本的bug
@@ -496,7 +496,7 @@ SCRIPT;
                         }
                         $insertStockLogArray && StockLog::insert($insertStockLogArray);
 
-                        // TransferDetail::where('t_number',$form->t_number)->delete();
+                        TransferDetail::where('t_number',$form->t_number)->delete();
                         TransferDetail::insert($dataArray);
                     }
             

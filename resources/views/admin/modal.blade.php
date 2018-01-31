@@ -67,9 +67,6 @@
 </div>
 <script>
 $(function() {
-    $('[data-toggle="popover"]').popover({
-        trigger: 'hover'
-    });
 
     var sendsearch = function(text){
         $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:140px;"><img src="/images/loading.gif"/>Loading...</div>');

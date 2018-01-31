@@ -63,3 +63,9 @@ function accDiv(arg1, arg2) {
         return (r1 / r2) * pow(10, t2 - t1);
     }
 }
+
+$(document).ajaxComplete(function() {
+    $('[data-toggle="popover"]').popover({
+        trigger: 'hover'
+    });
+});

@@ -298,8 +298,5 @@ function countTotal(){
 <script>
 $(function() {
     countTotal();
-    $('[data-toggle="popover"]').popover({
-        trigger: 'hover'
-    });
 });
 </script>

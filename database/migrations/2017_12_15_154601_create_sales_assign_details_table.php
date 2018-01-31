@@ -15,7 +15,7 @@ class CreateSalesAssignDetailsTable extends Migration
     {
          Schema::create('sales_assign_details', function (Blueprint $table) {
             $table->increments('sadid')->index()->comment('配貨明細id');
-            $table->string('assign_id')->unique()->comment('配貨單號');
+            $table->string('assign_id')->comment('配貨單號');
             $table->string('pid')->nullable()->comment('商品編號');
             $table->integer('stid')->unsigned()->index()->comment('庫存id');
             $table->decimal('sad_salesprice',10,2)->default(0.00)->comment('業務單價');  

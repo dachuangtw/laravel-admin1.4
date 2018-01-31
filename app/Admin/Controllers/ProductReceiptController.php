@@ -69,7 +69,7 @@ class ProductReceiptController extends Controller
      */
     public function index()
     {
-        Permission::check(['reader']);
+        Permission::check(['ProductReceipt-Reader','ProductReceipt-Editor','ProductReceipt-Creator','ProductReceipt-Deleter']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_receipt'));
@@ -113,7 +113,7 @@ class ProductReceiptController extends Controller
      */
     public function view($id)
     {
-        Permission::check(['reader']);
+        Permission::check(['ProductReceipt-Reader']);
 
         $receipt = ProductReceipt::find($id)->toArray();
 
@@ -182,6 +182,7 @@ class ProductReceiptController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['ProductReceipt-Reader','ProductReceipt-Editor','ProductReceipt-Deleter']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_receipt'));
@@ -207,6 +208,7 @@ SCRIPT;
      */
     public function create()
     {
+        Permission::check(['ProductReceipt-Reader','ProductReceipt-Creator','ProductReceipt-Deleter']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_receipt'));
@@ -314,7 +316,6 @@ SCRIPT;
      */
     protected function form()
     {
-        Permission::check(['reader']);
         return Admin::form(ProductReceipt::class, function (Form $form) {
             $form->select('supid', trans('admin::lang.product_supplier'))->options(
                 ProductSupplier::all()->pluck('sup_name', 'supid')
@@ -746,7 +747,6 @@ SCRIPT;
      */
     protected function editform()
     {
-        Permission::check(['reader']);
         return Admin::form(ProductReceipt::class, function (Form $form) {
             $form->select('supid', trans('admin::lang.product_supplier'))->options(
                 ProductSupplier::all()->pluck('sup_name', 'supid')

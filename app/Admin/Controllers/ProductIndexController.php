@@ -140,8 +140,8 @@ class ProductIndexController extends Controller
      * @return Content
      */
     public function index()
-    {
-        Permission::check(['reader']);
+    {        
+        Permission::check(['ProductIndex-Reader','ProductIndex-Editor','ProductIndex-Creator','ProductIndex-Deleter']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -219,7 +219,8 @@ class ProductIndexController extends Controller
      */
     public function view($id)
     {
-        Permission::check(['reader']);
+        
+        Permission::check(['ProductIndex-Reader','ProductIndex-Editor','ProductIndex-Creator','ProductIndex-Deleter']);
 
         $product = ProductIndex::find($id)->toArray();
 
@@ -320,7 +321,7 @@ class ProductIndexController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['editor']);
+        Permission::check(['ProductIndex-Reader','ProductIndex-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -340,7 +341,8 @@ class ProductIndexController extends Controller
      */
     public function create()
     {
-        Permission::check(['creator']);
+        
+        Permission::check(['ProductIndex-Reader','ProductIndex-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -360,7 +362,6 @@ class ProductIndexController extends Controller
      */
     protected function grid()
     {
-        Permission::check(['reader']);
         return Admin::grid(ProductIndex::class, function (Grid $grid) {
 
             /**
@@ -464,7 +465,6 @@ class ProductIndexController extends Controller
      */
     protected function form()
     {
-        Permission::check(['creator']);
         return Admin::form(ProductIndex::class, function (Form $form) {
 
             $form->tab('商品資訊', function ($form) {
@@ -585,7 +585,6 @@ class ProductIndexController extends Controller
      */
     protected function editform()
     {
-        Permission::check(['editor']);
         return Admin::form(ProductIndex::class, function (Form $form) {
 
             $form->tab('商品資訊', function ($form) {

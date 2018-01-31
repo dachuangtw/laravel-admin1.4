@@ -204,9 +204,13 @@
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $stock[$key] }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->$showQuantity }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->$showQuantity }}
+                                        <input type="hidden" name="quantity[]" value="{{ $savedDetail->$showQuantity }}">
+                                        </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">{{ $savedDetail->$showPrice }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->$showAmount }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->$showAmount }}
+                                        <input type="hidden" name="amount[]" value="{{ $savedDetail->$showAmount }}">
+                                        </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">{{ $savedDetail->$showNotes }}</div>
 
                                     </div>

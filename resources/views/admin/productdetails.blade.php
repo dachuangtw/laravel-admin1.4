@@ -113,8 +113,8 @@
                                             @if(isset($stock[$savedDetail->stid]))
                                                 @if(empty($savedDetail->$detailid))
                                                 <select name="stid[]">
-                                                    @foreach($stock as $val)
-                                                        <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
+                                                    @foreach($stock as $stid => $st_type)
+                                                        <option value="{{ $stid }}">{{ $st_type }}</option>
                                                     @endforeach
                                                 </select>
                                                 @else                                            

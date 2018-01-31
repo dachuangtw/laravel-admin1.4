@@ -104,7 +104,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $products[$key]['p_number'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($products[$key]['p_pic'])
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#productdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
@@ -154,7 +154,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $product->p_number }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($product->p_pic)
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#productdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
                                             @else {{ $product->p_name }} 
                                             @endif
                                         </div>
@@ -198,15 +198,19 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $products[$key]['p_number'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($products[$key]['p_pic'])
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#productdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $stock[$key] }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->$showQuantity }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->$showQuantity }}
+                                        <input type="hidden" name="quantity[]" value="{{ $savedDetail->$showQuantity }}">
+                                        </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">{{ $savedDetail->$showPrice }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->$showAmount }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->$showAmount }}
+                                        <input type="hidden" name="amount[]" value="{{ $savedDetail->$showAmount }}">
+                                        </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">{{ $savedDetail->$showNotes }}</div>
 
                                     </div>
@@ -298,8 +302,5 @@ function countTotal(){
 <script>
 $(function() {
     countTotal();
-    $('[data-toggle="popover"]').popover({
-        trigger: 'hover'
-    });
 });
 </script>

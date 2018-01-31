@@ -52,6 +52,8 @@ Route::group([
     $router->get('web/location/{id}/view', 'WebLocationController@view');
     $router->get('web/area/{id}/view', 'WebAreaController@view');
     $router->get('warehouse/{id}/view', 'WarehouseController@view');
+    
+    $router->get('transfer/{id}/view', 'TransferController@view');
 
     $router->get('api/tw/district', 'WebLocationController@district');
 

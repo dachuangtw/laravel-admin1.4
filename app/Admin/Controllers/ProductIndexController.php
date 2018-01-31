@@ -410,12 +410,19 @@ class ProductIndexController extends Controller
                 }
                 
             }else{
-                //非超級管理員只能看到自己倉庫的庫存
+                //非超級管理員只能看到自己倉庫的庫存 + 台中倉倉庫庫存
                 $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('st_stock')->value(function ($stock) {
                     if(!empty($stock)){
                         return $stock;
+                    }                    
+                    return '';
+                    // return "<span class='label label-warning'>無庫存資料</span>";
+                });
+                $grid->stock2('總倉庫存')->where('wid','2')->sum('st_stock')->value(function ($stock) {
+                    if(!empty($stock)){
+                        return $stock;
                     }
-                    return "<span class='label label-warning'>無庫存資料</span>";
+                    return '';
                 });
             }
 

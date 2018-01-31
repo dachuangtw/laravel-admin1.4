@@ -133,6 +133,7 @@ $(function() {
             var rowTop, action;
             var str = window.location.href;
             action = str.slice(str.lastIndexOf("/")+1); 
+            action = action.replace(/#/,'');
             if(action != 'create' && action != 'edit'){
                 alert('網頁出了問題，請通知相關人員處理');
                 return false;

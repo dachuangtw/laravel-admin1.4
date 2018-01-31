@@ -132,10 +132,14 @@ class TransferController extends Controller
         $imgArray = [];
         
         //置換調撥倉庫id的內容
-        $transfer['warehouse'] = Warehouse::find($transfer['wid'])->w_name;
-        unset($transfer['wid']);
+        $transfer['wid_send'] = Warehouse::find($transfer['wid_send'])->w_name;
+        $transfer['wid_receive'] = Warehouse::find($transfer['wid_receive'])->w_name;
+
+        $transfer['t_checked'] = $transfer['t_checked'] ? '已簽收' : '未簽收';
+
         //置換調撥人員id的內容
-        $transfer['t_user'] = Administrator::find($transfer['t_user'])->name;
+        $transfer['send_user'] = Administrator::find($transfer['send_user'])->name;
+        $transfer['receive_user'] = Administrator::find($transfer['receive_user'])->name;
 
         $header[] = '調撥單資訊';
         foreach($transfer as $key => $value){            
@@ -155,8 +159,8 @@ class TransferController extends Controller
 
         
         $stock = $rowWidth = $rowLeft = $rowTitle = [];
-        $re_number = Transfer::where('reid',$id)->pluck('re_number');
-        $savedDetails = TransferDetail::ofselected($re_number) ?: [];
+        $t_number = Transfer::where('reid',$id)->pluck('t_number');
+        $savedDetails = TransferDetail::ofselected($t_number) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
             $stock[$key] = Stock::find($value->stid)->st_type;

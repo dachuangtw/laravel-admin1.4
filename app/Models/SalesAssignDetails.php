@@ -6,16 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class SalesAssignDetails extends Model
 {
+    //資料update跟create時不自動儲存
+    public $timestamps = false;
+    
     //配貨明細表資料表
     protected $table = 'sales_assign_details';
     //主鍵
-    protected $primaryKey = 'said';
+    protected $primaryKey = 'sadid';
 
-    protected $fillable = ['pid','st_type', 'p_salesprice','p_quantity','p_salesprice_total','created_at'];
-
-    //關聯 SalesAssign
-    public function SalesAssign()
+    protected $fillable = ['assign_id','pid','stid','sad_salesprice','sad_quantity','sad_amount'];
+    
+    //配貨單號
+    public function scopeOfselected($query, $assign_id)
     {
-       return $this->belongsTo(SalesAssign::class,'assign_id');
+        return $query->where('assign_id', $assign_id)->get();
     }
+
+
 }

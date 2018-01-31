@@ -75,6 +75,8 @@ $(function() {
             url = '/admin/product/search';
         }else if($('#target').val() == 'hasstock'){
             url = '/admin/product/searchstock';
+        }else if($('#target').val() == 'hasstock2'){
+            url = '/admin/product/searchstock';
         }else{
             alert("ERROR");
             return false;
@@ -148,6 +150,8 @@ $(function() {
             }else if(target == 'hasstock'){
                 url = '/admin/transfer/transferdetails';
                 inputtext = false;
+            }else if(target == 'hasstock2'){
+                url = '/admin/sales/assigndetails';
             }else{
                 alert("ERROR");
                 return false;

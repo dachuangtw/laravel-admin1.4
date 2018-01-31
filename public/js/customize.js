@@ -4,11 +4,11 @@ var selectResultArray = [];
 function ShowModal(target) {
     var url = '/admin/modal/' + target;
 
-    $.get(url, function(data) {
+    $.get(url, function (data) {
         $("body").append(data);
         $('#selectproduct')
             .modal('show')
-            .on('hidden.bs.modal', function(e) {
+            .on('hidden.bs.modal', function (e) {
                 $(this).remove();
                 selectResultArray = [];
             });
@@ -19,7 +19,7 @@ function ShowModal(target) {
 function ShowReceiptDetails(reid) {
     var url = '/admin/product/receiptdetails/' + reid; //$("input[name='reid']").val();
 
-    $.get(url, function(data) {
+    $.get(url, function (data) {
         $('.form-horizontal .box-body:first').append(data);
     });
 }
@@ -28,7 +28,16 @@ function ShowReceiptDetails(reid) {
 function ShowTransferDetails(tid) {
     var url = '/admin/transfer/transferdetails/' + tid; //$("input[name='tid']").val();
 
-    $.get(url, function(data) {
+    $.get(url, function (data) {
+        $('.form-horizontal .box-body:first').append(data);
+    });
+}
+
+/** 展開配貨單明細 */
+function ShowSalesAssignDetails(said) {
+    var url = '/admin/sales/assigndetails/' + said; //$("input[name='tid']").val();
+
+    $.get(url, function (data) {
         $('.form-horizontal .box-body:first').append(data);
     });
 }
@@ -40,10 +49,10 @@ function accMul(arg1, arg2) {
         s2 = arg2.toString();
     try {
         m += s1.split(".")[1].length;
-    } catch (e) {}
+    } catch (e) { }
     try {
         m += s2.split(".")[1].length;
-    } catch (e) {}
+    } catch (e) { }
     return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
 }
 /** 避免javascript的除法BUG */
@@ -53,18 +62,18 @@ function accDiv(arg1, arg2) {
         r1, r2;
     try {
         t1 = arg1.toString().split(".")[1].length;
-    } catch (e) {}
+    } catch (e) { }
     try {
         t2 = arg2.toString().split(".")[1].length;
-    } catch (e) {}
-    with(Math) {
+    } catch (e) { }
+    with (Math) {
         r1 = Number(arg1.toString().replace(".", ""));
         r2 = Number(arg2.toString().replace(".", ""));
         return (r1 / r2) * pow(10, t2 - t1);
     }
 }
 
-$(document).ajaxComplete(function() {
+$(document).ajaxComplete(function () {
     $('[data-toggle="popover"]').popover({
         trigger: 'hover'
     });

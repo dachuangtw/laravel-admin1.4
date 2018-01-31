@@ -79,5 +79,8 @@ Route::group([
     $router->post('transfer/transferdetails', 'ProductIndexController@selectedproduct');
     $router->get('transfer/transferdetails/{id}', 'TransferController@transferdetails');
 
+    $router->post('sales/assigndetails', 'ProductIndexController@selectedproduct');
+    $router->get('sales/assigndetails/{id}', 'SalesAssignController@salesassigndetails');
+
     $router->get('/', 'HomeController@index');
 });

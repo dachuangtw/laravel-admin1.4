@@ -143,8 +143,8 @@ class ProductIndexController extends Controller
      * @return Content
      */
     public function index()
-    {
-        Permission::check(['reader']);
+    {        
+        Permission::check(['ProductIndex-Reader','ProductIndex-Editor','ProductIndex-Creator','ProductIndex-Deleter']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -222,7 +222,8 @@ class ProductIndexController extends Controller
      */
     public function view($id)
     {
-        Permission::check(['reader']);
+        
+        Permission::check(['ProductIndex-Reader','ProductIndex-Editor','ProductIndex-Creator','ProductIndex-Deleter']);
 
         $product = ProductIndex::find($id)->toArray();
 
@@ -323,7 +324,7 @@ class ProductIndexController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['editor']);
+        Permission::check(['ProductIndex-Reader','ProductIndex-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -343,7 +344,8 @@ class ProductIndexController extends Controller
      */
     public function create()
     {
-        Permission::check(['creator']);
+        
+        Permission::check(['ProductIndex-Reader','ProductIndex-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -363,7 +365,6 @@ class ProductIndexController extends Controller
      */
     protected function grid()
     {
-        Permission::check(['reader']);
         return Admin::grid(ProductIndex::class, function (Grid $grid) {
 
             /**
@@ -412,12 +413,19 @@ class ProductIndexController extends Controller
                 }
                 
             }else{
-                //非超級管理員只能看到自己倉庫的庫存
+                //非超級管理員只能看到自己倉庫的庫存 + 台中倉倉庫庫存
                 $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('st_stock')->value(function ($stock) {
                     if(!empty($stock)){
                         return $stock;
+                    }                    
+                    return '';
+                    // return "<span class='label label-warning'>無庫存資料</span>";
+                });
+                $grid->stock2('總倉庫存')->where('wid','2')->sum('st_stock')->value(function ($stock) {
+                    if(!empty($stock)){
+                        return $stock;
                     }
-                    return "<span class='label label-warning'>無庫存資料</span>";
+                    return '';
                 });
             }
 
@@ -467,7 +475,6 @@ class ProductIndexController extends Controller
      */
     protected function form()
     {
-        Permission::check(['creator']);
         return Admin::form(ProductIndex::class, function (Form $form) {
 
             $form->tab('商品資訊', function ($form) {
@@ -588,7 +595,6 @@ class ProductIndexController extends Controller
      */
     protected function editform()
     {
-        Permission::check(['editor']);
         return Admin::form(ProductIndex::class, function (Form $form) {
 
             $form->tab('商品資訊', function ($form) {

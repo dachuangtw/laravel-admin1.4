@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Auth\Permission;
 
 class StockCategoryController extends Controller
 {
@@ -26,6 +27,7 @@ class StockCategoryController extends Controller
      */
     public function index()
     {
+        Permission::check(['StockCategory-Reader','StockCategory-Editor','StockCategory-Creator','StockCategory-Deleter']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.stock_category'));
@@ -73,6 +75,7 @@ class StockCategoryController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['StockCategory-Reader','StockCategory-Editor','StockCategory-Deleter']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.stock_category'));
@@ -93,6 +96,7 @@ class StockCategoryController extends Controller
      */
     public function create()
     {
+        Permission::check(['StockCategory-Reader','StockCategory-Creator','StockCategory-Deleter']);
         return Admin::content(function (Content $content) {
 
             $content->header('header');

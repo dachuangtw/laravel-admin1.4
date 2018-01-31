@@ -74,7 +74,7 @@ class TransferController extends Controller
      */
     public function index()
     {
-        Permission::check(['reader']);
+        Permission::check(['Transfer-Reader','Transfer-Editor','Transfer-Creator','Transfer-Deleter']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.transfer'));
@@ -122,8 +122,8 @@ class TransferController extends Controller
      */
     public function view($id)
     {
-        Permission::check(['reader']);
-
+        Permission::check(['Transfer-Reader','Transfer-Editor','Transfer-Creator','Transfer-Deleter']);
+        
         $transfer = Transfer::find($id)->toArray();
 
         //忽略不顯示的欄位
@@ -193,6 +193,8 @@ class TransferController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['Transfer-Reader','Transfer-Editor']);
+
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.transfer'));
@@ -219,6 +221,7 @@ SCRIPT;
      */
     public function create()
     {
+        Permission::check(['Transfer-Reader','Transfer-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.transfer'));
@@ -341,7 +344,6 @@ SCRIPT;
      */
     protected function form($id = null)
     {
-        Permission::check(['reader']);
         return Admin::form(Transfer::class, function (Form $form) use ($id){
 
             $states = [

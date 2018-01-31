@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Auth\Permission;
 
 class WarehouseController extends Controller
 {
@@ -26,6 +27,7 @@ class WarehouseController extends Controller
      */
     public function index()
     {
+        Permission::check(['Warehouse-Reader','Warehouse-Editor','Warehouse-Creator','Warehouse-Deleter']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.warehouse'));
@@ -78,7 +80,7 @@ class WarehouseController extends Controller
      */
     public function view($id)
     {
-        Permission::check(['reader']);
+        Permission::check(['Warehouse-Reader','Warehouse-Editor','Warehouse-Creator','Warehouse-Deleter']);
         // return view('admin::modal');
 
         return $this->formViewer()->view($id);
@@ -92,6 +94,7 @@ class WarehouseController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['Warehouse-Reader','Warehouse-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.warehouse'));
@@ -112,6 +115,7 @@ class WarehouseController extends Controller
      */
     public function create()
     {
+        Permission::check(['Warehouse-Reader','Warehouse-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.warehouse'));
@@ -131,7 +135,6 @@ class WarehouseController extends Controller
      */
     protected function formViewer()
     {
-        Permission::check(['reader']);
         return Admin::form(Warehouse::class, function (Form $form) {
             
             $form->display('wid', 'ID');

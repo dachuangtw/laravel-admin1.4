@@ -20,7 +20,7 @@ class CreateSalesTable extends Migration
             $table->string('password', 60)->comment('密碼');
             $table->string('sales_name', 50)->comment('姓名');
             $table->string('nickname', 50)->nullable()->comment('暱稱');
-           $table->string('cellphone', 50)->nullable()->comment('手機號碼');
+            $table->string('cellphone', 50)->nullable()->comment('手機號碼');
             $table->timestamp('password_updated_at')->nullable()->comment('密碼更新');
             $table->string('store_location')->nullable()->comment('店鋪據點(字串用|分隔)');
             $table->text('remarks')->nullable()->comment('備註');

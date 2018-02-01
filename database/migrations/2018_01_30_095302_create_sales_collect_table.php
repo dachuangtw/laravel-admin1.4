@@ -24,7 +24,7 @@ class CreateSalesCollectTable extends Migration
             $table->string('collect_check_user')->nullable()->comment('確認領貨人');
             $table->boolean('receipt_check')->default(0)->comment('收款確認');
             $table->string('receipt_check_user')->nullable()->comment('確認收款人');           
-            $table->text('assign_notes')->nullable()->comment('備註');
+            $table->text('collect_notes')->nullable()->comment('備註');
             $table->string('update_user',25)->nullable()->comment('最後更新者');
             $table->timestamps();
         });

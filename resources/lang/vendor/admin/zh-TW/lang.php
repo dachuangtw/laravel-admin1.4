@@ -147,6 +147,16 @@ return [
     'assign_amount' =>      '總計金額',
     'p_salesprice_total'=>  '金額',
 
+    //業務領貨
+    'sales_collect' =>      '業務領貨',
+    'collect_id'    =>      '領貨單號',
+    'collect_date'  =>      '領貨日期',
+    'collect_amount'=>      '總計金額',
+    'collect_check' =>      '領貨確認',
+    'collect_check_user' => '領貨確認人',
+    'receipt_check' =>      '收款確認',
+    'receipt_check_user' => '收款確認人',
+
     //店鋪據點
     'web_location'  =>      '店鋪據點',
     'store_id'      =>      '店鋪編號',

@@ -34,12 +34,6 @@ class ProductIndexController extends Controller
     use ModelForm;
     protected $stock =[];
 
-    /**覆寫FormModel的update function */
-    public function update($id)
-    {
-        return $this->editform()->update($id);
-    }
-
     /**
      * 回傳 已選的商品
      */
@@ -532,7 +526,15 @@ class ProductIndexController extends Controller
                
             });
             $form->tab('款式/庫存', function ($form) use ($id){
-                $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) use ($id){
+                /**
+                 * BUG：Model中的hasMany後面接where查詢，顯示OK，但儲存時不OK，資料不乖乖依序存檔，改第三個但蓋掉了第一個庫存...
+                 * 找不到是哪裡出問題，只能說又是一個模板本身的BUG...QQ 已在gitHub上發問，如果之後有神人解答的話再來改
+                 * 
+                 * 目前每個管理者(有商品修改權限的)都可以看到所有倉庫的庫存資料跟領貨限制........
+                 */
+                // $relationFunction = ( Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) ? 'stock1' : 'stock';
+                $relationFunction = 'stock1';
+                $form->hasMany($relationFunction,'款式庫存', function (Form\NestedForm $form) use ($id){
                     if(!$id){ //創建                        
                         if(Admin::user()->isAdministrator()){
                             //超級管理員可以自行選擇倉庫
@@ -550,28 +552,29 @@ class ProductIndexController extends Controller
                                 Warehouse::all()->pluck('w_name', 'wid')
                             )->readOnly();
                         } else {
-                            //非超級管理員使用本身綁定的倉庫id
+                            //使用本身綁定的倉庫id
                             $form->hidden('wid')->default(Admin::user()->wid);
                         }
                     }
                     
-                    $form->text('st_type',trans('admin::lang.product_type'));
+                    $form->text('st_type',trans('admin::lang.product_type'))->default('不分款');
                     $form->text('st_barcode',trans('admin::lang.product_barcode'));
                     $form->text('st_notes',trans('admin::lang.notes'));
                     if(!$id){ //編輯
+                        $form->display('st_stock', trans('admin::lang.product_stock'))->default(0);
                     }
                     // $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);
                     $form->select('st_unit',trans('admin::lang.sales_unit'))->options(
                         ['每人','每間']
                     );
                     $form->number('st_collect',trans('admin::lang.product_sales'))->default(0);
+                    $form->hidden('update_user')->default(Admin::user()->id);
                 });            
             });
 
             $form->saving(function(Form $form) use ($id) {
-                $fp = fopen('output123.txt', 'w');
-                fwrite($fp, '0000  '.request()->stock);
-                fclose($fp);
+
+
                 if(!$id && !empty(request()->StockCategory) && !empty(request()->ProductSupplier)){
                     $firstTwoCode = request()->StockCategory.request()->ProductSupplier;
 
@@ -591,6 +594,27 @@ class ProductIndexController extends Controller
                 }
             });
             $form->saved(function(Form $form) use ($id) {
+                // $stock = request()->stock;
+                // foreach ($stock as $key => $val) {
+                //     $updatestockArray = [
+                //         'pid'           =>  $id,
+                //         'wid'           =>  $val['wid'],
+                //         'st_type'       =>  $val['st_type'],
+                //         'st_barcode'    =>  $val['st_barcode'],
+                //         'st_notes'      =>  $val['st_notes'],
+                //         'st_unit'       =>  $val['st_unit'],
+                //         'st_collect '   =>  $val['st_collect'],
+                //         'update_user'   =>  Admin::user()->id,
+                //         'created_at'    =>  date('Y-m-d H:i:s'),
+                //         'updated_at'    =>  date('Y-m-d H:i:s'),
+                //     ];
+                //     if($val['stid']){
+                //         Stock::find($val['stid'])->update($updatestockArray);
+                //     }else{
+                //         Stock::insert($updatestockArray);
+                //     }
+                // }
+
                 if(!$id && !empty(request()->StockCategory)&&!empty(request()->ProductSupplier) && !empty(request()->inserttype)){
                     
                     $insertstock = [
@@ -605,96 +629,9 @@ class ProductIndexController extends Controller
                     Stock::insert($insertstock);
                 }
             });
-            $form->ignore(['StockCategory','ProductSupplier','stock']);
+            $form->ignore(['StockCategory','ProductSupplier']);
         });
     }
-    /**
-     * Make a form builder.
-     * 編輯時使用的form表格
-     * @return Form
-     */
-    protected function editform($id = null)
-    {
-        return Admin::form(ProductIndex::class, function (Form $form) use ($id){
-
-            $form->tab('商品資訊', function ($form) {
-                $form->text('p_number', trans('admin::lang.product_number'))->rules('required');
-                $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
-
-                $form->multipleSelect('p_category', trans('admin::lang.product_category'))->options(
-                    ProductCategory::all()->pluck('pc_name', 'pcid')
-                );
-                $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
-                    ProductSeries::all()->pluck('ps_name', 'psid')
-                );           
-                $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
-                $form->multipleImage('p_images', trans('admin::lang.product_images'));
-                $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
-                $states = [
-                    'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
-                    'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
-                ];            
-                $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
-                $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
-                $form->text('p_unit', trans('admin::lang.p_unit'))->default('個')->setWidth(1);
-                $form->hidden('update_user')->default(Admin::user()->id);
-                
-            })->tab('價格/業務', function ($form) {
-                                   
-                // $form->currency('p_price', trans('admin::lang.product_price'))->options(['digits' => 0]);
-                // $form->currency('p_retailprice', trans('admin::lang.product_retailprice'))->options(['digits' => 0]);
-                // $form->currency('p_specialprice', trans('admin::lang.product_specialprice'))->options(['digits' => 0]);
-                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
-                // $form->currency('p_staffprice', trans('admin::lang.product_staffprice'))->options(['digits' => 0]);
-                $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
-
-                $states = [
-                    'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
-                    'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
-                ]; 
-
-                $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
-                $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
-               
-            })->tab('款式/庫存', function ($form) use ($id){
-                $relationFunction = ( Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) ? 'stock1' : 'stock';
-
-                $form->hasMany($relationFunction, '款式庫存', function (Form\NestedForm $form) {
-                    if (Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) {
-                        //超級管理員可以自行選擇倉庫
-                        $form->select('wid', trans('admin::lang.warehouse'))->options(
-                        Warehouse::all()->pluck('w_name', 'wid')
-                        )->readOnly();
-                    } else {
-                        //非超級管理員使用本身綁定的倉庫id
-                        $form->hidden('wid')->default(Admin::user()->wid);
-                    }
-                
-                    $form->text('st_type', trans('admin::lang.product_type'))->default('不分款');
-                    $form->text('st_barcode', trans('admin::lang.product_barcode'))->setWidth('5');
-                    $form->text('st_notes', trans('admin::lang.notes'))->setWidth('5');
-                    $form->display('st_stock', trans('admin::lang.product_stock'))->default(0);
-                    $form->select('st_unit', trans('admin::lang.sales_unit'))->options(
-                    ['每人','每間']
-                );
-                    $form->number('st_collect', trans('admin::lang.product_sales'))->default(0);
-                });
-            });
-
-            //未完成
-            //1.判斷商品編號是否有修改 - OK
-            //2.判斷新商品編號有沒有跟資料庫中其他商品重複 - 
-            
-            // $form->saving(function(Form $form) {
-                // //商品編號有修改
-                // if($form->p_number && $form->model()->p_number != $form->p_number)
-                // {
-                //
-                // }
-            // });
-        });
-    }
-
     /**
      * import a file in storage.
      *

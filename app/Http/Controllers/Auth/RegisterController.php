@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\Auth\Sales;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -48,8 +48,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+			'name' => 'required|string|max:50',
+            'account' => 'required|string|max:50|unique:sales,sales_id',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -62,10 +62,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+		return Sales::create([
+            'sales_name' => $data['name'],
+            'nickname' => $data['nickname'],
+            'sales_id' => $data['account'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+	public function showRegistrationForm()
+    {
+        return view('sales.auth.register');
     }
 }

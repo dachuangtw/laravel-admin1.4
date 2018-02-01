@@ -27,7 +27,9 @@ use Illuminate\Support\Facades\Request;
 use App\Admin\Extensions\Tools\DateChooser;
  /**
  * 業務每日配貨
- * 尚未完成:當業務開始領貨鎖定當日配貨(無法編輯/刪除)
+ * 尚未完成:
+ *      1.當業務開始領貨鎖定當日配貨(無法編輯/刪除)
+ *      2.判斷倉庫商品庫存是否足夠業務配貨
  */
 class SalesAssignController extends Controller
 {
@@ -162,12 +164,20 @@ class SalesAssignController extends Controller
                 ['text' => trans('admin::lang.sales_assign'), 'url' => '/sales/assign'],
                 ['text' => trans('admin::lang.edit')]
             );
-            $content->body($this->form()->edit($id));
-            $script = <<<SCRIPT
-            ShowSalesAssignDetails('$id');
+            //判斷配貨倉庫，否則無權訪問編輯，超級管理員權限all(暫定)
+            $check_wid = SalesAssign::find($id)->wid;
+            if($check_wid == Admin::user()->wid || Admin::user()->isAdministrator()){
+                $content->body($this->form()->edit($id));
+                $script = <<<SCRIPT
+                ShowSalesAssignDetails('$id');
 SCRIPT;
-         Admin::script($script);
-            
+                Admin::script($script);
+            }else{
+                $error = new MessageBag([
+                    'title'  => trans('admin::lang.deny'),
+                ]);
+                return back()->with(compact('error'));
+            }
         });
     }
     
@@ -283,28 +293,31 @@ SCRIPT;
             if(strpos(url()->current(), '/edit') !== false) {
                 $form->date('assign_date',trans('admin::lang.assign_date'))->readOnly();
                 $form->text('assign_id',trans('admin::lang.assign_id'))->readOnly();
-                
+                if(Admin::user()->isAdministrator()){
+                    $form->select('wid',trans('admin::lang.wid'))
+                        ->options(Warehouse::all()->pluck('w_name','wid'))->readOnly();
+                }else{
+                    $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
+                }         
             }else{
                 $form->date('assign_date',trans('admin::lang.assign_date'))->defaultdate('YYYY-MM-DD');
                 $form->html('<font color="#333">系統自動產生</font>',trans('admin::lang.assign_id'));
-                
+                //判斷超級使用者
+                if(Admin::user()->isAdministrator()){
+                    $form->select('wid',trans('admin::lang.wid'))
+                        ->options(Warehouse::all()->pluck('w_name','wid'));
+                }else{
+                    $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
+                }      
             }
-            //判斷超級使用者
-            if(Admin::user()->isAdministrator()){
-                $form->select('wid',trans('admin::lang.wid'))
-                    ->options(Warehouse::all()->pluck('w_name','wid'))->readOnly();
-            }else{
-                $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
-            }
-            
             $form->hidden('assign_id',trans('admin::lang.assign_id'));
-            $form->textarea('assign_notes',trans('admin::lang.notes'));
+            $form->textarea('assign_notes',trans('admin::lang.notes'))->rows(2);
             $form->hidden('update_user')->value(Admin::user()->id);
             $form->hidden('assign_amount');
             $form->divide();
             
             //btn-append有另外寫js的append功能
-            //ShowModal("hasstock"):查詢所屬倉庫商品庫存
+            //ShowModal("hasstock2"):查詢所屬倉庫商品庫存
             $form->button('btn-danger btn-append','+ 配貨商品')->on('click','ShowModal("hasstock2");');
 
             $form->saving(function (Form $form) {
@@ -365,7 +378,7 @@ SCRIPT;
                     //原本的配貨明細(數量/明細id)
                     $retailSadid = SalesAssignDetails::where('assign_id',$form->assign_id)->pluck('sad_quantity','sadid')->toArray();
                     
-                    //欲刪除的調撥明細 - 使用unset($deleteSadid[$sadid])移除沒有要刪除的配貨明細
+                    //欲刪除的配貨明細 - 使用unset($deleteSadid[$sadid])移除沒有要刪除的配貨明細
                     $deleteSadid = array_keys($retailSadid);
                     
                     //配貨明細更新:新增/修改/刪除

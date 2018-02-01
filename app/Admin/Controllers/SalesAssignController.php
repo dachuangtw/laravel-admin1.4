@@ -25,13 +25,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Request;
 use App\Admin\Extensions\Tools\DateChooser;
-
+ /**
+ * 業務每日配貨
+ * 尚未完成:當業務開始領貨鎖定當日配貨(無法編輯/刪除)
+ */
 class SalesAssignController extends Controller
 {
     use ModelForm;
-
     /**
-     * 編輯時，回傳 配貨單明細
+     * 編輯時，回傳配貨單明細
      */
     public function salesassigndetails($id)
     {
@@ -70,7 +72,7 @@ class SalesAssignController extends Controller
      */
     public function index()
     {
-        Permission::check(['SalesAssign-reader']);
+        Permission::check(['SalesAssign-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_assign'));
@@ -78,20 +80,69 @@ class SalesAssignController extends Controller
             $content->breadcrumb(
                 ['text' => trans('admin::lang.sales_assign')]
             );
-            
-            $content->row(function (Row $row) {
-                $row->column(5, function (Column $column){
-                    $count = SalesAssign::where('assign_id', date('Ymd'))->count();
-                    if ($count > 0){        
-                        $column->append((new Alert('今日已配貨!!'))->style('warning')->icon('cubes'));
-                    }else {
-                        // $column->append((new Alert('今日未配貨!!'))->style('info')->icon('cubes'));
-                    }
-                });
-            });
-
             $content->body($this->grid());
         });
+    }
+
+    /**
+     * View interface.
+     * 眼睛查看
+     * @param $id
+     * @return Content
+     */
+    public function view($id)
+    {
+        Permission::check(['SalesAssign-Reader']);
+        $salesassign = SalesAssign::find($id)->toArray();
+
+        //忽略不顯示的欄位
+        $skipArray = ['said','created_at','updated_at','deleted_at'];
+        //顯示圖片欄位
+        $imgArray = [];
+        
+        $salesassign['wid'] = Warehouse::find($salesassign['wid'])->w_name;
+        $salesassign['update_user'] = Administrator::find($salesassign['update_user'])->name;
+
+        $header[] = '配貨單資訊';
+        foreach($salesassign as $key => $value){            
+
+            if(in_array($key,$skipArray) || empty($value))
+                continue;   
+            //欄位中文化
+            $newkey = trans('admin::lang.'.$key);
+            //倉庫編號/最近更新者
+            //如果有換行\n改成<br>
+            $rows[$newkey] = nl2br($value);            
+        }
+        $table = new Table($header, $rows);
+        $table->class('table table-hover');
+    
+        $stock = $rowWidth = $rowLeft = $rowTitle = [];
+        // $SalesAssign = SalesAssign::find($id)->assign_id;
+        $savedDetails = SalesAssignDetails::ofselected($salesassign['assign_id']) ?: [];
+        foreach($savedDetails as $key => $value){
+            // $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
+            $products[$key] = ProductIndex::find($value->pid);
+            $stock[$key] = Stock::find($value->stid)->st_type;
+        }
+        $action = 'view';
+        $detailid = 'sadid';
+        $firsttime = true;
+        $inputtext = false;
+
+        $rowWidth = [33,100,150,60,80,80,80,80,110];
+        $rowLeft = [0,33,133,283,343,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
+        $showPrice = 'sad_salesprice';
+        $showQuantity = 'sad_quantity';
+        $showAmount = 'sad_amount';
+        $showNotes = 'sad_notes';
+        $rowTop = -30;
+        $rowEvenOdd = ['even','odd'];
+        
+        $data = compact('action','detailid','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','savedDetails','stock');
+        
+        return $table->render().view('admin::productdetails', $data); 
     }
 
     /**
@@ -102,7 +153,7 @@ class SalesAssignController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['SalesAssign-editor']);
+        Permission::check(['SalesAssign-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.sales_assign'));
@@ -111,17 +162,6 @@ class SalesAssignController extends Controller
                 ['text' => trans('admin::lang.sales_assign'), 'url' => '/sales/assign'],
                 ['text' => trans('admin::lang.edit')]
             );
-            //比對是否為倉庫人員，否則無權訪問編輯及刪除配貨單，超級管理員權限all(暫定)
-            // $check_assign_id = SalesAssign::all()->where('said',$id)->pluck('assign_id');
-            // $check_wid = str_replace ("0", "",substr($check_assign_id [0],-3));
-            // if($check_wid ==  Admin::user()->wid || Admin::user()->isAdministrator()){
-        //         $content->body($this->form()->edit($id));
-        //     }else{
-        //         $error = new MessageBag([
-        //             'title'  => trans('admin::lang.deny'),
-        //         ]);
-        //         return back()->with(compact('error'));
-        //     }
             $content->body($this->form()->edit($id));
             $script = <<<SCRIPT
             ShowSalesAssignDetails('$id');
@@ -138,7 +178,7 @@ SCRIPT;
      */
     public function create()
     {
-        Permission::check(['SalesAssign-creator']);
+        Permission::check(['SalesAssign-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_assign'));
@@ -162,24 +202,29 @@ SCRIPT;
         Permission::check(['SalesAssign-Reader']);
         return Admin::grid(SalesAssign::class, function (Grid $grid) {
             
-            $grid->model()->orderBy('said', 'desc'); // 預設排序
+            $grid->model()->orderBy('assign_date', 'desc'); // 預設排序
             $grid->filter(function($filter){
                 $filter->disableIdFilter();
+                if(Admin::user()->isAdministrator()){
+                    $filter->where(function ($query) {
+                        $query->where('wid',  "{$this->input}");
+                    }, trans('admin::lang.warehouse'))->select(
+                        Warehouse::all()->pluck('w_name', 'wid')->toArray()
+                    );
+                }  
                 $filter->like('assign_id',trans('admin::lang.assign_id'));
                 // $filter->between('assign_date', trans('admin::lang.assign_date'))->date();
             });
-            //關閉眼睛功能
             $grid->actions(function ($actions) {
-                $actions->disableView();
-                // 没有`deleter權限角色不顯示刪除按鈕
-                if (!Admin::user()->can('SalesAssign-deleter')) {
+
+                $actions->setTitleExtra('配貨單號：'); // 自訂，標題前面提示
+                $actions->setTitleField(['assign_id']);
+                // 没有權限角色不顯示按鈕
+                if (!Admin::user()->can('SalesAssign-Deleter')) {
                     $actions->disableDelete();
                 }
-                //判斷是否為更新者可編輯及刪除
-                $check_wid = str_replace ("0", "",substr($actions->row->assign_id [0],-3));
-                if ($check_wid  != Admin::user()->wid) {
-                    // $actions->disableDelete();
-                    // $actions->disableEdit();
+                if (!Admin::user()->can('SalesAssign-Editor')) {
+                    $actions->disableEdit();
                 }
             });
             //全部/本月/上月按鈕，預設為本月
@@ -197,8 +242,6 @@ SCRIPT;
                     $thismonth = array(date('Y-m-01'),date('Ymt'));
                     $grid->model()->whereBetween('assign_date', $thismonth);
                     break;
-                // default:
-                //     echo Request::get('assign_date');
             }
 
             $grid->number('No.')->sortable();
@@ -217,7 +260,7 @@ SCRIPT;
                 })->label('info');
             }
 
-            $grid->assign_amount(trans('admin::lang.assign_total'))->sortable();
+            $grid->assign_amount(trans('admin::lang.assign_amount'))->sortable();
             $grid->update_user(trans('admin::lang.update_user'))->display(function($userId) {
                    return Administrator::find($userId)->name;
             });
@@ -248,8 +291,8 @@ SCRIPT;
             }
             //判斷超級使用者
             if(Admin::user()->isAdministrator()){
-                // $form->select('wid',trans('admin::lang.wid'))
-                //     ->options(Warehouse::all()->pluck('w_name','wid'))->readOnly();
+                $form->select('wid',trans('admin::lang.wid'))
+                    ->options(Warehouse::all()->pluck('w_name','wid'))->readOnly();
             }else{
                 $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
             }
@@ -286,8 +329,8 @@ SCRIPT;
                 $sad_salesprice = request()->price;
                 $sad_quantity = request()->quantity;
                 $sad_notes = request()->notes;
-                $stid = request()->stid;
-                $sadid = request()->sadid;
+                $stid = request()->stid; 
+                $sadid = request()->sadid; //配貨明細id
                 $insertProductLogArray = [];
                 $insertStockLogArray = [];
                 $dataArray = [];
@@ -299,18 +342,18 @@ SCRIPT;
                 if(request()->action == 'create'){
                     foreach(request()->pid as $key => $pid){
                         $dataArray[] = [
-                            'pid'           =>  $pid,
-                            'assign_id'     =>  $form->assign_id,
-                            'stid'          =>  $stid[$key],
-                            'sad_amount'    =>  $sad_amount[$key],
-                            'sad_salesprice'=>  $sad_salesprice[$key],
-                            'sad_quantity'  =>  $sad_quantity[$key],
-                            'sad_notes'     =>  $sad_notes[$key],
+                            'pid'           =>  $pid, //商品編號
+                            'assign_id'     =>  $form->assign_id, //配貨單號
+                            'stid'          =>  $stid[$key], //庫存id
+                            'sad_amount'    =>  $sad_amount[$key], //總金額
+                            'sad_salesprice'=>  $sad_salesprice[$key], //業務單價
+                            'sad_quantity'  =>  $sad_quantity[$key], //數量
+                            'sad_notes'     =>  $sad_notes[$key], //備註
                         ];
                         $stidArray[] = $stid[$key];
                         $total += $sad_amount[$key];
                     }
-                    SalesAssignDetails::where('assign_id',$form->assign_id)->delete();
+                    // SalesAssignDetails::where('assign_id',$form->assign_id)->delete();
                     SalesAssignDetails::insert($dataArray);
                 }
                 /*****************************
@@ -319,11 +362,15 @@ SCRIPT;
                  * 
                  *****************************/
                 elseif(request()->action == 'edit'){
-                    // $retailRedid = SalesAssignDetails::where('assign_id',$form->assign_id)->pluck('td_quantity','tdid')->toArray();
-                    dd(request()->pid);
+                    //原本的配貨明細(數量/明細id)
+                    $retailSadid = SalesAssignDetails::where('assign_id',$form->assign_id)->pluck('sad_quantity','sadid')->toArray();
+                    
+                    //欲刪除的調撥明細 - 使用unset($deleteSadid[$sadid])移除沒有要刪除的配貨明細
+                    $deleteSadid = array_keys($retailSadid);
+                    
                     //配貨明細更新:新增/修改/刪除
                     foreach(request()->pid as $key => $pid){
-                        
+
                         $insertSalesAssignArray[] = [
                             'pid'           =>  $pid,
                             'assign_id'     =>  $form->assign_id,
@@ -337,13 +384,15 @@ SCRIPT;
                         $stidArray[] = $stid[$key];
                         $total += $sad_amount[$key];
                         
-                        // if (isset($sadid)) { 
-                        //     SalesAssignDetails::updateOrCreate(['sadid' => $sadid], $insertSalesAssignArray[$key]); 
-                        // }else { 
-                        //     SalesAssignDetails::create($insertSalesAssignArray[$key]); 
-                        // }
+                        if (isset($sadid[$key])) { 
+                            SalesAssignDetails::updateOrCreate(['sadid' => $deleteSadid[$key]], $insertSalesAssignArray[$key]);
+                            $unsetKey = array_search($sadid[$key],$deleteSadid);
+                            unset($deleteSadid[$unsetKey]); 
+                        }elseif(empty($sadid[$key])){ 
+                            SalesAssignDetails::create($insertSalesAssignArray[$key]); 
+                        }
                     }
-
+                    SalesAssignDetails::whereIn('sadid',$deleteSadid)->delete();
                 }
                 $form->assign_amount = $total;
                 $form->update_user = Admin::user()->id;

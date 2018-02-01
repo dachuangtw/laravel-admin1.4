@@ -8,6 +8,7 @@ use App\ProductSeries;
 use App\ProductCategory;
 use App\Warehouse;
 use App\Stock;
+use App\StockLog;
 use App\StockCategory;
 use App\ProductSupplier;
 use App\Admin\Extensions\ExcelExpoter;
@@ -61,9 +62,14 @@ class ProductIndexController extends Controller
 
         //調貨單使用業務價
         if($target == 'hasstock'){
-            $showprice = 'p_salesprice';
+            $showPrice = 'p_salesprice';
+            $detailid = 'tdid';
+        }elseif($target == 'hasstock2'){
+            $showPrice = 'p_salesprice';
+            $detailid = 'sadid';
         }else{            
-            $showprice = 'p_costprice';
+            $showPrice = 'p_costprice';
+            $detailid = 'redid';
         }
 
         if($action == 'create'){
@@ -75,11 +81,11 @@ class ProductIndexController extends Controller
 
             $action = 'editadd';
             $rowWidth = [33,100,150,60,80,80,80,80,110];
-            $rowLeft = [0,33,133,283,343,423,503,583,693];
+            $rowLeft = [0,33,133,283,343,423,503,583,663];
             $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
         }
 
-        $data = compact('action','inputtext','products','showprice','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
+        $data = compact('action','inputtext','products','showPrice','detailid','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
         return view('admin::productdetails', $data);
     }
     /**
@@ -137,8 +143,8 @@ class ProductIndexController extends Controller
      * @return Content
      */
     public function index()
-    {
-        Permission::check(['reader']);
+    {        
+        Permission::check(['ProductIndex-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -216,7 +222,8 @@ class ProductIndexController extends Controller
      */
     public function view($id)
     {
-        Permission::check(['reader']);
+        
+        Permission::check(['ProductIndex-Reader']);
 
         $product = ProductIndex::find($id)->toArray();
 
@@ -317,7 +324,7 @@ class ProductIndexController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['editor']);
+        Permission::check(['ProductIndex-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -326,7 +333,7 @@ class ProductIndexController extends Controller
                 ['text' => trans('admin::lang.product_index'), 'url' => '/product'],
                 ['text' => trans('admin::lang.edit')]
             );   
-            $content->body($this->editform()->edit($id));
+            $content->body($this->form($id)->edit($id));
         });
     }
 
@@ -337,7 +344,8 @@ class ProductIndexController extends Controller
      */
     public function create()
     {
-        Permission::check(['creator']);
+        
+        Permission::check(['ProductIndex-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
@@ -357,7 +365,6 @@ class ProductIndexController extends Controller
      */
     protected function grid()
     {
-        Permission::check(['reader']);
         return Admin::grid(ProductIndex::class, function (Grid $grid) {
 
             /**
@@ -378,8 +385,8 @@ class ProductIndexController extends Controller
             $grid->p_number(trans('admin::lang.product_number'))->sortable();
             $grid->p_name(trans('admin::lang.name'));
             $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
-                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:50px;max-height:50px;' onerror='this.src=\"".config('app.url')."/images/404.jpg\"'/>";            
-            });
+                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"".config('app.url')."/images/404.jpg\"'/>";            
+            });//->image('',150,100);
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             if(Admin::user()->inRoles(['administrator','watch'])){
                 $grid->p_costprice(trans('admin::lang.product_costprice'));
@@ -406,12 +413,19 @@ class ProductIndexController extends Controller
                 }
                 
             }else{
-                //非超級管理員只能看到自己倉庫的庫存
+                //非超級管理員只能看到自己倉庫的庫存 + 台中倉倉庫庫存
                 $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('st_stock')->value(function ($stock) {
                     if(!empty($stock)){
                         return $stock;
+                    }                    
+                    return '';
+                    // return "<span class='label label-warning'>無庫存資料</span>";
+                });
+                $grid->stock2('總倉庫存')->where('wid','2')->sum('st_stock')->value(function ($stock) {
+                    if(!empty($stock)){
+                        return $stock;
                     }
-                    return "<span class='label label-warning'>無庫存資料</span>";
+                    return '';
                 });
             }
 
@@ -429,7 +443,7 @@ class ProductIndexController extends Controller
             $grid->exporter($exporter);
 
             //顯示匯入按鈕
-            $grid->allowImport();
+            // $grid->allowImport();
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
@@ -459,24 +473,26 @@ class ProductIndexController extends Controller
      * 創建時使用的form表格
      * @return Form
      */
-    protected function form()
+    protected function form($id = null)
     {
-        Permission::check(['creator']);
-        return Admin::form(ProductIndex::class, function (Form $form) {
+        return Admin::form(ProductIndex::class, function (Form $form) use ($id){
 
-            $form->tab('商品資訊', function ($form) {
-                
-                $form->select('StockCategory', trans('admin::lang.stock_category'))->options(
-                    StockCategory::all()->sortBy('sc_sort')->pluck('sc_name', 'sc_number')->transform(function ($item, $key) {
-                        return $key.' - '.$item;
-                    })
-                );
-                $form->select('ProductSupplier', trans('admin::lang.product_supplier'))->options(
-                    ProductSupplier::all()->pluck('sup_name', 'sup_number')->transform(function ($item, $key) {
-                        return $key.' - '.$item;
-                    })
-                );
-                $form->hidden('p_number');
+            $form->tab('商品資訊', function ($form) use ($id){
+                if(!$id){ //創建
+                    $form->select('StockCategory', trans('admin::lang.stock_category'))->options(
+                        StockCategory::all()->sortBy('sc_sort')->pluck('sc_name', 'sc_number')->transform(function ($item, $key) {
+                            return $key.' - '.$item;
+                        })
+                    );
+                    $form->select('ProductSupplier', trans('admin::lang.product_supplier'))->options(
+                        ProductSupplier::all()->pluck('sup_name', 'sup_number')->transform(function ($item, $key) {
+                            return $key.' - '.$item;
+                        })
+                    );
+                    $form->hidden('p_number');
+                }else{ //編輯
+                    $form->text('p_number', trans('admin::lang.product_number'))->rules('required');
+                }
                 $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
 
                 $form->multipleSelect('p_category', trans('admin::lang.product_category'))->options(
@@ -498,7 +514,7 @@ class ProductIndexController extends Controller
                 $form->hidden('update_user')->default(Admin::user()->id);
                 
             });
-            $form->tab('價格/業務', function ($form) {
+            $form->tab('價格/業務', function ($form) use ($id){
 
                 $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
                 $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
@@ -512,10 +528,9 @@ class ProductIndexController extends Controller
                 $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
                
             });
-            if(Admin::user()->isAdministrator()){
-                $form->tab('款式/庫存', function ($form) {
-                    $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
-                        
+            $form->tab('款式/庫存', function ($form) use ($id){
+                $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) use ($id){
+                    if(!$id){ //創建                        
                         if(Admin::user()->isAdministrator()){
                             //超級管理員可以自行選擇倉庫
                             $form->select('wid', trans('admin::lang.warehouse'))->options(
@@ -525,21 +540,36 @@ class ProductIndexController extends Controller
                             //非超級管理員使用本身綁定的倉庫id
                             $form->hidden('wid')->default(Admin::user()->wid);
                         }
-                        
-                        $form->text('st_type',trans('admin::lang.product_type'));
-                        $form->text('st_barcode',trans('admin::lang.product_barcode'));
-                        $form->text('st_notes',trans('admin::lang.notes'));
-                        // $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);
-                        $form->select('st_unit',trans('admin::lang.sales_unit'))->options(
-                            ['每人','每間']
-                        )->setWidth('1');
-                        $form->number('st_collect',trans('admin::lang.product_sales'))->default(0);
-                    });            
-                });
-            }
+                    }else{ //編輯
+                        if (Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) {
+                            //超級管理員 或 總倉倉管 可見所有倉庫庫存
+                            $form->select('wid', trans('admin::lang.warehouse'))->options(
+                                Warehouse::all()->pluck('w_name', 'wid')
+                            )->readOnly();
+                        } else {
+                            //非超級管理員使用本身綁定的倉庫id
+                            $form->hidden('wid')->default(Admin::user()->wid);
+                        }
+                    }
+                    
+                    $form->text('st_type',trans('admin::lang.product_type'));
+                    $form->text('st_barcode',trans('admin::lang.product_barcode'));
+                    $form->text('st_notes',trans('admin::lang.notes'));
+                    if(!$id){ //編輯
+                    }
+                    // $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);
+                    $form->select('st_unit',trans('admin::lang.sales_unit'))->options(
+                        ['每人','每間']
+                    );
+                    $form->number('st_collect',trans('admin::lang.product_sales'))->default(0);
+                });            
+            });
 
-            $form->saving(function(Form $form) {
-                if(!empty(request()->StockCategory)&&!empty(request()->ProductSupplier)){
+            $form->saving(function(Form $form) use ($id) {
+                $fp = fopen('output123.txt', 'w');
+                fwrite($fp, '0000  '.request()->stock);
+                fclose($fp);
+                if(!$id && !empty(request()->StockCategory) && !empty(request()->ProductSupplier)){
                     $firstTwoCode = request()->StockCategory.request()->ProductSupplier;
 
                     //取得商品資料庫中該分類的最大值
@@ -557,8 +587,8 @@ class ProductIndexController extends Controller
 
                 }
             });
-            $form->saved(function(Form $form) {
-                if(!empty(request()->StockCategory)&&!empty(request()->ProductSupplier)&&!empty(request()->inserttype)){
+            $form->saved(function(Form $form) use ($id) {
+                if(!$id && !empty(request()->StockCategory)&&!empty(request()->ProductSupplier) && !empty(request()->inserttype)){
                     
                     $insertstock = [
                         'pid'           =>  $form->model()->pid,
@@ -572,7 +602,7 @@ class ProductIndexController extends Controller
                     Stock::insert($insertstock);
                 }
             });
-            $form->ignore(['StockCategory','ProductSupplier']);
+            $form->ignore(['StockCategory','ProductSupplier','stock']);
         });
     }
     /**
@@ -580,10 +610,9 @@ class ProductIndexController extends Controller
      * 編輯時使用的form表格
      * @return Form
      */
-    protected function editform()
+    protected function editform($id = null)
     {
-        Permission::check(['editor']);
-        return Admin::form(ProductIndex::class, function (Form $form) {
+        return Admin::form(ProductIndex::class, function (Form $form) use ($id){
 
             $form->tab('商品資訊', function ($form) {
                 $form->text('p_number', trans('admin::lang.product_number'))->rules('required');
@@ -624,28 +653,29 @@ class ProductIndexController extends Controller
                 $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
                 $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
                
-            })->tab('款式/庫存', function ($form) {
-                $form->hasMany('stock','款式庫存', function (Form\NestedForm $form) {
-                    
-                    if(Admin::user()->isAdministrator()){
+            })->tab('款式/庫存', function ($form) use ($id){
+                $relationFunction = ( Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) ? 'stock1' : 'stock';
+
+                $form->hasMany($relationFunction, '款式庫存', function (Form\NestedForm $form) {
+                    if (Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) {
                         //超級管理員可以自行選擇倉庫
                         $form->select('wid', trans('admin::lang.warehouse'))->options(
-                            Warehouse::all()->pluck('w_name', 'wid')
-                        )->setWidth('2');
-                    }else{
+                        Warehouse::all()->pluck('w_name', 'wid')
+                        )->readOnly();
+                    } else {
                         //非超級管理員使用本身綁定的倉庫id
                         $form->hidden('wid')->default(Admin::user()->wid);
                     }
-                    
-                    $form->text('st_type',trans('admin::lang.product_type'))->setWidth('5');
-                    $form->text('st_barcode',trans('admin::lang.product_barcode'))->setWidth('5');
-                    $form->text('st_notes',trans('admin::lang.notes'))->setWidth('5');
-                    $form->display('st_stock',trans('admin::lang.product_stock'))->default(0);
-                    $form->select('st_unit',trans('admin::lang.sales_unit'))->options(
-                        ['每人','每間']
-                    );
-                    $form->number('st_collect',trans('admin::lang.product_sales'))->default(0);
-                })->setWidth('5');         
+                
+                    $form->text('st_type', trans('admin::lang.product_type'))->default('不分款');
+                    $form->text('st_barcode', trans('admin::lang.product_barcode'))->setWidth('5');
+                    $form->text('st_notes', trans('admin::lang.notes'))->setWidth('5');
+                    $form->display('st_stock', trans('admin::lang.product_stock'))->default(0);
+                    $form->select('st_unit', trans('admin::lang.sales_unit'))->options(
+                    ['每人','每間']
+                );
+                    $form->number('st_collect', trans('admin::lang.product_sales'))->default(0);
+                });
             });
 
             //未完成
@@ -694,22 +724,35 @@ class ProductIndexController extends Controller
 
                             //有庫存才增加庫存資料
                             if((int)$row['st_stock'] > 0){
-                                $dataArray2[] = [
+                                $dataArray2 = [
                                 'pid'           =>  $pid,
-                                'wid'           =>  '2', //台中倉
+                                'wid'           =>  Admin::user()->wid,
                                 'st_type'       =>  '不分款',
                                 'st_stock'      =>  $row['st_stock'],
                                 'update_user'   =>  Admin::user()->id,
                                 'created_at'    =>  date('Y-m-d H:i:s'),
                                 'updated_at'     =>  date('Y-m-d H:i:s'),
                                 ];
+                                $stid = Stock::insertGetId($dataArray2,'stid');
+
+                                $insertStockLogArray[] = [
+                                    'pid'          =>  $pid,
+                                    'wid'          =>  Admin::user()->wid,
+                                    'stid'         =>  $stid,
+                                    'sl_calc'      =>  '+',
+                                    'sl_quantity'  =>  $row['st_stock'],
+                                    'sl_stock'     =>  $row['st_stock'],
+                                    'sl_notes'     =>  '商品匯入',
+                                    'update_user'  =>  Admin::user()->id,
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
+                                ];
                             } 
                         }
                     }
                 }
-                if(!empty($dataArray2))
+                if(!empty($insertStockLogArray))
                 {
-                    Stock::insert($dataArray2);
+                    StockLog::insert($insertStockLogArray);
                 }
             }
         }

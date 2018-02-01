@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Auth\Permission;
 
 class ProductSeriesController extends Controller
 {
@@ -26,6 +27,7 @@ class ProductSeriesController extends Controller
      */
     public function index()
     {
+        Permission::check(['ProductSeries-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_series'));
@@ -75,6 +77,7 @@ class ProductSeriesController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['ProductSeries-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_series'));
@@ -95,6 +98,7 @@ class ProductSeriesController extends Controller
      */
     public function create()
     {
+        Permission::check(['ProductSeries-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_series'));

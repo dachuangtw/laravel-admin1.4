@@ -16,6 +16,7 @@ use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Widgets\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Encore\Admin\Auth\Permission;
 
 class WebLocationController extends Controller
 {
@@ -28,6 +29,7 @@ class WebLocationController extends Controller
      */
     public function index()
     {
+        Permission::check(['WebLocation-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.web_location'));
@@ -50,6 +52,7 @@ class WebLocationController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['WebLocation-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.web_location'));
@@ -70,6 +73,7 @@ class WebLocationController extends Controller
      */
     public function create()
     {
+        Permission::check(['WebLocation-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.web_location'));

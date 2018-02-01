@@ -67,9 +67,6 @@
 </div>
 <script>
 $(function() {
-    $('[data-toggle="popover"]').popover({
-        trigger: 'hover'
-    });
 
     var sendsearch = function(text){
         $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:140px;"><img src="/images/loading.gif"/>Loading...</div>');
@@ -77,6 +74,8 @@ $(function() {
         if($('#target').val() == 'product'){
             url = '/admin/product/search';
         }else if($('#target').val() == 'hasstock'){
+            url = '/admin/product/searchstock';
+        }else if($('#target').val() == 'hasstock2'){
             url = '/admin/product/searchstock';
         }else{
             alert("ERROR");
@@ -95,7 +94,7 @@ $(function() {
                 if(result){
                     $('#selectproduct .tb-body-container').html(result); 
                 }else{
-                    text = (text == 'searchselected') ? '已選擇' : ' 【 ' + text +' 】 ';
+                    text = (text == 'searchselected') ? '已選擇' : (text == 'searchall') ? '' : ' 【 ' + text +' 】 ';
                     $('#selectproduct .tb-body-container').html('<div style="text-align:center;padding-top:140px;">查無' + text + '資料</div>'); 
                 }
             }
@@ -133,25 +132,36 @@ $(function() {
             var rowTop, action;
             var str = window.location.href;
             action = str.slice(str.lastIndexOf("/")+1); 
+            action = action.replace(/#/,'');
             if(action != 'create' && action != 'edit'){
                 alert('網頁出了問題，請通知相關人員處理');
                 return false;
             }
 
-            if($('#target').val() == 'hasstock'){
-                inputtext = false;
-            }
 
             if($('#productdetails').length > 0){
                 firsttime = false;
                 rowTop = $("#productdetails .tb-body-container").find("div[role='row']").last().css("top");
             }
+
+            var url = '',target = $('#target').val();
+            if(target == 'product'){
+                url = '/admin/product/receiptdetails';
+            }else if(target == 'hasstock'){
+                url = '/admin/transfer/transferdetails';
+                inputtext = false;
+            }else if(target == 'hasstock2'){
+                url = '/admin/sales/assigndetails';
+            }else{
+                alert("ERROR");
+                return false;
+            }
             $.ajax({
-                url:'/admin/product/receiptdetails',
+                url: url,
                 method: 'post',
                 data: {
                     action: action,
-                    target: $('#target').val(),
+                    target: target,
                     inputtext: inputtext,
                     selected: selectResultArray,
                     firsttime: firsttime,

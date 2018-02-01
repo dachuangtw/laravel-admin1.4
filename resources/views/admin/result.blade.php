@@ -22,10 +22,7 @@
 
 <script>
 $(function() {
-    $('[data-toggle="popover"]').popover({
-        trigger: 'hover'
-    });    
-
+    
     $('#selectproduct input.magic-checkbox').on('click', function () {
         /**
          * 如果pid不在陣列中則把pid塞入陣列，如果pid在陣列中則移除它

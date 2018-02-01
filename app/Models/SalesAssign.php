@@ -16,4 +16,13 @@ class SalesAssign extends Model
     {
        return $this->hasMany(SalesAssignDetails::class,'assign_id','assign_id');
     }
+
+    //刪除配貨單同時刪除配貨明細
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function($details) {
+            $details->SalesAssignDetails()->delete();
+        });
+    }
 }

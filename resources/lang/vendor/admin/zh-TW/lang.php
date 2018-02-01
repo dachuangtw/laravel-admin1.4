@@ -144,8 +144,18 @@ return [
     'sales_assign'  =>      '每日配貨',
     'assign_date'   =>      '配貨日期',
     'assign_id'     =>      '配貨單號',
-    'assign_total'  =>      '總計金額',
+    'assign_amount' =>      '總計金額',
     'p_salesprice_total'=>  '金額',
+
+    //業務領貨
+    'sales_collect' =>      '業務領貨',
+    'collect_id'    =>      '領貨單號',
+    'collect_date'  =>      '領貨日期',
+    'collect_amount'=>      '總計金額',
+    'collect_check' =>      '領貨確認',
+    'collect_check_user' => '領貨確認人',
+    'receipt_check' =>      '收款確認',
+    'receipt_check_user' => '收款確認人',
 
     //店鋪據點
     'web_location'  =>      '店鋪據點',
@@ -226,8 +236,8 @@ return [
     't_number'      =>    '調撥單號',
     't_amount'      =>    '總金額',
     't_checked'     =>    '收貨確認',
-    // ''     =>    '',
-    // ''     =>    '',
+    't_notes'       =>    '備註',
+    'send_user'     =>    '調撥人',
     // ''     =>    '',
     // ''     =>    '',
     // ''     =>    '',

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Encore\Admin\Facades\Admin;
 
 class ProductIndex extends Model
 {
@@ -31,7 +32,7 @@ class ProductIndex extends Model
     //一(商品)對多(庫存)關聯資料表
     public function stock()
     {
-        return $this->hasMany(Stock::class,'pid');
+        return $this->hasMany(Stock::class,'pid')->where('wid', Admin::user()->wid)->orWhere('wid', '2');
     }
     public function stock1()
     {
@@ -48,7 +49,7 @@ class ProductIndex extends Model
     public function stock4()
     {
         return $this->hasMany(Stock::class,'pid');
-    }    
+    }
 
     //前台顯示
     // public function scopeShowfront($query)
@@ -57,10 +58,10 @@ class ProductIndex extends Model
     // }
 
     //限制分類
-    // public function scopeOfCategory($query, $type)
-    // {
-    //     return $query->where('p_category', $type);
-    // }
+    public function scopeOfCategory($query, $type)
+    {
+        return $query->where('p_category', $type);
+    }
 
     //限制主題系列
     // public function scopeOfSeries($query, $type)

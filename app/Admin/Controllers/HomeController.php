@@ -6,6 +6,8 @@ use App\Sales;
 use App\SalesNotes;
 use App\ProductIndex;
 use App\WebLocation;
+use App\ProductCategory;
+use App\Warehouse;
 
 use App\Http\Controllers\Controller;
 use Encore\Admin\Facades\Admin;
@@ -38,28 +40,49 @@ class HomeController extends Controller
                 $row->column(2, new InfoBox('業務訂單', 'shopping-cart', 'green', '/admin/orders', '150%'));
                 $row->column(2, new InfoBox('業務公告', 'file', 'red', '/admin/sales/notes', SalesNotes::count()));
                 $row->column(2, new InfoBox('今日領貨量', 'check-square', 'purple', '/admin', '0'));
-                $row->column(2, new InfoBox('商品數', 'cubes', 'orange', '/admin/product', ProductIndex::count()));
+                $row->column(2, new InfoBox('商品樣數', 'cubes', 'orange', '/admin/product', ProductIndex::count()));
                 $row->column(2, new InfoBox('店鋪數', 'university', 'blue', '/admin/web/location', WebLocation::count()));
 
             });
-
             $content->row(function (Row $row) {
 
+                $row->column(6, function (Column $column) {
+                    $tab = new Tab();
+
+                    
+                    $pieArray = [];
+                    $ProductCategory = ProductCategory::all()->pluck('pc_name', 'pcid');
+                    foreach ($ProductCategory as $key => $val) {
+                        $pieArray[] = [$val,ProductIndex::ofCategory($key)->count()];
+                    }
+                    $column->append((new Box('商品種類/樣數', new Pie($pieArray)))->removable()->collapsable()->style('info'));
+
+                    
+                });
+                $row->column(6, function (Column $column) {
+                    $pieArray = [];
+                    $Warehouse = Warehouse::all()->pluck('w_name','wid');
+                    foreach($Warehouse as $key => $val){
+                        $pieArray[] = [$val,Sales::where('wid',$key)->count()];
+                    }
+                    $column->append((new Box('業務分布', new Pie($pieArray)))->removable()->collapsable()->style('info'));
+                });
+
+            });
+            $content->row(function (Row $row) {
+
+                
                 $row->column(6, function (Column $column) {
 
                     $tab = new Tab();
 
-                    $pie = new Pie([
-                        ['Stracke Ltd', 450], ['Halvorson PLC', 650], ['Dicki-Braun', 250], ['Russel-Blanda', 300],
-                        ['Emmerich-O\'Keefe', 400], ['Bauch Inc', 200], ['Leannon and Sons', 250], ['Gibson LLC', 250],
-                    ]);
+                    
 
-                    $tab->add('Pie', $pie);
                     $tab->add('Table', new Table());
                     $tab->add('Text', 'blablablabla....');
 
                     $tab->dropDown([['Orders', '/admin/orders'], ['administrators', '/admin/administrators']]);
-                    $tab->title('Tabs');
+                    $tab->title('Tab');
 
                     $column->append($tab);
 

@@ -77,9 +77,9 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
-                                            <input type="text" name="price[]" value="{{ $product->$showprice }}" {{ $inputtext ? '' : 'readonly' }}></div>
+                                            <input type="text" name="price[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
-                                            <input type="text" name="amount[]" value="{{ $product->$showprice }}" {{ $inputtext ? '' : 'readonly' }}></div>
+                                            <input type="text" name="amount[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[9] }}px; left: {{ $rowLeft[9] }}px; ">
                                             <input type="text" name="notes[]" value=""></div>
 
@@ -95,14 +95,16 @@
                                         <input type="hidden" name="pid[]" value="{{ $products[$key]['pid'] }}">
                                         <input type="hidden" name="{{ $detailid }}[]" value="{{ $savedDetail->$detailid }}">
                                         <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[0] }}px; left: {{ $rowLeft[0] }}px; ">
+                                            @if($allReadonly != 'readonly')
                                             <div class="ui-grid-cell-contents">
                                                 <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>
                                             </div>
+                                            @endif
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $products[$key]['p_number'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($products[$key]['p_pic'])
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#productdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
@@ -111,8 +113,8 @@
                                             @if(isset($stock[$savedDetail->stid]))
                                                 @if(empty($savedDetail->$detailid))
                                                 <select name="stid[]">
-                                                    @foreach($stock as $val)
-                                                        <option value="{{ $val['stid'] }}">{{ $val['st_type'] }}</option>
+                                                    @foreach($stock as $stid => $st_type)
+                                                        <option value="{{ $stid }}">{{ $st_type }}</option>
                                                     @endforeach
                                                 </select>
                                                 @else                                            
@@ -126,13 +128,13 @@
                                         
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
-                                            <input type="text" name="quantity[]" value="{{ $savedDetail->red_quantity }}"></div>
+                                            <input type="text" name="quantity[]" value="{{ $savedDetail->$showQuantity }}" {{ $allReadonly }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
-                                            <input type="text" name="price[]" value="{{ $savedDetail->red_price }}"></div>
+                                            <input type="text" name="price[]" value="{{ $savedDetail->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
-                                            <input type="text" name="amount[]" value="{{ $savedDetail->red_amount }}"></div>
+                                            <input type="text" name="amount[]" value="{{ $savedDetail->$showAmount }}" {{ $inputtext ? '' : 'readonly' }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
-                                            <input type="text" name="notes[]" value="{{ $savedDetail->red_notes }}"></div>
+                                            <input type="text" name="notes[]" value="{{ $savedDetail->$showNotes }}" {{ $allReadonly }}></div>
 
                                     </div>
                                     @endforeach
@@ -152,7 +154,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $product->p_number }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($product->p_pic)
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#productdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $product->p_pic }}' width='150px'>">{{ $product->p_name }}</a>
                                             @else {{ $product->p_name }} 
                                             @endif
                                         </div>
@@ -173,9 +175,9 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
-                                            <input type="text" name="price[]" value="{{ $product->$showprice }}"></div>
+                                            <input type="text" name="price[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
-                                            <input type="text" name="amount[]" value="{{ $product->$showprice }}"></div>
+                                            <input type="text" name="amount[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
                                             <input type="text" name="notes[]" value=""></div>
 
@@ -188,24 +190,23 @@
                                     @if($action == 'view')
                                     @foreach($savedDetails as $key => $savedDetail)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
-                                        <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[0] }}px; left: {{ $rowLeft[0] }}px; ">
-                                            <div class="ui-grid-cell-contents">
-                                                <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>
-                                            </div>
-                                        </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $products[$key]['p_number'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($products[$key]['p_pic'])
-                                            <a href="#" role="button" data-toggle="popover" data-container="#receiptproductdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
+                                            <a href="#" role="button" data-toggle="popover" data-container="#productdetails" data-placement="bottom" data-html="true" data-content="<img src='{{ rtrim(config('admin.upload.host'), '/').'/'. $products[$key]['p_pic'] }}' width='150px'>">{{ $products[$key]['p_name'] }}</a>
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $stock[$key] }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->red_quantity }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">{{ $savedDetail->red_price }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->red_amount }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">{{ $savedDetail->red_notes }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->$showQuantity }}
+                                        <input type="hidden" name="quantity[]" value="{{ $savedDetail->$showQuantity }}">
+                                        </div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">{{ $savedDetail->$showPrice }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->$showAmount }}
+                                        <input type="hidden" name="amount[]" value="{{ $savedDetail->$showAmount }}">
+                                        </div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">{{ $savedDetail->$showNotes }}</div>
 
                                     </div>
                                     @endforeach
@@ -296,8 +297,5 @@ function countTotal(){
 <script>
 $(function() {
     countTotal();
-    $('[data-toggle="popover"]').popover({
-        trigger: 'hover'
-    });
 });
 </script>

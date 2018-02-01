@@ -12,6 +12,7 @@ use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
+use Encore\Admin\Auth\Permission;
 
 class WebAreaController extends Controller
 {
@@ -23,6 +24,7 @@ class WebAreaController extends Controller
      */
     public function index()
     {
+        Permission::check(['WebArea-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.web_area'));
@@ -55,6 +57,7 @@ class WebAreaController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['WebArea-Editor');
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.web_area'));
@@ -75,6 +78,7 @@ class WebAreaController extends Controller
      */
     public function create()
     {
+        Permission::check(['WebArea-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.web_area'));

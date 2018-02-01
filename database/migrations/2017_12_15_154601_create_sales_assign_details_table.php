@@ -14,13 +14,14 @@ class CreateSalesAssignDetailsTable extends Migration
     public function up()
     {
          Schema::create('sales_assign_details', function (Blueprint $table) {
-            $table->increments('said')->unique()->index()->comment('配貨id');
-            $table->string('assign_id')->unique()->comment('配貨單號');
-            $table->string('pid')->nullable()->comment('產品編號');
-            $table->string('st_type',50)->nullable()->comment('款式');
-            $table->integer('p_salesprice')->default(0)->comment('業務單價');  
-            $table->integer('p_quantity')->default(0)->comment('數量');         
-            $table->integer('p_salesprice_total')->default(0)->comment('金額(數量*單價)');
+            $table->increments('sadid')->index()->comment('配貨明細id');
+            $table->string('assign_id')->comment('配貨單號');
+            $table->string('pid')->nullable()->comment('商品編號');
+            $table->integer('stid')->unsigned()->index()->comment('庫存id');
+            $table->decimal('sad_salesprice',10,2)->default(0.00)->comment('業務單價');  
+            $table->integer('sad_quantity')->default(0)->comment('數量');         
+            $table->decimal('sad_amount')->default(0.00)->comment('金額(數量*單價)');
+            $table->text('sad_notes')->nullable()->comment('備註');
             $table->timestamps();
         });
     }

@@ -52,6 +52,8 @@ Route::group([
     $router->get('web/location/{id}/view', 'WebLocationController@view');
     $router->get('web/area/{id}/view', 'WebAreaController@view');
     $router->get('warehouse/{id}/view', 'WarehouseController@view');
+    
+    $router->get('transfer/{id}/view', 'TransferController@view');
 
     $router->get('api/tw/district', 'WebLocationController@district');
 
@@ -76,6 +78,9 @@ Route::group([
     
     $router->post('transfer/transferdetails', 'ProductIndexController@selectedproduct');
     $router->get('transfer/transferdetails/{id}', 'TransferController@transferdetails');
+
+    $router->post('sales/assigndetails', 'ProductIndexController@selectedproduct');
+    $router->get('sales/assigndetails/{id}', 'SalesAssignController@salesassigndetails');
 
     $router->get('/', 'HomeController@index');
 });

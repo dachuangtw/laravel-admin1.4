@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Auth\Permission;
 
 class ProductCategoryController extends Controller
 {
@@ -26,6 +27,7 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
+        Permission::check(['ProductCategory-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_category'));
@@ -73,6 +75,7 @@ class ProductCategoryController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['ProductCategory-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_category'));
@@ -92,6 +95,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
+        Permission::check(['ProductCategory-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_category'));

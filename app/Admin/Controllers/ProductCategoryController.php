@@ -27,7 +27,7 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        Permission::check(['ProductCategory-Reader','ProductCategory-Editor','ProductCategory-Creator','ProductCategory-Deleter']);
+        Permission::check(['ProductCategory-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_category'));
@@ -75,7 +75,7 @@ class ProductCategoryController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['ProductCategory-Reader','ProductCategory-Editor']);
+        Permission::check(['ProductCategory-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_category'));
@@ -95,7 +95,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        Permission::check(['ProductCategory-Reader','ProductCategory-Creator']);
+        Permission::check(['ProductCategory-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_category'));

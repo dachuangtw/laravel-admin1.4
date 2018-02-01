@@ -44,35 +44,45 @@ class HomeController extends Controller
                 $row->column(2, new InfoBox('店鋪數', 'university', 'blue', '/admin/web/location', WebLocation::count()));
 
             });
-
             $content->row(function (Row $row) {
 
                 $row->column(6, function (Column $column) {
-
                     $tab = new Tab();
 
                     
                     $pieArray = [];
-                    $ProductCategory = ProductCategory::all()->pluck('pc_name','pcid');
-                    foreach($ProductCategory as $key => $val){
+                    $ProductCategory = ProductCategory::all()->pluck('pc_name', 'pcid');
+                    foreach ($ProductCategory as $key => $val) {
                         $pieArray[] = [$val,ProductIndex::ofCategory($key)->count()];
                     }
+                    $column->append((new Box('商品種類/樣數', new Pie($pieArray)))->removable()->collapsable()->style('info'));
 
-                    $tab->add('商品種類/樣數', new Pie($pieArray));
                     
+                });
+                $row->column(6, function (Column $column) {
                     $pieArray = [];
                     $Warehouse = Warehouse::all()->pluck('w_name','wid');
                     foreach($Warehouse as $key => $val){
                         $pieArray[] = [$val,Sales::where('wid',$key)->count()];
                     }
+                    $column->append((new Box('業務分布', new Pie($pieArray)))->removable()->collapsable()->style('info'));
+                });
+
+            });
+            $content->row(function (Row $row) {
+
+                
+                $row->column(6, function (Column $column) {
+
+                    $tab = new Tab();
+
                     
-                    $tab->add('業務分布', new Pie($pieArray));
 
-                    // $tab->add('Table', new Table());
-                    // $tab->add('Text', 'blablablabla....');
+                    $tab->add('Table', new Table());
+                    $tab->add('Text', 'blablablabla....');
 
-                    // $tab->dropDown([['Orders', '/admin/orders'], ['administrators', '/admin/administrators']]);
-                    $tab->title('');
+                    $tab->dropDown([['Orders', '/admin/orders'], ['administrators', '/admin/administrators']]);
+                    $tab->title('Tab');
 
                     $column->append($tab);
 

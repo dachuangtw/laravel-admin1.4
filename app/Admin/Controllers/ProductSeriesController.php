@@ -27,7 +27,7 @@ class ProductSeriesController extends Controller
      */
     public function index()
     {
-        Permission::check(['ProductSeries-Reader','ProductSeries-Editor','ProductSeries-Creator','ProductSeries-Deleter']);
+        Permission::check(['ProductSeries-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_series'));
@@ -77,7 +77,7 @@ class ProductSeriesController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['ProductSeries-Reader','ProductSeries-Editor','ProductSeries-Deleter']);
+        Permission::check(['ProductSeries-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_series'));
@@ -98,7 +98,7 @@ class ProductSeriesController extends Controller
      */
     public function create()
     {
-        Permission::check(['ProductSeries-Reader','ProductSeries-Creator','ProductSeries-Deleter']);
+        Permission::check(['ProductSeries-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_series'));

@@ -29,7 +29,7 @@ class WebLocationController extends Controller
      */
     public function index()
     {
-        Permission::check(['WebLocation-Reader','WebLocation-Editor','WebLocation-Creator','WebLocation-Deleter']);
+        Permission::check(['WebLocation-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.web_location'));
@@ -52,7 +52,7 @@ class WebLocationController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['WebLocation-Reader','WebLocation-Editor','WebLocation-Deleter']);
+        Permission::check(['WebLocation-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.web_location'));
@@ -73,7 +73,7 @@ class WebLocationController extends Controller
      */
     public function create()
     {
-        Permission::check(['WebLocation-Reader','WebLocation-Creator','WebLocation-Deleter']);
+        Permission::check(['WebLocation-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.web_location'));

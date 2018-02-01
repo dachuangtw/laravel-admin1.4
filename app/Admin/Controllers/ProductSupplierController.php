@@ -27,7 +27,7 @@ class ProductSupplierController extends Controller
      */
     public function index()
     {
-        Permission::check(['ProductSupplier-Reader','ProductSupplier-Editor','ProductSupplier-Creator','ProductSupplier-Deleter']);
+        Permission::check(['ProductSupplier-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_supplier'));
@@ -78,7 +78,7 @@ class ProductSupplierController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['ProductSupplier-Reader','ProductSupplier-Editor','ProductSupplier-Deleter']);
+        Permission::check(['ProductSupplier-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_supplier'));
@@ -98,7 +98,7 @@ class ProductSupplierController extends Controller
      */
     public function create()
     {
-        Permission::check(['ProductSupplier-Reader','ProductSupplier-Creator','ProductSupplier-Deleter']);
+        Permission::check(['ProductSupplier-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_supplier'));

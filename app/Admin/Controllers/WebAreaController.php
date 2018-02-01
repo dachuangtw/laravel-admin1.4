@@ -24,7 +24,7 @@ class WebAreaController extends Controller
      */
     public function index()
     {
-        Permission::check(['WebArea-Reader','WebArea-Editor','WebArea-Creator','WebArea-Deleter']);
+        Permission::check(['WebArea-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.web_area'));
@@ -57,7 +57,7 @@ class WebAreaController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['WebArea-Reader','WebArea-Editor','WebArea-Deleter']);
+        Permission::check(['WebArea-Editor');
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.web_area'));
@@ -78,7 +78,7 @@ class WebAreaController extends Controller
      */
     public function create()
     {
-        Permission::check(['WebArea-Reader','WebArea-Creator','WebArea-Deleter']);
+        Permission::check(['WebArea-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.web_area'));

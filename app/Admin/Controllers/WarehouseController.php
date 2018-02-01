@@ -27,7 +27,7 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        Permission::check(['Warehouse-Reader','Warehouse-Editor','Warehouse-Creator','Warehouse-Deleter']);
+        Permission::check(['Warehouse-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.warehouse'));
@@ -80,7 +80,7 @@ class WarehouseController extends Controller
      */
     public function view($id)
     {
-        Permission::check(['Warehouse-Reader','Warehouse-Editor','Warehouse-Creator','Warehouse-Deleter']);
+        Permission::check(['Warehouse-Reader']);
         // return view('admin::modal');
 
         return $this->formViewer()->view($id);
@@ -94,7 +94,7 @@ class WarehouseController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['Warehouse-Reader','Warehouse-Editor']);
+        Permission::check(['Warehouse-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.warehouse'));
@@ -115,7 +115,7 @@ class WarehouseController extends Controller
      */
     public function create()
     {
-        Permission::check(['Warehouse-Reader','Warehouse-Creator']);
+        Permission::check(['Warehouse-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.warehouse'));

@@ -27,7 +27,7 @@ class StockCategoryController extends Controller
      */
     public function index()
     {
-        Permission::check(['StockCategory-Reader','StockCategory-Editor','StockCategory-Creator','StockCategory-Deleter']);
+        Permission::check(['StockCategory-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.stock_category'));
@@ -75,7 +75,7 @@ class StockCategoryController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['StockCategory-Reader','StockCategory-Editor','StockCategory-Deleter']);
+        Permission::check(['StockCategory-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.stock_category'));
@@ -96,7 +96,7 @@ class StockCategoryController extends Controller
      */
     public function create()
     {
-        Permission::check(['StockCategory-Reader','StockCategory-Creator','StockCategory-Deleter']);
+        Permission::check(['StockCategory-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header('header');

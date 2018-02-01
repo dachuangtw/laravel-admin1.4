@@ -69,7 +69,7 @@ class ProductReceiptController extends Controller
      */
     public function index()
     {
-        Permission::check(['ProductReceipt-Reader','ProductReceipt-Editor','ProductReceipt-Creator','ProductReceipt-Deleter']);
+        Permission::check(['ProductReceipt-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_receipt'));
@@ -182,7 +182,7 @@ class ProductReceiptController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['ProductReceipt-Reader','ProductReceipt-Editor','ProductReceipt-Deleter']);
+        Permission::check(['ProductReceipt-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.product_receipt'));
@@ -208,7 +208,7 @@ SCRIPT;
      */
     public function create()
     {
-        Permission::check(['ProductReceipt-Reader','ProductReceipt-Creator','ProductReceipt-Deleter']);
+        Permission::check(['ProductReceipt-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_receipt'));

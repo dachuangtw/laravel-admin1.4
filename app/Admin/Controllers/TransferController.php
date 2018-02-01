@@ -74,7 +74,7 @@ class TransferController extends Controller
      */
     public function index()
     {
-        Permission::check(['Transfer-Reader','Transfer-Editor','Transfer-Creator','Transfer-Deleter']);
+        Permission::check(['Transfer-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.transfer'));
@@ -122,7 +122,7 @@ class TransferController extends Controller
      */
     public function view($id)
     {
-        Permission::check(['Transfer-Reader','Transfer-Editor','Transfer-Creator','Transfer-Deleter']);
+        Permission::check(['Transfer-Reader']);
         
         $transfer = Transfer::find($id)->toArray();
 
@@ -193,7 +193,7 @@ class TransferController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['Transfer-Reader','Transfer-Editor']);
+        Permission::check(['Transfer-Editor']);
 
         return Admin::content(function (Content $content) use ($id) {
 
@@ -221,7 +221,7 @@ SCRIPT;
      */
     public function create()
     {
-        Permission::check(['Transfer-Reader','Transfer-Creator']);
+        Permission::check(['Transfer-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.transfer'));

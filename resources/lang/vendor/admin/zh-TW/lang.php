@@ -144,7 +144,7 @@ return [
     'sales_assign'  =>      '每日配貨',
     'assign_date'   =>      '配貨日期',
     'assign_id'     =>      '配貨單號',
-    'assign_total'  =>      '總計金額',
+    'assign_amount' =>      '總計金額',
     'p_salesprice_total'=>  '金額',
 
     //店鋪據點

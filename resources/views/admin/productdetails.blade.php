@@ -190,11 +190,6 @@
                                     @if($action == 'view')
                                     @foreach($savedDetails as $key => $savedDetail)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
-                                        <div tabindex="-1" col-id="isSelected" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[0] }}px; left: {{ $rowLeft[0] }}px; ">
-                                            <div class="ui-grid-cell-contents">
-                                                <a class="btn btn-xs btn-danger removerow" href="javascript:;" title="刪除"><i class="fa fa-times"></i></a>
-                                            </div>
-                                        </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $products[$key]['p_number'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
                                             @if($products[$key]['p_pic'])

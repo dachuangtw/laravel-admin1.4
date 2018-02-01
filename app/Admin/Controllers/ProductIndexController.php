@@ -64,9 +64,12 @@ class ProductIndexController extends Controller
         if($target == 'hasstock'){
             $showPrice = 'p_salesprice';
             $detailid = 'tdid';
-        }elseif($target == 'hasstock2'){
+        }elseif($target == 'salesassign_hasstock'){
             $showPrice = 'p_salesprice';
             $detailid = 'sadid';
+        }elseif($target == 'salescollect_hasstock'){
+            $showPrice = 'p_salesprice';
+            $detailid = 'scdid';
         }else{            
             $showPrice = 'p_costprice';
             $detailid = 'redid';

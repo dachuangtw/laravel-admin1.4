@@ -82,5 +82,8 @@ Route::group([
     $router->post('sales/assigndetails', 'ProductIndexController@selectedproduct');
     $router->get('sales/assigndetails/{id}', 'SalesAssignController@salesassigndetails');
 
+    $router->post('sales/collectetails', 'ProductIndexController@selectedproduct');
+    $router->get('sales/collectetails/{id}', 'SalesCollectController@collectetails');
+
     $router->get('/', 'HomeController@index');
 });

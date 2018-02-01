@@ -317,8 +317,8 @@ SCRIPT;
             $form->divide();
             
             //btn-append有另外寫js的append功能
-            //ShowModal("hasstock2"):查詢所屬倉庫商品庫存
-            $form->button('btn-danger btn-append','+ 配貨商品')->on('click','ShowModal("hasstock2");');
+            //ShowModal("salesassign_hasstock"):查詢所屬倉庫商品庫存
+            $form->button('btn-danger btn-append','+ 配貨商品')->on('click','ShowModal("salesassign_hasstock");');
 
             $form->saving(function (Form $form) {
                 

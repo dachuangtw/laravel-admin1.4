@@ -75,7 +75,9 @@ $(function() {
             url = '/admin/product/search';
         }else if($('#target').val() == 'hasstock'){
             url = '/admin/product/searchstock';
-        }else if($('#target').val() == 'hasstock2'){
+        }else if($('#target').val() == 'salesassign_hasstock'){
+            url = '/admin/product/searchstock';
+        }else if($('#target').val() == 'salescollect_hasstock'){
             url = '/admin/product/searchstock';
         }else{
             alert("ERROR");
@@ -150,8 +152,10 @@ $(function() {
             }else if(target == 'hasstock'){
                 url = '/admin/transfer/transferdetails';
                 inputtext = false;
-            }else if(target == 'hasstock2'){
+            }else if(target == 'salesassign_hasstock'){
                 url = '/admin/sales/assigndetails';
+            }else if(target == 'salescollect_hasstock'){
+                url = '/admin/sales/collectdetails';
             }else{
                 alert("ERROR");
                 return false;

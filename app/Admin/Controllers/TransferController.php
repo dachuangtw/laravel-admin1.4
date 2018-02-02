@@ -86,20 +86,19 @@ class TransferController extends Controller
             $content->row(function (Row $row) {
                 $row->column(4, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('product/transfer'));
+                    $form->action(admin_url('transfer'));
                     $form->method('GET');
 
                     $form->dateRange('send_at[start]', 'send_at[end]', '調撥日');
 
                     $warehouses = Warehouse::all()->pluck('w_name', 'wid');
-                    $form->select('wid_send', trans('admin::lang.warehouse'))->options(
-                        
+                    $form->select('wid_send', trans('admin::lang.wid_send'))->options(                        
                         $warehouses
                     );
-                    $form->select('wid_receive', trans('admin::lang.warehouse'))->options(
-                        
+                    $form->select('wid_receive', trans('admin::lang.wid_receive'))->options(                        
                         $warehouses
                     );
+                    $form->text('t_number',trans('admin::lang.t_number'));
 
                     $form->disableSubmit();
                     $form->disableReset();
@@ -248,6 +247,7 @@ SCRIPT;
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
                 $filter->is('wid_send', trans('admin::lang.wid_send'));
+                $filter->is('wid_receive', trans('admin::lang.wid_receive'));
                 $filter->like('t_number',trans('admin::lang.t_number'));
                 $filter->between('send_at', trans('admin::lang.send_at'))->date();
             });
@@ -333,7 +333,11 @@ SCRIPT;
 
             //顯示匯入按鈕
             // $grid->allowImport();
-            $grid->model()->where('wid_send', Admin::user()->wid)->orWhere('wid_receive', Admin::user()->wid)->orderBy('tid', 'desc');
+            // $grid->model()->where('wid_send', Admin::user()->wid)->orWhere('wid_receive', Admin::user()->wid)->orderBy('tid', 'desc');
+            $grid->model()->where(function ($query) {
+                    $query->where('wid_send',  Admin::user()->wid)
+                        ->orWhere('wid_receive', Admin::user()->wid);
+            })->orderBy('tid', 'desc');
         });
     }
 

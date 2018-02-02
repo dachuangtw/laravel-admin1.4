@@ -287,7 +287,7 @@ SCRIPT;
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
                 <h3>{$title}</h3>
                 <div style="text-align:right;font-size:40px;">
-                <a href="javascript:;" id="pre"> <i class="fa fa-angle-left"></i></a> &nbsp <a href="javascript:;" id="next"> <i class="fa fa-angle-right"></i> </a>
+                <a href="javascript:;" id="pre"> <i class="fa fa-angle-left"></i></a> &nbsp; <a href="javascript:;" id="next"> <i class="fa fa-angle-right"></i> </a>
                 </div>
             </div>
             <div class='modal-body'>彈出式視窗(網頁載入)</div>

@@ -229,19 +229,44 @@ class Grid
      *
      * @return string
      */
-    protected function viewModal()
+    protected function viewModal($keyids)
     {
         $script = <<<SCRIPT
+var keyids = $keyids;
+var indexofkeyid, viewurl, title;
 
 $('.viewbutton').on('click', function() {
-    var url = $(this).attr("src");    
-    var title = $(this).attr("data-title");
-    
+    viewurl = $(this).attr("src");
+    title = $(this).attr("data-title");
+    var keyid = $(this).attr("data-key");
+    indexofkeyid = keyids.indexOf(keyid);
+
     $("#viewmodal").find('h3').html(title);
-    $.get(url, function(data) {
+    inserthtml();
+});
+$('#pre').on('click', function() {
+    if(keyids[indexofkeyid-1]){
+        viewurl = viewurl.replace("/"+ keyids[indexofkeyid] +"/","/" + keyids[indexofkeyid-1] + "/");
+        indexofkeyid = indexofkeyid-1;
+        inserthtml();
+    }
+});
+$('#next').on('click', function() {
+    if(keyids[indexofkeyid+1]){
+        viewurl = viewurl.replace("/"+ keyids[indexofkeyid] +"/","/" + keyids[indexofkeyid+1] + "/");
+        indexofkeyid = indexofkeyid+1;
+        inserthtml();
+    }
+});
+function inserthtml(){
+    
+    $.get(viewurl, function(data) {        
+        title = $('.viewbutton[data-key="'+ keyids[indexofkeyid] +'"]').attr("data-title");
+        $("#viewmodal").find('h3').html(title);
+
         $("#viewmodal").find('.modal-body').html(data);
     });
-});
+}
 $('#viewmodal').on('show.bs.modal', function() {
     var margin_vertical = parseInt($(this).find('.modal-dialog').css('margin-top')) + parseInt($(this).find('.modal-dialog').css('margin-bottom')) || 0;
     var height_body = (window.innerHeight - margin_vertical - 150) + 'px';
@@ -261,6 +286,9 @@ SCRIPT;
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
                 <h3>{$title}</h3>
+                <div style="text-align:right;font-size:40px;">
+                <a href="javascript:;" id="pre"> <i class="fa fa-angle-left"></i></a> &nbsp <a href="javascript:;" id="next"> <i class="fa fa-angle-right"></i> </a>
+                </div>
             </div>
             <div class='modal-body'>彈出式視窗(網頁載入)</div>
             <div class='modal-footer'>
@@ -610,8 +638,13 @@ EOT;
         $this->buildRows($data);
 
         $this->builded = true;
-        
-        $this->viewModal();
+
+        $keyids = '[';
+        foreach($data as $val){
+            $keyids .= "'" . $val[$this->keyName] . "'," ;
+        }
+        $keyids .= ']';
+        $this->viewModal($keyids);
     }
 
     /**

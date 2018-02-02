@@ -288,7 +288,7 @@ class ProductIndexController extends Controller
                     }
                     $rows[$newkey] = $content;
                 }else{
-                    $rows[$newkey] = '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $value . '" width="50px" />';
+                    $rows[$newkey] = '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $value . '" width="100px" />';
                 }
 
             }else{

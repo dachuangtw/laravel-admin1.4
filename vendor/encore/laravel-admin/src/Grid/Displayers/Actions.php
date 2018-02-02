@@ -189,7 +189,7 @@ class Actions extends AbstractDisplayer
         }
         $title = htmlentities($title);
         return <<<EOT
-<a src="{$this->getResource()}/{$this->getKey()}/view" class="viewbutton" data-toggle="modal" data-target="#viewmodal" data-title="{$title}" title="{$this->trans('view')}">
+<a src="{$this->getResource()}/{$this->getKey()}/view" class="viewbutton" data-toggle="modal" data-target="#viewmodal" data-title="{$title}" title="{$this->trans('view')}" data-key="{$this->getKey()}">
     <i class="fa fa-eye"></i>
 </a>
 EOT;

@@ -27,6 +27,7 @@ class CreateSalesCollectTable extends Migration
             $table->text('collect_notes')->nullable()->comment('備註');
             $table->string('update_user',25)->nullable()->comment('最後更新者');
             $table->timestamps();
+            $table->softDeletes();
         });
 
     }

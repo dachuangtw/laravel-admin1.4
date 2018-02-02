@@ -13,7 +13,7 @@ class CreateSalesCollectDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sales_collect_datails', function (Blueprint $table) {
+        Schema::create('sales_collect_details', function (Blueprint $table) {
             $table->increments('scdid')->index()->comment('領貨id');
             $table->string('collect_id')->index()->comment('領貨單號');
             $table->integer('pid')->unsigned()->index()->comment('商品編號');
@@ -22,7 +22,6 @@ class CreateSalesCollectDetailsTable extends Migration
             $table->integer('scd_quantity')->default(0)->comment('數量');
             $table->decimal('scd_amount')->default(0.00)->comment('總計金額');         
             $table->text('scd_notes')->nullable()->comment('商品備註');;
-            $table->timestamps();
         });
     }
 
@@ -33,6 +32,6 @@ class CreateSalesCollectDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sales_collect_datails');
+        Schema::dropIfExists('sales_collect_details');
     }
 }

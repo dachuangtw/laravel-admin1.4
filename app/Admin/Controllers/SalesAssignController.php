@@ -305,7 +305,7 @@ SCRIPT;
                 //判斷超級使用者
                 if(Admin::user()->isAdministrator()){
                     $form->select('wid',trans('admin::lang.wid'))
-                        ->options(Warehouse::all()->pluck('w_name','wid'));
+                        ->options(Warehouse::all()->pluck('w_name','wid'))->rules('required');
                 }else{
                     $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
                 }      

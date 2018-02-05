@@ -42,6 +42,15 @@ function ShowSalesAssignDetails(said) {
     });
 }
 
+/** 展開領貨單明細 */
+function ShowSalesCollectDetails(scid) {
+    var url = '/admin/sales/collectdetails/' + scid; //$("input[name='tid']").val();
+
+    $.get(url, function (data) {
+        $('.form-horizontal .box-body:first').append(data);
+    });
+}
+
 /** 避免javascript的乘法BUG */
 function accMul(arg1, arg2) {
     var m = 0,

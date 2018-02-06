@@ -14,7 +14,7 @@ class SalesCollectDetails extends Model
     //主鍵
     protected $primaryKey = 'scdid';
 
-    protected $fillable = ['collect_id','pid','stid','scd_salesprice','scd_quantity','scd_amount','scd_notes'];
+    protected $fillable = ['collect_id','pid','stid','scd_salesprice','scd_quantity','scd_amount','scd_check','scd_notes'];
     
     //領貨單號
     public function scopeOfselected($query, $collect_id)

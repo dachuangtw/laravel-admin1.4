@@ -57,7 +57,7 @@ class WebAreaController extends Controller
      */
     public function edit($id)
     {
-        Permission::check(['WebArea-Editor');
+        Permission::check(['WebArea-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.web_area'));

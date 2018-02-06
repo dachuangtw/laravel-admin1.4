@@ -338,6 +338,15 @@ class AdminMenuTableSeeder extends Seeder
             'created_at' => '2018-01-19 09:49:51',
             'updated_at' => '2018-01-19 09:51:06',
             ],
+            ['id' => '39',
+            'parent_id' => '26',
+            'order' => '0',
+            'title' => '盤點作業',
+            'icon' => 'fa-clipboard',
+            'uri' => 'inventory',
+            'created_at' => '2018-02-06 12:00:57',
+            'updated_at' => '2018-02-06 12:00:57',
+            ],
         ]);
     }
 }

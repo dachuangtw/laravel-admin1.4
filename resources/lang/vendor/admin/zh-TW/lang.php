@@ -152,6 +152,7 @@ return [
     'collect_id'    =>      '領貨單號',
     'collect_date'  =>      '領貨日期',
     'collect_amount'=>      '總計金額',
+    'collect_assign'=>      '配貨確認',
     'collect_check' =>      '領貨確認',
     'collect_check_user' => '領貨確認人',
     'receipt_check' =>      '收款確認',

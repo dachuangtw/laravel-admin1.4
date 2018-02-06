@@ -19,7 +19,8 @@ class CreateSalesCollectTable extends Migration
             $table->integer('wid')->unsigned()->index()->comment('倉庫wid');
             $table->integer('sales_id')->comment('業務id');
             $table->date('collect_date')->nullable()->comment('領貨日期');
-            $table->decimal('collect_amount')->default(0.00)->comment('總計金額');        
+            $table->decimal('collect_amount')->default(0.00)->comment('總計金額');
+            $table->boolean('collect_assign')->default(0)->comment('配貨確認');        
             $table->boolean('collect_check')->default(0)->comment('領貨確認');
             $table->string('collect_check_user')->nullable()->comment('確認領貨人');
             $table->boolean('receipt_check')->default(0)->comment('收款確認');

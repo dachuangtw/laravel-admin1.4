@@ -32,7 +32,7 @@ Route::group([
         $router->resource('stock/category', StockCategoryController::class);
 
         $router->resource('transfer', TransferController::class);
-        $router->resource('inventory', Inventory::class);
+        $router->resource('inventory', InventoryController::class);
 
     // });
 

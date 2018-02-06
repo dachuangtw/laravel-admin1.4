@@ -53,11 +53,12 @@ Route::group([
     $router->get('web/location/{id}/view', 'WebLocationController@view');
     $router->get('web/area/{id}/view', 'WebAreaController@view');
     $router->get('warehouse/{id}/view', 'WarehouseController@view');
+    $router->get('inventory/{id}/counting', 'InventoryController@counting');
     
     $router->get('transfer/{id}/view', 'TransferController@view');
 
     $router->get('api/tw/district', 'WebLocationController@district');
-
+    
     //使用參數
     // $router->get('modal', function () {
     //     $target = Input::get('t');

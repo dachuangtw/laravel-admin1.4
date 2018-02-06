@@ -239,8 +239,13 @@ return [
     't_checked'     =>    '收貨確認',
     't_notes'       =>    '備註',
     'send_user'     =>    '調撥人',
-    // ''     =>    '',
-    // ''     =>    '',
-    // ''     =>    '',
+    'inventory'     =>    '盤點作業',    
+    'in_number'     =>    '盤點單號',
+    'start_at'      =>    '盤點開始時間',
+    'finish_at'     =>    '盤點結束時間',
 
+    'inventory_range'     =>    '盤點時間起訖',
+    'counting'     =>    '盤點',
+    // ''     =>    '',
+    // ''     =>    '',
 ];

@@ -3,11 +3,15 @@
 namespace App\Admin\Controllers;
 
 use App\Inventory;
+use App\Warehouse;
+use Encore\Admin\Auth\Database\Administrator;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
+use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
@@ -25,7 +29,7 @@ class InventoryController extends Controller
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.inventory'));
-            $content->description(trans('admin::lang.index'));
+            $content->description(trans('admin::lang.list'));
 
             $content->body($this->grid());
         });
@@ -65,6 +69,47 @@ class InventoryController extends Controller
     }
 
     /**
+     * Create interface.
+     *
+     * @return Content
+     */
+    public function counting()
+    {
+        return Admin::content(function (Content $content) {
+
+            $content->header(trans('admin::lang.inventory'));
+            $content->description(trans('admin::lang.counting'));
+
+            
+            $content->row(function (Row $row) {
+                /**
+                 * 功能：搜尋商品，
+                 * 可見欄位：商品名
+                 */
+                $row->column(6, function (Column $column) {
+                    $form = new \Encore\Admin\Widgets\Form();
+                    $form->action(admin_url('product/searchstock'));
+                    $form->method('GET');
+
+                    /**
+                     * !important Bug：搜尋功能和filter密不可分...
+                     * 這裡要什麼欄位，filter就必須有那個欄位，才能正常搜尋
+                     */                    
+                    $form->text('search', trans('admin::lang.p_name'));
+
+                    $form->disableSubmit();
+                    $form->disableReset();
+                    $form->enableSearch();
+
+                    $column->append((new Box(trans('admin::lang.search'), $form))->style('success'));
+                });
+
+            });
+            $content->body($this->grid());
+        });
+    }
+
+    /**
      * Make a grid builder.
      *
      * @return Grid
@@ -78,11 +123,11 @@ class InventoryController extends Controller
             $grid->wid(trans('admin::lang.warehouse'))->sortable()->display(function($wid) {
                 return Warehouse::find($wid)->w_name;
             })->sortable();
+            $grid->start_at(trans('admin::lang.start_at'));
+            $grid->finish_at(trans('admin::lang.finish_at'));
             $grid->update_user(trans('admin::lang.update_user'))->display(function ($update_user) {                
                 return Administrator::find($update_user)->name;
             })->sortable();
-            $grid->srart_at(trans('admin::lang.srart_at'));
-            $grid->finish_at(trans('admin::lang.finish_at'));
 
             $grid->actions(function ($actions) {
                 $actions->setTitleExtra('盤點單號：'); // 自訂，標題前面提示
@@ -95,22 +140,24 @@ class InventoryController extends Controller
                 if (Admin::user()->cannot('Inventory-Deleter')) {
                     $actions->disableDelete();
                 }
+                $actions->ensableInventory();
             });
 
             //依角色有不同的篩選
             if(Admin::user()->isRole('Warehouse')){
                 $grid->model()->where(function ($query) {
                     $query->where('wid',Admin::user()->wid);
-                })->orderBy('inid', 'desc');
-            }elseif(!Admin::user()->isRole('Superwarehouse')){
+                });
+            }elseif(!Admin::user()->isRole('Superwarehouse') && !Admin::user()->isAdministrator()){
                 //非倉管人員
                 $grid->model()->where(function ($query) {
                     $query->where('wid',  Admin::user()->wid)
-                    ->where('srart_at','<', date('Y-m-d H:i:s'))
+                    ->where('start_at','<', date('Y-m-d H:i:s'))
                     ->where('finish_at','>', date('Y-m-d H:i:s'));
-                })->orderBy('inid', 'desc');
-                $grid->disableCreateButton();
+                });
+                $grid->disableCreation();
             }
+            $grid->model()->orderBy('inid', 'desc');
         });
     }
 
@@ -122,12 +169,12 @@ class InventoryController extends Controller
     protected function form()
     {
         return Admin::form(Inventory::class, function (Form $form) {
-            $form->datetimeRange('srart_at', 'finish_at',  trans('admin::lang.inventory_range'));
+            $form->datetimeRange('start_at', 'finish_at',  trans('admin::lang.inventory_range'));
             $form->hidden('wid')->default(Admin::user()->wid);
             $form->hidden('update_user')->default(Admin::user()->id);
             $form->hidden('in_number');
             $form->saving(function(Form $form) {
-                if (empty(request()->srart_at) || empty(request()->finish_at)) {
+                if (empty(request()->start_at) || empty(request()->finish_at)) {
                     $error = new MessageBag(['title'=>'提示','message'=>'未正確填寫盤點時間!']);
                     return back()->withInput()->with(compact('error'));
                 }
@@ -135,7 +182,7 @@ class InventoryController extends Controller
                  * 盤點單編碼規則：民國年YYY(3)月MM(2)+倉庫編號XX(2)+流水號(1)，共8碼
                  */
                 if (empty(request()->in_number)) {
-                    $Todaydate = (date('Y') - 1911) . date('md');
+                    $Todaydate = (date('Y') - 1911) . date('m');
                     //前補0至兩碼                 
                     $wid = str_pad(request()->wid,2,"0",STR_PAD_LEFT);
 

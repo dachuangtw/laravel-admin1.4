@@ -19,6 +19,11 @@ class Actions extends AbstractDisplayer
     /**
      * @var bool
      */
+    protected $allowInventory = false;
+
+    /**
+     * @var bool
+     */
     protected $allowView = true;
 
     /**
@@ -105,6 +110,16 @@ class Actions extends AbstractDisplayer
     }
 
     /**
+     * Disable view.
+     *
+     * @return void.
+     */
+    public function ensableInventory()
+    {
+        $this->allowInventory = true;
+    }
+    
+    /**
      * Set resource of current resource.
      *
      * @param $resource
@@ -154,8 +169,13 @@ class Actions extends AbstractDisplayer
         }
 
         $actions = $this->prepends;
+
         if ($this->allowView) {
             array_push($actions, $this->viewAction());
+        }
+
+        if ($this->allowInventory) {
+            array_push($actions, $this->inventoryAction());
         }
 
         if ($this->allowEdit) {
@@ -169,6 +189,20 @@ class Actions extends AbstractDisplayer
         $actions = array_merge($actions, $this->appends);
 
         return implode('', $actions);
+    }
+
+    /**
+     * Built Inventory action.
+     *
+     * @return string
+     */
+    protected function inventoryAction()
+    {
+        return <<<EOT
+&nbsp;<a href="{$this->getResource()}/{$this->getKey()}/counting" title="{$this->trans('inventory')}">
+    <i class="fa fa-outdent"></i>
+</a>
+EOT;
     }
 
     /**

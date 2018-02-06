@@ -345,7 +345,7 @@ SCRIPT;
                     return back()->withInput()->with(compact('error'));
                 }
                 /**
-                 * 進貨單編碼規則：日期YYMMDD(6)+廠商編號XX(2)+流水號(2)，共10碼
+                 * 進貨單編碼規則：日期YYYYMMDD(8)+廠商編號XX(2)+流水號(2)，共12碼
                  */
                 if(!empty(request()->supid) && empty(request()->re_number)){
                     $Todaydate = date('Ymd');

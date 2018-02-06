@@ -415,7 +415,7 @@ SCRIPT;
                     return back()->withInput()->with(compact('error'));
                 }
                 /**
-                 * 調撥單編碼規則：日期YYMMDD(6)+廠商編號XX(2)+流水號(2)，共10碼
+                 * 調撥單編碼規則：民國日期YYYMMDD(7)+廠商編號XX(2)+流水號(2)，共11碼
                  */
                 if(!empty(request()->wid_receive) && empty(request()->t_number)){
                     $Todaydate = (date('Y') - 1911) . date('md');

@@ -223,6 +223,12 @@ SCRIPT;
                     );
                 }  
                 $filter->like('assign_id',trans('admin::lang.assign_id'));
+                $filter->where(function ($query) {
+                    $query->where(\DB::raw("date_format(assign_date, '%Y-%m-%d')"), '>=', "{$this->input}");
+                }, '配貨日期(起)')->date();
+                $filter->where(function ($query) {
+                    $query->where(\DB::raw("date_format(assign_date, '%Y-%m-%d')"), '<=', "{$this->input}");
+                }, '配貨日期(迄)')->date();
                 // $filter->between('assign_date', trans('admin::lang.assign_date'))->date();
             });
             $grid->actions(function ($actions) {

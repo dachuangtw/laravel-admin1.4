@@ -4,6 +4,7 @@ namespace Encore\Admin\Grid\Filter;
 
 use Encore\Admin\Grid\Filter;
 use Encore\Admin\Grid\Filter\Field\DateTime;
+use Encore\Admin\Grid\Filter\Field\Date;
 use Encore\Admin\Grid\Filter\Field\Select;
 use Encore\Admin\Grid\Filter\Field\Text;
 
@@ -225,6 +226,18 @@ abstract class AbstractFilter
     public function datetime($options = [])
     {
         return $this->setField(new DateTime($this, $options));
+    }
+
+    /**
+     * Date filter.
+     *
+     * @param array $options
+     *
+     * @return mixed
+     */
+    public function date($options = [])
+    {
+        return $this->setField(new Date($this, $options));
     }
 
     /**

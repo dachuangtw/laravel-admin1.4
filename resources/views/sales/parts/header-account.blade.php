@@ -2,13 +2,12 @@
 	<img src="{{ asset(config('sales.asset_path') . 'images/icons/icon-header-01.png') }}" class="header-icon1 js-show-header-dropdown" alt="ICON">
 
 	<div class="header-box header-dropdown">
-		<div class="header-box-item-txt">
-			<a href="#" class="header-box-item-name">
-				{{ Auth::user()->sales_name }}
-				@if(Auth::user()->nickname)
-					({{ Auth::user()->nickname }})
-				@endif
-			</a>
+
+		<div class="header-cart-item-name">
+			{{ Auth::user()->sales_name }}
+			@if(Auth::user()->nickname)
+				({{ Auth::user()->nickname }})
+			@endif
 		</div>
 
 		<div class="header-cart-buttons">

@@ -1,7 +1,7 @@
 (function ($) {
     "use strict";
 
-    function getTimeRemaining(endtime) { 
+    function getTimeRemaining(endtime) {
       var t = Date.parse(endtime) - Date.parse(new Date());
       var seconds = Math.floor((t / 1000) % 60);
       var minutes = Math.floor((t / 1000 / 60) % 60);
@@ -16,13 +16,13 @@
       };
     }
 
-    function initializeClock(id, endtime) { 
+    function initializeClock(id, endtime) {
       var daysSpan = $('.days');
       var hoursSpan = $('.hours');
       var minutesSpan = $('.minutes');
       var secondsSpan = $('.seconds');
 
-      function updateClock() { 
+      function updateClock() {
         var t = getTimeRemaining(endtime);
 
         daysSpan.html(t.days);
@@ -39,7 +39,11 @@
       var timeinterval = setInterval(updateClock, 1000);
     }
 
-    var deadline = new Date(Date.parse(new Date()) + 69 * 24 * 60 * 60 * 1000 + 13 * 60 * 60 * 1000); 
+	var setDays = parseInt($('.days').text()) * 24 * 60 * 60 * 1000;
+	var setHours = parseInt($('.hours').text()) * 60 * 60 * 1000;
+	var setMinutes = parseInt($('.minutes').text()) * 60 * 1000;
+	var setSeconds = parseInt($('.seconds').text()) * 1000;
+    var deadline = new Date(Date.parse(new Date()) + setDays + setHours + setMinutes + setSeconds);
     initializeClock('clockdiv', deadline);
 
 })(jQuery);

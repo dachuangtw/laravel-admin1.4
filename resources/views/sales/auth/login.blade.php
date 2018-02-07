@@ -30,11 +30,11 @@
 						<input class="sizefull s-text7 p-l-22 p-r-22" type="password" name="password" required>
 					</div>
 
-					@if (count($errors) > 0)
+					{{-- @if (count($errors) > 0)
 					<span class="m-text8">
 						@php var_export($errors) @endphp
 					</span>
-					@endif
+					@endif --}}
 					<button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
 						登入
 					</button>

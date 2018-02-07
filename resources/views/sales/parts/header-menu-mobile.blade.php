@@ -11,7 +11,7 @@
 			</li> -->
 
 			<li class="item-menu-mobile">
-				<a href="{{ url('/home') }}">公告</a>
+				<a href="{{ url('/bulletin') }}">公告</a>
 				<!-- <ul class="sub-menu">
 					<li><a href="{{ url('/home') }}">Home</a></li>
 				</ul>

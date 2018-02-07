@@ -73,16 +73,26 @@ class ProductIndexController extends Controller
             $rowWidth = [33,100,150,50,60,80,80,80,80,90];
             $rowLeft = [0,33,133,283,333,393,473,553,633,713];
             $rowTitle = ['','商品編號','商品名','單位','庫存數','款式','數量','單價','總價','備註'];
-
         }elseif($action == 'edit'){
-
-            $action = 'editadd';
-            $rowWidth = [33,100,150,60,80,80,80,80,110];
-            $rowLeft = [0,33,133,283,343,423,503,583,663];
-            $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
+            
+            if ($target == 'salescollect_hasstock'){
+                $action = 'editcheckadd';
+                $checkProduct = 'scd_check';
+                $rowWidth = [33,100,33,150,60,80,80,80,80,110];
+                $rowLeft = [0,33,133,166,316,376,456,536,616,696];
+                $rowTitle = ['','商品編號','點貨','商品名','單位','款式','數量','單價(業務)','總價','備註'];
+            }else{
+                $action = 'editadd';
+                $rowWidth = [33,100,150,60,80,80,80,80,110];
+                $rowLeft = [0,33,133,283,343,423,503,583,663];
+                $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
+            }
         }
-
-        $data = compact('action','inputtext','products','showPrice','detailid','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
+        if ($target == 'salescollect_hasstock'){
+            $data = compact('action','inputtext','checkProduct','products','showPrice','detailid','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
+        }else{
+            $data = compact('action','inputtext','products','showPrice','detailid','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
+        }
         return view('admin::productdetails', $data);
     }
     /**

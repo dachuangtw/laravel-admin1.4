@@ -47,10 +47,10 @@ class SalesCollectController extends Controller
         $showQuantity = 'scd_quantity';
         $showAmount = 'scd_amount';
         $showNotes = 'scd_notes';
-        $check_product = 'scd_check';
+        $checkProduct = 'scd_check';
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        $data = compact('action','detailid','check_product','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','allReadonly','savedDetails','stock');
+        $data = compact('action','detailid','checkProduct','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','allReadonly','savedDetails','stock');
         
         return view('admin::productdetails', $data);
     }
@@ -328,8 +328,9 @@ SCRIPT;
                  * 編輯 配貨單明細
                  * 
                  *****************************/
-                elseif(request()->action == 'editcheck'){
-                    $check_product = request()->scd_check;
+                elseif(request()->action == 'edit'){
+                    $check_product = request()->checkproduct;
+                    
                     //原本的配貨明細(數量/明細id)
                     $retailScdid = SalesCollectDetails::where('collect_id',$form->collect_id)->pluck('scd_quantity','scdid')->toArray();
                     
@@ -349,7 +350,7 @@ SCRIPT;
                             'scd_check'     =>  $check_product[$key], //點貨確認
                             'scd_notes'     =>  $scd_notes[$key],
                         ];
-                        // SalesAssignDetails::updateorcreate($insertSalesAssignArray);
+                        
                         $stidArray[] = $stid[$key];
                         $total += $scd_amount[$key];
                         if (isset($scdid[$key])) { 

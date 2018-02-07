@@ -20,9 +20,9 @@ class SalesNote extends Model
 	public function scopeOfNoteTarget($query, $note_target)
     {
         return $query->where('note_target',  $note_target)
-		->orWhere('note_target', 'like', '%'.$note_target.'|')
-		->orWhere('note_target', 'like', $note_target.'|%')
-		->orWhere('note_target', 'like', '%|'.$note_target.'|%')
-		->orWhere('note_target', '-1');
+			->orWhere('note_target', 'like', '%'.$note_target.'|')
+			->orWhere('note_target', 'like', $note_target.'|%')
+			->orWhere('note_target', 'like', '%|'.$note_target.'|%')
+			->orWhere('note_target', '-1');
     }
 }

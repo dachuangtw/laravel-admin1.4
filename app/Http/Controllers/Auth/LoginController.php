@@ -39,7 +39,7 @@ class LoginController extends Controller
 
 	public function username()
 	{
-	    return 'sales_id';
+	    return 'account';
 	}
 
 	public function showLoginForm()

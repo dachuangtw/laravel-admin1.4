@@ -6,6 +6,8 @@
 		<div class="col-lg p-b-75">
 			<div class="p-r-50 p-r-0-lg">
 
+				@if($notes)
+
 				@foreach($notes as $note)
 				<div class="item-blog p-b-80">
 					<div class="item-blog-txt p-t-33">
@@ -33,6 +35,17 @@
 					</div>
 				</div>
 				@endforeach
+				<div class="item-blog p-b-80" style="height: 550px">
+					<div class="item-blog-txt p-t-33">
+						<p class="p-b-12 t-center">
+							無公告
+						</p>
+
+					</div>
+				</div>
+				@else
+
+				@endif
 
 			</div>
 

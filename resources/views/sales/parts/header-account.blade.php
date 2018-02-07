@@ -4,7 +4,7 @@
 	<div class="header-box header-dropdown">
 
 		<div class="header-cart-item-name">
-			{{ Auth::user()->sales_name }}
+			{{ Auth::user()->name }}
 			@if(Auth::user()->nickname)
 				({{ Auth::user()->nickname }})
 			@endif

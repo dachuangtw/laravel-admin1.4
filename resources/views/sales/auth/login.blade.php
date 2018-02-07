@@ -15,11 +15,11 @@
 					</h4>
 
 					<label>帳號</label>
-					@if ($errors->has('sales_id'))
-					<strong class="m-text8">({{ $errors->first('sales_id') }})</strong>
+					@if ($errors->has('account'))
+					<strong class="m-text8">({{ $errors->first('account') }})</strong>
 					@endif
 					<div class="bo4 of-hidden size15 m-b-20">
-						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="sales_id" value="{{ old('sales_id') }}" required autofocus>
+						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="account" value="{{ old('account') }}" required autofocus>
 					</div>
 
 					<label>密碼</label>

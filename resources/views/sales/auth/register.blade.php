@@ -19,7 +19,7 @@
 					<strong class="m-text8">({{ $errors->first('name') }})</strong>
 					@endif
 					<div class="bo4 of-hidden size15 m-b-20">
-						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="name" value="{{ old('name') }}" required autofocus>
+						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="name" value="{{ old('name') }}" autofocus>
 					</div>
 
 					<label>暱稱</label>
@@ -28,6 +28,14 @@
 					@endif
 					<div class="bo4 of-hidden size15 m-b-20">
 						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="nickname" value="{{ old('nickname') }}">
+					</div>
+
+					<label>倉庫id</label>
+					@if ($errors->has('house'))
+					<strong class="m-text8">({{ $errors->first('house') }})</strong>
+					@endif
+					<div class="bo4 of-hidden size15 m-b-20">
+						<input class="sizefull s-text7 p-l-22 p-r-22" type="number" name="house" value="{{ old('house') }}" required>
 					</div>
 
 					<label>帳號</label>

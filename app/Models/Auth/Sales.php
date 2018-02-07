@@ -6,18 +6,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Sales extends Authenticatable
 {
+	//DB2
+	protected $connection = 'mysql2';
+
     protected $table = 'sales';
 
-	protected $primaryKey = 'sid';
+	protected $primaryKey = 'sales_id';
 
 	protected $fillable = [
-		'sales_name',
-		'sales_id',
+		'wid',
+		'name',
+		'account',
 		'nickname',
 		'password',
 	];
 
 	protected $hidden = [
-        'password', 'remember_token',
+        'password', 'token',
     ];
 }

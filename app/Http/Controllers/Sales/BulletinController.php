@@ -15,6 +15,7 @@ class BulletinController extends Controller
 			'notes' => salesNote::ofNotewid($request->user()->wid)
 				->ofNoteTarget($request->user()->id)
 				->get(),
+			'sales_note' => salesNote::class,
 		]);
     }
 }

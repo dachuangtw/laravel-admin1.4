@@ -1885,3 +1885,15 @@ input[readonly] {
     border: 0px;
     background: rgba(0, 0, 0, 0);
 }
+
+li.list-group-item {
+    color: #333;
+}
+
+li.list-group-item:hover {
+    background: #FAFAF7;
+}
+
+li.list-group-item:active {
+    background: #F0F0F0
+}

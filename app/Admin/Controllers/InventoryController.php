@@ -33,7 +33,7 @@ class InventoryController extends Controller
             $content->header(trans('admin::lang.inventory'));
             $content->description(trans('admin::lang.list'));
 
-            $content->body($this->grid());
+            $content->body(view('admin::inventorylist'));
         });
     }
 
@@ -90,7 +90,7 @@ class InventoryController extends Controller
                  */
                 $row->column(6, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('product/searchstock'));
+                    $form->action(admin_url('inventory'));
                     $form->method('GET');
 
                     /**
@@ -107,7 +107,7 @@ class InventoryController extends Controller
                 });
 
             });
-            $content->body($this->grid());
+            $content->body(view('admin::inventorylist'));
         });
     }
 

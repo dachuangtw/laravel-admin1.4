@@ -9,15 +9,13 @@
 				@forelse ($notes as $note)
 					<div class="item-blog p-b-80">
 						<div class="item-blog-txt p-t-33">
-							<h4 class="p-b-11">
-								<a href="blog-detail.html" class="m-text24">
-									{{ $note->note_title }}
-								</a>
+							<h4 class="m-text24 p-b-11">
+								{{ $note->note_title }}
 							</h4>
 
 							<div class="s-text8 flex-w flex-m p-b-21">
 								<span>
-									最後更新: Admin
+									最後更新: {{ $sales_note::find($note->update_user)->hasOneWriter->name }}
 									<span class="m-l-3 m-r-6">|</span>
 								</span>
 
@@ -33,14 +31,12 @@
 						</div>
 					</div>
 				@empty
-					<!-- <div class="item-blog p-b-80"> -->
-						<div class="item-blog-txt p-t-33">
-							<p class="p-b-12 t-center">
-								無公告
-							</p>
+					<div class="item-blog-txt p-t-33">
+						<p class="p-b-12 t-center">
+							無公告
+						</p>
 
-						</div>
-					<!-- </div> -->
+					</div>
 				@endforelse
 
 			</div>

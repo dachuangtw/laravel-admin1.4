@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Inventory;
+use App\InventoryDetails;
+use App\Stock;
 use App\Warehouse;
 use Encore\Admin\Auth\Database\Administrator;
 
@@ -197,9 +199,29 @@ class InventoryController extends Controller
                     } else {
                         $lastCode = 1;
                     }
-
                     //填充到in_number欄位中
                     $form->in_number = $Todaydate.$wid.$lastCode;
+
+
+                    /**
+                     * 填充資料到inventory_details資料表
+                     */
+                    $stocks = Stock::where('wid', Admin::user()->wid)->where('st_stock','>',0)->get()->sortByDesc('pid');
+
+                    $insertInventoryDetailsArray = [];
+                    foreach($stocks as $stock){
+                        $insertInventoryDetailsArray[] = [
+                            'in_number' => $form->in_number,
+                            'pid' => $stock->pid,
+                            'stid' => $stock->stid,
+                            'ind_type' => $stock->st_type,
+                            'ind_stock' => $stock->st_stock,
+                            'update_user' => Admin::user()->id,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('Y-m-d H:i:s'),
+                        ];
+                    }
+                    InventoryDetails::insert($insertInventoryDetailsArray);
                 }
             });
         });

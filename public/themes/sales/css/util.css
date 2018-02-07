@@ -2314,6 +2314,11 @@
 .min-w-full {min-width: 100%;}
 .min-h-full {min-height: 100%;}
 
+
+.min-h-500 {min-height: 500px;}
+.min-h-550 {min-height: 550px;}
+.min-h-600 {min-height: 600px;}
+
 /*[ Top Bottom Left Right ]
 -----------------------------------------------------------
 */

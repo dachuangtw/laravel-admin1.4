@@ -16,6 +16,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Illuminate\Support\MessageBag;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Widgets\Table;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
@@ -47,10 +48,10 @@ class SalesCollectController extends Controller
         $showQuantity = 'scd_quantity';
         $showAmount = 'scd_amount';
         $showNotes = 'scd_notes';
-        $check_product = 'scd_check';
+        $checkProduct = 'scd_check';
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        $data = compact('action','detailid','check_product','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','allReadonly','savedDetails','stock');
+        $data = compact('action','detailid','checkProduct','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','allReadonly','savedDetails','stock');
         
         return view('admin::productdetails', $data);
     }
@@ -73,6 +74,68 @@ class SalesCollectController extends Controller
         });
     }
 
+    /**
+     * View interface.
+     * 眼睛查看
+     * @param $id
+     * @return Content
+     */
+    public function view($id)
+    {
+        // Permission::check(['Salescollect-Reader']);
+        $salescollect = SalesCollect::find($id)->toArray();
+        //忽略不顯示的欄位
+        $skipArray = ['scid','created_at','updated_at','deleted_at'];
+        //顯示圖片欄位
+        $imgArray = [];
+        $salescollect['wid'] = Warehouse::find($salescollect['wid'])->w_name;
+        $salescollect['sales_id'] = Sales::find($salescollect['sales_id'])->name;
+        $salescollect['collect_assign'] = 1  ? "<span class='label label-success'>已配貨</span>":"<span class='label label-danger'>未配貨</span>";
+        $salescollect['collect_check'] = 1  ? "<span class='label label-success'>已領貨</span>" : "<span class='label label-danger'>待領貨</span>";
+        $salescollect['collect_check_user'] = Administrator::find($salescollect['update_user'])->name;
+        $salescollect['receipt_check'] = 1  ? "<span class='label label-success'>已收款</span>" : "<span class='label label-danger'>待收款</span>";
+        $salescollect['receipt_check_user'] = Administrator::find($salescollect['update_user'])->name;
+        $salescollect['update_user'] = Administrator::find($salescollect['update_user'])->name;
+
+        $header[] = '領貨單資訊';
+        foreach($salescollect as $key => $value){            
+
+            if(in_array($key,$skipArray) || empty($value))
+                continue;   
+            //欄位中文化
+            $newkey = trans('admin::lang.'.$key);
+            //倉庫編號/最近更新者
+            //如果有換行\n改成<br>
+            $rows[$newkey] = nl2br($value);            
+        }
+        $table = new Table($header, $rows);
+        $table->class('table table-hover');
+    
+        $stock = $rowWidth = $rowLeft = $rowTitle = [];
+        $savedDetails = SalesCollectDetails::ofselected($salescollect['collect_id']) ?: [];
+        foreach($savedDetails as $key => $value){
+            $products[$key] = ProductIndex::find($value->pid);
+            $stock[$key] = Stock::find($value->stid)->st_type;
+        }
+        $action = 'view';
+        $detailid = 'scdid';
+        $firsttime = true;
+        $inputtext = false;
+
+        $rowWidth = [33,100,150,60,80,80,80,80,110];
+        $rowLeft = [0,33,133,283,343,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價(業務)','總價','備註'];
+        $showPrice = 'scd_salesprice';
+        $showQuantity = 'scd_quantity';
+        $showAmount = 'scd_amount';
+        $showNotes = 'scd_notes';
+        $rowTop = -30;
+        $rowEvenOdd = ['even','odd'];
+        
+        $data = compact('action','detailid','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','savedDetails','stock');
+        
+        return $table->render().view('admin::productdetails', $data); 
+    }
     /**
      * Edit interface.
      *
@@ -138,6 +201,18 @@ SCRIPT;
         return Admin::grid(SalesCollect::class, function (Grid $grid) {
 
             $grid->model()->orderBy('collect_id', 'desc'); // 預設排序
+            $grid->actions(function ($actions) {
+
+                $actions->setTitleExtra('領貨單號：'); // 自訂，標題前面提示
+                $actions->setTitleField(['collect_id']);
+                // 没有權限角色不顯示按鈕
+                // if (!Admin::user()->can('SalesCollect--Deleter')) {
+                //     $actions->disableDelete();
+                // }
+                // if (!Admin::user()->can('SalesCollect-Editor')) {
+                //     $actions->disableEdit();
+                // }
+            });
             $grid->filter(function($filter){
                 $filter->disableIdFilter();
                 // $filter->useModal();
@@ -328,8 +403,9 @@ SCRIPT;
                  * 編輯 配貨單明細
                  * 
                  *****************************/
-                elseif(request()->action == 'editcheck'){
-                    $check_product = request()->scd_check;
+                elseif(request()->action == 'edit'){
+                    $check_product = request()->checkproduct;
+                    
                     //原本的配貨明細(數量/明細id)
                     $retailScdid = SalesCollectDetails::where('collect_id',$form->collect_id)->pluck('scd_quantity','scdid')->toArray();
                     
@@ -349,7 +425,7 @@ SCRIPT;
                             'scd_check'     =>  $check_product[$key], //點貨確認
                             'scd_notes'     =>  $scd_notes[$key],
                         ];
-                        // SalesAssignDetails::updateorcreate($insertSalesAssignArray);
+
                         $stidArray[] = $stid[$key];
                         $total += $scd_amount[$key];
                         if (isset($scdid[$key])) { 

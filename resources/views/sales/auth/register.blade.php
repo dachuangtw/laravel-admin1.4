@@ -19,7 +19,7 @@
 					<strong class="m-text8">({{ $errors->first('name') }})</strong>
 					@endif
 					<div class="bo4 of-hidden size15 m-b-20">
-						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="name" value="{{ old('name') }}" required autofocus>
+						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="name" value="{{ old('name') }}" autofocus>
 					</div>
 
 					<label>暱稱</label>
@@ -28,6 +28,14 @@
 					@endif
 					<div class="bo4 of-hidden size15 m-b-20">
 						<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="nickname" value="{{ old('nickname') }}">
+					</div>
+
+					<label>倉庫id</label>
+					@if ($errors->has('house'))
+					<strong class="m-text8">({{ $errors->first('house') }})</strong>
+					@endif
+					<div class="bo4 of-hidden size15 m-b-20">
+						<input class="sizefull s-text7 p-l-22 p-r-22" type="number" name="house" value="{{ old('house') }}" required>
 					</div>
 
 					<label>帳號</label>
@@ -54,12 +62,12 @@
 						<input class="sizefull s-text7 p-l-22 p-r-22" type="password" name="password_confirmation" required>
 					</div>
 
-					@if (count($errors) > 0)
+					{{-- @if (count($errors) > 0)
 					<span class="m-text8">
 						@php var_export($errors) @endphp
 						<strong>has error!</strong>
 					</span>
-					@endif
+					@endif --}}
 					<button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
 						註冊
 					</button>

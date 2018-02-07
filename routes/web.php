@@ -15,5 +15,29 @@ Route::get('/', function () {
     return view('sales.welcome');
 });
 
+
 Auth::routes();
-Route::get('/home', 'HomeController@index');
+Route::group(['namespace' => 'Sales'], function()
+{
+	Route::get('/bulletin', 'BulletinController@index');
+	
+	Route::get('/product', function () {
+		return view('sales.product');
+	});
+
+	Route::get('/product-detail', function () {
+		return view('sales.product-detail');
+	});
+
+	Route::get('/picking', function () {
+		return view('sales.picking');
+	});
+
+	Route::get('/cart', function () {
+		return view('sales.cart');
+	});
+
+	Route::get('/record', function () {
+		return view('sales.picking-record');
+	});
+});

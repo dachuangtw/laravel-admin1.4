@@ -6,7 +6,11 @@ return [
     'logout'                =>    '登出', 
     'setting'               =>    '設置', 
     'name'                  =>    '名稱' , 
-    'username'              =>    '帳號', 
+    'username'              =>    '帳號',  
+    'birthday'              =>    '生日', 
+    'gender'                =>    '性別', 
+
+    'user'                  =>    '用戶名', 
     'password'              =>    '密碼', 
     'password_confirmation' =>    '確認密碼', 
     'remember_me'           =>    '記住我', 
@@ -71,9 +75,29 @@ return [
     'permissions'               =>    '權限', 
     'slug'                      =>    '標識',
 
-    'phone'     =>  '連絡電話',
-    'address'   =>  '地址',
+    'phone'           =>  '連絡電話',
+    'line'            =>  'LINE',
+    'email'           =>  'email',
+    'postal_code'     =>  '郵遞區號',
+    'address'         =>  '地址',
     
+    //交易紀錄
+    'customer'        => '會員',
+    'product_info'    => '產品資訊',
+    'buyer'           => '顧客',
+    'rid'             => '訂單編號',
+ 
+    'record'          => '交易紀錄',
+    'buy_amout'       => '購買數量',
+    'buy_price'       => '購買價格',
+    'buy_total'       => '購買總價',
+    'buy_at'          => '購買日期',
+    'shipping'        => '運送方式',
+    'ship_cost'       => '運費',
+    'payment'         => '付款方式',
+    'cus_msg'         => '顧客留言',
+    'admin_msg'       => '回覆',
+
     //資料表名
     'warehouse'         =>    '倉庫',
     'product_index'             =>    '商品主檔',

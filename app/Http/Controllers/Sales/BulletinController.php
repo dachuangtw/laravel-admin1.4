@@ -14,6 +14,7 @@ class BulletinController extends Controller
 		return view('sales.bulletin', [
 			'notes' => salesNote::ofNotewid($request->user()->wid)
 				->ofNoteTarget($request->user()->id)
+				->with('hasOneWriter')
 				->get(),
 			'sales_note' => salesNote::class,
 		]);

@@ -15,9 +15,11 @@ Route::get('/', function () {
     return view('sales.welcome');
 });
 
-
 Auth::routes();
-Route::group(['namespace' => 'Sales'], function()
+Route::group([
+	'middleware' => ['auth', 'web'],
+	'namespace' => 'Sales'
+], function()
 {
 	Route::get('/bulletin', 'BulletinController@index');
 	

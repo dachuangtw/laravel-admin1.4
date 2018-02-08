@@ -1740,6 +1740,10 @@ input[type="radio"] {
     text-align: center;
 }
 
+.loading-container {
+    border-radius: 6px;
+}
+
 .loading-circle {
     margin: auto;
     position: absolute;

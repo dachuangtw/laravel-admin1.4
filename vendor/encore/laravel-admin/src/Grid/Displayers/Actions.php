@@ -199,7 +199,7 @@ class Actions extends AbstractDisplayer
     protected function inventoryAction()
     {
         return <<<EOT
-&nbsp;<a href="{$this->getResource()}/{$this->getKey()}/counting" title="{$this->trans('inventory')}">
+&nbsp;<a href="{$this->getResource()}/{$this->getKey()}/details" title="{$this->trans('inventory')}">
     <i class="fa fa-outdent"></i>
 </a>
 EOT;

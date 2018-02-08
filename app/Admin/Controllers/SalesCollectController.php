@@ -15,11 +15,16 @@ use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Illuminate\Support\MessageBag;
+use Encore\Admin\Auth\Permission;
 use Encore\Admin\Widgets\Box;
 use Encore\Admin\Widgets\Table;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-
+ /**
+ * 業務領貨
+ * 尚未完成:
+ *      1.商品無庫存時，跳出提醒視窗。
+ */
 class SalesCollectController extends Controller
 {
     use ModelForm;
@@ -62,6 +67,7 @@ class SalesCollectController extends Controller
      */
     public function index()
     {
+        Permission::check(['Salescollect-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_collect'));
@@ -82,19 +88,25 @@ class SalesCollectController extends Controller
      */
     public function view($id)
     {
-        // Permission::check(['Salescollect-Reader']);
+        Permission::check(['Salescollect-Reader']);
         $salescollect = SalesCollect::find($id)->toArray();
+        // dd($salescollect);
         //忽略不顯示的欄位
         $skipArray = ['scid','created_at','updated_at','deleted_at'];
         //顯示圖片欄位
         $imgArray = [];
         $salescollect['wid'] = Warehouse::find($salescollect['wid'])->w_name;
         $salescollect['sales_id'] = Sales::find($salescollect['sales_id'])->name;
-        $salescollect['collect_assign'] = 1  ? "<span class='label label-success'>已配貨</span>":"<span class='label label-danger'>未配貨</span>";
-        $salescollect['collect_check'] = 1  ? "<span class='label label-success'>已領貨</span>" : "<span class='label label-danger'>待領貨</span>";
-        $salescollect['collect_check_user'] = Administrator::find($salescollect['update_user'])->name;
-        $salescollect['receipt_check'] = 1  ? "<span class='label label-success'>已收款</span>" : "<span class='label label-danger'>待收款</span>";
-        $salescollect['receipt_check_user'] = Administrator::find($salescollect['update_user'])->name;
+        $salescollect['collect_assign'] = $salescollect['collect_assign'] == 1  
+            ? "<span class='label label-success'>已配貨</span>":"<span class='label label-danger'>未配貨</span>";
+        $salescollect['collect_check'] = $salescollect['collect_check'] == 1  
+            ? "<span class='label label-success'>已領貨</span>" : "<span class='label label-danger'>待領貨</span>";
+        $salescollect['collect_check_user'] = !empty( $salescollect['collect_check_user']) 
+            ?  Administrator::find($salescollect['collect_check_user'])->name : '';
+        $salescollect['receipt_check'] = $salescollect['receipt_check'] == 1  
+            ? "<span class='label label-success'>已收款</span>" : "<span class='label label-danger'>待收款</span>";
+        $salescollect['receipt_check_user'] = !empty($salescollect['receipt_check_user'])
+            ? Administrator::find($salescollect['receipt_check_user'])->name : '';
         $salescollect['update_user'] = Administrator::find($salescollect['update_user'])->name;
 
         $header[] = '領貨單資訊';
@@ -144,6 +156,7 @@ class SalesCollectController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['Salescollect-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.sales_collect'));
@@ -178,6 +191,7 @@ SCRIPT;
      */
     public function create()
     {
+        Permission::check(['Salescollect-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_collect'));
@@ -198,6 +212,7 @@ SCRIPT;
      */
     protected function grid()
     {
+        Permission::check(['SalesCollect-Reader']);
         return Admin::grid(SalesCollect::class, function (Grid $grid) {
 
             $grid->model()->orderBy('collect_id', 'desc'); // 預設排序
@@ -206,12 +221,12 @@ SCRIPT;
                 $actions->setTitleExtra('領貨單號：'); // 自訂，標題前面提示
                 $actions->setTitleField(['collect_id']);
                 // 没有權限角色不顯示按鈕
-                // if (!Admin::user()->can('SalesCollect--Deleter')) {
-                //     $actions->disableDelete();
-                // }
-                // if (!Admin::user()->can('SalesCollect-Editor')) {
-                //     $actions->disableEdit();
-                // }
+                if (!Admin::user()->can('SalesCollect-Deleter')) {
+                    $actions->disableDelete();
+                }
+                if (!Admin::user()->can('SalesCollect-Editor')) {
+                    $actions->disableEdit();
+                }
             });
             $grid->filter(function($filter){
                 $filter->disableIdFilter();
@@ -315,7 +330,8 @@ SCRIPT;
                 'on'  => ['value' => 1, 'text' => '已領貨', 'color' => 'success'],
                 'off' => ['value' => 0, 'text' => '待領貨', 'color' => 'danger'],
             ];
-            $form->switch('collect_check', trans('admin::lang.collect_check'))->states($states);
+            $form->switch('collect_check', trans('admin::lang.collect_check'))->states($states)->help('領貨確認後，庫存立即變更!');
+            $form->ignore(['collect_check']);//忽略保存
             $form->select('collect_check_user', trans('admin::lang.collect_check_user'))
                 ->options(Admin::user()->where('wid',Admin::user()->wid)->pluck('name','id'))->setWidth(2, 2);
             $states = [
@@ -325,8 +341,6 @@ SCRIPT;
             $form->switch('receipt_check', trans('admin::lang.receipt_check'))->states($states);
             $form->select('receipt_check_user', trans('admin::lang.receipt_check_user'))
                 ->options(Admin::user()->where('wid',Admin::user()->wid)->pluck('name','id'))->setWidth(2, 2);
-            // $form->hidden('receipt_check_user');
-            
             $form->hidden('collect_id',trans('admin::lang.collect_id'));
             $form->hidden('update_user')->value(Admin::user()->id);
             $form->hidden('collect_amount');
@@ -337,7 +351,6 @@ SCRIPT;
             // $form->display('updated_at', 'Updated At');
 
              $form->saving(function (Form $form) {
-
                 if(empty(request()->pid)){
                     $error = new MessageBag(['title'=>'提示','message'=>'未填寫領貨商品!']);
                     return back()->withInput()->with(compact('error'));
@@ -361,9 +374,7 @@ SCRIPT;
                     //前補0至三碼
                     $lastTwoCode = str_pad($lastTwoCode,3,'0',STR_PAD_LEFT);
                     $form->collect_id = $collect_date.$lastTwoCode;
-                }/*else{
-                    $form->ignore(['collect_id']);
-                }*/
+                }
                 $scd_amount = request()->amount;
                 $scd_salesprice = request()->price;
                 $scd_quantity = request()->quantity;
@@ -394,7 +405,7 @@ SCRIPT;
                         $total += $scd_amount[$key];
                     }
                     
-                    // SalesCollectDetails::where('collect_id',$form->collect_id)->delete();
+                    SalesCollectDetails::where('collect_id',$form->collect_id)->delete();
                     SalesCollectDetails::insert($dataArray);
                 }
 
@@ -405,7 +416,6 @@ SCRIPT;
                  *****************************/
                 elseif(request()->action == 'edit'){
                     $check_product = request()->checkproduct;
-                    
                     //原本的配貨明細(數量/明細id)
                     $retailScdid = SalesCollectDetails::where('collect_id',$form->collect_id)->pluck('scd_quantity','scdid')->toArray();
                     
@@ -426,40 +436,61 @@ SCRIPT;
                             'scd_notes'     =>  $scd_notes[$key],
                         ];
 
-                        $stidArray[] = $stid[$key];
+                        $stidArray[] = $stid[$key];//庫存id
                         $total += $scd_amount[$key];
-                        if (isset($scdid[$key])) { 
+                        if (isset($scdid[$key])) { //更新原本的
                             SalesCollectDetails::updateOrCreate(['scdid' => $deleteScdid[$key]], $insertSalesCollectArray[$key]);
                             $unsetKey = array_search($scdid[$key],$deleteScdid);
                             unset($deleteScdid[$unsetKey]); 
-                        }elseif(empty($scdid[$key])){ 
+                        }elseif(empty($scdid[$key])){ //新增增加的
                             SalesCollectDetails::create($insertSalesCollectArray[$key]); 
                         }
                     }
+                    //刪除移除的
                     SalesCollectDetails::whereIn('scdid',$deleteScdid)->delete();
                 }
                 $form->collect_amount = $total;
                 $form->update_user = Admin::user()->id;
-                
             });
             
-            //保存後儲存
-            $form->saved(function (Form $form) {                 
-                //領貨確認人
-                // if ($form->collect_check_user == true){
-
-                // }
-                // if ($form->collect_check_user == true){
-
-                // }
-
-                if ($form->collect_check == 'on' &&  $form->receipt_check == 'on' ){
-                    // $success = new MessageBag([
-                    //     'title'   => '訊息...',
-                    //     'message' => '庫存更新成功....',
-                    // ]);
-                    // return back()->with(compact('success'));
+            $form->saved(function (Form $form) {
+                /* 庫存變更 */
+                //原來領貨確認
+                $recheck_collect = SalesCollect::where('collect_id',$form->collect_id)->value('collect_check');
+                $check_collect = request()->collect_check;
+                $rescdid = SalesCollectDetails::where('collect_id',$form->collect_id)->pluck('scd_quantity','scdid')->toArray(); 
+                $restid = SalesCollectDetails::where('collect_id',$form->collect_id)->pluck('stid','scdid')->toArray();
+                //判斷編輯時，領貨確認變更並增減庫存
+                if($recheck_collect == 0){
+                    if($check_collect == "on"){
+                        foreach($rescdid as $key => $scdid){
+                            $retailStock = (int) Stock::find($restid[$key])->st_stock; //原本庫存數
+                            //待確認=>已確認，-庫存
+                            $st_stock[$key] = $retailStock - (int) $rescdid[$key];
+                            $updateStockArray = [                                
+                                'st_stock'      =>  $st_stock[$key],
+                                'update_user'   =>  Admin::user()->id,
+                                'updated_at'    =>  date('Y-m-d H:i:s'),
+                            ];
+                            Stock::where('stid',$restid[$key])->update($updateStockArray);
+                        }
+                    }
+                }elseif($recheck_collect == 1){
+                    if($check_collect == "off"){
+                        foreach($rescdid as $key => $scdid){
+                            $retailStock = (int) Stock::find($restid[$key])->st_stock; //原本庫存數
+                            //已確認=>待確認，+庫存
+                            $st_stock = $retailStock + (int) $rescdid[$key];
+                            $updateStockArray = [                                
+                                'st_stock'      =>  $st_stock,
+                                'update_user'   =>  Admin::user()->id,
+                                'updated_at'    =>  date('Y-m-d H:i:s'),
+                            ];
+                            Stock::where('stid',$restid[$key])->update($updateStockArray);
+                        }
+                    }
                 }
+                SalesCollect::where('collect_id',$form->collect_id)->update(['collect_check' => $check_collect == "on" ? 1:0]);
             });
         });
     }

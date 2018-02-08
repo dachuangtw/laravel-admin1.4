@@ -1,7 +1,7 @@
 <ul class="list-group">
     @foreach($details as $detail)
-    <li class="list-group-item countinglist" data-toggle="modal" data-target="#countingmodal" data-indid="1">{{ $detail->p_name }} 
-        @if(empty($detail->in_at))
+    <li class="list-group-item countinglist" data-toggle="modal" data-target="#countingmodal" data-indid="{{ $detail->indid }}">{{ $detail->p_name }} 
+        @if(empty($detail->ind_at))
         <span class="pull-right glyphicon glyphicon-exclamation-sign" style="color:#00A662;font-size:20px;"></span>
         @else
         <span class="pull-right">已盤點</span>
@@ -88,14 +88,10 @@ $('#countingmodal').on('show.bs.modal',  function (event) {
 
         var okButton = $('#okButton');
         
-        if(data[6] == '1'){
-            if(data[7] == '1'){
-                okButton.removeClass("btn-default").addClass("btn-success").val("確定");
-                okButton.attr('disabled', false);
-            }else{ //不是原盤點人不可修改
-                okButton.removeClass("btn-success").addClass("btn-default").val("已盤點");
-                okButton.attr('disabled', true);
-            }
+        if(data[6] == '1' && data[7] != '1'){
+            //不是原盤點人不可修改
+            okButton.removeClass("btn-success").addClass("btn-default").val("已盤點");
+            okButton.attr('disabled', true);
         }else{
             okButton.removeClass("btn-default").addClass("btn-success").val("確定");
             okButton.attr('disabled', false);

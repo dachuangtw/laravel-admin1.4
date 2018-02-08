@@ -33,7 +33,7 @@ class InventoryController extends Controller
             $content->header(trans('admin::lang.inventory'));
             $content->description(trans('admin::lang.list'));
 
-            $content->body(view('admin::inventorylist'));
+            $content->body($this->grid());
         });
     }
 
@@ -75,9 +75,9 @@ class InventoryController extends Controller
      *
      * @return Content
      */
-    public function counting()
+    public function counting($inid)
     {
-        return Admin::content(function (Content $content) {
+        return Admin::content(function (Content $content) use ($inid) {
 
             $content->header(trans('admin::lang.inventory'));
             $content->description(trans('admin::lang.counting'));

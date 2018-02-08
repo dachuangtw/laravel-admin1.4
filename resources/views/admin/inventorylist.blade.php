@@ -1,38 +1,75 @@
 <ul class="list-group">
-    <li class="list-group-item countinglist" data-toggle="modal" data-target="#countingmodal" data-indid="1">動物牙膏筆袋 <span class="pull-right glyphicon glyphicon-exclamation-sign" style="color:#00A662;font-size:20px;"></span></li>
-    <li class="list-group-item countinglist" data-toggle="modal" data-target="#countingmodal" data-indid="2">動物牙膏筆袋 <span class="pull-right">已盤點</span></li>
+    @foreach($details as $detail)
+    <li class="list-group-item countinglist" data-toggle="modal" data-target="#countingmodal" data-indid="1">{{ $detail->p_name }} 
+        @if(empty($detail->in_at))
+        <span class="pull-right glyphicon glyphicon-exclamation-sign" style="color:#00A662;font-size:20px;"></span>
+        @else
+        <span class="pull-right">已盤點</span>
+        @endif
+    </li>
+    @endforeach
 </ul>
+
+
+
+
+
 
 <div class="modal fade" id="countingmodal">
 <div class="modal-dialog">
     <div class="modal-content" style="text-align:center;">
         <div class="modal-body">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-            <form action="" method="post">
-                <input type="hidden" name="indid" value="">
-                <div class="pull-left" style="width:50%;">
-                    <img src="http://localhost/upload/image/dfd93767e8bd4a082e1e652fcacb08db.jpeg" alt="" style="max-width:100%;">
-                </div>
-                <div class="pull-left" style="width:50%;height:auto;">
-                    <h3 style="text-align:center;">動物牙膏筆袋</h3>
-                    <p style="text-align:left;margin-left:25%;margin-top:20px;">款式：<span id="in_type">不分款</span></p>
-                    <p style="text-align:left;margin-left:25%;margin-top:20px;">目前庫存：<span id="in_stock">20</span></p>
-                    <p style="text-align:left;margin-left:25%;margin-top:20px;">盤點數量：<input type="text" name="in_quantity" style="max-width:80px;"></p>
-                    <input type="submit" class="btn btn-success" style="margin-top:10px;" value="確定">
-                </div>
-            </form>
+            <input type="hidden" name="indid" value="">
+            <div class="pull-left product-img" style="width:50%;min-height:200px;">
+                
+            </div>
+            <div class="pull-left" style="width:50%;min-height:200px;">
+                <h3 style="text-align:center;"></h3>
+                <p style="text-align:left;margin-left:25%;margin-top:20px;">款式：<span id="in_type"></span></p>
+                <p style="text-align:left;margin-left:25%;margin-top:20px;">目前庫存：<span id="in_stock"></span></p>
+                <p style="text-align:left;margin-left:25%;margin-top:20px;">盤點數量：<input type="text" name="in_quantity" style="max-width:80px;"></p>
+                <input type="button" id="okButton" class="btn" style="margin-top:10px;display:none;" value="確定">
+            </div>
         </div>
     </div>
-</div>
-</div>
-<script>
 
+    <div class="loading-fullpage loading-container" style="display: none;">
+        <div class="loading-error" style="display: none;">
+            <h3 style="line-height:80px;font-weight:600;"><span class="glyphicon glyphicon-remove" style="color:#dd4b39"></span> 網頁發生錯誤</h3>
+            <button class='btn btn-default' data-dismiss="modal" aria-hidden="true">關閉</button>
+        </div>
+        <div class="loading-circle">
+            <div class="loading-circle1 loading-child"></div>
+            <div class="loading-circle2 loading-child"></div>
+            <div class="loading-circle3 loading-child"></div>
+            <div class="loading-circle4 loading-child"></div>
+            <div class="loading-circle5 loading-child"></div>
+            <div class="loading-circle6 loading-child"></div>
+            <div class="loading-circle7 loading-child"></div>
+            <div class="loading-circle8 loading-child"></div>
+            <div class="loading-circle9 loading-child"></div>
+            <div class="loading-circle10 loading-child"></div>
+            <div class="loading-circle11 loading-child"></div>
+            <div class="loading-circle12 loading-child"></div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+
+<script>
+$('#okButton').on('click',  function () {
+    $('.loading-container').show();
+});
 $('#countingmodal').on('show.bs.modal',  function (event) {
     var button = $(event.relatedTarget);
     var recipient = button.data('indid');
     var modal = $(this);
 
-    $.get('admin/getstockdata/' + recipient, function(data) {
+    $.get('/admin/inventorydetails/getdata/' + recipient, function(data) {
         /**
          * data：
          * [0]indid|[1]商品名|[2]src|[3]款式|[4]目前庫存|[5]盤點數|[6]已盤點Boolean|[7]是盤點人Boolean
@@ -40,22 +77,35 @@ $('#countingmodal').on('show.bs.modal',  function (event) {
         data = data.split("|");
         modal.find('input[name="indid"]').val(data[0]);
         modal.find('h3').text(data[1]);
-        modal.find('img').attr('alt',data[1]).attr('src',data[2]);
+        if (data[2]) {
+            modal.find('.product-img').html('<img src="/upload/'+ data[2] +'" alt="'+ data[1] +'" style="width:100%;">');
+        }else{
+            modal.find('.product-img').html('<span class="glyphicon glyphicon-picture" style="font-size: 20vmin;"></span>');
+        }
         modal.find('#in_type').text(data[3]);
         modal.find('#in_stock').text(data[4]);
         modal.find('input[name="in_quantity"]').val(data[5]);
 
-        var submitButton = modal.find('input[type="submit"]');
-        if(data[6]){
-            submitButton.class("btn btn-default").val("已盤點");
-            if(data[7]){
-                submitButton.attr('disabled', false);
+        var okButton = $('#okButton');
+        
+        if(data[6] == '1'){
+            if(data[7] == '1'){
+                okButton.removeClass("btn-default").addClass("btn-success").val("確定");
+                okButton.attr('disabled', false);
             }else{ //不是原盤點人不可修改
-                submitButton.attr('disabled', true);
+                okButton.removeClass("btn-success").addClass("btn-default").val("已盤點");
+                okButton.attr('disabled', true);
             }
         }else{
-            submitButton.class("btn btn-success").val("確定").attr('disabled', true);
+            okButton.removeClass("btn-default").addClass("btn-success").val("確定");
+            okButton.attr('disabled', false);
         }
+        
+        okButton.show();
+    });
+    $('#countingmodal').on('hidden.bs.modal', function (event) {
+        $('.product-img').html('');
+        $('#okButton').hide();
     });
 
 

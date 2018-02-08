@@ -78,6 +78,10 @@ Route::group([
     $router->post('product/receiptdetails', 'ProductIndexController@selectedproduct');
     $router->get('product/receiptdetails/{id}', 'ProductReceiptController@receiptdetails');
     
+    $router->get('inventorydetails/getdata/{id}', 'InventoryDetailsController@getdata');    
+    $router->get('inventory/{id}/details', 'InventoryDetailsController@index');
+    
+
     $router->post('transfer/transferdetails', 'ProductIndexController@selectedproduct');
     $router->get('transfer/transferdetails/{id}', 'TransferController@transferdetails');
 

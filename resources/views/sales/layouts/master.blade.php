@@ -50,7 +50,7 @@
 
 			<div class="wrap_header">
 				<!-- Logo -->
-				<a href="{{ url('/') }}" class="logo">
+				<a href="{{ route('home') }}" class="logo">
 					<h3>Dachuang</h3>
 				</a>
 
@@ -62,9 +62,7 @@
 
 					@includeIf('sales.parts.header-account')
 
-					@if(Request::path() == 'picking')
-					@includeIf('sales.parts.header-shopping')
-					@endif
+					@yield('picking-bag')
 
 				</div>
 			</div>
@@ -84,9 +82,7 @@
 
 					@includeIf('sales.parts.header-account')
 
-					@if(Request::path() == 'picking')
-					@includeIf('sales.parts.header-shopping')
-					@endif
+					@yield('picking-bag')
 
 				</div>
 

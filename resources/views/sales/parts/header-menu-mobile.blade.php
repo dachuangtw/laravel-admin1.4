@@ -19,7 +19,7 @@
 			</li>
 
 			<li class="item-menu-mobile">
-				<a href="{{ url('/picking') }}">商品</a>
+				<a href="{{ url('/product') }}">商品</a>
 			</li>
 
 			<li class="item-menu-mobile">

@@ -1,5 +1,11 @@
 @extends('sales.layouts.master')
 
+@section('picking-bag')
+	@if($picking)
+	@include('sales.parts.header-shopping')
+	@endif
+@endsection
+
 @section('content')
 <!-- breadcrumb -->
 @includeIf('sales.product.breadcrumb')

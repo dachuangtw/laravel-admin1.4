@@ -3,43 +3,43 @@
 </h4>
 
 <div class="flex-c-m p-t-4 p-b-54">
-	<div style="display:none" class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
+	<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
 		<span class="m-text10 p-b-1 days">
-			1
+			{{ $days }}
 		</span>
 
 		<span class="s-text5">
-			days
+			日
 		</span>
 	</div>
 
 	<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
 		<span class="m-text10 p-b-1 hours">
-			8
+			{{ $hours }}
 		</span>
 
 		<span class="s-text5">
-			hrs
+			時
 		</span>
 	</div>
 
 	<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
 		<span class="m-text10 p-b-1 minutes">
-			30
+			{{ $minutes }}
 		</span>
 
 		<span class="s-text5">
-			mins
+			分
 		</span>
 	</div>
 
 	<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
 		<span class="m-text10 p-b-1 seconds">
-			00
+			{{ $seconds }}
 		</span>
 
 		<span class="s-text5">
-			secs
+			秒
 		</span>
 	</div>
 </div>

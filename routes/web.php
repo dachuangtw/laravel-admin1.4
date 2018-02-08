@@ -21,25 +21,14 @@ Route::group([
 	'namespace' => 'Sales'
 ], function()
 {
-	Route::get('/bulletin', 'BulletinController@index');
-	
-	Route::get('/product', function () {
-		return view('sales.product');
-	});
+	Route::get('bulletin', 'BulletinController@index')->name('home');
 
-	Route::get('/product-detail', function () {
-		return view('sales.product-detail');
-	});
+	Route::get('product', 'ProductController@index');
+	Route::get('product/{id}', 'ProductController@categories');
+	Route::get('product-detail', 'ProductDetailController@index');
+	Route::get('cart', 'CartController@index');
 
-	Route::get('/picking', function () {
-		return view('sales.picking');
-	});
-
-	Route::get('/cart', function () {
-		return view('sales.cart');
-	});
-
-	Route::get('/record', function () {
+	Route::get('record', function () {
 		return view('sales.picking-record');
 	});
 });

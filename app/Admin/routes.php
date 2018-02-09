@@ -40,9 +40,9 @@ Route::group([
     /**
      * 眼睛查看
      */
-    //倉庫 (未完成)
+    //倉庫
     $router->get('warehouse/{id}/view', 'WarehouseController@view');
-    //廠商 (未完成)
+    //廠商
     $router->get('supplier/{id}/view', 'ProductSupplierController@view');
     //商品
     $router->get('product/{id}/view', 'ProductIndexController@view');
@@ -56,7 +56,7 @@ Route::group([
     $router->get('sales/collect/{id}/view', 'SalesCollectController@view');
     //業務退貨 (未完成)
     $router->get('sales/refund/{id}/view', 'SalesRefundController@view');
-    //店鋪據點 (未完成)
+    //店鋪據點
     $router->get('web/location/{id}/view', 'WebLocationController@view');
     
     /**

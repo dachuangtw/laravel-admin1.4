@@ -61,6 +61,7 @@ class ProductSeriesController extends Controller
     {
         return ProductSeries::tree(function (Tree $tree) {
             $tree->disableCreate();
+            $tree->disableView();
 
             $tree->branch(function ($branch) {
                 $payload = "&nbsp;<strong>{$branch['ps_name']}</strong>";

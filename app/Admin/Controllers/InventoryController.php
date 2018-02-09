@@ -98,6 +98,9 @@ class InventoryController extends Controller
                 if (Admin::user()->cannot('Inventory-Editor')) {
                     $actions->disableEdit();
                 }
+                if (Admin::user()->cannot('Inventory-Reader')) {
+                    $actions->disableView();
+                }
                 if (Admin::user()->cannot('Inventory-Deleter')) {
                     $actions->disableDelete();
                 }

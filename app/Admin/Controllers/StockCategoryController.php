@@ -59,6 +59,7 @@ class StockCategoryController extends Controller
     {
         return StockCategory::tree(function (Tree $tree) {
             $tree->disableCreate();
+            $tree->disableView();
 
             $tree->branch(function ($branch) {
                 $payload = "&nbsp;<strong>{$branch['sc_number']} - {$branch['sc_name']}</strong>";

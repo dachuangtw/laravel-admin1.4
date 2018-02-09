@@ -46,6 +46,7 @@ class WebAreaController extends Controller
     {
         return WebArea::tree(function (Tree $tree) {
             $tree->disableCreate();
+            $tree->disableView();
         });
     }
 
@@ -127,7 +128,7 @@ class WebAreaController extends Controller
     {
         return Admin::form(WebArea::class, function (Form $form) {
 
-            $form->display('id', trans('admin::lang.area_id'));
+            $form->display('id', trans('admin::lang.areaid'));
             $form->text('area_name', trans('admin::lang.name'));
             $form->text('area_sort', trans('admin::lang.order'));
             $form->display('created_at',trans('admin::lang.created_at'));

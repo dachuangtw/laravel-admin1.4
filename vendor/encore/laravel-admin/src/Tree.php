@@ -55,6 +55,11 @@ class Tree implements Renderable
     public $useCreate = true;
 
     /**
+     * @var bool
+     */
+    public $useView = true;
+
+    /**
      * @var array
      */
     protected $nestableOptions = [];
@@ -160,6 +165,16 @@ class Tree implements Renderable
     public function disableCreate()
     {
         $this->useCreate = false;
+    }
+
+    /**
+     * Disable create.
+     *
+     * @return void
+     */
+    public function disableView()
+    {
+        $this->useView = false;
     }
 
     /**
@@ -316,6 +331,7 @@ SCRIPT;
             'path'           => $this->path,
             'keyName'        => $this->model->getKeyName(),
             'branchView'     => $this->view['branch'],
+            'useView'        => $this->useView,
             'branchCallback' => $this->branchCallback,
         ]);
 

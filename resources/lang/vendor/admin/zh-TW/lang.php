@@ -99,7 +99,7 @@ return [
     'admin_msg'       => '回覆',
 
     //資料表名
-    'warehouse'         =>    '倉庫',
+    'warehouse'                 =>    '倉庫',
     'product_index'             =>    '商品主檔',
     'product_rubbish'           =>    '報廢品',
     'product_log'               =>    '庫存變更紀錄',
@@ -193,7 +193,6 @@ return [
     'store_contractor'=>    '簽約人',
     'store_payment_date'=>  '繳款日',
     'store_lease_start_end'=>   '租約起始日/結束日',
-    //'store_lease_end'=>     '租約結束日',
     'store_sales'   =>      '負責業務',
     'store_address' =>      '店鋪地址',
     'store_name'    =>      '店鋪名稱',
@@ -203,12 +202,12 @@ return [
 
     //地區
     'web_area'      =>      '地區',
-    'area_id'       =>      '地區編號',
-
+    'areaid'        =>      '地區編號',
+    'area_id'       =>      '所屬區域',
 
     'alias'     =>    '簡稱',
     'alert'     =>    '注意',
-
+    
     'parent_id' =>    '父級選單',
     'icon'      =>    '圖示',
     'uri'       =>    '路徑',
@@ -243,7 +242,6 @@ return [
     
     'sup_number'      =>    '廠商代號',
     'sc_number'       =>    '庫存代號',
-
     
     'supid'           =>    '廠商id',
     're_user'         =>    '進貨單填寫人',
@@ -251,7 +249,6 @@ return [
     're_amount'       =>    '總金額',
     're_notes'        =>    '備註',
     're_delivery'     =>    '進貨日',
-
     
     'transfer'      =>    '調撥單',
     'send_at'       =>    '調撥日',
@@ -270,6 +267,15 @@ return [
     'counting'      =>    '盤點',
     'inventory_range'     =>    '盤點時間起訖',
     'assign_notes'  =>    '配貨備註',
+    'sup_name'      =>    '廠商名稱',
+    'sup_alias'     =>    '簡稱',
+    'w_name'        =>    '倉庫名',
+    'w_phone'       =>    '倉庫電話',
+    'w_address'     =>    '倉庫地址',
+    'w_notes'       =>    '備註',
+    'store_lease_start' =>     '租約起始日',
+    'store_lease_end'   =>     '租約結束日',
+    'store_picture'     =>    '店鋪圖片',
     // ''     =>    '',
     // ''     =>    '',
     // ''     =>    '',

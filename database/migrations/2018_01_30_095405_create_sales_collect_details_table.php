@@ -22,7 +22,7 @@ class CreateSalesCollectDetailsTable extends Migration
             $table->integer('scd_quantity')->default(0)->comment('數量');
             $table->decimal('scd_amount')->default(0.00)->comment('總計金額');    
             $table->boolean('scd_check')->nullable()->comment('點貨確認');      
-            $table->text('scd_notes')->nullable()->comment('商品備註');;
+            $table->text('scd_notes')->nullable()->comment('商品備註');
         });
     }
 

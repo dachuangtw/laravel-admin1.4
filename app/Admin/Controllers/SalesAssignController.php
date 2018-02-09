@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Request;
 use App\Admin\Extensions\Tools\DateChooser;
+use App\Admin\Extensions\ExcelExpoter;
  /**
  * 業務每日配貨
  * 尚未完成:
@@ -260,7 +261,7 @@ SCRIPT;
                     break;
             }
 
-            $grid->number('No.')->sortable();
+            $grid->number('No.');
             $grid->rows(function ($row, $number) {
                 $row->column('number', $number+1);
             });
@@ -283,6 +284,31 @@ SCRIPT;
 
             //$grid->created_at(trans('admin::lang.created_at'));
             $grid->updated_at(trans('admin::lang.updated_at'));
+
+            //excel 匯出設定
+            //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
+            $titles = ['assign_date','assign_id','wid','assign_amount'];
+
+            $exporter = new ExcelExpoter();
+            /**
+             * setDetails()參數
+             * 1：資料庫欄位 array
+             * 2：匯出Excel檔案名 string
+             * 3：Excel製作人名稱 string
+             */
+            /**
+             * setForeignKeys($foreignKeys)外部鍵設定
+             */
+            $foreignKeys = [
+                'wid'  =>  [
+                    'dbname' =>  'warehouse',
+                    'id' =>  'wid',
+                    'target' =>  'w_name',
+                ],
+            ];
+            $exporter->setForeignKeys($foreignKeys);
+            $exporter->setDetails($titles,'每日配貨表'.date('Ymd'),Admin::user()->name);
+            $grid->exporter($exporter);
         });
     }
 

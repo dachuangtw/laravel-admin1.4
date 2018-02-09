@@ -90,7 +90,6 @@ class SalesCollectController extends Controller
     {
         Permission::check(['Salescollect-Reader']);
         $salescollect = SalesCollect::find($id)->toArray();
-        // dd($salescollect);
         //忽略不顯示的欄位
         $skipArray = ['scid','created_at','updated_at','deleted_at'];
         //顯示圖片欄位
@@ -165,9 +164,7 @@ class SalesCollectController extends Controller
                 ['text' => trans('admin::lang.sales_collect'), 'url' => '/sales/collect'],
                 ['text' => trans('admin::lang.edit')]
             );
-
-            // $content->body($this->form()->edit($id));
-                        //判斷配貨倉庫，否則無權訪問編輯，超級管理員權限all(暫定)
+            //判斷配貨倉庫，否則無權訪問編輯，超級管理員權限all(暫定)
             $check_wid = SalesCollect::find($id)->wid;
             if($check_wid == Admin::user()->wid || Admin::user()->isAdministrator()){
                 $content->body($this->form()->edit($id));
@@ -261,8 +258,8 @@ SCRIPT;
                     return Warehouse::find($wid)->w_name;
                 })->label('info');
             }
-            $grid->sales_id(trans('admin::lang.salesname'))->display(function($sales_id) {
-                    return Sales::find($sales_id)->name;
+            $grid->sales_id(trans('admin::lang.salesname').'/'.trans('admin::lang.nickname'))->display(function($sales_id) {
+                    return Sales::find($sales_id)->name.' <font size="1"  color="blue">('.Sales::find($sales_id)->nickname.')';
             });
             $grid->collect_amount(trans('admin::lang.collect_amount'))->sortable();
             $grid->collect_check(trans('admin::lang.collect_check'))->value(function ($collect_check) {
@@ -288,9 +285,9 @@ SCRIPT;
     protected function form()
     {
         return Admin::form(SalesCollect::class, function (Form $form) {
-
+            $url_edit = strpos(url()->current(), '/edit') !== false;
             //判斷為編輯狀態
-            if(strpos(url()->current(), '/edit') !== false) {
+            if($url_edit) {
                 $form->date('collect_date',trans('admin::lang.collect_date'))->readOnly();
                 $form->display('collect_id',trans('admin::lang.collect_id'))->setWidth(2, 2);
                 switch (Admin::user()) {
@@ -309,14 +306,14 @@ SCRIPT;
                 $form->date('collect_date',trans('admin::lang.collect_date'))->defaultdate('YYYY-MM-DD');
                 $form->html('<font color="#333">系統自動產生</font>',trans('admin::lang.collect_id'));
                 //判斷超級使用者
-                if(Admin::user()->isAdministrator()){
+                // if(Admin::user()->isAdministrator()){
                     // $form->select('wid',trans('admin::lang.wid'))
                     //     ->options(Warehouse::all()->pluck('w_name','wid'));
-                }else{
+                // }else{
                     $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
                     $form->select('sales_id','業務'.trans('admin::lang.salesname'))
                     ->options(Sales::all()->where('wid',Admin::user()->wid)->pluck('name','sales_id'))->rules('required')->setWidth(2, 2);   
-                }   
+                // }   
             }
 
             $form->textarea('collect_notes', trans('admin::lang.notes'))->rows(2)->setWidth(2, 2);
@@ -346,11 +343,14 @@ SCRIPT;
             $form->hidden('collect_amount');
             $form->divide();
             $form->button('btn-danger btn-append','+ 領貨商品')->on('click','ShowModal("salescollect_hasstock");');
-            
+            if($url_edit)
+                $form->button('btn-warning btn-append','- 退貨商品');
+            else 
+                $form->button('btn-warning btn-append disabled','- 退貨商品');
             // $form->display('created_at', 'Created At');
             // $form->display('updated_at', 'Updated At');
 
-             $form->saving(function (Form $form) {
+            $form->saving(function (Form $form) {
                 if(empty(request()->pid)){
                     $error = new MessageBag(['title'=>'提示','message'=>'未填寫領貨商品!']);
                     return back()->withInput()->with(compact('error'));

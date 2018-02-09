@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\DB;
+use App\Admin\Extensions\ExcelExpoter;
 
 class SalesController extends Controller
 {
@@ -108,7 +109,6 @@ class SalesController extends Controller
                 $tools->append(new SalesResign());
             });
             $grid->model()->orderBy('sales_id', 'desc');
-            $grid->disableImport();//關閉匯入按鈕
             //查詢過濾器
             $grid->filter(function($filter){
                 // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
@@ -128,7 +128,7 @@ class SalesController extends Controller
             });
 
             // $grid->sales_id(trans('admin::lang.sales_id'))->sortable();
-            $grid->number('No.')->sortable();
+            $grid->number('No.');
             $grid->rows(function ($row, $number) {
                 $row->column('number', $number+1);
             });
@@ -144,12 +144,37 @@ class SalesController extends Controller
             $grid->column('name',trans('admin::lang.salesname').'/'.trans('admin::lang.nickname'))->display(function ($name) {
                 return "$name".' <font size="2"  color="blue">('.$this->nickname.')';
             });
-            $grid->resign('狀態')->value(function ($resign) {
+            $grid->resign(trans('admin::lang.resign'))->value(function ($resign) {
                 return $resign == 'f' ? "<span class='label label-success'>在職</span>" : "<span class='label label-danger'>離職</span>";
             })->sortable();
             $grid->collect_at(trans('admin::lang.collect_at'));
             $grid->created_at( trans('admin::lang.created_at'));
             $grid->updated_at( trans('admin::lang.updated_at'));
+
+            //excel 匯出設定
+            //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
+            $titles = ['name','wid','nickname','cellphone', 'start_work_date', 'end_work_date', 'resign'];
+
+            $exporter = new ExcelExpoter();
+            /**
+             * setDetails()參數
+             * 1：資料庫欄位 array
+             * 2：匯出Excel檔案名 string
+             * 3：Excel製作人名稱 string
+             */
+            /**
+             * setForeignKeys($foreignKeys)外部鍵設定
+             */
+            $foreignKeys = [
+                'wid'  =>  [
+                    'dbname' =>  'warehouse',
+                    'id' =>  'wid',
+                    'target' =>  'w_name',
+                ],
+            ];
+            $exporter->setForeignKeys($foreignKeys);
+            $exporter->setDetails($titles,'業務資料表'.date('Ymd'),Admin::user()->name);
+            $grid->exporter($exporter);
         });
     }
 
@@ -213,7 +238,6 @@ class SalesController extends Controller
                 $form->divide();
                 $form->display('created_at', trans('admin::lang.created_at'));
                 $form->display('updated_at', trans('admin::lang.updated_at'));
-
             });
 
             $form->saving(function (Form $form) {

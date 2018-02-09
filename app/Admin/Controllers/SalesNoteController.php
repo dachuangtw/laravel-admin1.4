@@ -113,6 +113,7 @@ class SalesNoteController extends Controller
                     $actions->disableEdit();
                 }
             });
+            $grid->disableExport();//關閉匯出按鈕
             $grid->filter(function($filter){
                 $filter->disableIdFilter();// 禁用id查詢框
                 if(Admin::user()->isAdministrator()){
@@ -129,7 +130,7 @@ class SalesNoteController extends Controller
             });
 
             $grid->model()->orderBy('id', 'desc');
-            $grid->number('No.')->sortable();
+            $grid->number('No.');
             $grid->rows(function ($row, $number) {
                 $row->column('number', $number+1);
             });

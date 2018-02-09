@@ -79,6 +79,11 @@ a:focus i.fa-trash {
     overflow: hidden;
 }
 
+.modal-body .pull-left {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .modal-footer {
     text-align: center;
 }

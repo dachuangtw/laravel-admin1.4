@@ -109,8 +109,8 @@ class InventoryDetailsController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header(trans('admin::lang.inventory'));
+            $content->description(trans('admin::lang.edit'));
 
             $content->body($this->form()->edit($id));
         });
@@ -157,10 +157,21 @@ class InventoryDetailsController extends Controller
     {
         return Admin::form(InventoryDetails::class, function (Form $form) {
 
-            $form->display('id', 'ID');
+            $form->hidden('ind_quantity');
+            $form->hidden('ind_notes');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+            $form->hidden('ind_user');
+            $form->hidden('ind_at');
+            $form->hidden('update_user');
+            $form->hidden('updated_at');
+
+            $form->saving(function(Form $form) {
+                $form->ind_at = $form->updated_at = date('Y-m-d H:i:s');
+                $form->ind_user = $form->update_user = Admin::user()->id;
+            });
+            $form->saved(function(Form $form) {
+                return back();
+            });
         });
     }
 }

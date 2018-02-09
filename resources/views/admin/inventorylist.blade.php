@@ -20,17 +20,21 @@
     <div class="modal-content" style="text-align:center;">
         <div class="modal-body">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-            <input type="hidden" name="indid" value="">
             <div class="pull-left product-img" style="width:50%;min-height:200px;">
                 
             </div>
-            <div class="pull-left" style="width:50%;min-height:200px;">
-                <h3 style="text-align:center;"></h3>
-                <p style="text-align:left;margin-left:25%;margin-top:20px;">款式：<span id="in_type"></span></p>
-                <p style="text-align:left;margin-left:25%;margin-top:20px;">目前庫存：<span id="in_stock"></span></p>
-                <p style="text-align:left;margin-left:25%;margin-top:20px;">盤點數量：<input type="text" name="in_quantity" style="max-width:80px;"></p>
-                <input type="button" id="okButton" class="btn" style="margin-top:10px;display:none;" value="確定">
-            </div>
+            <form action="" method="post" accept-charset="UTF-8" class="form-horizontal" pjax-container>
+                <div class="pull-left" style="width:50%;min-height:200px;">
+                    <input type="hidden" name="indid" value="">
+                    <h3 style="text-align:center;"></h3>
+                    <p style="text-align:left;margin-left:25%;margin-top:20px;">款式：<span id="ind_type"></span></p>
+                    <p style="text-align:left;margin-left:25%;margin-top:20px;">目前庫存：<span id="ind_stock"></span></p>
+                    <p style="text-align:left;margin-left:25%;margin-top:20px;">盤點數量：<input type="text" name="ind_quantity" style="max-width:60px;"></p>
+                    {{ method_field('PUT') }}
+                    {{ csrf_field() }}
+                    <input type="submit" id="okButton" class="btn" style="margin-top:10px;display:none;" value="確定">
+                </div>
+            </form>
         </div>
     </div>
 
@@ -64,6 +68,9 @@
 $('#okButton').on('click',  function () {
     $('.loading-container').show();
 });
+$('#countingmodal .form-horizontal').on('submit',  function () {
+    $('.modal-backdrop').hide();
+});
 $('#countingmodal').on('show.bs.modal',  function (event) {
     var button = $(event.relatedTarget);
     var recipient = button.data('indid');
@@ -76,15 +83,16 @@ $('#countingmodal').on('show.bs.modal',  function (event) {
          */
         data = data.split("|");
         modal.find('input[name="indid"]').val(data[0]);
+        modal.find('form').attr('action',"/admin/inventorydetails/" + data[0]);
         modal.find('h3').text(data[1]);
         if (data[2]) {
             modal.find('.product-img').html('<img src="/upload/'+ data[2] +'" alt="'+ data[1] +'" style="width:100%;">');
         }else{
             modal.find('.product-img').html('<span class="glyphicon glyphicon-picture" style="font-size: 20vmin;"></span>');
         }
-        modal.find('#in_type').text(data[3]);
-        modal.find('#in_stock').text(data[4]);
-        modal.find('input[name="in_quantity"]').val(data[5]);
+        modal.find('#ind_type').text(data[3]);
+        modal.find('#ind_stock').text(data[4]);
+        modal.find('input[name="ind_quantity"]').val(data[5]);
 
         var okButton = $('#okButton');
         

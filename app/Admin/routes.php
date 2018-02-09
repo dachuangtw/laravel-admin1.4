@@ -13,7 +13,7 @@ Route::group([
     // $attributes = ['middleware' => 'admin.permission:allow,administrator'];
     //  $router->group($attributes, function ($router) {
 
-        $router->resource('sales/endwork', SalesEndWorkController::class);
+        // $router->resource('sales/endwork', SalesEndWorkController::class);
         $router->resource('sales/log', SalesLogController::class);
         $router->resource('sales/assign', SalesAssignController::class);
         $router->resource('sales/collect', SalesCollectController::class);
@@ -36,7 +36,7 @@ Route::group([
 
     // });
 
-    $router->get('sales/endwork/{id}/view', 'SalesEndWorkController@view');
+    // $router->get('sales/endwork/{id}/view', 'SalesEndWorkController@view');
     $router->get('sales/log/{id}/view', 'SalesLogController@view');
     $router->get('sales/assign/{id}/view', 'SalesAssignController@view');
     $router->get('sales/collect/{id}/view', 'SalesCollectController@view');
@@ -44,18 +44,22 @@ Route::group([
     $router->get('sales/notes/{id}/view', 'SalesNoteController@view');
     $router->get('sales/{id}/view', 'SalesController@view');
 
-    $router->get('product/category/{id}/view', 'ProductCategoryController@view');
-    $router->get('product/series/{id}/view', 'ProductSeriesController@view');
-    $router->get('product/receipt/{id}/view', 'ProductReceiptController@view');
-    $router->post('product/import', 'ProductIndexController@import');
-    $router->get('product/{id}/view', 'ProductIndexController@view');
+    // $router->get('product/category/{id}/view', 'ProductCategoryController@view');
+    // $router->get('product/series/{id}/view', 'ProductSeriesController@view');
     $router->get('supplier/{id}/view', 'ProductSupplierController@view');
     $router->get('web/location/{id}/view', 'WebLocationController@view');
     $router->get('web/area/{id}/view', 'WebAreaController@view');
     $router->get('warehouse/{id}/view', 'WarehouseController@view');
-    $router->get('inventory/{id}/counting', 'InventoryController@counting');
-    
+
+    /**
+     * 眼睛查看
+     */
+    //商品
+    $router->get('product/{id}/view', 'ProductIndexController@view');
+    //調撥單
     $router->get('transfer/{id}/view', 'TransferController@view');
+    //進貨單
+    $router->get('product/receipt/{id}/view', 'ProductReceiptController@view');
 
     $router->get('api/tw/district', 'WebLocationController@district');
     
@@ -72,16 +76,22 @@ Route::group([
 
     //使用Controller
     // $router->get('modal/{target}', 'ProductIndexController@modal');
+
+    //商品搜尋的彈出/互動視窗modal
     $router->post('product/search', 'ProductIndexController@modalsearch');
     $router->post('product/searchstock', 'ProductIndexController@modalsearchstock');
 
+    //進貨單
     $router->post('product/receiptdetails', 'ProductIndexController@selectedproduct');
     $router->get('product/receiptdetails/{id}', 'ProductReceiptController@receiptdetails');
     
+    //盤點作業
     $router->get('inventorydetails/getdata/{id}', 'InventoryDetailsController@getdata');    
     $router->get('inventory/{id}/details', 'InventoryDetailsController@index');
+    $router->get('inventory/{id}/counting', 'InventoryController@counting');
+    $router->put('inventorydetails/{id}', 'InventoryDetailsController@update');
     
-
+    //調貨單
     $router->post('transfer/transferdetails', 'ProductIndexController@selectedproduct');
     $router->get('transfer/transferdetails/{id}', 'TransferController@transferdetails');
 
@@ -90,6 +100,9 @@ Route::group([
 
     $router->post('sales/collectdetails', 'ProductIndexController@selectedproduct');
     $router->get('sales/collectdetails/{id}', 'SalesCollectController@salescollectdetails');
+
+    //商品匯入功能
+    $router->post('product/import', 'ProductIndexController@import');
 
     $router->get('/', 'HomeController@index');
 });

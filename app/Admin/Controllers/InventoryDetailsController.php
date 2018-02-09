@@ -15,6 +15,7 @@ use Encore\Admin\Layout\Column;
 use Encore\Admin\Widgets\Box;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Support\Facades\Request;
 
 class InventoryDetailsController extends Controller
 {
@@ -57,45 +58,39 @@ class InventoryDetailsController extends Controller
             $content->header(trans('admin::lang.inventory'));
             $content->description(trans('admin::lang.counting'));
             
-            $content->row(function (Row $row) {
+            $content->row(function (Row $row) use ($inid) {
                 /**
-                 * 功能：搜尋商品，
-                 * 可見欄位：商品名
+                 * 功能：搜尋商品
                  */
-                $row->column(6, function (Column $column) {
+                $row->column(6, function (Column $column) use ($inid) {
                     $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('inventory'));
-                    $form->method('GET');
-
-                    /**
-                     * !important Bug：搜尋功能和filter密不可分...
-                     * 這裡要什麼欄位，filter就必須有那個欄位，才能正常搜尋
-                     */                    
+                    $form->action(admin_url('inventory/'.$inid.'/details'));
+                    $form->method('GET');                   
                     $form->text('search', trans('admin::lang.p_name'));
 
                     $form->disableSubmit()->disableReset()->enableSearch();
 
                     $column->append((new Box(trans('admin::lang.search'), $form))->collapsable()->style('success'));
                 });
-
             });
+
             $in_number = Inventory::find($inid)->in_number;
-            $details = InventoryDetails::where('in_number',$in_number)->get();
+            $search = Request::get('search');
+            if(empty($search)){
+                $details = InventoryDetails::where('in_number',$in_number)->get();
+            }else{
+                $pids = ProductIndex::where('p_name', 'like', '%'.$search.'%')->orWhere('p_number', 'like', '%'.$search)->pluck('pid');
+                $details = InventoryDetails::where('in_number', $in_number)->whereIn('pid',$pids)->get();
+            }
             foreach($details as $key => $detail){
                 $details[$key]->p_name = ProductIndex::find($detail->pid)->p_name;
             }
+            
             $content->row(function (Row $row) use($details) {
-                /**
-                 * 功能：搜尋商品，
-                 * 可見欄位：商品名
-                 */
                 $row->column(12, function (Column $column) use($details) {
-
                     $column->append((new Box(trans('admin::lang.list'), view('admin::inventorylist',compact('details'))))->style('info'));
                 });
-
             });
-            // $content->body(view('admin::inventorylist',compact('details')));
         });
     }
 

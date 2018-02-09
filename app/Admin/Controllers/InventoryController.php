@@ -71,47 +71,6 @@ class InventoryController extends Controller
     }
 
     /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function counting($inid)
-    {
-        return Admin::content(function (Content $content) use ($inid) {
-
-            $content->header(trans('admin::lang.inventory'));
-            $content->description(trans('admin::lang.counting'));
-
-            
-            $content->row(function (Row $row) {
-                /**
-                 * 功能：搜尋商品，
-                 * 可見欄位：商品名
-                 */
-                $row->column(6, function (Column $column) {
-                    $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('inventory'));
-                    $form->method('GET');
-
-                    /**
-                     * !important Bug：搜尋功能和filter密不可分...
-                     * 這裡要什麼欄位，filter就必須有那個欄位，才能正常搜尋
-                     */                    
-                    $form->text('search', trans('admin::lang.p_name'));
-
-                    $form->disableSubmit();
-                    $form->disableReset();
-                    $form->enableSearch();
-
-                    $column->append((new Box(trans('admin::lang.search'), $form))->style('success'));
-                });
-
-            });
-            $content->body(view('admin::inventorylist'));
-        });
-    }
-
-    /**
      * Make a grid builder.
      *
      * @return Grid
@@ -122,7 +81,7 @@ class InventoryController extends Controller
 
             // $grid->inid('ID')->sortable();
             $grid->in_number(trans('admin::lang.in_number'))->sortable();
-            $grid->wid(trans('admin::lang.warehouse'))->sortable()->display(function($wid) {
+            $grid->wid(trans('admin::lang.warehouse'))->display(function($wid) {
                 return Warehouse::find($wid)->w_name;
             })->sortable();
             $grid->start_at(trans('admin::lang.start_at'));

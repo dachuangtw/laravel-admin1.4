@@ -4,37 +4,31 @@
 
 <ul class="p-b-54">
 	<li class="p-t-4">
-		@if(isset($categories_id))
-		<a href="{{ url('product') }}" class="s-text13">
-			全部
-		</a>
-		@else
+		@if($category_id === NULL)
 		<span class="s-text13 active1">
 			<span class="ti-angle-right"></span>
 			全部
 		</span>
+		@else
+		<a href="{{ url('product') }}" class="s-text13">
+			全部
+		</a>
 		@endif
 	</li>
 
 	@foreach ($categories as $category)
 	<li class="p-t-4">
-		@if(isset($categories_id))
-		<a href="{{ url('product/'.$category->pcid) }}" class="s-text13{{ isset($categories_id) && $categories_id == $category->pcid ? ' active1' : ''}}">
-			@if($categories_id == $category->pcid)
+		<a href="{{ url('product/'.$category->pcid) }}" class="s-text13{{ $category_id == $category->pcid ? ' active1' : ''}}">
+			@if($category_id == $category->pcid)
 			<span class="ti-angle-right"></span>
 			@endif
 			{{ $category->pc_name }}
 		</a>
-		@else
-		<a href="{{ url('product/'.$category->pcid) }}" class="s-text13">
-			{{ $category->pc_name }}
-		</a>
-		@endif
 	</li>
 	@endforeach
 
 	<li class="p-t-4">
-		@if(isset($categories_id) && $categories_id == 0)
+		@if($category_id === 0)
 		<span class="s-text13 active1">
 			<span class="ti-angle-right"></span>
 			未分類

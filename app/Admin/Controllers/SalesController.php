@@ -115,6 +115,13 @@ class SalesController extends Controller
                 // $filter->useModal();
                 // 禁用id查询框
                 $filter->disableIdFilter();
+                if(Admin::user()->isAdministrator()){
+                    $filter->where(function ($query) {
+                        $query->where('wid',  "{$this->input}");
+                    }, trans('admin::lang.warehouse'))->select(
+                        Warehouse::all()->pluck('w_name', 'wid')->toArray()
+                    );
+                }  
                 // sql: ... WHERE `user.name` LIKE "%$name%";
                 $filter->like('name', trans('admin::lang.salesname'));
                 // $filter->like('sales_id', trans('admin::lang.sales_id'));
@@ -134,7 +141,12 @@ class SalesController extends Controller
             }else{
                 $grid->model()->where('wid', '=', Admin::user()->wid);
             }
-            $grid->name(trans('admin::lang.salesname'));
+            $grid->column('name',trans('admin::lang.salesname').'/'.trans('admin::lang.nickname'))->display(function ($name) {
+                return "$name".' <font size="2"  color="blue">('.$this->nickname.')';
+            });
+            $grid->resign('狀態')->value(function ($resign) {
+                return $resign == 'f' ? "<span class='label label-success'>在職</span>" : "<span class='label label-danger'>離職</span>";
+            })->sortable();
             $grid->collect_at(trans('admin::lang.collect_at'));
             $grid->created_at( trans('admin::lang.created_at'));
             $grid->updated_at( trans('admin::lang.updated_at'));

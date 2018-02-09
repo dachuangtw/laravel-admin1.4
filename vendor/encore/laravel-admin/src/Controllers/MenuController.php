@@ -68,6 +68,7 @@ class MenuController extends Controller
     {
         return Menu::tree(function (Tree $tree) {
             $tree->disableCreate();
+            $tree->disableView();
 
             $tree->branch(function ($branch) {
                 $payload = "<i class='fa {$branch['icon']}'></i>&nbsp;<strong>{$branch['title']}</strong>";

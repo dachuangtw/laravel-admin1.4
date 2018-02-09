@@ -6,6 +6,7 @@ use App\WebLocation;
 use App\WebArea;
 use App\Sales;
 use App\Location;
+use App\Warehouse;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -87,6 +88,85 @@ class WebLocationController extends Controller
         });
     }
 
+    /**
+     * View interface.
+     *
+     * @param $id
+     * @return Content
+     */
+    public function view($id)
+    {
+        Permission::check(['WebLocation-Reader']);
+
+        $weblocation = WebLocation::find($id)->toArray();
+
+        //忽略不顯示的欄位
+        $skipArray = ['location_id','show','deleted_at'];
+        //某些角色顯示欄位
+        $showArray = [];
+        //顯示圖片欄位
+        $imgArray = ['store_picture'];
+
+        //置換內容
+        $weblocation['district_id'] = WebArea::find($weblocation['district_id'])->area_name;
+        $weblocation['city_id'] = WebArea::find($weblocation['city_id'])->area_name;
+        $weblocation['area_id'] = Warehouse::find($weblocation['area_id'])->w_name;
+
+        $header[] = '店鋪據點資訊';
+        foreach($weblocation as $key => $value){            
+
+            if(in_array($key,$skipArray) || empty($value)){
+                if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
+                    continue;
+                }
+            }
+            
+            //欄位中文化
+            $newkey = trans('admin::lang.'.$key);
+
+            /**
+             * 內容排版
+             *    ┬ 圖片 ┬ 主圖(string)
+             *    │      └ 副圖(array)---連續印出
+             *    │
+             *    └ 文字 ┬ 分類、系列(array)---用/分隔
+             *           └ 其他(string)
+             */
+
+
+            if(in_array($key,$imgArray)){
+                if(is_array($value)){
+                    $content = '';
+                    foreach($value as $temp){
+                        $content .= '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $temp . '" width="50px" />';
+                    }
+                    $rows[$newkey] = $content;
+                }else{
+                    $rows[$newkey] = '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $value . '" width="100px" />';
+                }
+
+            }else{
+                if(is_array($value)){
+                    $content = '';
+                    foreach($value as $temp){
+                        if(empty($content))
+                            $content = $temp;
+                        else
+                            $content .= ' / ' . $temp;
+                    }
+                    $rows[$newkey] = $content;
+                }else{
+                    $rows[$newkey] = nl2br($value);
+                }
+            }
+
+            
+        }
+
+        $table = new Table($header, $rows);
+        $table->class('table table-hover');
+        return $table->render();
+    }
      /**
      * Make a grid builder.
      *
@@ -109,6 +189,12 @@ class WebLocationController extends Controller
             $grid->store_name(trans('admin::lang.store_name'));
             // $grid->created_at(trans('admin::lang.created_at'));
             // $grid->updated_at(trans('admin::lang.updated_at'));
+
+            //眼睛彈出視窗的Title，請設定資料庫欄位名稱
+            $grid->actions(function ($actions) {
+                $actions->setTitleField(['store_name']);
+            });
+
             $states = [
                 'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
                 'off' => ['value' => 2, 'text' => 'OFF', 'color' => 'danger'],

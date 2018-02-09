@@ -110,7 +110,7 @@ class Actions extends AbstractDisplayer
     }
 
     /**
-     * Disable view.
+     * Enable view.
      *
      * @return void.
      */

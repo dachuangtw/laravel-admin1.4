@@ -59,6 +59,7 @@ class ProductCategoryController extends Controller
     {
         return ProductCategory::tree(function (Tree $tree) {
             $tree->disableCreate();
+            $tree->disableView();
 
             $tree->branch(function ($branch) {
                 $payload = "&nbsp;<strong>{$branch['pc_name']}</strong>";

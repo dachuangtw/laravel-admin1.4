@@ -267,9 +267,11 @@ return [
     'in_number'     =>    '盤點單號',
     'start_at'      =>    '盤點開始時間',
     'finish_at'     =>    '盤點結束時間',
-
+    'counting'      =>    '盤點',
     'inventory_range'     =>    '盤點時間起訖',
-    'counting'     =>    '盤點',
+    'assign_notes'  =>    '配貨備註',
+    // ''     =>    '',
+    // ''     =>    '',
     // ''     =>    '',
     // ''     =>    '',
 ];

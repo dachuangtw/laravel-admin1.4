@@ -142,20 +142,18 @@ return [
     'deleted_at'    =>    '刪除時間',
 
     //業務列表
-    //'sid'           =>     '排序',
     'wid'           =>     '倉庫編號',
-    'sales_id'      =>     '業務代號',
-    'resign'        =>     '離職',
+    'sales_id'      =>     '業務id',
+    'resign'        =>     '離職狀態',
     'start_end_work_date' =>   '到職日/離職日',
+    'start_work_date' =>   '到職日',
+    'end_work_date' =>     '離職日',
     'salesman'      =>     '業務',
     'sales'         =>     '業務管理',
-    'sales_end_work'=>     '業務離職',
     'collect_at'    =>     '最近領貨日',
     'client_ip'     =>     '最近ip',
     'client_agent'  =>     '最近使用裝置',
     'logged_in_at'  =>     '最近登入日期',
-    'logged_in_at'  =>     '最近登入日期',
-    'collect_at'    =>     '最近領貨日',
     'cellphone'     =>     '手機號碼',
 
     //業務公告
@@ -181,6 +179,17 @@ return [
     'collect_check_user' => '領貨確認人',
     'receipt_check' =>      '收款確認',
     'receipt_check_user' => '收款確認人',
+
+    //業務退貨
+    'sales_refund'  =>      '業務退貨',
+    'refund_id'     =>      '退貨單號',
+    'refund_date'   =>      '退貨日期',
+    'refund_amount' =>      '總計金額',
+    'refund_method' =>      '退貨方式',
+    'refundgoods_check' =>  '退貨確認',
+    'refundgoods_check_user' => '確認退貨人',
+    'refund_check'  =>      '退款確認',
+    'refund_check_user' =>  '確認退款人',
 
     //店鋪據點
     'web_location'  =>      '店鋪據點',

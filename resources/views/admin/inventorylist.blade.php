@@ -67,10 +67,10 @@
 <script>
 $('#okButton').on('click',  function () {
     $('.loading-container').show();
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open').css('padding-right','0');
 });
-$('#countingmodal .form-horizontal').on('submit',  function () {
-    $('.modal-backdrop').hide();
-});
+
 $('#countingmodal').on('show.bs.modal',  function (event) {
     var button = $(event.relatedTarget);
     var recipient = button.data('indid');
@@ -109,7 +109,7 @@ $('#countingmodal').on('show.bs.modal',  function (event) {
     });
     $('#countingmodal').on('hidden.bs.modal', function (event) {
         $('.product-img').html('');
-        $('#okButton').hide();
+        $('#okButton').hide();        
     });
 
 

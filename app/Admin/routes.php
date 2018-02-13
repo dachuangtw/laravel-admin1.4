@@ -36,7 +36,8 @@ Route::group([
     $router->resource('stock/category', StockCategoryController::class);
     $router->resource('transfer', TransferController::class);
     $router->resource('inventory', InventoryController::class);
-        
+    $router->resource('customer', CustomerController::class);
+    $router->resource('records', RecordsController::class);
     /**
      * 眼睛查看
      */
@@ -58,6 +59,10 @@ Route::group([
     $router->get('sales/refund/{id}/view', 'SalesRefundController@view');
     //店鋪據點
     $router->get('web/location/{id}/view', 'WebLocationController@view');
+    //會員資訊
+    $router->get('customer/{id}/view', 'CustomerController@view');
+    //交易紀錄
+    $router->get('records/{id}/view', 'RecordsController@view');   
     
     /**
      * 商品搜尋(彈出視窗)
@@ -96,6 +101,10 @@ Route::group([
     $router->post('sales/collectdetails', 'ProductIndexController@selectedproduct');
     $router->get('sales/collectdetails/{id}', 'SalesCollectController@salescollectdetails');
     
+    //交易紀錄---購買清單
+    $router->post('sales/recorddetails', 'ProductIndexController@selectedproduct');
+    $router->get('sales/recorddetails/{id}', 'RecordsController@recorddetails');
+
     /**
      * 其他
      */
@@ -113,4 +122,7 @@ Route::group([
 
     //後台管理首頁儀板表
     $router->get('/', 'HomeController@index');
+
+    
+
 });

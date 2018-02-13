@@ -95,6 +95,10 @@ Route::group([
     //業務領貨
     $router->post('sales/collectdetails', 'ProductIndexController@selectedproduct');
     $router->get('sales/collectdetails/{id}', 'SalesCollectController@salescollectdetails');
+
+    //業務退貨
+    $router->post('sales/refunddetails', 'ProductIndexController@selectedproduct');
+    $router->get('sales/refunddetails/{id}', 'SalesRedundCollectController@salesrefunddetails');
     
     /**
      * 其他

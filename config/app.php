@@ -181,6 +181,7 @@ return [
         Encore\Admin\Providers\AdminServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
+		Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class
     ],
 
     /*
@@ -231,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\ExcelServiceProvider::class,
 
+		'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
     ],
 
 ];

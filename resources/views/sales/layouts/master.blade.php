@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-	<title>{{ config('sales.name', 'dachuang') }}</title>
+	<title>{{ config('sales.name', 'Dachuang') }}</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -30,10 +30,11 @@
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ asset(config('sales.asset_path') . 'vendor/slick/slick.css') }}">
 
-	@yield('css')
-
 	<link rel="stylesheet" type="text/css" href="{{ asset(config('sales.asset_path') . 'css/util.css') }}">
+
 	<link rel="stylesheet" type="text/css" href="{{ asset(config('sales.asset_path') . 'css/main.css') }}">
+
+	@yield('css')
 </head>
 <body class="animsition">
 
@@ -41,26 +42,21 @@
 	<header class="header1">
 		<!-- Header desktop -->
 		<div class="container-menu-header">
-			<div class="topbar">
-				<div class="topbar-child2">
-					<span class="topbar-email">
-					</span>
-				</div>
-			</div>
+			<div class="topbar"></div>
 
 			<div class="wrap_header">
 				<!-- Logo -->
 				<a href="{{ route('home') }}" class="logo">
-					<h3>Dachuang</h3>
+					<h3>{{ config('sales.name', 'Dachuang') }}</h3>
 				</a>
 
 				<!-- Menu -->
-				@includeIf('sales.parts.header-menu')
+				@include('sales.header.menu')
 
 				<!-- Header Icon -->
 				<div class="header-icons">
 
-					@includeIf('sales.parts.header-account')
+					@include('sales.header.account')
 
 					@yield('picking-bag')
 
@@ -71,8 +67,8 @@
 		<!-- Header Mobile -->
 		<div class="wrap_header_mobile">
 			<!-- Logo moblie -->
-			<a href="{{ url('/') }}" class="logo-mobile">
-				<h3>Dachuang</h3>
+			<a href="{{ route('home') }}" class="logo-mobile">
+				<h3>{{ config('sales.name', 'Dachuang') }}</h3>
 			</a>
 
 			<!-- Button show menu -->
@@ -80,7 +76,7 @@
 				<!-- Header Icon mobile -->
 				<div class="header-icons-mobile">
 
-					@includeIf('sales.parts.header-account')
+					@include('sales.header.account')
 
 					@yield('picking-bag')
 
@@ -95,12 +91,9 @@
 		</div>
 
 		<!-- Menu Mobile -->
-		@includeIf('sales.parts.header-menu-mobile')
+		@include('sales.header.menu-mobile')
 
 	</header>
-
-	<!-- Title Page -->
-	@yield('title-page')
 
 	<!-- Content page -->
 	@yield('content')
@@ -146,10 +139,8 @@
 		});
 	</script>
 <!--===============================================================================================-->
-
-	@yield('script')
-
 	<script src="{{ asset(config('sales.asset_path') . 'js/main.js') }}"></script>
 
+	@yield('script')
 </body>
 </html>

@@ -29,7 +29,7 @@ class SalesNote extends Model
     }
 
     // 關聯，公告更新人
-	public function hasOneWriter()
+	public function hasOneAdminUser()
 	{
 		return $this->hasOne('App\Models\Sales\Admin_user', 'id', 'update_user');
 	}

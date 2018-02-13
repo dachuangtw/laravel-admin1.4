@@ -24,4 +24,12 @@ class Sales extends Authenticatable
 	protected $hidden = [
         'password', 'token',
     ];
+
+	protected $dates = [
+		'created_at',
+		'updated_at',
+		'deleted_at',
+		'collect_at',
+		'limited_time',
+	];
 }

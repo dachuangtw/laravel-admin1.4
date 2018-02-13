@@ -54,7 +54,7 @@
 
 
 		<ul class="header-cart-wrapitem">
-			<li class="header-cart-item">
+			<!-- <li class="header-cart-item">
 				<div class="header-cart-item-img">
 					<img src="{{ asset(config('sales.asset_path') . 'images/item-cart-01.jpg') }}" alt="IMG">
 				</div>
@@ -68,9 +68,9 @@
 						1 x $19
 					</span>
 				</div>
-			</li>
+			</li> -->
 
-			<li class="header-cart-item">
+			<!-- <li class="header-cart-item">
 				<div class="header-cart-item-img">
 					<img src="{{ asset(config('sales.asset_path') . 'images/item-cart-02.jpg') }}" alt="IMG">
 				</div>
@@ -84,9 +84,9 @@
 						1 x $39
 					</span>
 				</div>
-			</li>
+			</li> -->
 
-			<li class="header-cart-item">
+			<!-- <li class="header-cart-item">
 				<div class="header-cart-item-img">
 					<img src="{{ asset(config('sales.asset_path') . 'images/item-cart-03.jpg') }}" alt="IMG">
 				</div>
@@ -100,7 +100,7 @@
 						1 x $17
 					</span>
 				</div>
-			</li>
+			</li> -->
 		</ul>
 
 		<div class="header-cart-total">

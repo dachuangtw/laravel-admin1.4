@@ -19,6 +19,15 @@ class CartController extends Controller
     // 新增
 	public function add(Request $request)
 	{
-		return $this->display($request->user()->limited_time);
+		// return 'Success! ajax in laravel 5';
+
+		return $request->input('id');
+		// $input = $request->all();
+		// if ( !empty($input)) {
+		// 	Cart::add($input['id'], $input['name'], 1, $input['price']);
+		// 	return 'TRUE';
+		// } else {
+		// 	return 'FALSE';
+		// }
 	}
 }

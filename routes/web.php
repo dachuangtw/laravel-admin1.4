@@ -31,9 +31,13 @@ Route::group([
     // 商品顯示(詳細)
 	Route::get('product/detail/{number}', 'ProductController@detail');
 
-	// 領貨記錄查詢
+	// 領貨記錄
 	Route::get('record', function () {
 		return view('sales.record');
+	});
+	// 領貨記錄(詳細)
+	Route::get('record/detail/{number}', function () {
+		return view('sales.record-detail');
 	});
 
 	// 非領貨時間
@@ -55,13 +59,13 @@ Route::group([
 	Route::get('picking/detail/{number}', 'PickingController@detail');
 
 	// 領貨車
-	Route::get('cart', 'PickingController@index');
+	Route::get('cart', 'CartController@index');
 	// 領貨車(新增)
-	Route::post('cart/add', 'PickingController@add');
+	Route::post('cart/add', 'CartController@add');
 	// 領貨車(修改)
-	Route::post('cart/update', 'PickingController@update');
+	Route::post('cart/update', 'CartController@update');
 	// 領貨車(刪除)
-	Route::post('cart/remove', 'PickingController@remove');
+	Route::post('cart/remove', 'CartController@remove');
 	// 領貨車(提交)
-	Route::post('cart/submit', 'PickingController@submit');
+	Route::post('cart/submit', 'CartController@submit');
 });

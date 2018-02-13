@@ -20,12 +20,16 @@
 		</div>
 
 		<div class="block2-txt p-t-20">
-			<a href="{{ url('/picking/detail/'.$product->p_number)}}" class="block2-name dis-block s-text3 p-b-5">
+			<a href="{{ url('/picking/detail/'.$product->p_number)}}" class="block2-name dis-block m-text6 p-b-5">
 				{{ $product->p_name }}
 			</a>
-
-			<span class="block2-price m-text6 p-r-5">
+			<span class="block2-price s-text3 p-r-5">
 				${{ $product->p_salesprice }}
+			</span>
+			<br/>
+			編號:
+			<span class="block2-number s-text3 p-r-5">
+				{{ $product->p_number }}
 			</span>
 		</div>
 	</div>

@@ -91,7 +91,7 @@ class SalesCollectController extends Controller
         Permission::check(['Salescollect-Reader']);
         $salescollect = SalesCollect::find($id)->toArray();
         //忽略不顯示的欄位
-        $skipArray = ['scid','created_at','updated_at','deleted_at'];
+        $skipArray = ['scid','receipt_check','receipt_check_user','created_at','updated_at','deleted_at'];
         //顯示圖片欄位
         $imgArray = [];
         $salescollect['wid'] = Warehouse::find($salescollect['wid'])->w_name;
@@ -99,13 +99,14 @@ class SalesCollectController extends Controller
         $salescollect['collect_assign'] = $salescollect['collect_assign'] == 1  
             ? "<span class='label label-success'>已配貨</span>":"<span class='label label-danger'>未配貨</span>";
         $salescollect['collect_check'] = $salescollect['collect_check'] == 1  
-            ? "<span class='label label-success'>已領貨</span>" : "<span class='label label-danger'>待領貨</span>";
+            ? "<span class='label label-success'>已領貨</span>" : "<span class='label label-danger'>未領貨</span>";
         $salescollect['collect_check_user'] = !empty( $salescollect['collect_check_user']) 
             ?  Administrator::find($salescollect['collect_check_user'])->name : '';
-        $salescollect['receipt_check'] = $salescollect['receipt_check'] == 1  
-            ? "<span class='label label-success'>已收款</span>" : "<span class='label label-danger'>待收款</span>";
-        $salescollect['receipt_check_user'] = !empty($salescollect['receipt_check_user'])
-            ? Administrator::find($salescollect['receipt_check_user'])->name : '';
+        //隱藏收款確認(此功能暫不需要)
+        // $salescollect['receipt_check'] = $salescollect['receipt_check'] == 1  
+        //     ? "<span class='label label-success'>已收款</span>" : "<span class='label label-danger'>未收款</span>";
+        // $salescollect['receipt_check_user'] = !empty($salescollect['receipt_check_user'])
+        //     ? Administrator::find($salescollect['receipt_check_user'])->name : '';
         $salescollect['update_user'] = Administrator::find($salescollect['update_user'])->name;
 
         $header[] = '領貨單資訊';
@@ -235,14 +236,39 @@ SCRIPT;
                         Warehouse::all()->pluck('w_name', 'wid')->toArray()
                     );
                 }  
-                $filter->like('collect_id',trans('admin::lang.collect_id'));
+                $filter->like('collect_id',trans('admin::lang.collect_id'));                
                 $filter->where(function ($query) {
                     $query->where('collect_check',  "{$this->input}");
-                }, trans('admin::lang.collect_check'))->select(['false' => '待領貨', 1 => '已領貨',]);
+                }, trans('admin::lang.collect_check'))->select([0 => '未領貨', 1 => '已領貨',]);
+                //隱藏收款確認(此功能暫不需要)
+                // $filter->where(function ($query) {
+                //     $query->where('receipt_check',  "{$this->input}");
+                // }, trans('admin::lang.receipt_check'))->select([0 => '未收款', 1 => '已收款',]);
+                // $filter->between('collect_date', trans('admin::lang.collect_date'))->date();
                 $filter->where(function ($query) {
-                    $query->where('receipt_check',  "{$this->input}");
-                }, trans('admin::lang.receipt_check'))->select(['false' => '待收款', 1 => '已收款',]);
-                $filter->between('collect_date', trans('admin::lang.collect_date'))->date();
+                    $query->where(\DB::raw("date_format(collect_date, '%Y-%m-%d')"), '>=', "{$this->input}");
+                }, '配貨日期(起)')->date();
+                $filter->where(function ($query) {
+                    $query->where(\DB::raw("date_format(collect_date, '%Y-%m-%d')"), '<=', "{$this->input}");
+                }, '配貨日期(迄)')->date();
+                //業務姓名查詢
+                $filter->where(function ($query) {
+                    $Sid_name = Sales::where('name','like',"%{$this->input}%")->pluck('sales_id');
+                    $Sid_nickname = Sales::where('nickname','like',"%{$this->input}%")->pluck('sales_id');
+                    $key = NULL;
+                    dump($Sid_name);
+                    foreach ($Sid_name as $key => $sid){
+                        if ($key == 0 ){
+                            $query->where('sales_id',$sid);
+                        }else{
+                            $query->orwhere('sales_id',$sid);
+                        }
+                    }   
+                    // dump($key);
+                    // if ($key == NULL)
+                    $query->orwhere('sales_id',"%{$this->input}%");               
+                }, trans('admin::lang.salesname'));
+
             });
             $grid->number('No.')->sortable();
             $grid->rows(function ($row, $number) {
@@ -263,11 +289,12 @@ SCRIPT;
             });
             $grid->collect_amount(trans('admin::lang.collect_amount'))->sortable();
             $grid->collect_check(trans('admin::lang.collect_check'))->value(function ($collect_check) {
-                return $collect_check ? "<span class='label label-success'>已領貨</span>" : "<span class='label label-danger'>待領貨</span>";
+                return $collect_check ? "<span class='label label-success'>已領貨</span>" : "<span class='label label-danger'>未領貨</span>";
             })->sortable();
-            $grid->receipt_check(trans('admin::lang.receipt_check'))->value(function ($receipt_check) {
-                return $receipt_check ? "<span class='label label-success'>已收款</span>" : "<span class='label label-danger'>待收款</span>";
-            })->sortable();
+            //隱藏收款確認(此功能暫不需要)
+            // $grid->receipt_check(trans('admin::lang.receipt_check'))->value(function ($receipt_check) {
+            //     return $receipt_check ? "<span class='label label-success'>已收款</span>" : "<span class='label label-danger'>未收款</span>";
+            // })->sortable();
             $grid->update_user(trans('admin::lang.update_user'))->display(function($userId) {
                    return Administrator::find($userId)->name;
             });
@@ -311,7 +338,7 @@ SCRIPT;
                     //     ->options(Warehouse::all()->pluck('w_name','wid'));
                 // }else{
                     $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
-                    $form->select('sales_id','業務'.trans('admin::lang.salesname'))
+                    $form->select('sales_id',trans('admin::lang.salesname'))
                     ->options(Sales::all()->where('wid',Admin::user()->wid)->pluck('name','sales_id'))->rules('required')->setWidth(2, 2);   
                 // }   
             }
@@ -325,19 +352,20 @@ SCRIPT;
             $form->switch('collect_assign', trans('admin::lang.collect_assign'))->states($states);
             $states = [
                 'on'  => ['value' => 1, 'text' => '已領貨', 'color' => 'success'],
-                'off' => ['value' => 0, 'text' => '待領貨', 'color' => 'danger'],
+                'off' => ['value' => 0, 'text' => '未領貨', 'color' => 'danger'],
             ];
             $form->switch('collect_check', trans('admin::lang.collect_check'))->states($states)->help('領貨確認後，庫存立即變更!');
             $form->ignore(['collect_check']);//忽略保存
             $form->select('collect_check_user', trans('admin::lang.collect_check_user'))
                 ->options(Admin::user()->where('wid',Admin::user()->wid)->pluck('name','id'))->setWidth(2, 2);
-            $states = [
-                'on'  => ['value' => 1, 'text' => '已收款', 'color' => 'success'],
-                'off' => ['value' => 0, 'text' => '待收款', 'color' => 'danger'],
-            ];
-            $form->switch('receipt_check', trans('admin::lang.receipt_check'))->states($states);
-            $form->select('receipt_check_user', trans('admin::lang.receipt_check_user'))
-                ->options(Admin::user()->where('wid',Admin::user()->wid)->pluck('name','id'))->setWidth(2, 2);
+            //隱藏收款確認(此功能暫不需要)    
+            // $states = [
+            //     'on'  => ['value' => 1, 'text' => '已收款', 'color' => 'success'],
+            //     'off' => ['value' => 0, 'text' => '未收款', 'color' => 'danger'],
+            // ];
+            // $form->switch('receipt_check', trans('admin::lang.receipt_check'))->states($states);
+            // $form->select('receipt_check_user', trans('admin::lang.receipt_check_user'))
+            //     ->options(Admin::user()->where('wid',Admin::user()->wid)->pluck('name','id'))->setWidth(2, 2);
             $form->hidden('collect_id',trans('admin::lang.collect_id'));
             $form->hidden('update_user')->value(Admin::user()->id);
             $form->hidden('collect_amount');
@@ -346,7 +374,7 @@ SCRIPT;
             if($url_edit)
                 $form->button('btn-warning btn-append','- 退貨商品');
             else 
-                $form->button('btn-warning btn-append disabled','- 退貨商品');
+                $form->button('btn-warning btn-append disabled','- 退貨');
             // $form->display('created_at', 'Created At');
             // $form->display('updated_at', 'Updated At');
 
@@ -381,7 +409,7 @@ SCRIPT;
                 $scd_notes = request()->notes;
                 $stid = request()->stid; 
                 $scdid = request()->scdid; //領貨明細id
-                
+                $check_product = request()->checkproduct;
                 $insertProductLogArray = [];
                 $insertStockLogArray = [];
                 $dataArray = [];
@@ -399,6 +427,7 @@ SCRIPT;
                             'scd_amount'    =>  $scd_amount[$key], //總金額
                             'scd_salesprice'=>  $scd_salesprice[$key], //業務單價
                             'scd_quantity'  =>  $scd_quantity[$key], //數量
+                            'scd_check'     =>  $check_product[$key], //點貨確認
                             'scd_notes'     =>  $scd_notes[$key], //備註
                         ];
                         $stidArray[] = $stid[$key];
@@ -415,7 +444,7 @@ SCRIPT;
                  * 
                  *****************************/
                 elseif(request()->action == 'edit'){
-                    $check_product = request()->checkproduct;
+
                     //原本的配貨明細(數量/明細id)
                     $retailScdid = SalesCollectDetails::where('collect_id',$form->collect_id)->pluck('scd_quantity','scdid')->toArray();
                     
@@ -465,7 +494,7 @@ SCRIPT;
                     if($check_collect == "on"){
                         foreach($rescdid as $key => $scdid){
                             $retailStock = (int) Stock::find($restid[$key])->st_stock; //原本庫存數
-                            //待確認=>已確認，-庫存
+                            //未確認=>已確認，-庫存
                             $st_stock[$key] = $retailStock - (int) $rescdid[$key];
                             $updateStockArray = [                                
                                 'st_stock'      =>  $st_stock[$key],
@@ -479,7 +508,7 @@ SCRIPT;
                     if($check_collect == "off"){
                         foreach($rescdid as $key => $scdid){
                             $retailStock = (int) Stock::find($restid[$key])->st_stock; //原本庫存數
-                            //已確認=>待確認，+庫存
+                            //已確認=>未確認，+庫存
                             $st_stock = $retailStock + (int) $rescdid[$key];
                             $updateStockArray = [                                
                                 'st_stock'      =>  $st_stock,

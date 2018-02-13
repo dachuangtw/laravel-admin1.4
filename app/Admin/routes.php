@@ -51,6 +51,8 @@ Route::group([
     $router->get('transfer/{id}/view', 'TransferController@view');
     //進貨單
     $router->get('product/receipt/{id}/view', 'ProductReceiptController@view');
+    //盤點作業
+    $router->post('inventory/{id}/view', 'InventoryController@view');
     //業務配貨
     $router->get('sales/assign/{id}/view', 'SalesAssignController@view');
     //業務領貨
@@ -113,6 +115,7 @@ Route::group([
     $router->put('inventorydetails/{id}', 'InventoryDetailsController@update');
     $router->get('inventory/{id}/details', 'InventoryDetailsController@index');
     $router->post('inventory/{id}/search', 'InventoryDetailsController@search');
+    $router->post('inventory/checked', 'InventoryController@checked');
 
     //鄉鎮市區選擇
     $router->get('api/tw/district', 'WebLocationController@district');

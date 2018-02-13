@@ -16,7 +16,7 @@ class InventoryDetails extends Model
     
     //批量賦值
     protected $fillable = [
-        'in_number', 'pid', 'stid', 'in_quantity', 'ind_stock',  'ind_difference', 'ind_notes', 'ind_user', 'update_user', 'ind_at', 'created_at', 'updated_at'
+        'in_number', 'pid', 'stid', 'ind_quantity', 'ind_stock',  'ind_difference', 'ind_notes', 'ind_user', 'update_user', 'ind_at', 'created_at', 'updated_at'
     ];    
     
     //用盤點單號取得明細資料

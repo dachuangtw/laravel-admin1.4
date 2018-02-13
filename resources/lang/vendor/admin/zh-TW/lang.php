@@ -285,6 +285,7 @@ return [
     'store_lease_start' =>     '租約起始日',
     'store_lease_end'   =>     '租約結束日',
     'store_picture'     =>    '店鋪圖片',
+    'in_checked'        =>    '盤點確認',
     // ''     =>    '',
     // ''     =>    '',
     // ''     =>    '',

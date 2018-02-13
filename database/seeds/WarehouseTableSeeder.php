@@ -14,10 +14,14 @@ class WarehouseTableSeeder extends Seeder
         DB::table('warehouse')->delete();
         //WAREHOUSE
         DB::table('warehouse')->insert([
-            ['w_name'   => '新竹倉'],
-            ['w_name'   => '台中倉'],
-            ['w_name'   => '雲林倉'],
-            ['w_name'   => '高雄倉'],
+            ['wid'   => '1',
+            'w_name'   => '新竹倉',],
+            ['wid'   => '2',
+            'w_name'   => '台中倉',],
+            ['wid'   => '3',
+            'w_name'   => '雲林倉',],
+            ['wid'   => '4',
+            'w_name'   => '高雄倉',],
         ]);
     }
 }

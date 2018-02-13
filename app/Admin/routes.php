@@ -36,7 +36,8 @@ Route::group([
     $router->resource('stock/category', StockCategoryController::class);
     $router->resource('transfer', TransferController::class);
     $router->resource('inventory', InventoryController::class);
-        
+    $router->resource('customer', CustomerController::class);
+    $router->resource('records', RecordsController::class);
     /**
      * 眼睛查看
      */
@@ -50,6 +51,8 @@ Route::group([
     $router->get('transfer/{id}/view', 'TransferController@view');
     //進貨單
     $router->get('product/receipt/{id}/view', 'ProductReceiptController@view');
+    //盤點作業
+    $router->post('inventory/{id}/view', 'InventoryController@view');
     //業務配貨
     $router->get('sales/assign/{id}/view', 'SalesAssignController@view');
     //業務領貨
@@ -58,6 +61,10 @@ Route::group([
     $router->get('sales/refund/{id}/view', 'SalesRefundController@view');
     //店鋪據點
     $router->get('web/location/{id}/view', 'WebLocationController@view');
+    //會員資訊
+    $router->get('customer/{id}/view', 'CustomerController@view');
+    //交易紀錄
+    $router->get('records/{id}/view', 'RecordsController@view');   
     
     /**
      * 商品搜尋(彈出視窗)
@@ -100,6 +107,10 @@ Route::group([
     $router->post('sales/refunddetails', 'ProductIndexController@selectedproduct');
     $router->get('sales/refunddetails/{id}', 'SalesRedundCollectController@salesrefunddetails');
     
+    //交易紀錄---購買清單
+    $router->post('sales/recorddetails', 'ProductIndexController@selectedproduct');
+    $router->get('sales/recorddetails/{id}', 'RecordsController@recorddetails');
+
     /**
      * 其他
      */
@@ -108,6 +119,7 @@ Route::group([
     $router->put('inventorydetails/{id}', 'InventoryDetailsController@update');
     $router->get('inventory/{id}/details', 'InventoryDetailsController@index');
     $router->post('inventory/{id}/search', 'InventoryDetailsController@search');
+    $router->post('inventory/checked', 'InventoryController@checked');
 
     //鄉鎮市區選擇
     $router->get('api/tw/district', 'WebLocationController@district');
@@ -117,4 +129,7 @@ Route::group([
 
     //後台管理首頁儀板表
     $router->get('/', 'HomeController@index');
+
+    
+
 });

@@ -19,6 +19,7 @@ class CreateInventoryTable extends Migration
             $table->integer('wid')->unsigned()->index()->comment('倉庫id');
             $table->timestamp('start_at')->nullable()->comment('盤點開始時間');
             $table->timestamp('finish_at')->nullable()->comment('盤點結束時間');
+            $table->boolean('in_checked')->default(false)->comment('盤點確認');
             $table->integer('update_user')->comment('最後更新者id');
             $table->timestamps();
             $table->softDeletes();

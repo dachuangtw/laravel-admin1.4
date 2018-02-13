@@ -41,11 +41,7 @@ class InventoryDetailsController extends Controller
         return implode("|",$returnData);
 
     }
-    public function setdata($indid)
-    {
-        $inventoryDetails = InventoryDetails::find($indid);
-
-    }
+    
     /**
      * Index interface.
      *
@@ -57,7 +53,11 @@ class InventoryDetailsController extends Controller
             
             $content->header(trans('admin::lang.inventory'));
             $content->description(trans('admin::lang.counting'));
-            
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.inventory'), 'url' => 'inventory'],
+                ['text' => trans('admin::lang.counting')]
+            );
+
             $content->row(function (Row $row) use ($inid) {
                 /**
                  * 功能：搜尋商品

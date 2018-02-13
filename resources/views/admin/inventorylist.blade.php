@@ -109,7 +109,7 @@ $('#countingmodal').on('show.bs.modal',  function (event) {
     });
     $('#countingmodal').on('hidden.bs.modal', function (event) {
         $('.product-img').html('');
-        $('#okButton').hide();        
+        $('#okButton').hide();
     });
 
 

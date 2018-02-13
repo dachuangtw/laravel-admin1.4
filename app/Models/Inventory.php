@@ -14,6 +14,10 @@ class Inventory extends Model
     protected $table = 'inventory';
     //主鍵
     protected $primaryKey = 'inid';
+    //批量賦值
+    protected $fillable = [
+        'in_checked'
+    ];  
     //需要被轉換成日期的屬性
     protected $dates = ['deleted_at'];
 }

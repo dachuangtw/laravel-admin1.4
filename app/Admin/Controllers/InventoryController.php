@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Inventory;
 use App\InventoryDetails;
 use App\Stock;
+use App\StockLog;
 use App\Warehouse;
 use Encore\Admin\Auth\Database\Administrator;
 
@@ -16,10 +17,68 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Request;
 
 class InventoryController extends Controller
 {
     use ModelForm;
+
+    /**
+     * 盤點確認 並 修改庫存 / 新增庫存變更紀錄
+     */
+    public function checked()
+    {
+        $inid = Request::get('inid');
+        $checked = Request::get('checked');
+        $Inventory = Inventory::where('inid',$inid)->select('in_number','wid')->first();
+        $in_number = $Inventory->in_number;
+        $wid = $Inventory->wid;
+
+        // $in_number = Inventory::find($inid)->in_number;
+        $count = InventoryDetails::where('in_number',$in_number)->where('ind_at',NULL)->count();
+        if($count > 0){
+            if ($checked != 'checked') {
+                return 'check';                    
+            }else{
+                //盤點數自動填充
+                $NoInventory = InventoryDetails::where('in_number', $in_number)->where('ind_at',NULL)->get();
+                foreach ($NoInventory as $eachone) {
+                    InventoryDetails::find($eachone->indid)->update([
+                        'ind_quantity'  =>  $eachone->ind_stock,
+                    ]);
+                }
+            }
+        }
+        //盤點庫存變更
+        $insertStockLogArray = [];
+        $InventoryDetails = InventoryDetails::where('in_number', $in_number)->where('ind_at','!=',NULL)->get();
+        foreach($InventoryDetails as $eachone){
+            $ind_difference = (int)$eachone->ind_quantity - (int)$eachone->ind_stock;
+            InventoryDetails::find($eachone->indid)->update([
+                'ind_difference'  =>  $ind_difference,
+            ]);
+            Stock::find($eachone->stid)->update([
+                'st_stock'  =>  $eachone->ind_quantity
+            ]);
+            if ($ind_difference != 0) {
+                $insertStockLogArray[] = [
+                    'pid'           =>  $eachone->pid,
+                    'wid'           =>  $wid,
+                    'stid'          =>  $eachone->stid,
+                    'sl_calc'       =>  ($ind_difference > 0) ? '+' :'-',
+                    'sl_quantity'   =>  abs($ind_difference),
+                    'sl_stock'      =>  $eachone->ind_quantity,
+                    'sl_notes'      =>  "盤點損益：".$in_number,
+                    'update_user'   =>  Admin::user()->id,
+                    'updated_at'    =>  date('Y-m-d H:i:s'),
+                ];
+            }
+        }
+        StockLog::insert($insertStockLogArray);
+        Inventory::find($inid)->update(['in_checked'=>'1']);
+        return 'ok';
+    }
 
     /**
      * Index interface.
@@ -32,6 +91,9 @@ class InventoryController extends Controller
 
             $content->header(trans('admin::lang.inventory'));
             $content->description(trans('admin::lang.list'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.inventory')]
+            );
 
             $content->body($this->grid());
         });
@@ -49,6 +111,10 @@ class InventoryController extends Controller
 
             $content->header(trans('admin::lang.inventory'));
             $content->description(trans('admin::lang.edit'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.inventory'), 'url' => 'inventory'],
+                ['text' => trans('admin::lang.edit')]
+            );
 
             $content->body($this->form()->edit($id));
         });
@@ -65,6 +131,10 @@ class InventoryController extends Controller
 
             $content->header(trans('admin::lang.inventory'));
             $content->description(trans('admin::lang.new'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.inventory'), 'url' => 'inventory'],
+                ['text' => trans('admin::lang.new')]
+            );
 
             $content->body($this->form());
         });
@@ -89,6 +159,66 @@ class InventoryController extends Controller
             $grid->update_user(trans('admin::lang.update_user'))->display(function ($update_user) {                
                 return Administrator::find($update_user)->name;
             })->sortable();
+
+            $grid->in_checked(trans('admin::lang.in_checked'))->display(function ($in_checked) {
+                return $in_checked ? "已確認" : "<button data-inid='". $this->inid. "' class='btn btn-success btn-sm in_checked'>確認</button>";
+            });
+
+            $token = csrf_token();
+            $script = <<<SCRIPT
+            var checked = null, checkedbtn = null;
+            var checkfun = function(){
+                if(checked === null){
+                    checkedbtn = $(this);
+                    checkedbtn.hide().parent().append('<span>庫存調整中...</span>');
+                }
+                $.ajax({
+                    url:'inventory/checked',
+                    method: 'post',
+                    data: {
+                        inid: checkedbtn.attr("data-inid"),
+                        checked: checked,
+                        _token: "$token"
+                    },
+                    success: function (response) {
+                        if(response == 'check' && checked === null){
+                            if (confirm("尚有未盤點商品，確認盤點完成？未盤點商品庫存將不變")) {
+                                checked = 'checked';
+                                checkfun();
+                                checked = null;
+                            }else{
+                                checkedbtn.show().parent().find("span").remove();
+                            }
+                        }else if(response == 'ok'){
+                            checkedbtn.parent().text('已確認');
+                        }else{
+                            alert(response);
+                        }
+                    },
+                    error: function (jqXHR, exception) {
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Not connect.Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Internal Server Error [500].';
+                        } else if (exception === 'parsererror') {
+                            msg = 'Requested JSON parse failed.';
+                        } else if (exception === 'timeout') {
+                            msg = 'Time out error.';
+                        } else if (exception === 'abort') {
+                            msg = 'Ajax request aborted.';
+                        } else {
+                            msg = 'Uncaught Error.' + jqXHR.responseText;
+                        }
+                        alert(msg + '網頁出了問題，請通知相關人員處理');
+                    },
+                });
+            };
+            $("button.in_checked").on("click",checkfun);
+SCRIPT;
+         Admin::script($script);
 
             $grid->actions(function ($actions) {
                 $actions->setTitleExtra('盤點單號：'); // 自訂，標題前面提示
@@ -130,49 +260,51 @@ class InventoryController extends Controller
      *
      * @return Form
      */
-    protected function form()
+    protected function form($id = null)
     {
-        return Admin::form(Inventory::class, function (Form $form) {
+        return Admin::form(Inventory::class, function (Form $form) use($id){
             $form->datetimeRange('start_at', 'finish_at',  trans('admin::lang.inventory_range'));
             $form->hidden('wid')->default(Admin::user()->wid);
             $form->hidden('update_user')->default(Admin::user()->id);
             $form->hidden('in_number');
-            $form->saving(function(Form $form) {
-                if (empty(request()->start_at) || empty(request()->finish_at)) {
-                    $error = new MessageBag(['title'=>'提示','message'=>'未正確填寫盤點時間!']);
-                    return back()->withInput()->with(compact('error'));
-                }
-                /**
-                 * 盤點單編碼規則：民國年YYY(3)月MM(2)+倉庫編號XX(2)+流水號(1)，共8碼
-                 */
-                if (empty(request()->in_number)) {
-                    $Todaydate = (date('Y') - 1911) . date('m');
-                    //前補0至兩碼                 
-                    $wid = str_pad(request()->wid,2,"0",STR_PAD_LEFT);
+            $form->hidden('in_checked')->default(0);
+            $form->saving(function(Form $form) use($id){
+                if (empty($id)) {
+                    if (empty(request()->start_at) || empty(request()->finish_at)) {
+                        $error = new MessageBag(['title'=>'提示','message'=>'未正確填寫盤點時間!']);
+                        return back()->withInput()->with(compact('error'));
+                    }
+                    /**
+                     * 盤點單編碼規則：民國年YYY(3)月MM(2)+倉庫編號XX(2)+流水號(1)，共8碼
+                     */
+                    if (empty(request()->in_number)) {
+                        $Todaydate = (date('Y') - 1911) . date('m');
+                        //前補0至兩碼
+                        $wid = str_pad(request()->wid, 2, "0", STR_PAD_LEFT);
 
-                    //取得該日該倉庫盤點單號的最大值
-                    $max_number = Inventory::withTrashed()->where('in_number', 'like', $Todaydate.$wid.'%')
+                        //取得該日該倉庫盤點單號的最大值
+                        $max_number = Inventory::withTrashed()->where('in_number', 'like', $Todaydate.$wid.'%')
                     ->max('in_number');
                     
-                    if (!empty($max_number)) {
-                        //取後1碼做+1計算
-                        $lastCode = (int)mb_substr($max_number, -1, 1, "utf-8");
-                        $lastCode++;
-                    } else {
-                        $lastCode = 1;
-                    }
-                    //填充到in_number欄位中
-                    $form->in_number = $Todaydate.$wid.$lastCode;
+                        if (!empty($max_number)) {
+                            //取後1碼做+1計算
+                            $lastCode = (int)mb_substr($max_number, -1, 1, "utf-8");
+                            $lastCode++;
+                        } else {
+                            $lastCode = 1;
+                        }
+                        //填充到in_number欄位中
+                        $form->in_number = $Todaydate.$wid.$lastCode;
 
 
-                    /**
-                     * 填充資料到inventory_details資料表
-                     */
-                    $stocks = Stock::where('wid', Admin::user()->wid)->where('st_stock','>',0)->get()->sortByDesc('pid');
+                        /**
+                         * 填充資料到inventory_details資料表
+                         */
+                        $stocks = Stock::where('wid', Admin::user()->wid)->where('st_stock', '>', 0)->get()->sortByDesc('pid');
 
-                    $insertInventoryDetailsArray = [];
-                    foreach($stocks as $stock){
-                        $insertInventoryDetailsArray[] = [
+                        $insertInventoryDetailsArray = [];
+                        foreach ($stocks as $stock) {
+                            $insertInventoryDetailsArray[] = [
                             'in_number' => $form->in_number,
                             'pid' => $stock->pid,
                             'stid' => $stock->stid,
@@ -182,8 +314,9 @@ class InventoryController extends Controller
                             'created_at' => date('Y-m-d H:i:s'),
                             'updated_at' => date('Y-m-d H:i:s'),
                         ];
+                        }
+                        InventoryDetails::insert($insertInventoryDetailsArray);
                     }
-                    InventoryDetails::insert($insertInventoryDetailsArray);
                 }
             });
         });

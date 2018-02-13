@@ -255,8 +255,8 @@ SCRIPT;
                 $filter->where(function ($query) {
                     $Sid_name = Sales::where('name','like',"%{$this->input}%")->pluck('sales_id');
                     $Sid_nickname = Sales::where('nickname','like',"%{$this->input}%")->pluck('sales_id');
-                    $key = NULL;
-                    dump($Sid_name);
+                    // $key = NULL;
+                    // dump($Sid_name);
                     foreach ($Sid_name as $key => $sid){
                         if ($key == 0 ){
                             $query->where('sales_id',$sid);

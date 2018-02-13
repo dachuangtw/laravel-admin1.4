@@ -3,40 +3,36 @@
 </h4>
 
 <ul class="p-b-54">
-	<li class="p-t-4">
-		@if($category_id === NULL)
-		<span class="s-text13 active1">
-			<span class="ti-angle-right"></span>
+	@if( !isset($category_id))
+	{{-- 全部商品 --}}
+		@component('sales.product.component.categories', ['active' => 1])
 			全部
-		</span>
-		@else
-		<a href="{{ url('product') }}" class="s-text13">
+		@endcomponent
+
+		@foreach ($categories as $category)
+			@component('sales.product.component.categories', ['active' => 0, 'url' => url('product/'.$category->pcid)])
+				{{ $category->pc_name }}
+			@endcomponent
+		@endforeach
+
+		@component('sales.product.component.categories', ['active' => 0, 'url' => url('product/0')])
+			未分類
+		@endcomponent
+
+	@else
+	{{-- 商品分類 --}}
+		@component('sales.product.component.categories', ['active' => 0, 'url' => url('product')])
 			全部
-		</a>
-		@endif
-	</li>
+		@endcomponent
 
-	@foreach ($categories as $category)
-	<li class="p-t-4">
-		<a href="{{ url('product/'.$category->pcid) }}" class="s-text13{{ $category_id == $category->pcid ? ' active1' : ''}}">
-			@if($category_id == $category->pcid)
-			<span class="ti-angle-right"></span>
-			@endif
-			{{ $category->pc_name }}
-		</a>
-	</li>
-	@endforeach
+		@foreach ($categories as $category)
+			@component('sales.product.component.categories', ['active' => ($category_id == $category->pcid), 'url' => url('product/'.$category->pcid)])
+				{{ $category->pc_name }}
+			@endcomponent
+		@endforeach
 
-	<li class="p-t-4">
-		@if($category_id === 0)
-		<span class="s-text13 active1">
-			<span class="ti-angle-right"></span>
+		@component('sales.product.component.categories', ['active' => (!$category_id), 'url' => url('product/0')])
 			未分類
-		</span>
-		@else
-		<a href="{{ url('product/0') }}" class="s-text13">
-			未分類
-		</a>
-		@endif
-	</li>
+		@endcomponent
+	@endif
 </ul>

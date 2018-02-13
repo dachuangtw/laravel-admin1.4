@@ -10,7 +10,7 @@ class ProductCategory extends Model
 
 	protected $primaryKey = 'pcid';
 
-	// 範圍，前台顯示
+	// 範圍，前台顯示&新品排序
 	public function scopeShow($query)
 	{
 		return $query->where('showfront',  1)

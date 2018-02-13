@@ -4,16 +4,17 @@ namespace App\Http\Controllers\Sales;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use \Cart as Cart;
 
 use App\Models\sales\ProductCategory;
 use App\Models\sales\ProductIndex;
 
-class ProductController extends Controller
+class PickingController extends Controller
 {
     // 全商品顯示
 	public function index(Request $request)
 	{
-		return $this->display();
+		return $this->display($request->user()->limited_time);
 	}
 
 	/**
@@ -22,7 +23,7 @@ class ProductController extends Controller
 	 */
 	public function categories(Request $request, $id)
 	{
-		return $this->display($id);
+		return $this->display($request->user()->limited_time, $id);
 	}
 
 	/**
@@ -30,16 +31,20 @@ class ProductController extends Controller
 	 *    @param  datetime $limited_time  領貨結束時間
 	 *    @param  int|null $category_id 商品分類ID
 	 */
-	public function display($category_id = NULL)
+	public function display($limited_time, $category_id = NULL)
 	{
+        // 剩餘領貨時間
+		$picking_time = $this->limitedTime($limited_time);
+
 		if ($category_id == NULL) {
             // 全部商品
 			$products = ProductIndex::show()
 			->paginate(12);
 
-			return view('sales.product', [
+			return view('sales.picking', [
 				'categories' => ProductCategory::show()->get(),
 				'products' => $products,
+				'picking_time' => $picking_time,
 			]);
 
 		} else {
@@ -47,12 +52,28 @@ class ProductController extends Controller
 			->ofCategory($category_id)
 			->paginate(12);
 
-			return view('sales.product', [
+			return view('sales.picking', [
 				'categories' => ProductCategory::show()->get(),
 				'category_id' => $category_id,
 				'products' => $products,
+				'picking_time' => $picking_time,
 			]);
 		}
+	}
+
+	/**
+	 *    計算領貨剩餘時間
+	 *    @param  datetime $limited_time 領貨結束時間
+	 */
+	public function limitedTime($limited_time)
+	{
+		$sec = strtotime($limited_time) - time();
+		$d = floor($sec / (24*60*60));
+		$H = floor(($sec % (24*60*60)) / (60*60));
+		$i = floor((($sec % (24*60*60)) % (60*60)) / 60);
+		$s = floor((($sec % (24*60*60)) % (60*60)) % 60);
+
+		return ['d' => $d, 'H' => $H, 'i' => $i, 's' => $s];
 	}
 
 	/**
@@ -63,7 +84,7 @@ class ProductController extends Controller
 	{
 		$product = ProductIndex::where('p_number', $number)->first();
 		if ($product) {
-			return view('sales.product-detail', [
+			return view('sales.picking-detail', [
 				'product' => $product,
 			]);
 

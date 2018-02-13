@@ -47,7 +47,7 @@ class Actions extends AbstractDisplayer
     protected $titleField;
 
     /**
-     * @var string
+     * @var string | @var array
      */
     protected $titleExtra;
 
@@ -219,7 +219,11 @@ EOT;
             }
         }
         if($this->titleExtra){
-            $title = $this->titleExtra . $title;
+            if(is_array($this->titleExtra)){
+                $title = $this->titleExtra[0] . $title .' ('. $this->titleExtra[1] . ')';
+            }else{
+                $title = $this->titleExtra . $title;
+            }
         }
         $title = htmlentities($title);
         return <<<EOT

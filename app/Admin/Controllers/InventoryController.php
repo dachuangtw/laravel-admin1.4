@@ -7,8 +7,11 @@ use App\InventoryDetails;
 use App\Stock;
 use App\StockLog;
 use App\Warehouse;
+use App\ProductIndex;
 use Encore\Admin\Auth\Database\Administrator;
+use Encore\Admin\Auth\Permission;
 
+use Encore\Admin\Widgets\Table;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -141,6 +144,59 @@ class InventoryController extends Controller
     }
 
     /**
+     * View interface.
+     *
+     * @param $id
+     * @return Content
+     */
+    public function view($inid)
+    {
+        
+        Permission::check(['Inventory-Reader']);
+
+        $Inventory = Inventory::where('inid',$inid)->select('in_number','wid')->first();
+        $InventoryDetails = InventoryDetails::where('in_number',$Inventory->in_number)->get()->sortByDesc('pid');
+        $w_name = Warehouse::find($Inventory->wid)->w_name;
+        
+        $header = ['商品名(款式)','庫存數','盤點數','差異數','備註','盤點人'];
+        $rows = [];
+
+        foreach($InventoryDetails as $detail){
+            if($detail->ind_type == '不分款'){
+                $detail->ind_type = '';
+            }else{
+                $detail->ind_type = ' (' .$detail->ind_type. ')';
+            }
+            $ProductIndex = ProductIndex::where('pid',$detail->pid)->select('p_name','p_number','p_pic')->first();
+            $detail->p_name = $ProductIndex->p_name . $detail->ind_type;
+            $detail->p_number = $ProductIndex->p_number;
+            $detail->p_pic = $ProductIndex->p_pic;
+            if($detail->p_pic){
+                $detail->p_name = '<a href="#" role="button" data-toggle="popover" data-container="#viewmodal" data-placement="bottom" data-html="true" data-content="<img src=\''.config('admin.upload.host').'/'.$detail->p_pic.'\' width=\'150px\'>" >' .$detail->p_name. '</a>';
+            }
+
+
+            if ($detail->ind_user) {
+                $detail->ind_user = Administrator::find($detail->ind_user)->name;
+            }
+            if((int)$detail->ind_difference < 0){
+                $detail->ind_difference = '<strong style="color:#dd4b39">' .$detail->ind_difference. '</strong>';
+            }
+            $rows[] = [
+                $detail->p_name,
+                $detail->ind_stock,
+                $detail->ind_quantity,
+                $detail->ind_difference,
+                $detail->ind_notes,
+                $detail->ind_user,
+            ];
+        }
+        $table = new Table($header, $rows);
+        $table->class('table table-hover text-center');
+        return $table->render();
+    }
+
+    /**
      * Make a grid builder.
      *
      * @return Grid
@@ -220,8 +276,9 @@ class InventoryController extends Controller
 SCRIPT;
          Admin::script($script);
 
-            $grid->actions(function ($actions) {
-                $actions->setTitleExtra('盤點單號：'); // 自訂，標題前面提示
+            $grid->actions(function ($actions) { 
+                $w_name = Warehouse::find($actions->row->wid)->w_name;               
+                $actions->setTitleExtra(['盤點單號：', $w_name]); // 自訂，可字串可陣列，字串在TitleFirld前，陣列則是[0]+TitleField+[1]
                 $actions->setTitleField(['in_number']);
 
                 // 没有權限不顯示按鈕

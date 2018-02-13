@@ -52,7 +52,7 @@ Route::group([
     //進貨單
     $router->get('product/receipt/{id}/view', 'ProductReceiptController@view');
     //盤點作業
-    $router->post('inventory/{id}/view', 'InventoryController@view');
+    $router->get('inventory/{id}/view', 'InventoryController@view');
     //業務配貨
     $router->get('sales/assign/{id}/view', 'SalesAssignController@view');
     //業務領貨

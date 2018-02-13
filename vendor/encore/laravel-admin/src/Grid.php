@@ -290,7 +290,7 @@ SCRIPT;
                 <a href="javascript:;" id="pre"> <i class="fa fa-angle-left"></i></a> &nbsp; <a href="javascript:;" id="next"> <i class="fa fa-angle-right"></i> </a>
                 </div>
             </div>
-            <div class='modal-body'>彈出式視窗(網頁載入)</div>
+            <div class='modal-body'>網頁載入中...</div>
             <div class='modal-footer'>
                 <button class='btn btn-default' data-dismiss="modal" aria-hidden="true">{$close}</button>
             </div>

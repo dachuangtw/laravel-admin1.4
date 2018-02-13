@@ -15,7 +15,7 @@
 
 							<div class="s-text8 flex-w flex-m p-b-21">
 								<span>
-									最後更新: {{ $bulletin->hasOneWriter->name }}
+									最後更新: {{ $bulletin->hasOneAdminUser->name }}
 									<span class="m-l-3 m-r-6">|</span>
 								</span>
 

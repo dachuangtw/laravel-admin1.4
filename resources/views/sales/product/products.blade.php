@@ -8,21 +8,10 @@
 			@else
 			<img src="{{ asset(config('sales.asset_path') . 'images/item-02.jpg') }}" alt="IMG-PRODUCT">
 			@endif
-
-			<div class="block2-overlay trans-0-4">
-				<div class="block2-btn-addcart w-size1 trans-0-4">
-					<!-- Button -->
-					@if($picking)
-					<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-						加到領貨
-					</button>
-					@endif
-				</div>
-			</div>
 		</div>
 
 		<div class="block2-txt p-t-20">
-			<a href="{{ url('/product-detail')}}" class="block2-name dis-block s-text3 p-b-5">
+			<a href="{{ url('/product/detail/'.$product->p_number)}}" class="block2-name dis-block s-text3 p-b-5">
 				{{ $product->p_name }}
 			</a>
 

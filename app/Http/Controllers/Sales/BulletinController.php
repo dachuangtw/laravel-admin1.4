@@ -13,7 +13,7 @@ class BulletinController extends Controller
     {
 		$bulletins = SalesNote::ofNotewid($request->user()->wid)
 		->ofNoteTarget($request->user()->id)
-		->with('hasOneWriter')
+		->with('hasOneAdminUser')
 		->paginate(5);
 
 		return view('sales.bulletin', [

@@ -3,7 +3,7 @@
     @if ($paginator->onFirstPage())
 		<li class="item-pagination flex-c-m trans-0-4"><span class="ti-angle-double-left"></span></li>
     @else
-		<li class="item-pagination flex-c-m trans-0-4"><a href="{{ $paginator->previousPageUrl() }}" rel="prev"><span class="ti-angle-double-left"></span></a></li>
+		<a href="{{ $paginator->previousPageUrl() }}" rel="prev"><li class="item-pagination flex-c-m trans-0-4"><span class="ti-angle-double-left"></span></li></a>
     @endif
 
 	{{-- Pagination Elements --}}
@@ -19,7 +19,7 @@
                 @if ($page == $paginator->currentPage())
 					<li class="item-pagination flex-c-m trans-0-4 active-pagination">{{ $page }}</li>
                 @else
-					<li class="item-pagination flex-c-m trans-0-4"><a href="{{ $url }}">{{ $page }}</a></li>
+					<a href="{{ $url }}"><li class="item-pagination flex-c-m trans-0-4">{{ $page }}</li></a>
                 @endif
             @endforeach
         @endif
@@ -27,7 +27,7 @@
 
 	{{-- Next Page Link --}}
     @if ($paginator->hasMorePages())
-		<li class="item-pagination flex-c-m trans-0-4"><a href="{{ $paginator->nextPageUrl() }}" rel="next"><span class="ti-angle-double-right"></span></a></li>
+		<a href="{{ $paginator->nextPageUrl() }}" rel="next"><li class="item-pagination flex-c-m trans-0-4"><span class="ti-angle-double-right"></span></li></a>
     @else
 		<li class="item-pagination flex-c-m trans-0-4"><span class="ti-angle-double-right"></span></li>
     @endif

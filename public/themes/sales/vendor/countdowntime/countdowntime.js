@@ -1,6 +1,10 @@
 (function ($) {
     "use strict";
 
+	function clockTimesUp() {
+		alert("clock times up");
+	}
+
     function getTimeRemaining(endtime) {
       var t = Date.parse(endtime) - Date.parse(new Date());
       var seconds = Math.floor((t / 1000) % 60);
@@ -32,6 +36,7 @@
 
         if (t.total <= 0) {
           clearInterval(timeinterval);
+		  clockTimesUp();
         }
       }
 

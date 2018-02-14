@@ -15,16 +15,24 @@ class CartController extends Controller
 	{
 		return view('sales.cart', [
 			'picking_time' => ProductIndex::limitedTime($request->user()->limited_time),
-			'cart_count' => Cart::content()->count(),
-			'cart' => Cart::content(),
+			'cart_content' => Cart::content(),
+			'cart_count' => Cart::count(),
+			'cart_subtotal' => Cart::subtotal(0),
 		]);
 	}
 
     // 新增
 	public function add(Request $request)
 	{
-		Cart::add($request->input('id'), $request->input('name'), (int)$request->input('qty'), (int)$request->input('price'));
+		Cart::add(
+			$request->input('id'), $request->input('name'), (int)$request->input('qty'), (int)$request->input('price'),
+			[
+				'pic' => $request->input('pic')
+			]
+		);
 
-		return Cart::content()->count();
+		return response()->json([
+		    'cart_content' => Cart::content(),
+		]);
 	}
 }

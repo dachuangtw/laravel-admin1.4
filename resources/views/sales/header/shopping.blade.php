@@ -2,7 +2,7 @@
 
 <div class="header-wrapicon2">
 	<img src="{{ asset(config('sales.asset_path') . 'images/icons/icon-header-02.png') }}" class="header-icon1 js-show-header-dropdown" alt="ICON">
-	<span class="header-icons-noti">{{ $cart_count or '0'}}</span>
+	<span class="header-icons-noti">{{ $cart_content->count() }}</span>
 
 	<!-- Header cart noti -->
 	<div class="header-cart header-dropdown">

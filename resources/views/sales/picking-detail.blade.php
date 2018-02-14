@@ -21,13 +21,13 @@
 					@if($product->p_pic)
 					<div class="item-slick3" data-thumb="{{ asset('upload/' . $product->p_pic) }}">
 						<div class="wrap-pic-w">
-							<img src="{{ asset('upload/' . $product->p_pic) }}" alt="IMG-PRODUCT">
+							<img id="product-detail-pic" src="{{ asset('upload/' . $product->p_pic) }}" alt="IMG-PRODUCT">
 						</div>
 					</div>
 					@else
 					<div class="item-slick3" data-thumb="{{ asset(config('sales.asset_path') . 'images/thumb-item-01.jpg') }}">
 						<div class="wrap-pic-w">
-							<img src="{{ asset(config('sales.asset_path') . 'images/product-detail-01.jpg') }}" alt="IMG-PRODUCT">
+							<img id="product-detail-pic" src="{{ asset(config('sales.asset_path') . 'images/product-detail-01.jpg') }}" alt="IMG-PRODUCT">
 						</div>
 					</div>
 					@endif
@@ -139,47 +139,33 @@
 	  }
 	});
 
-	$('.block2-btn-addcart').each(function(){
-		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-		$(this).on('click', function(){
-			swal(nameProduct, "is added to cart !", "success");
-		});
-	});
-
-	$('.block2-btn-addwishlist').each(function(){
-		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-		$(this).on('click', function(){
-			swal(nameProduct, "is added to wishlist !", "success");
-		});
-	});
-
-	$('.btn-addcart-product-detail').each(function(){
-		var nameProduct = $('.product-detail-name').html();
-		var numberProduct = $('.product-detail-number').html();
+	$('.btn-addcart-product-detail').on('click', function(){
+		var nameProduct = $('.product-detail-name').text();
+		var numberProduct = $('.product-detail-number').text();
 		var qtyProduct = $('.num-product').val();
-		var priceProduct = $('.product-detail-price').html();
-		$(this).on('click', function(){
-			// 加入領貨
-			$.ajax({
-				url: "{{ url('cart/add') }}",
-				type:"POST",
-				data: {
-					id: numberProduct,
-					name: nameProduct,
-					qty: qtyProduct,
-					price: priceProduct
-				},
-				success:function(data){
-					$('.header-icons-noti').text(data);
-					swal(nameProduct, '成功新增到領貨!', "success");
-				},error:function(){
-					swal({
-						title: '發生錯誤!',
-						icon: "warning"
-					});
-				}
-			});
+		var priceProduct = $('.product-detail-price').text();
+		var picProduct = $('#product-detail-pic').attr('src')
 
+		// 加入領貨
+		$.ajax({
+			url: "{{ url('cart/add') }}",
+			type:"POST",
+			data: {
+				id: numberProduct,
+				name: nameProduct,
+				qty: qtyProduct,
+				price: priceProduct,
+				pic: picProduct
+			},
+			success:function(data){
+				$('.header-icons-noti').text(data.count);
+				swal(nameProduct+'(數量:'+qtyProduct+')', '成功增加到領貨!', "success");
+			},error:function(){
+				swal({
+					title: '發生錯誤!',
+					icon: "warning"
+				});
+			}
 		});
 	});
 </script>

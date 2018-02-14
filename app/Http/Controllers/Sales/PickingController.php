@@ -42,7 +42,7 @@ class PickingController extends Controller
 				'categories' => ProductCategory::show()->get(),
 				'products' => $products,
 				'picking_time' => ProductIndex::limitedTime($limited_time),
-				'cart_count' => Cart::content()->count(),
+				'cart_content' => Cart::content(),
 			]);
 
 		} else {
@@ -56,7 +56,7 @@ class PickingController extends Controller
 				'category_id' => $category_id,
 				'products' => $products,
 				'picking_time' => ProductIndex::limitedTime($limited_time),
-				'cart_count' => Cart::content()->count(),
+				'cart_content' => Cart::content(),
 			]);
 		}
 	}
@@ -73,7 +73,7 @@ class PickingController extends Controller
 			return view('sales.picking-detail', [
 				'product' => $product,
 				'picking_time' => ProductIndex::limitedTime($request->user()->limited_time),
-				'cart_count' => Cart::content()->count(),
+				'cart_content' => Cart::content(),
 			]);
 
 		} else {

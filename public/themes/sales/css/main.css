@@ -2201,7 +2201,7 @@ li.sale-noti > a {
 }
 
 .cart-img-product::after {
-  content: '\e870';
+  content: '';
   font-family: Microsoft JhengHei, Linearicons;
   font-size: 16px;
   display: -webkit-box;

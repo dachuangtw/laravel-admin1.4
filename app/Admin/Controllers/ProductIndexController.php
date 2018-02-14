@@ -235,7 +235,7 @@ class ProductIndexController extends Controller
         $product = ProductIndex::find($id)->toArray();
 
         //忽略不顯示的欄位
-        $skipArray = ['pid','p_price','p_retailprice','p_costprice'];
+        $skipArray = ['pid','p_price','p_costprice'];
         //某些角色顯示欄位
         $showArray = [
             'p_costprice' => ['administrator','Boss','SuperWarehouse'],
@@ -523,6 +523,7 @@ class ProductIndexController extends Controller
             });
             $form->tab('價格/業務', function ($form) use ($id){
 
+                $form->currency('p_retailprice', trans('admin::lang.p_retailprice'))->options(['digits' => 2]);
                 $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
                 $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
 
@@ -662,6 +663,7 @@ class ProductIndexController extends Controller
                         $dataArray1 = [
                         'p_number' => $row['p_number'],
                         'p_name' => $row['p_name'],
+                        // 'p_retailprice' => $row['p_retailprice'],
                         // 'p_salesprice' => $row['p_salesprice'],
                         'p_costprice' => $row['p_costprice'],
                         'update_user' => Admin::user()->id,

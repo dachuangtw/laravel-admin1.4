@@ -259,17 +259,17 @@ $('#next').on('click', function() {
     }
 });
 function inserthtml(){
-    
+    $('.loading-container').show();
     $.get(viewurl, function(data) {        
         title = $('.viewbutton[data-key="'+ keyids[indexofkeyid] +'"]').attr("data-title");
+        $('.loading-container').hide();
         $("#viewmodal").find('h3').html(title);
-
         $("#viewmodal").find('.modal-body').html(data);
     });
 }
 $('#viewmodal').on('show.bs.modal', function() {
     var margin_vertical = parseInt($(this).find('.modal-dialog').css('margin-top')) + parseInt($(this).find('.modal-dialog').css('margin-bottom')) || 0;
-    var height_body = (window.innerHeight - margin_vertical - 150) + 'px';
+    var height_body = (window.innerHeight - margin_vertical - 200) + 'px';
     $(this).find('.modal-body').css('max-height', height_body).css('overflow', 'auto');
 });
 
@@ -295,6 +295,26 @@ SCRIPT;
                 <button class='btn btn-default' data-dismiss="modal" aria-hidden="true">{$close}</button>
             </div>
         </div>
+        <div class="loading-fullpage loading-container" style="display: none;">
+        <div class="loading-error" style="display: none;">
+            <h3 style="line-height:80px;font-weight:600;"><span class="glyphicon glyphicon-remove" style="color:#dd4b39"></span> 網頁發生錯誤</h3>
+            <button class='btn btn-default' data-dismiss="modal" aria-hidden="true">關閉</button>
+        </div>
+        <div class="loading-circle">
+            <div class="loading-circle1 loading-child"></div>
+            <div class="loading-circle2 loading-child"></div>
+            <div class="loading-circle3 loading-child"></div>
+            <div class="loading-circle4 loading-child"></div>
+            <div class="loading-circle5 loading-child"></div>
+            <div class="loading-circle6 loading-child"></div>
+            <div class="loading-circle7 loading-child"></div>
+            <div class="loading-circle8 loading-child"></div>
+            <div class="loading-circle9 loading-child"></div>
+            <div class="loading-circle10 loading-child"></div>
+            <div class="loading-circle11 loading-child"></div>
+            <div class="loading-circle12 loading-child"></div>
+        </div>
+    </div>
     </div>
 </div>
 EOT;

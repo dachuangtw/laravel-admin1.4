@@ -42,7 +42,7 @@ class InventoryController extends Controller
         $count = InventoryDetails::where('in_number',$in_number)->where('ind_at',NULL)->count();
         if($count > 0){
             if ($checked != 'checked') {
-                return 'check';                    
+                return 'check';
             }else{
                 //盤點數自動填充
                 $NoInventory = InventoryDetails::where('in_number', $in_number)->where('ind_at',NULL)->get();
@@ -90,6 +90,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
+        Permission::check(['Inventory-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.inventory'));
@@ -110,6 +111,7 @@ class InventoryController extends Controller
      */
     public function edit($id)
     {
+        Permission::check(['Inventory-Editor']);
         return Admin::content(function (Content $content) use ($id) {
 
             $content->header(trans('admin::lang.inventory'));
@@ -130,6 +132,7 @@ class InventoryController extends Controller
      */
     public function create()
     {
+        Permission::check(['Inventory-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.inventory'));
@@ -151,14 +154,13 @@ class InventoryController extends Controller
      */
     public function view($inid)
     {
-        
         Permission::check(['Inventory-Reader']);
 
         $Inventory = Inventory::where('inid',$inid)->select('in_number','wid')->first();
         $InventoryDetails = InventoryDetails::where('in_number',$Inventory->in_number)->get()->sortByDesc('pid');
         $w_name = Warehouse::find($Inventory->wid)->w_name;
         
-        $header = ['商品名(款式)','庫存數','盤點數','差異數','備註','盤點人'];
+        $header = ['商品編號','商品名(款式)','庫存數','盤點數','差異數','備註','盤點人'];
         $rows = [];
 
         foreach($InventoryDetails as $detail){
@@ -183,6 +185,7 @@ class InventoryController extends Controller
                 $detail->ind_difference = '<strong style="color:#dd4b39">' .$detail->ind_difference. '</strong>';
             }
             $rows[] = [
+                $detail->p_number,
                 $detail->p_name,
                 $detail->ind_stock,
                 $detail->ind_quantity,
@@ -277,7 +280,7 @@ SCRIPT;
          Admin::script($script);
 
             $grid->actions(function ($actions) { 
-                $w_name = Warehouse::find($actions->row->wid)->w_name;               
+                $w_name = Warehouse::find($actions->row->wid)->w_name;
                 $actions->setTitleExtra(['盤點單號：', $w_name]); // 自訂，可字串可陣列，字串在TitleFirld前，陣列則是[0]+TitleField+[1]
                 $actions->setTitleField(['in_number']);
 

@@ -5,6 +5,8 @@ namespace App\Admin\Controllers;
 use App\InventoryDetails;
 use App\Inventory;
 use App\ProductIndex;
+use Encore\Admin\Auth\Permission;
+use Illuminate\Support\MessageBag;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -49,6 +51,8 @@ class InventoryDetailsController extends Controller
      */
     public function index($inid)
     {
+        Permission::check(['Inventory-Editor']);
+
         return Admin::content(function (Content $content) use ($inid) {
             
             $content->header(trans('admin::lang.inventory'));
@@ -58,29 +62,61 @@ class InventoryDetailsController extends Controller
                 ['text' => trans('admin::lang.counting')]
             );
 
+            // if(Inventory::find($inid)->in_checked){
+            //     $error = new MessageBag(['title'=>'提示','message'=>'已盤點確認，不可操作']);
+            //     return back()->withInput()->with(compact('error'));
+            // }
+
             $content->row(function (Row $row) use ($inid) {
                 /**
-                 * 功能：搜尋商品
+                 * 功能：搜尋商品、已盤點(管理者本人盤點的商品)、未盤點的商品
                  */
                 $row->column(6, function (Column $column) use ($inid) {
-                    $form = new \Encore\Admin\Widgets\Form();
-                    $form->action(admin_url('inventory/'.$inid.'/details'));
-                    $form->method('GET');                   
-                    $form->text('search', trans('admin::lang.p_name'));
 
-                    $form->disableSubmit()->disableReset()->enableSearch();
+                    $url = admin_url('inventory/'.$inid.'/details');
+                    $csrf_field = csrf_field();
+                    $btns = <<<SEARCH
+                    <form method="GET" id="searchform">
+                    <div class="select2-search">
+                    <div class="flex-row">
+                        <div class="flex-col-xs no-padding padding-right-10">
+                            <div class="input-group">
+                                <input type="hidden" name="type" id="hiddentype" value="search">
+                                <input class="form-control no-border-right" placeholder="請輸入搜尋的商品名 或 商品編號" type="text" name="search">
+                                <span class="input-group-btn">
+                                <button class="btn btn-transparent-grey2" onclick="$('#hiddentype').val('search');$('#searchform').submit();"> <i class="fa fa-search"></i> </button>
+                                </span>
+                            </div>
+                        </div>
+                        $csrf_field
+                        <a href="$url" class="btn btn-sm btn-default"> 返回 </a>
+                        <button class="btn btn-sm btn-primary" onclick="$('#hiddentype').val('myinventory');$('#searchform').submit();"> 已盤點 </button>
+                        <button class="btn btn-sm btn-success" onclick="$('#hiddentype').val('notyet');$('#searchform').submit();"> 未盤點 </button>
+                    </div>
+                    </div>
+                    </form>
+SEARCH;
 
-                    $column->append((new Box(trans('admin::lang.search'), $form))->collapsable()->style('success'));
+                    $column->append((new Box(trans('admin::lang.search'), $btns))->collapsable()->style('success'));
                 });
             });
 
             $in_number = Inventory::find($inid)->in_number;
             $search = Request::get('search');
-            if(empty($search)){
-                $details = InventoryDetails::where('in_number',$in_number)->get();
+            $type = Request::get('type');
+            if($type == 'search'){
+                if(empty($search)){
+                    $details = InventoryDetails::where('in_number',$in_number)->get();
+                }else{
+                    $pids = ProductIndex::where('p_name', 'like', '%'.$search.'%')->orWhere('p_number', 'like', '%'.$search)->pluck('pid');
+                    $details = InventoryDetails::where('in_number', $in_number)->whereIn('pid',$pids)->get();
+                }
+            }elseif($type == 'notyet'){
+                $details = InventoryDetails::where('in_number',$in_number)->where('ind_at',NULL)->get();
+            }elseif($type == 'myinventory'){
+                $details = InventoryDetails::where('in_number',$in_number)->where('ind_user',Admin::user()->id)->get();
             }else{
-                $pids = ProductIndex::where('p_name', 'like', '%'.$search.'%')->orWhere('p_number', 'like', '%'.$search)->pluck('pid');
-                $details = InventoryDetails::where('in_number', $in_number)->whereIn('pid',$pids)->get();
+                $details = InventoryDetails::where('in_number',$in_number)->get();
             }
             foreach($details as $key => $detail){
                 $details[$key]->p_name = ProductIndex::find($detail->pid)->p_name;

@@ -4,7 +4,7 @@
 <div class="flex-c-m p-t-4 p-b-54">
 	<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
 		<span class="m-text10 p-b-1 days">
-			{{ $picking_time['d'] }}
+			{{ $picking_time->get('d') }}
 		</span>
 
 		<span class="s-text5">
@@ -14,7 +14,7 @@
 
 	<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
 		<span class="m-text10 p-b-1 hours">
-			{{ $picking_time['H'] }}
+			{{ $picking_time->get('H') }}
 		</span>
 
 		<span class="s-text5">
@@ -24,7 +24,7 @@
 
 	<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
 		<span class="m-text10 p-b-1 minutes">
-			{{ $picking_time['i'] }}
+			{{ $picking_time->get('i') }}
 		</span>
 
 		<span class="s-text5">
@@ -34,7 +34,7 @@
 
 	<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
 		<span class="m-text10 p-b-1 seconds">
-			{{ $picking_time['s'] }}
+			{{ $picking_time->get('s') }}
 		</span>
 
 		<span class="s-text5">

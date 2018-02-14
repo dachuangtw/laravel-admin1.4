@@ -72,4 +72,19 @@ class ProductIndex extends Model
 	{
 		return $this->hasMany('App\Models\Sales\Stock', 'pid')->where('wid', Auth::user()->wid);
 	}
+
+	/**
+	 *    計算領貨剩餘時間
+	 *    @param  datetime $limited_time 領貨結束時間
+	 */
+	static public function limitedTime($limited_time)
+	{
+		$sec = strtotime($limited_time) - time();
+		$d = floor($sec / (24*60*60));
+		$H = floor(($sec % (24*60*60)) / (60*60));
+		$i = floor((($sec % (24*60*60)) % (60*60)) / 60);
+		$s = floor((($sec % (24*60*60)) % (60*60)) % 60);
+
+		return collect(['d' => $d, 'H' => $H, 'i' => $i, 's' => $s]);
+	}
 }

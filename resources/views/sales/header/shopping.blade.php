@@ -2,59 +2,15 @@
 
 <div class="header-wrapicon2">
 	<img src="{{ asset(config('sales.asset_path') . 'images/icons/icon-header-02.png') }}" class="header-icon1 js-show-header-dropdown" alt="ICON">
-	<span class="header-icons-noti">3</span>
+	<span class="header-icons-noti">{{ $cart_count or '0'}}</span>
 
 	<!-- Header cart noti -->
 	<div class="header-cart header-dropdown">
 
-		<h4 class="m-text14 p-b-7">
-			領貨剩餘時間
-		</h4>
-		<div class="flex-c-m p-t-4 p-b-54">
-			<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
-				<span class="m-text10 p-b-1 days">
-					{{ $picking_time['d'] }}
-				</span>
+		@include('sales.picking.limited-time')
 
-				<span class="s-text5">
-					日
-				</span>
-			</div>
-
-			<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
-				<span class="m-text10 p-b-1 hours">
-					{{ $picking_time['H'] }}
-				</span>
-
-				<span class="s-text5">
-					時
-				</span>
-			</div>
-
-			<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
-				<span class="m-text10 p-b-1 minutes">
-					{{ $picking_time['i'] }}
-				</span>
-
-				<span class="s-text5">
-					分
-				</span>
-			</div>
-
-			<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
-				<span class="m-text10 p-b-1 seconds">
-					{{ $picking_time['s'] }}
-				</span>
-
-				<span class="s-text5">
-					秒
-				</span>
-			</div>
-		</div>
-
-
-		<ul class="header-cart-wrapitem">
-			<!-- <li class="header-cart-item">
+		<!-- <ul class="header-cart-wrapitem">
+			<li class="header-cart-item">
 				<div class="header-cart-item-img">
 					<img src="{{ asset(config('sales.asset_path') . 'images/item-cart-01.jpg') }}" alt="IMG">
 				</div>
@@ -68,9 +24,9 @@
 						1 x $19
 					</span>
 				</div>
-			</li> -->
+			</li>
 
-			<!-- <li class="header-cart-item">
+			<li class="header-cart-item">
 				<div class="header-cart-item-img">
 					<img src="{{ asset(config('sales.asset_path') . 'images/item-cart-02.jpg') }}" alt="IMG">
 				</div>
@@ -84,9 +40,9 @@
 						1 x $39
 					</span>
 				</div>
-			</li> -->
+			</li>
 
-			<!-- <li class="header-cart-item">
+			<li class="header-cart-item">
 				<div class="header-cart-item-img">
 					<img src="{{ asset(config('sales.asset_path') . 'images/item-cart-03.jpg') }}" alt="IMG">
 				</div>
@@ -100,25 +56,25 @@
 						1 x $17
 					</span>
 				</div>
-			</li> -->
+			</li>
 		</ul>
 
 		<div class="header-cart-total">
 			總計: $75
-		</div>
+		</div> -->
 
 		<div class="header-cart-buttons">
 			<div class="header-cart-wrapbtn">
 				<!-- Button -->
 				<a href="{{ url('/cart') }}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-					查看
+					查看領貨
 				</a>
 			</div>
 
 			<div class="header-cart-wrapbtn">
 				<!-- Button -->
 				<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-					完成
+					完成領貨
 				</a>
 			</div>
 		</div>

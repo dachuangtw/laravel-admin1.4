@@ -50,18 +50,20 @@
 				{{ $product->p_name }}
 			</h4>
 
-			<span class="m-text17">
-				${{ $product->p_salesprice }}
+			$<span class="product-detail-price m-text17">
+				{{ $product->p_salesprice }}
 			</span>
 
 			<p class="s-text8 p-t-10">
-				商品編號: {{ $product->p_number }}
-
+				商品編號:
+				<span class="product-detail-number">
+					{{ $product->p_number }}
+				</span>
 			</p>
 
 			<div class="p-b-45">
-				<span class="s-text8 m-r-35">庫存數量: {{ (! empty($product->hasManyStock)) ? $product->hasManyStock->sum('st_stock') : '0' }}</span>
-				<span class="s-text8">可領貨數: {{ (! empty($product->hasManyStock)) ? $product->hasManyStock->sum('st_collect') : '0' }}</span>
+				<span class="s-text8 m-r-35">庫存數量: {{ ($product->hasManyStock->count()) ? $product->hasManyStock->sum('st_stock') : '0' }}</span>
+				<span class="s-text8">可領貨數: {{ ($product->hasManyStock->count()) ? $product->hasManyStock->sum('st_collect') : '0' }}</span>
 			</div>
 
 			<div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
@@ -79,34 +81,17 @@
 			</div>
 
 			<div class="p-t-33 p-b-60">
-				<div class="flex-m flex-w p-b-10">
-					<div class="s-text15 w-size15 t-center">
-						Size
-					</div>
-
-					<div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
-						<select class="selection-2" name="size">
-							<option>Choose an option</option>
-							<option>Size S</option>
-							<option>Size M</option>
-							<option>Size L</option>
-							<option>Size XL</option>
-						</select>
-					</div>
-				</div>
-
+				@if($product->hasManyStock->count())
 				<div class="flex-m flex-w">
 					<div class="s-text15 w-size15 t-center">
-						Color
+						款式
 					</div>
 
 					<div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
 						<select class="selection-2" name="color">
-							<option>Choose an option</option>
-							<option>Gray</option>
-							<option>Red</option>
-							<option>Black</option>
-							<option>Blue</option>
+							@foreach($product->hasManyStock as $product_stock)
+							<option>{{ $product_stock->st_type }}</option>
+							@endforeach
 						</select>
 					</div>
 				</div>
@@ -128,11 +113,12 @@
 						<div class="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
 							<!-- Button -->
 							<button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
-								Add to Cart
+								加到領貨
 							</button>
 						</div>
 					</div>
 				</div>
+				@endif
 			</div>
 		</div>
 	</div>
@@ -143,8 +129,16 @@
 <script type="text/javascript" src="{{ asset(config('sales.asset_path') . 'vendor/slick/slick.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset(config('sales.asset_path') . 'js/slick-custom.js') }}"></script>
 <!--===============================================================================================-->
+<script type="text/javascript" src="{{ asset(config('sales.asset_path') . 'vendor/countdowntime/countdowntime.js') }}"></script>
+<!--===============================================================================================-->
 <script type="text/javascript" src="{{ asset(config('sales.asset_path') . 'vendor/sweetalert/sweetalert.min.js') }}"></script>
 <script type="text/javascript">
+	$.ajaxSetup({
+	  headers: {
+	    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	  }
+	});
+
 	$('.block2-btn-addcart').each(function(){
 		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
 		$(this).on('click', function(){
@@ -161,8 +155,31 @@
 
 	$('.btn-addcart-product-detail').each(function(){
 		var nameProduct = $('.product-detail-name').html();
+		var numberProduct = $('.product-detail-number').html();
+		var qtyProduct = $('.num-product').val();
+		var priceProduct = $('.product-detail-price').html();
 		$(this).on('click', function(){
-			swal(nameProduct, "is added to wishlist !", "success");
+			// 加入領貨
+			$.ajax({
+				url: "{{ url('cart/add') }}",
+				type:"POST",
+				data: {
+					id: numberProduct,
+					name: nameProduct,
+					qty: qtyProduct,
+					price: priceProduct
+				},
+				success:function(data){
+					$('.header-icons-noti').text(data);
+					swal(nameProduct, '成功新增到領貨!', "success");
+				},error:function(){
+					swal({
+						title: '發生錯誤!',
+						icon: "warning"
+					});
+				}
+			});
+
 		});
 	});
 </script>

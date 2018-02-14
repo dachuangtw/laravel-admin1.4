@@ -32,7 +32,7 @@ class CartController extends Controller
 		);
 
 		return response()->json([
-		    'cart_content' => Cart::content(),
+			'cart_content_count' => Cart::content()->count(),
 		]);
 	}
 }

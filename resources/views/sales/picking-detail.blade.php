@@ -158,7 +158,8 @@
 				pic: picProduct
 			},
 			success:function(data){
-				$('.header-icons-noti').text(data.count);
+				$('.header-icons-noti').text(data.cart_content_count);
+				console.log(data);
 				swal(nameProduct+'(數量:'+qtyProduct+')', '成功增加到領貨!', "success");
 			},error:function(){
 				swal({

@@ -28,7 +28,7 @@ class InventoryDetailsController extends Controller
         $inventoryDetails = InventoryDetails::find($indid);
         $productDetails = ProductIndex::find($inventoryDetails->pid);
         
-        /* [0]indid|[1]商品名|[2]src|[3]款式|[4]目前庫存|[5]盤點數|[6]已盤點|[7]是盤點人 */
+        /* [0]indid|[1]商品名|[2]src|[3]款式|[4]目前庫存|[5]盤點數|[6]備註|[7]已盤點|[8]是盤點人 */
         $returnData = [
             '0' =>  $inventoryDetails->indid,
             '1' =>  $productDetails->p_name,
@@ -36,8 +36,9 @@ class InventoryDetailsController extends Controller
             '3' =>  $inventoryDetails->ind_type,
             '4' =>  $inventoryDetails->ind_stock,
             '5' =>  $inventoryDetails->ind_quantity,
-            '6' =>  $inventoryDetails->ind_at ? '1' : '0',
-            '7' =>  ($inventoryDetails->ind_user == Admin::user()->id) ? '1' : '0',
+            '6' =>  $inventoryDetails->ind_notes,
+            '7' =>  $inventoryDetails->ind_at ? '1' : '0',
+            '8' =>  ($inventoryDetails->ind_user == Admin::user()->id) ? '1' : '0',
         ];
 
         return implode("|",$returnData);
@@ -62,10 +63,10 @@ class InventoryDetailsController extends Controller
                 ['text' => trans('admin::lang.counting')]
             );
 
-            // if(Inventory::find($inid)->in_checked){
-            //     $error = new MessageBag(['title'=>'提示','message'=>'已盤點確認，不可操作']);
-            //     return back()->withInput()->with(compact('error'));
-            // }
+            if(Inventory::find($inid)->in_checked){
+                $error = new MessageBag(['title'=>'提示','message'=>'已盤點確認，不可操作']);
+                return back()->withInput()->with(compact('error'));
+            }
 
             $content->row(function (Row $row) use ($inid) {
                 /**

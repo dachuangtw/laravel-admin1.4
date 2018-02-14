@@ -294,20 +294,27 @@ SCRIPT;
                 if (Admin::user()->cannot('Inventory-Deleter')) {
                     $actions->disableDelete();
                 }
-                $actions->ensableInventory();
+                if($actions->row->in_checked){
+                    $actions->disableEdit();
+                }else{
+                    $actions->ensableInventory();
+                }
             });
-
+            $grid->filter(function($filter){
+                $filter->disableIdFilter();
+            });
             //依角色有不同的篩選
             if(Admin::user()->isRole('Warehouse')){
                 $grid->model()->where(function ($query) {
                     $query->where('wid',Admin::user()->wid);
                 });
             }elseif(!Admin::user()->isRole('Superwarehouse') && !Admin::user()->isAdministrator()){
-                //非倉管人員
+                //屬於盤點人員，非倉管人員
                 $grid->model()->where(function ($query) {
                     $query->where('wid',  Admin::user()->wid)
                     ->where('start_at','<', date('Y-m-d H:i:s'))
-                    ->where('finish_at','>', date('Y-m-d H:i:s'));
+                    ->where('finish_at','>', date('Y-m-d H:i:s'))
+                    ->where('in_checked','0');
                 });
                 $grid->disableCreation();
             }

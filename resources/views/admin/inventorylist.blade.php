@@ -27,9 +27,10 @@
                 <div class="pull-left" style="width:50%;min-height:200px;">
                     <input type="hidden" name="indid" value="">
                     <h3 style="text-align:center;"></h3>
-                    <p style="text-align:left;margin-left:25%;margin-top:20px;">款式：<span id="ind_type"></span></p>
-                    <p style="text-align:left;margin-left:25%;margin-top:20px;">目前庫存：<span id="ind_stock"></span></p>
-                    <p style="text-align:left;margin-left:25%;margin-top:20px;">盤點數量：<input type="text" name="ind_quantity" style="max-width:60px;"></p>
+                    <p style="text-align:left;margin-left:10%;margin-top:20px;">款式：<span id="ind_type"></span></p>
+                    <p style="text-align:left;margin-left:10%;margin-top:20px;">目前庫存：<span id="ind_stock"></span></p>
+                    <p style="text-align:left;margin-left:10%;margin-top:20px;">盤點數量：<input type="text" name="ind_quantity" style="max-width:40%;"></p>
+                    <p style="text-align:left;margin-left:10%;margin-top:20px;">備註：<input type="text" name="ind_notes" style="max-width:60%;"></p>
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
                     <input type="submit" id="okButton" class="btn" style="margin-top:10px;display:none;" value="確定">
@@ -79,7 +80,7 @@ $('#countingmodal').on('show.bs.modal',  function (event) {
     $.get('/admin/inventorydetails/getdata/' + recipient, function(data) {
         /**
          * data：
-         * [0]indid|[1]商品名|[2]src|[3]款式|[4]目前庫存|[5]盤點數|[6]已盤點Boolean|[7]是盤點人Boolean
+         * [0]indid|[1]商品名|[2]src|[3]款式|[4]目前庫存|[5]盤點數|[6]備註|[7]已盤點|[8]是盤點人
          */
         data = data.split("|");
         modal.find('input[name="indid"]').val(data[0]);
@@ -93,10 +94,11 @@ $('#countingmodal').on('show.bs.modal',  function (event) {
         modal.find('#ind_type').text(data[3]);
         modal.find('#ind_stock').text(data[4]);
         modal.find('input[name="ind_quantity"]').val(data[5]);
+        modal.find('input[name="ind_notes"]').val(data[6]);
 
         var okButton = $('#okButton');
         
-        if(data[6] == '1' && data[7] != '1'){
+        if(data[7] == '1' && data[8] != '1'){
             //不是原盤點人不可修改
             okButton.removeClass("btn-success").addClass("btn-default").val("已盤點");
             okButton.attr('disabled', true);

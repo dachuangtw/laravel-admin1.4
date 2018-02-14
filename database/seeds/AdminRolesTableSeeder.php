@@ -56,6 +56,12 @@ class AdminRolesTableSeeder extends Seeder
             'created_at' => date('Ymd'),
             'updated_at' => date('Ymd'),
             ],
+            ['id' => '8',
+            'name' => '盤點人員',
+            'slug' => 'Inventory',
+            'created_at' => date('Ymd'),
+            'updated_at' => date('Ymd'),
+            ],
         ]);
     }
 }

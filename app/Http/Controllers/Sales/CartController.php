@@ -13,21 +13,18 @@ class CartController extends Controller
     // 顯示購物車
 	public function index(Request $request)
 	{
-		return $this->display($request->user()->limited_time);
+		return view('sales.cart', [
+			'picking_time' => ProductIndex::limitedTime($request->user()->limited_time),
+			'cart_count' => Cart::content()->count(),
+			'cart' => Cart::content(),
+		]);
 	}
 
     // 新增
 	public function add(Request $request)
 	{
-		// return 'Success! ajax in laravel 5';
+		Cart::add($request->input('id'), $request->input('name'), (int)$request->input('qty'), (int)$request->input('price'));
 
-		return $request->input('id');
-		// $input = $request->all();
-		// if ( !empty($input)) {
-		// 	Cart::add($input['id'], $input['name'], 1, $input['price']);
-		// 	return 'TRUE';
-		// } else {
-		// 	return 'FALSE';
-		// }
+		return Cart::content()->count();
 	}
 }

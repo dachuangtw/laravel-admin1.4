@@ -33,21 +33,20 @@ class PickingController extends Controller
 	 */
 	public function display($limited_time, $category_id = NULL)
 	{
-        // 剩餘領貨時間
-		$picking_time = $this->limitedTime($limited_time);
-
 		if ($category_id == NULL) {
-            // 全部商品
+            // 全部
 			$products = ProductIndex::show()
 			->paginate(12);
 
 			return view('sales.picking', [
 				'categories' => ProductCategory::show()->get(),
 				'products' => $products,
-				'picking_time' => $picking_time,
+				'picking_time' => ProductIndex::limitedTime($limited_time),
+				'cart_count' => Cart::content()->count(),
 			]);
 
 		} else {
+            // 分類
 			$products = ProductIndex::show()
 			->ofCategory($category_id)
 			->paginate(12);
@@ -56,24 +55,10 @@ class PickingController extends Controller
 				'categories' => ProductCategory::show()->get(),
 				'category_id' => $category_id,
 				'products' => $products,
-				'picking_time' => $picking_time,
+				'picking_time' => ProductIndex::limitedTime($limited_time),
+				'cart_count' => Cart::content()->count(),
 			]);
 		}
-	}
-
-	/**
-	 *    計算領貨剩餘時間
-	 *    @param  datetime $limited_time 領貨結束時間
-	 */
-	public function limitedTime($limited_time)
-	{
-		$sec = strtotime($limited_time) - time();
-		$d = floor($sec / (24*60*60));
-		$H = floor(($sec % (24*60*60)) / (60*60));
-		$i = floor((($sec % (24*60*60)) % (60*60)) / 60);
-		$s = floor((($sec % (24*60*60)) % (60*60)) % 60);
-
-		return ['d' => $d, 'H' => $H, 'i' => $i, 's' => $s];
 	}
 
 	/**
@@ -83,9 +68,12 @@ class PickingController extends Controller
 	public function detail(Request $request, $number)
 	{
 		$product = ProductIndex::where('p_number', $number)->first();
+
 		if ($product) {
 			return view('sales.picking-detail', [
 				'product' => $product,
+				'picking_time' => ProductIndex::limitedTime($request->user()->limited_time),
+				'cart_count' => Cart::content()->count(),
 			]);
 
 		} else {

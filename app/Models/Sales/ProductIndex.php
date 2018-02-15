@@ -12,17 +12,23 @@ class ProductIndex extends Model
 
 	protected $primaryKey = 'pid';
 
-	// 範圍，前台顯示&新品排序
-	public function scopeShow($query)
+	// 範圍，商品
+	public function scopeShowProducts($query)
 	{
-		return $query->where('showfront', 1)
-			->orderBy('shownew', 'desc');
+		return $query->where('wid', Auth::user()->wid)
+		->where('showfront', 1);
 	}
 
 	// 範圍，可領貨
 	public function scopeShowSales($query)
 	{
 		return $query->where('showsales', 1);
+	}
+
+	// 範圍，新品排序
+	public function scopeCanSales($query)
+	{
+		return $query->orderBy('shownew', 'desc');
 	}
 
 	// 範圍，商品分類(id = 0 為'未分類')
@@ -70,7 +76,7 @@ class ProductIndex extends Model
 	// 一對多關聯，商品庫存
 	public function hasManyStock()
 	{
-		return $this->hasMany('App\Models\Sales\Stock', 'pid')->where('wid', Auth::user()->wid);
+		return $this->hasMany('App\Models\Sales\Stock', 'pid');
 	}
 
 	/**

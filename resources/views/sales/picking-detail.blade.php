@@ -88,7 +88,7 @@
 					</div>
 
 					<div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
-						<select class="selection-2" name="color">
+						<select class="selection-2" id="product_type" name="color">
 							@foreach($product->hasManyStock as $product_stock)
 							<option>{{ $product_stock->st_type }}</option>
 							@endforeach
@@ -143,8 +143,7 @@
 		var nameProduct = $('.product-detail-name').text();
 		var numberProduct = $('.product-detail-number').text();
 		var qtyProduct = $('.num-product').val();
-		var priceProduct = $('.product-detail-price').text();
-		var picProduct = $('#product-detail-pic').attr('src')
+		var typeProduct = $('#product_type').val();
 
 		// 加入領貨
 		$.ajax({
@@ -152,15 +151,12 @@
 			type:"POST",
 			data: {
 				id: numberProduct,
-				name: nameProduct,
-				qty: qtyProduct,
-				price: priceProduct,
-				pic: picProduct
+				qty: qtyProduct
 			},
 			success:function(data){
 				$('.header-icons-noti').text(data.cart_content_count);
 				console.log(data);
-				swal(nameProduct+'(數量:'+qtyProduct+')', '成功增加到領貨!', "success");
+				swal(nameProduct+' '+typeProduct+'(數量:'+qtyProduct+')', '成功增加到領貨!', "success");
 			},error:function(){
 				swal({
 					title: '發生錯誤!',

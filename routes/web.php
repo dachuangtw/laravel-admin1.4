@@ -60,6 +60,8 @@ Route::group([
 
 	// 領貨車
 	Route::get('cart', 'CartController@index');
+	// 領貨車(取得)
+	Route::post('cart/get', 'CartController@get');
 	// 領貨車(新增)
 	Route::post('cart/add', 'CartController@add');
 	// 領貨車(修改)

@@ -33,7 +33,7 @@
 								<span class="id-product">{{ $cart_item->id }}</span>
 							</td>
 							<td class="column">
-								<a href="{{ url('picking/detail/'.$cart_item->id)}}">{{ $cart_item->name }}</a>
+								<a href="{{ url('picking/detail/'.$cart_item->id)}}">{{ $cart_item->name }} ({{ $cart_item->options->type }})</a>
 							</td>
 							<td class="column">
 								${{ $cart_item->price }}

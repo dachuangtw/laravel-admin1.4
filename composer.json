@@ -6,12 +6,12 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "dompdf/dompdf": "~0.6.1",
         "encore/laravel-admin": "1.4.*",
         "gloudemans/shoppingcart": "^2.4",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "maatwebsite/excel": "~2.1.0"
+        "maatwebsite/excel": "~2.1.0",
+        "tecnickcom/tcpdf": "^6.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

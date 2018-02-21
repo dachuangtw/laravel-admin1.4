@@ -64,6 +64,9 @@ class ProductIndexController extends Controller
         }elseif($target == 'salescollect_hasstock'){
             $showPrice = 'p_salesprice';
             $detailid = 'scdid';
+        }elseif($target == 'salesrefund_hasstock'){
+            $showPrice = 'p_salesprice';
+            $detailid = 'srdid';
         }else{            
             $showPrice = 'p_costprice';
             $detailid = 'redid';
@@ -75,7 +78,7 @@ class ProductIndexController extends Controller
             $rowTitle = ['','商品編號','商品名','單位','庫存數','款式','數量','單價','總價','備註'];
         }elseif($action == 'edit'){
             
-            if ($target == 'salescollect_hasstock'){
+            if ($target == 'salescollect_hasstock' || $target == 'salesrefund_hasstock'){
                 $action = 'editcheckadd';
                 $checkProduct = 'scd_check';
                 $rowWidth = [33,100,33,150,60,80,80,80,80,110];
@@ -88,7 +91,7 @@ class ProductIndexController extends Controller
                 $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
             }
         }
-        if ($target == 'salescollect_hasstock'){
+        if ($target == 'salescollect_hasstock' || $target == 'salesrefund_hasstock'){
             $data = compact('action','inputtext','checkProduct','products','showPrice','detailid','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');
         }else{
             $data = compact('action','inputtext','products','showPrice','detailid','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','stock');

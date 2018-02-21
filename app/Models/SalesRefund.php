@@ -20,5 +20,11 @@ class SalesRefund extends Model
     protected $fillable = [
         'update_user',  'updated_at', 'deleted_at'
     ];
+
+    // 關聯CSalesRefundDetails
+    public function SalesRefundDetails()
+    {
+       return $this->hasMany(SalesRefundDetails::class,'refund_id','refund_id');
+    }
     
 }

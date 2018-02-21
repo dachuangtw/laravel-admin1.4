@@ -105,7 +105,7 @@ Route::group([
 
     //業務退貨
     $router->post('sales/refunddetails', 'ProductIndexController@selectedproduct');
-    $router->get('sales/refunddetails/{id}', 'SalesRedundCollectController@salesrefunddetails');
+    $router->get('sales/refunddetails/{id}', 'SalesRefundController@salesrefunddetails');
     
     //交易紀錄---購買清單
     $router->post('sales/recorddetails', 'ProductIndexController@selectedproduct');

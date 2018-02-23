@@ -67,6 +67,10 @@ class RecordsController extends Controller
         return Admin::content(function (Content $content) {
             $content->header(trans('admin::lang.record'));
             $content->description(trans('admin::lang.list'));
+            $content->breadcrumb(
+                ['text' => trans('admin::lang.record'), 'url' => '/records'],
+                ['text' => trans('admin::lang.create')]
+            );      
             $content->body($this->form());
         });
     }
@@ -74,47 +78,14 @@ class RecordsController extends Controller
 
     public function view($id)
     {
-        // $user = User::find($id)->toArray();
-        // //忽略不顯示的欄位
-        // $skipArray = ['id','password','created_at','updated_at','login_at'];
-        // $showArray = ['name','gender','birthday','email','phone','line','postal_code','address' ];
-        // $header[] = '會員資訊';
-        // foreach($user as $key => $value){       
-        //     if(in_array($key,$skipArray) || empty($value)){
-        //         if(!(isset($showArray) && Admin::user()->inRoles($showArray))){
-        //             continue;
-        //         } 
-        //     }
-        //     $newkey = trans('admin::lang.'.$key);            
-        //     if(is_array($value)){
-        //         $content = '';
-        //         foreach($value as $temp){
-        //             if(empty($content))
-        //                 $content = $temp;
-        //             else
-        //                 $content .= ' / ' . $temp;
-        //         }
-        //         $rows[$newkey] = $content;
-        //     }else{
-        //         $rows[$newkey] = nl2br($value);
-        //     }        
-        // }
-        // $table = new Table($header, $rows);
-        // $table->class('table table-hover');
-        // return $table->render();
-
-        //DB方式建表格
-        $pid     = DB::table('record')->where('rid', '=',$id)->pluck('pid');
-        $amout   = DB::table('record')->where('pid', '=', $pid)->pluck('amout');
-        $p_name  = DB::table('product_index')->where('pid', '=', $pid)->pluck('p_name');
-        $p_price = DB::table('product_index')->where('pid', '=', $pid)->pluck('p_price');
-        $count = DB::table('product_index')->count();
-        $rows=[
-            [$p_name[0],$p_price[0],$amout[0]]
-        ];      
+        $result = DB::table('product_index')
+        ->join('record', 'product_index.pid','=','record.pid' )
+        ->where('record.rid','=',$id)
+        ->select('product_index.p_name', 'product_index.p_price',"record.amout")
+        ->get()->toArray();        
              
         $headers = ['商品名稱', '價格', '數量'];
-        $table = new Table($headers, $rows);
+        $table = new Table($headers, $result);
         $table->class('table table-hover');
         return $table->render();
     }
@@ -169,19 +140,16 @@ class RecordsController extends Controller
                 $form->text('rid', trans('admin::lang.rid'));
                 
                 $form->select('user_id', trans('admin::lang.buyer'))->options(
-                    User::all()->pluck('name', 'id')->transform(function ($item, $key) {
+                    User::all()->pluck('name', 'id')
+                    ->transform(function ($item, $key) {
                         return $key.' - '.$item;
                     })->toArray());
 
                 $form->select('payment', trans('admin::lang.payment'))->options(
-                    Payment::all()->pluck('payment')->transform(function ($name) {
-                        return $name;
-                    })->toArray());
+                    Payment::all()->pluck('payment'));
 
                 $form->select('shipping', trans('admin::lang.shipping'))->options(
-                    Shipping::all()->pluck('ship_cost', 'ship_name')->transform(function ($price, $name) {
-                        return $name.' - $NTD '.$price;
-                    })->toArray());
+                    Shipping::all()->pluck('ship_name'));
 
                 $form->butdate('created_at', trans('admin::lang.buy_at'));
 
@@ -189,17 +157,17 @@ class RecordsController extends Controller
                 ->options(['1' =>'出貨','0' =>'未出貨'])->default('0');
 
             })->tab('詳細資料', function (Form $form) {
+                //方法一 新增就submit 計算總價
                 $form->hasMany('record','商品清單', function (Form\NestedForm $form) {          
                     $form->select('product_id', trans('admin::lang.p_name'))->options(
                         ProductIndex::all()->pluck('p_price', 'p_name')->transform(function ($price, $name) {
                             return $name.' - $NTD '.$price;
                         })->toArray())->rules('required');
-
                     $form->number('amout', trans('admin::lang.buy_amout'));
                 });
 
-                //計算總價
-                $form->display('total', trans('admin::lang.buy_total'));
+               //方法二 可以顯示但寫入有問題
+               $form->button('btn-danger btn-append','+ 商品清單')->on('click','ShowModal("product");'); 
 
             })->tab('意見回饋', function (Form $form) {
                 $form->textarea('admin_msg', trans('admin::lang.notes'));
@@ -234,7 +202,11 @@ class RecordsController extends Controller
                 ->options(['1' =>'出貨','0' =>'未出貨'])->default('0');
 
             })->tab('詳細資料', function (Form $form) {
+                //瀏覽 編輯 新增
+                //問題:上面是Records但這裡要用PurchaseList
+ 
                 $form->hasMany('record','商品清單', function (Form\NestedForm $form) {          
+ 
                     $form->select('product_id', trans('admin::lang.p_name'))->options(
                         ProductIndex::all()->pluck('p_price', 'p_name')->transform(function ($price, $name) {
                             return $name.' - $NTD '.$price;
@@ -245,7 +217,6 @@ class RecordsController extends Controller
 
                 //計算總價
                 $form->display('total', trans('admin::lang.buy_total'));
-
             })->tab('意見回饋', function (Form $form) {
                 $form->select('rid', trans('admin::lang.cus_msg'))->options(
                     Message::all()->pluck('cus_msg', 'record_id')->transform(function ($item, $key) {

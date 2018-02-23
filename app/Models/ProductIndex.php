@@ -32,7 +32,7 @@ class ProductIndex extends Model
     //一(商品)對多(庫存)關聯資料表
     public function stock()
     {
-        return $this->hasMany(Stock::class,'pid')->where('wid', Admin::user()->wid)->orWhere('wid', '2');
+        return $this->hasMany(Stock::class,'pid');
     }
     public function stock1()
     {

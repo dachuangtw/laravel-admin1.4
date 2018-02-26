@@ -13,8 +13,8 @@ use App\StockCategory;
 use App\ProductSupplier;
 use App\Admin\Extensions\ExcelExpoter;
 use Maatwebsite\Excel\Facades\Excel;
-
 use Encore\Admin\Widgets\Table;
+use TCPDF;
 
 use Encore\Admin\Auth\Permission;
 use Encore\Admin\Form;
@@ -394,7 +394,9 @@ class ProductIndexController extends Controller
                 $filter->like('p_number','商品編號');
             });
             $grid->pid('ID')->sortable();
-            $grid->p_number(trans('admin::lang.product_number'))->sortable();
+            $grid->p_number(trans('admin::lang.product_number'))->display(function ($p_number) {                
+                return '<a href="product/'.$this->pid.'/qrcode" target="_blank">'.$p_number.'</a>';
+            })->sortable();
             $grid->p_name(trans('admin::lang.name'));
             $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
                 return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"".config('app.url')."/images/404.jpg\"'/>";            
@@ -541,7 +543,7 @@ class ProductIndexController extends Controller
                 $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
                
             });
-            $form->tab('款式/庫存', function ($form) use ($id){
+            $form->tab('庫存', function ($form) use ($id){
                 /**
                  * BUG：Model中的hasMany後面接where查詢，顯示OK，但儲存時不OK，資料不乖乖依序存檔，改第三個但蓋掉了第一個庫存...
                  * 找不到是哪裡出問題，只能說又是一個模板本身的BUG...QQ 已在gitHub上發問，如果之後有神人解答的話再來改
@@ -550,7 +552,7 @@ class ProductIndexController extends Controller
                  */
                 // $relationFunction = ( Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) ? 'stock1' : 'stock';
                 $relationFunction = 'stock1';
-                $form->hasMany($relationFunction,'款式庫存', function (Form\NestedForm $form) use ($id){
+                $form->hasMany($relationFunction,'庫存', function (Form\NestedForm $form) use ($id){
                     if(!$id){ //創建                        
                         if(Admin::user()->isAdministrator()){
                             //超級管理員可以自行選擇倉庫
@@ -574,7 +576,6 @@ class ProductIndexController extends Controller
                     }
                     
                     // $form->text('st_type',trans('admin::lang.product_type'))->default('不分款');
-                    $form->text('st_barcode',trans('admin::lang.product_barcode'));
                     $form->text('st_notes',trans('admin::lang.notes'));
                     if(!$id){ //編輯
                         $form->display('st_stock', trans('admin::lang.product_stock'))->default(0);
@@ -714,5 +715,44 @@ class ProductIndexController extends Controller
             }
         }
         return back();
+    }
+    protected function qrcode($id){
+        $pdf = new TCPDF();
+
+        $pdf->SetPrintHeader(false);
+        $pdf->SetPrintFooter(false);
+        $pdf->AddPage('L', 'A4');
+        $pdf->SetFont('msjh', '', 15);
+        $style = array(
+            'fgcolor' => array(0,0,0),
+            'bgcolor' => false, //array(255,255,255)
+            'module_width' => 1, // width of a single module in points
+            'module_height' => 1 // height of a single module in points
+        );
+        $QRCode_size = 20;
+        $products = ProductIndex::where('pid',$id)->select('p_name','p_number')->first();
+        if(empty($products)){
+            $error = new MessageBag(['title'=>'提示','message'=>'找不到此商品編號!']);
+            return back()->withInput()->with(compact('error'));
+        }
+        $QRCode_content = $products->p_number;
+        $QRCode_title = $products->p_name;
+        $pdf->Text(10, 5, $QRCode_title);
+        
+        $pdf->SetFont('msjh', '', 8);
+        $QRCode_width = 35;
+        $QRCode_height = 30;
+        $y = 15;
+        for($i=1;$i<=6;$i++){
+            $x = 15;
+            for ($j=1;$j<=8;$j++) {
+                $pdf->write2DBarcode($QRCode_content, 'QRCODE,H', $x, $y, 20, 20, $style, 'N');
+                $pdf->Text($x-5, $y+20, $QRCode_content);
+                $x = $x + $QRCode_width;
+            }
+            $y = $y + $QRCode_height;
+        }
+    
+        $pdf->Output($QRCode_content.'.pdf', 'I');
     }
 }

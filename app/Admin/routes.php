@@ -127,9 +127,11 @@ Route::group([
     //商品匯入功能
     $router->post('product/import', 'ProductIndexController@import');
 
+    //商品QR Code
+    $router->get('product/{id}/qrcode', 'ProductIndexController@qrcode');
+
     //後台管理首頁儀板表
     $router->get('/', 'HomeController@index');
 
-    
 
 });

@@ -40,7 +40,7 @@
 
 
 
-                                    <!-- 新建 -->
+                                    {{-- 新建 --}}
                                     @if($action == 'create')
                                     @foreach($products as $key => $product)
                                     <div role="row" row-id="{{ $product->pid }}" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
@@ -62,7 +62,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('st_stock') }}
                                         <input type="hidden" name="stid[]" value="{{ $product->stock()->where('wid', Admin::user()->wid)->pluck('stid')[0] }}">
                                         </div>
-                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
+                                        {{-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             @if(!empty($stock[$key]))
                                                 @if(count($stock[$key]) == 1 && $val = $stock[$key][0])
                                                 <input type="hidden" name="stid[]" value="{{ $val['stid'] }}">
@@ -79,7 +79,7 @@
                                                 不分款
                                             @endif
                                         
-                                        </div> -->
+                                        </div> --}}
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
@@ -94,7 +94,7 @@
                                     @endif
 
 
-                                    <!-- 編輯 -->
+                                    {{-- 編輯 --}}
                                     @if($action == 'edit')
                                     @foreach($savedDetails as $key => $savedDetail)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
@@ -117,7 +117,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}
                                         <input type="hidden" name="stid[]" value="{{ $savedDetail->stid }}">
                                         </div>                                        
-                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
+                                        {{-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             @if(isset($stock[$savedDetail->stid]))
                                                 @if(empty($savedDetail->$detailid))
                                                 <select name="stid[]">
@@ -134,7 +134,7 @@
                                                 不分款
                                             @endif
                                         
-                                        </div> -->
+                                        </div> --}}
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             <input type="text" name="quantity[]" value="{{ $savedDetail->$showQuantity }}" {{ $allReadonly }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
@@ -148,7 +148,7 @@
                                     @endforeach
                                     @endif
 
-                                     <!-- 編輯(check) -->
+                                     {{-- 編輯(check) --}}
                                     @if($action == 'editcheck')
                                     @foreach($savedDetails as $key => $savedDetail)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
@@ -174,7 +174,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $products[$key]['p_unit'] }}
                                         <input type="hidden" name="stid[]" value="{{ $savedDetail->stid }}">
                                         </div>                                        
-                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
+                                        {{-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             @if(isset($stock[$savedDetail->stid]))
                                                 @if(empty($savedDetail->$detailid))
                                                 <select name="stid[]">
@@ -191,7 +191,7 @@
                                                 不分款
                                             @endif
                                         
-                                        </div> -->
+                                        </div> --}}
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="quantity[]" value="{{ $savedDetail->$showQuantity }}" {{ $allReadonly }}></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
@@ -205,7 +205,7 @@
                                     @endforeach
                                     @endif
 
-                                    <!-- 編輯-新增明細 -->
+                                    {{-- 編輯-新增明細 --}}
                                     @if($action == 'editadd')
                                     @foreach($products as $key => $product)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
@@ -226,7 +226,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $product->p_unit }}
                                         <input type="hidden" name="stid[]" value="{{ $product->stock()->where('wid', Admin::user()->wid)->pluck('stid')[0] }}">
                                         </div>
-                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
+                                        {{-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             @if(!empty($stock[$key]))
                                             <select name="stid[]">
                                                 @foreach($stock[$key] as $val)
@@ -238,7 +238,7 @@
                                                 不分款
                                             @endif
                                         
-                                        </div> -->
+                                        </div> --}}
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
@@ -252,7 +252,7 @@
                                     @endforeach
                                     @endif
 
-                                    <!-- 編輯(check)-新增明細 -->
+                                    {{-- 編輯(check)-新增明細 --}}
                                     @if($action == 'editcheckadd')
                                     @foreach($products as $key => $product)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
@@ -276,7 +276,7 @@
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $product->p_unit }}
                                         <input type="hidden" name="stid[]" value="{{ $product->stock()->where('wid', Admin::user()->wid)->pluck('stid')[0] }}">
                                         </div>
-                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
+                                        {{-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             @if(!empty($stock[$key]))
                                             <select name="stid[]">
                                                 @foreach($stock[$key] as $val)
@@ -288,7 +288,7 @@
                                                 不分款
                                             @endif
                                         
-                                        </div> -->
+                                        </div> --}}
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
@@ -302,7 +302,7 @@
                                     @endforeach
                                     @endif
                         
-                                    <!-- 眼睛查看 -->
+                                    {{-- 眼睛查看 --}}
                                     @if($action == 'view')
                                     @foreach($savedDetails as $key => $savedDetail)
                                     <div role="row" class="tb-row tb-row-{{ $rowEvenOdd[$key%2] }} tb-row-no-animation" style="top: {{ $rowTop += 30 }}px;">
@@ -313,8 +313,8 @@
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
-                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $stock[$key] }}</div> -->
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>
+                                        {{-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $stock[$key] }}</div> --}}
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $savedDetail->$showQuantity }}
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->$showPrice }}</div>

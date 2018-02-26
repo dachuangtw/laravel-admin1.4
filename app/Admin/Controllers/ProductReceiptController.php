@@ -47,11 +47,11 @@ class ProductReceiptController extends Controller
         $savedDetails = ProductReceiptDetails::ofselected($re_number) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::find($value->pid);
-            $stock[$value->stid] = Stock::find($value->stid)->st_type;
+            // $stock[$value->stid] = Stock::find($value->stid)->st_type;
         }
-        $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,663];
-        $rowTitle = ['','商品編號','商品名','單位','款式','進貨數','單價','總價','備註'];
+        $rowWidth = [33,180,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,363,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位',/*'款式',*/'進貨數','單價','總價','備註'];
         $showPrice = 'red_price';
         $showQuantity = 'red_quantity';
         $showAmount = 'red_amount';
@@ -132,7 +132,7 @@ class ProductReceiptController extends Controller
         $receipt['re_user'] = Administrator::find($receipt['re_user'])->name;
 
         $header[] = '進貨單資訊';
-        foreach($receipt as $key => $value){            
+        foreach($receipt as $key => $value){
 
             if(in_array($key,$skipArray) || empty($value))
                 continue;
@@ -141,7 +141,7 @@ class ProductReceiptController extends Controller
             $newkey = trans('admin::lang.'.$key);
 
             //如果有換行\n改成<br>
-            $rows[$newkey] = nl2br($value);            
+            $rows[$newkey] = nl2br($value);
         }
 
         $table = new Table($header, $rows);
@@ -153,16 +153,18 @@ class ProductReceiptController extends Controller
         $savedDetails = ProductReceiptDetails::ofselected($re_number) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
-            $stock[$key] = Stock::find($value->stid)->st_type;
+            // $stock[$key] = Stock::find($value->stid)->st_type;
         }
         $action = 'view';
         
         $firsttime = true;
         $inputtext = true;
 
-        $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,663];
-        $rowTitle = ['','商品編號','商品名','單位','款式','進貨數','單價','總價','備註'];
+        // $rowWidth = [33,100,150,60,80,80,80,80,110];
+        // $rowLeft = [0,33,133,283,343,423,503,583,663];
+        $rowWidth = [33,180,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,363,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位',/*'款式',*/'進貨數','單價','總價','備註'];
         $showPrice = 'red_price';
         $showQuantity = 'red_quantity';
         $showAmount = 'red_amount';
@@ -452,7 +454,7 @@ SCRIPT;
                                 $insertStockArray = [
                                     'pid'           =>  $val['pid'],
                                     'wid'           =>  Admin::user()->wid,
-                                    'st_type'       =>  '不分款',
+                                    // 'st_type'       =>  '不分款',
                                     'st_stock'      =>  $st_stock,
                                     'st_unit'       =>  '每人',
                                     'update_user'   =>  Admin::user()->id,
@@ -675,7 +677,7 @@ SCRIPT;
                                 $insertStockArray = [
                                     'pid'           =>  $val['pid'],
                                     'wid'           =>  Admin::user()->wid,
-                                    'st_type'       =>  '不分款',
+                                    // 'st_type'       =>  '不分款',
                                     'st_stock'      =>  $st_stock,
                                     'st_unit'       =>  '每人',
                                     'update_user'   =>  Admin::user()->id,

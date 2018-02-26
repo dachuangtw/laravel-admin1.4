@@ -44,11 +44,13 @@ class SalesCollectController extends Controller
         $savedDetails = SalesCollectDetails::ofselected($SalesCollect->collect_id) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::find($value->pid);
-            $stock[$value->stid] = Stock::find($value->stid)->st_type;
+            // $stock[$value->stid] = Stock::find($value->stid)->st_type;
         }
-        $rowWidth = [33,100,33,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,166,316,376,456,536,616,696];
-        $rowTitle = ['','商品編號','點貨','商品名','單位','款式','數量','單價(業務)','總價','備註'];
+        // $rowWidth = [33,100,33,150,60,80,80,80,80,110];
+        // $rowLeft = [0,33,133,166,316,376,456,536,616,696];        
+        $rowWidth = [33,180,33,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,246,396,456,536,616,696];
+        $rowTitle = ['','商品編號','點貨','商品名','單位',/*'款式',*/'數量','單價(業務)','總價','備註'];
         $showPrice = 'scd_salesprice';
         $showQuantity = 'scd_quantity';
         $showAmount = 'scd_amount';
@@ -127,16 +129,18 @@ class SalesCollectController extends Controller
         $savedDetails = SalesCollectDetails::ofselected($salescollect['collect_id']) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::find($value->pid);
-            $stock[$key] = Stock::find($value->stid)->st_type;
+            // $stock[$key] = Stock::find($value->stid)->st_type;
         }
         $action = 'view';
         $detailid = 'scdid';
         $firsttime = true;
         $inputtext = false;
 
-        $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,663];
-        $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價(業務)','總價','備註'];
+        // $rowWidth = [33,100,150,60,80,80,80,80,110];
+        // $rowLeft = [0,33,133,283,343,423,503,583,663];
+        $rowWidth = [33,180,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,363,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位',/*'款式',*/'數量','單價(業務)','總價','備註'];
         $showPrice = 'scd_salesprice';
         $showQuantity = 'scd_quantity';
         $showAmount = 'scd_amount';

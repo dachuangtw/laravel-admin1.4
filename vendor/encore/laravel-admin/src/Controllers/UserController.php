@@ -71,9 +71,9 @@ class UserController extends Controller
         return Administrator::grid(function (Grid $grid) {
             $grid->id('ID')->sortable();
             $grid->column('wid',trans('admin::lang.warehouse'))->value(function ($wid) {
-                $warehouse = Warehouse::where('wid', $wid)->pluck('w_name')->toArray();
+                $warehouse = Warehouse::find($wid)->w_name;
                 if(!empty($warehouse))
-                    return $warehouse['0'];
+                    return $warehouse;
                 else
                     return '';
             });

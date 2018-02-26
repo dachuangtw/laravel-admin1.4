@@ -27,7 +27,7 @@
                 <div class="pull-left" style="width:50%;min-height:200px;">
                     <input type="hidden" name="indid" value="">
                     <h3 style="text-align:center;"></h3>
-                    <p style="text-align:left;margin-left:10%;margin-top:20px;">款式：<span id="ind_type"></span></p>
+                    <!-- <p style="text-align:left;margin-left:10%;margin-top:20px;">款式：<span id="ind_type"></span></p> -->
                     <p style="text-align:left;margin-left:10%;margin-top:20px;">目前庫存：<span id="ind_stock"></span></p>
                     <p style="text-align:left;margin-left:10%;margin-top:20px;">盤點數量：<input type="text" name="ind_quantity" style="max-width:40%;"></p>
                     <p style="text-align:left;margin-left:10%;margin-top:20px;">備註：<input type="text" name="ind_notes" style="max-width:60%;"></p>
@@ -91,7 +91,7 @@ $('#countingmodal').on('show.bs.modal',  function (event) {
         }else{
             modal.find('.product-img').html('<span class="glyphicon glyphicon-picture" style="font-size: 20vmin;"></span>');
         }
-        modal.find('#ind_type').text(data[3]);
+        // modal.find('#ind_type').text(data[3]);
         modal.find('#ind_stock').text(data[4]);
         modal.find('input[name="ind_quantity"]').val(data[5]);
         modal.find('input[name="ind_notes"]').val(data[6]);

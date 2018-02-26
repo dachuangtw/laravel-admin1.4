@@ -41,11 +41,13 @@ class SalesRefundController extends Controller
         $savedDetails = SalesRefundDetails::ofselected($SalesRefund->refund_id) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::find($value->pid);
-            $stock[$value->stid] = Stock::find($value->stid)->st_type;
+            // $stock[$value->stid] = Stock::find($value->stid)->st_type;
         }
-        $rowWidth = [33,100,33,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,166,316,376,456,536,616,696];
-        $rowTitle = ['','商品編號','點貨','商品名','單位','款式','數量','單價(業務)','總價','備註'];
+        // $rowWidth = [33,100,33,150,60,80,80,80,80,110];
+        // $rowLeft = [0,33,133,166,316,376,456,536,616,696];        
+        $rowWidth = [33,180,33,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,246,396,456,536,616,696];
+        $rowTitle = ['','商品編號','點貨','商品名','單位',/*'款式',*/'數量','單價(業務)','總價','備註'];
         $showPrice = 'srd_salesprice';
         $showQuantity = 'srd_quantity';
         $showAmount = 'srd_amount';

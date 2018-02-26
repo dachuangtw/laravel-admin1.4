@@ -18,7 +18,7 @@ class CreateInventoryDetailsTable extends Migration
             $table->string('in_number',50)->index()->comment('盤點單號');
             $table->integer('pid')->unsigned()->index()->comment('商品id');
             $table->integer('stid')->unsigned()->index()->comment('庫存id');
-            $table->string('ind_type',50)->nullable()->comment('款式');
+            // $table->string('ind_type',50)->nullable()->comment('款式');
             $table->integer('ind_stock')->default(0)->comment('目前庫存數');
             $table->integer('ind_quantity')->default(0)->comment('盤點數量');
             $table->integer('ind_difference')->default(0)->comment('差異數量');

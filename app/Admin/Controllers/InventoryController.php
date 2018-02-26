@@ -164,13 +164,13 @@ class InventoryController extends Controller
         $rows = [];
 
         foreach($InventoryDetails as $detail){
-            if($detail->ind_type == '不分款'){
-                $detail->ind_type = '';
-            }else{
-                $detail->ind_type = ' (' .$detail->ind_type. ')';
-            }
+            // if($detail->ind_type == '不分款'){
+            //     $detail->ind_type = '';
+            // }else{
+            //     $detail->ind_type = ' (' .$detail->ind_type. ')';
+            // }
             $ProductIndex = ProductIndex::where('pid',$detail->pid)->select('p_name','p_number','p_pic')->first();
-            $detail->p_name = $ProductIndex->p_name . $detail->ind_type;
+            $detail->p_name = $ProductIndex->p_name;// . $detail->ind_type;
             $detail->p_number = $ProductIndex->p_number;
             $detail->p_pic = $ProductIndex->p_pic;
             if($detail->p_pic){
@@ -300,6 +300,11 @@ SCRIPT;
                     $actions->ensableInventory();
                 }
             });
+            $grid->tools(function (Grid\Tools $tools) {
+                $tools->batch(function (Grid\Tools\BatchActions $actions) {
+                    $actions->disableDelete();
+                });
+            });
             $grid->filter(function($filter){
                 $filter->disableIdFilter();
             });
@@ -375,7 +380,7 @@ SCRIPT;
                             'in_number' => $form->in_number,
                             'pid' => $stock->pid,
                             'stid' => $stock->stid,
-                            'ind_type' => $stock->st_type,
+                            // 'ind_type' => $stock->st_type,
                             'ind_stock' => $stock->st_stock,
                             'update_user' => Admin::user()->id,
                             'created_at' => date('Y-m-d H:i:s'),

@@ -33,7 +33,7 @@ class InventoryDetailsController extends Controller
             '0' =>  $inventoryDetails->indid,
             '1' =>  $productDetails->p_name,
             '2' =>  $productDetails->p_pic,
-            '3' =>  $inventoryDetails->ind_type,
+            // '3' =>  $inventoryDetails->ind_type,
             '4' =>  $inventoryDetails->ind_stock,
             '5' =>  $inventoryDetails->ind_quantity,
             '6' =>  $inventoryDetails->ind_notes,

@@ -19,7 +19,9 @@ class Stock extends Model
 
     //批量賦值
     protected $fillable = [
-        'pid',  'wid',  'st_type',  'st_barcode',  'st_stock',  'st_collect', 'st_notes', 'st_unit', 'showfront',  
+        'pid',  'wid', 
+        /* 'st_type',*/  
+        'st_barcode',  'st_stock',  'st_collect', 'st_notes', 'st_unit', 'showfront',  
         'update_user',  'updated_at', 'deleted_at'
     ];
 

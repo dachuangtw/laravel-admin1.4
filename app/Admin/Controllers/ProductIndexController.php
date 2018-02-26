@@ -73,22 +73,22 @@ class ProductIndexController extends Controller
         }
 
         if($action == 'create'){
-            $rowWidth = [33,100,150,50,60,80,80,80,80,90];
-            $rowLeft = [0,33,133,283,333,393,473,553,633,713];
-            $rowTitle = ['','商品編號','商品名','單位','庫存數','款式','數量','單價','總價','備註'];
+            $rowWidth = [33,180,150,50,60,80,80,80,90];
+            $rowLeft = [0,33,213,363,413,473,553,633,713];
+            $rowTitle = ['','商品編號','商品名','單位','庫存數',/*'款式',*/'數量','單價','總價','備註'];
         }elseif($action == 'edit'){
             
             if ($target == 'salescollect_hasstock' || $target == 'salesrefund_hasstock'){
                 $action = 'editcheckadd';
                 $checkProduct = 'scd_check';
-                $rowWidth = [33,100,33,150,60,80,80,80,80,110];
-                $rowLeft = [0,33,133,166,316,376,456,536,616,696];
-                $rowTitle = ['','商品編號','點貨','商品名','單位','款式','數量','單價(業務)','總價','備註'];
+                $rowWidth = [33,180,33,150,60,80,80,80,110];
+                $rowLeft = [0,33,213,246,396,456,536,616,696];
+                $rowTitle = ['','商品編號','點貨','商品名','單位',/*'款式',*/'數量','單價(業務)','總價','備註'];
             }else{
                 $action = 'editadd';
-                $rowWidth = [33,100,150,60,80,80,80,80,110];
-                $rowLeft = [0,33,133,283,343,423,503,583,663];
-                $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
+                $rowWidth = [33,180,150,60,80,80,80,110];
+                $rowLeft = [0,33,213,363,423,503,583,663];
+                $rowTitle = ['','商品編號','商品名','單位',/*'款式',*/'數量','單價','總價','備註'];
             }
         }
         if ($target == 'salescollect_hasstock' || $target == 'salesrefund_hasstock'){
@@ -433,7 +433,7 @@ class ProductIndexController extends Controller
                     return '';
                     // return "<span class='label label-warning'>無庫存資料</span>";
                 });
-                $grid->stock2('總倉庫存')->where('wid','2')->sum('st_stock')->value(function ($stock) {
+                $grid->stock2('台中庫存')->where('wid','2')->sum('st_stock')->value(function ($stock) {
                     if(!empty($stock)){
                         return $stock;
                     }
@@ -573,7 +573,7 @@ class ProductIndexController extends Controller
                         }
                     }
                     
-                    $form->text('st_type',trans('admin::lang.product_type'))->default('不分款');
+                    // $form->text('st_type',trans('admin::lang.product_type'))->default('不分款');
                     $form->text('st_barcode',trans('admin::lang.product_barcode'));
                     $form->text('st_notes',trans('admin::lang.notes'));
                     if(!$id){ //編輯
@@ -636,7 +636,7 @@ class ProductIndexController extends Controller
                     $insertstock = [
                         'pid'           =>  $form->model()->pid,
                         'wid'           =>  Admin::user()->wid,
-                        'st_type'       =>  '不分款',
+                        // 'st_type'       =>  '不分款',
                         'st_stock'      =>  0,
                         'update_user'   =>  Admin::user()->id,
                         'created_at'    =>  date('Y-m-d H:i:s'),
@@ -684,7 +684,7 @@ class ProductIndexController extends Controller
                                 $dataArray2 = [
                                 'pid'           =>  $pid,
                                 'wid'           =>  Admin::user()->wid,
-                                'st_type'       =>  '不分款',
+                                // 'st_type'       =>  '不分款',
                                 'st_stock'      =>  $row['st_stock'],
                                 'update_user'   =>  Admin::user()->id,
                                 'created_at'    =>  date('Y-m-d H:i:s'),

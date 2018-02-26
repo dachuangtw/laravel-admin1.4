@@ -126,7 +126,7 @@ return [
 
     //庫存
     'stock'                =>    '庫存',
-    'product_type'         =>    '款式',
+    // 'product_type'         =>    '款式',
     'product_stock'        =>    '目前庫存數',
     'product_sales'        =>    '業務可領貨量',
     'sales_unit'           =>    '業務領貨單位',

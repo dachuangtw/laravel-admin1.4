@@ -52,11 +52,13 @@ class SalesAssignController extends Controller
         $savedDetails = SalesAssignDetails::ofselected($SalesAssign->assign_id) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::find($value->pid);
-            $stock[$value->stid] = Stock::find($value->stid)->st_type;
+            // $stock[$value->stid] = Stock::find($value->stid)->st_type;
         }
-        $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,663];
-        $rowTitle = ['','商品編號','商品名','單位','款式','配貨數','單價(業務)','總價','備註'];
+        // $rowWidth = [33,100,150,60,80,80,80,80,110];
+        // $rowLeft = [0,33,133,283,343,423,503,583,663];
+        $rowWidth = [33,180,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,363,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位',/*'款式',*/'配貨數','單價(業務)','總價','備註'];
         $showPrice = 'sad_salesprice';
         $showQuantity = 'sad_quantity';
         $showAmount = 'sad_amount';
@@ -124,18 +126,19 @@ class SalesAssignController extends Controller
         // $SalesAssign = SalesAssign::find($id)->assign_id;
         $savedDetails = SalesAssignDetails::ofselected($salesassign['assign_id']) ?: [];
         foreach($savedDetails as $key => $value){
-            // $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
             $products[$key] = ProductIndex::find($value->pid);
-            $stock[$key] = Stock::find($value->stid)->st_type;
+            // $stock[$key] = Stock::find($value->stid)->st_type;
         }
         $action = 'view';
         $detailid = 'sadid';
         $firsttime = true;
         $inputtext = false;
 
-        $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,663];
-        $rowTitle = ['','商品編號','商品名','單位','款式','數量','單價','總價','備註'];
+        // $rowWidth = [33,100,150,60,80,80,80,80,110];
+        // $rowLeft = [0,33,133,283,343,423,503,583,663];
+        $rowWidth = [33,180,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,363,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位',/*'款式',*/'數量','單價','總價','備註'];
         $showPrice = 'sad_salesprice';
         $showQuantity = 'sad_quantity';
         $showAmount = 'sad_amount';

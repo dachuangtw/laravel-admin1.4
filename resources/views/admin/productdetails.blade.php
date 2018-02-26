@@ -59,8 +59,10 @@
 
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $product->p_unit }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('st_stock') }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $product->stock()->where('wid', Admin::user()->wid)->sum('st_stock') }}
+                                        <input type="hidden" name="stid[]" value="{{ $product->stock()->where('wid', Admin::user()->wid)->pluck('stid')[0] }}">
+                                        </div>
+                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             @if(!empty($stock[$key]))
                                                 @if(count($stock[$key]) == 1 && $val = $stock[$key][0])
                                                 <input type="hidden" name="stid[]" value="{{ $val['stid'] }}">
@@ -77,14 +79,14 @@
                                                 不分款
                                             @endif
                                         
-                                        </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
+                                        </div> -->
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
                                             <input type="text" name="price[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
                                             <input type="text" name="amount[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[9] }}px; left: {{ $rowLeft[9] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
                                             <input type="text" name="notes[]" value=""></div>
 
                                     </div>
@@ -112,8 +114,10 @@
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}
+                                        <input type="hidden" name="stid[]" value="{{ $savedDetail->stid }}">
+                                        </div>                                        
+                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             @if(isset($stock[$savedDetail->stid]))
                                                 @if(empty($savedDetail->$detailid))
                                                 <select name="stid[]">
@@ -130,14 +134,14 @@
                                                 不分款
                                             @endif
                                         
-                                        </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
+                                        </div> -->
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             <input type="text" name="quantity[]" value="{{ $savedDetail->$showQuantity }}" {{ $allReadonly }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="price[]" value="{{ $savedDetail->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
                                             <input type="text" name="amount[]" value="{{ $savedDetail->$showAmount }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
                                             <input type="text" name="notes[]" value="{{ $savedDetail->$showNotes }}" {{ $allReadonly }}></div>
 
                                     </div>
@@ -167,8 +171,10 @@
                                             @else {{ $products[$key]['p_name'] }} 
                                             @endif
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $products[$key]['p_unit'] }}
+                                        <input type="hidden" name="stid[]" value="{{ $savedDetail->stid }}">
+                                        </div>                                        
+                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             @if(isset($stock[$savedDetail->stid]))
                                                 @if(empty($savedDetail->$detailid))
                                                 <select name="stid[]">
@@ -185,14 +191,14 @@
                                                 不分款
                                             @endif
                                         
-                                        </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
+                                        </div> -->
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="quantity[]" value="{{ $savedDetail->$showQuantity }}" {{ $allReadonly }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
                                             <input type="text" name="price[]" value="{{ $savedDetail->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
                                             <input type="text" name="amount[]" value="{{ $savedDetail->$showAmount }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[9] }}px; left: {{ $rowLeft[9] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
                                             <input type="text" name="notes[]" value="{{ $savedDetail->$showNotes }}" {{ $allReadonly }}></div>
 
                                     </div>
@@ -217,8 +223,10 @@
                                             @else {{ $product->p_name }} 
                                             @endif
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $product->p_unit }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $product->p_unit }}
+                                        <input type="hidden" name="stid[]" value="{{ $product->stock()->where('wid', Admin::user()->wid)->pluck('stid')[0] }}">
+                                        </div>
+                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             @if(!empty($stock[$key]))
                                             <select name="stid[]">
                                                 @foreach($stock[$key] as $val)
@@ -230,14 +238,14 @@
                                                 不分款
                                             @endif
                                         
-                                        </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
+                                        </div> -->
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="price[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
                                             <input type="text" name="amount[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
                                             <input type="text" name="notes[]" value=""></div>
 
                                     </div>
@@ -265,8 +273,10 @@
                                             @else {{ $product->p_name }} 
                                             @endif
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $product->p_unit }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $product->p_unit }}
+                                        <input type="hidden" name="stid[]" value="{{ $product->stock()->where('wid', Admin::user()->wid)->pluck('stid')[0] }}">
+                                        </div>
+                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             @if(!empty($stock[$key]))
                                             <select name="stid[]">
                                                 @foreach($stock[$key] as $val)
@@ -278,14 +288,14 @@
                                                 不分款
                                             @endif
                                         
-                                        </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
+                                        </div> -->
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">
                                             <input type="text" name="quantity[]" value="1"></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">
                                             <input type="text" name="price[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">
                                             <input type="text" name="amount[]" value="{{ $product->$showPrice }}" {{ $inputtext ? '' : 'readonly' }}></div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[9] }}px; left: {{ $rowLeft[9] }}px; ">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">
                                             <input type="text" name="notes[]" value=""></div>
 
                                     </div>
@@ -304,15 +314,13 @@
                                             @endif
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">{{ $products[$key]['p_unit'] }}</div>                                        
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $stock[$key] }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->$showQuantity }}
-                                        <input type="hidden" name="quantity[]" value="{{ $savedDetail->$showQuantity }}">
+                                        <!-- <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $stock[$key] }}</div> -->
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[4] }}px; left: {{ $rowLeft[4] }}px; ">{{ $savedDetail->$showQuantity }}
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">{{ $savedDetail->$showPrice }}</div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->$showAmount }}
-                                        <input type="hidden" name="amount[]" value="{{ $savedDetail->$showAmount }}">
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[5] }}px; left: {{ $rowLeft[5] }}px; ">{{ $savedDetail->$showPrice }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-right" style="width: {{ $rowWidth[6] }}px; left: {{ $rowLeft[6] }}px; ">{{ $savedDetail->$showAmount }}
                                         </div>
-                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[8] }}px; left: {{ $rowLeft[8] }}px; ">{{ $savedDetail->$showNotes }}</div>
+                                        <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[7] }}px; left: {{ $rowLeft[7] }}px; ">{{ $savedDetail->$showNotes }}</div>
 
                                     </div>
                                     @endforeach

@@ -52,11 +52,13 @@ class TransferController extends Controller
         $savedDetails = TransferDetail::ofselected($Transfer->t_number) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::find($value->pid);
-            $stock[$value->stid] = Stock::find($value->stid)->st_type;
+            // $stock[$value->stid] = Stock::find($value->stid)->st_type;
         }
-        $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,663];
-        $rowTitle = ['','商品編號','商品名','單位','款式','調撥數','單價','總價','備註'];
+        // $rowWidth = [33,100,150,60,80,80,80,80,110];
+        // $rowLeft = [0,33,133,283,343,423,503,583,663];
+        $rowWidth = [33,180,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,363,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位',/*'款式',*/'調撥數','單價','總價','備註'];
         $showPrice = 'td_price';
         $showQuantity = 'td_quantity';
         $showAmount = 'td_amount';
@@ -163,16 +165,18 @@ class TransferController extends Controller
         $savedDetails = TransferDetail::ofselected($t_number) ?: [];
         foreach($savedDetails as $key => $value){
             $products[$key] = ProductIndex::where('pid',$value->pid)->get()->toArray()[0];
-            $stock[$key] = Stock::find($value->stid)->st_type;
+            // $stock[$key] = Stock::find($value->stid)->st_type;
         }
         $action = 'view';
         
         $firsttime = true;
         $inputtext = false;
 
-        $rowWidth = [33,100,150,60,80,80,80,80,110];
-        $rowLeft = [0,33,133,283,343,423,503,583,663];
-        $rowTitle = ['','商品編號','商品名','單位','款式','調撥數','單價','總價','備註'];
+        // $rowWidth = [33,100,150,60,80,80,80,80,110];
+        // $rowLeft = [0,33,133,283,343,423,503,583,663];        
+        $rowWidth = [33,180,150,60,80,80,80,110];
+        $rowLeft = [0,33,213,363,423,503,583,663];
+        $rowTitle = ['','商品編號','商品名','單位',/*'款式',*/'調撥數','單價','總價','備註'];
         $showPrice = 'td_price';
         $showQuantity = 'td_quantity';
         $showAmount = 'td_amount';
@@ -638,7 +642,7 @@ SCRIPT;
                                 $insertStockArray = [
                                     'pid'           =>  $val['pid'],
                                     'wid'           =>  Admin::user()->wid,
-                                    'st_type'       =>  '不分款',
+                                    // 'st_type'       =>  '不分款',
                                     'st_stock'      =>  $st_stock,
                                     'update_user'   =>  Admin::user()->id,
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
@@ -715,7 +719,8 @@ SCRIPT;
                     foreach($receiveDetails as $key => $value){
 
                         //更新收貨倉庫存(已有庫存資料)
-                        $receiveStockdata = Stock::where('wid',$Transfer->wid_receive)->where('pid',$value->pid)->where('st_type',$value->st_type)->first();
+                        // $receiveStockdata = Stock::where('wid',$Transfer->wid_receive)->where('pid',$value->pid)->where('st_type',$value->st_type)->first();
+                        $receiveStockdata = Stock::where('wid',$Transfer->wid_receive)->where('pid',$value->pid)->first();
                         if ($receiveStockdata) {
                             $receive_retailStock = (int) $receiveStockdata->st_stock ?: 0;
                             $receive_stock = $receive_retailStock + (int) $value->td_quantity;
@@ -734,7 +739,7 @@ SCRIPT;
                             $insertStockArray = [                                
                                 'pid'           =>  $value->pid,
                                 'wid'           =>  $Transfer->wid_receive,
-                                'st_type'       =>  Stock::find($value->stid)->st_type,
+                                // 'st_type'       =>  Stock::find($value->stid)->st_type,
                                 'st_stock'      =>  $receive_stock,
                                 'update_user'   =>  Admin::user()->id,
                                 'created_at'    =>  date('Y-m-d H:i:s'),

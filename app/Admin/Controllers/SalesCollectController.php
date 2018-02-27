@@ -197,7 +197,7 @@ SCRIPT;
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_collect'));
-            $content->description(trans('admin::lang.edit'));
+            $content->description(trans('admin::lang.create'));
             $content->breadcrumb(
                 ['text' => trans('admin::lang.sales_collect'), 'url' => '/sales/collect'],
                 ['text' => trans('admin::lang.create')]
@@ -256,22 +256,19 @@ SCRIPT;
                     $query->where(\DB::raw("date_format(collect_date, '%Y-%m-%d')"), '<=', "{$this->input}");
                 }, '配貨日期(迄)')->date();
                 //業務姓名查詢
-                $filter->where(function ($query) {
-                    $Sid_name = Sales::where('name','like',"%{$this->input}%")->pluck('sales_id');
-                    $Sid_nickname = Sales::where('nickname','like',"%{$this->input}%")->pluck('sales_id');
-                    // $key = NULL;
-                    // dump($Sid_name);
-                    foreach ($Sid_name as $key => $sid){
-                        if ($key == 0 ){
-                            $query->where('sales_id',$sid);
-                        }else{
-                            $query->orwhere('sales_id',$sid);
-                        }
-                    }   
-                    // dump($key);
-                    // if ($key == NULL)
-                    $query->orwhere('sales_id',"%{$this->input}%");               
-                }, trans('admin::lang.salesname'));
+                // $filter->where(function ($query) {
+                //     $Sid_name = Sales::where('name','like',"%{$this->input}%")->pluck('sales_id');
+                //     $Sid_nickname = Sales::where('nickname','like',"%{$this->input}%")->pluck('sales_id');
+                //     foreach ($Sid_name as $key => $sid){
+                //         if ($key == 0 ){
+                //             $query->where('sales_id',$sid);
+                //         }else{
+                //             $query->orwhere('sales_id',$sid);
+                //         }
+                //     }   
+                //     if (!isset($key))
+                //         $query->where('sales_id', NULL);               
+                // }, trans('admin::lang.salesname'));
 
             });
             $grid->number('No.')->sortable();
@@ -398,14 +395,14 @@ SCRIPT;
                     
                     if(!empty($max_number)){
                         //取後三碼做+1計算
-                        $lastTwoCode = (int)mb_substr($max_number,-3,3,"utf-8");
-                        $lastTwoCode++; 
+                        $lastThreeCode = (int)mb_substr($max_number,-3,3,"utf-8");
+                        $lastThreeCode++; 
                     }else{
-                        $lastTwoCode = 1;
+                        $lastThreeCode = 1;
                     }
                     //前補0至三碼
-                    $lastTwoCode = str_pad($lastTwoCode,3,'0',STR_PAD_LEFT);
-                    $form->collect_id = $collect_date.$lastTwoCode;
+                    $lastThreeCode = str_pad($lastThreeCode,3,'0',STR_PAD_LEFT);
+                    $form->collect_id = $collect_date.$lastThreeCode;
                 }
                 $scd_amount = request()->amount;
                 $scd_salesprice = request()->price;

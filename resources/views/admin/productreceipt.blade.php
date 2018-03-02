@@ -15,8 +15,8 @@
         <div class="fields-group">
             @foreach($form->fields() as $field) {!! $field->render() !!} @endforeach
         </div>
-        @endif {{--
-        <div class="card"> --}}
+        @endif
+        {{--  <div class="card">  --}}
         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#addManyRowModal">批量  <i class="fa fa-plus-square-o"></i></button>                            
         <button type="button" class="btn btn-primary" id="add-more" onClick="AddRow();">新增 <i class="fa fa-plus"></i></button>
         <button type="button" class="btn btn-danger" id="clear-all-raw" onClick="ClearAllRow();">清空 <i class="fa fa-trash-o"></i></button>    
@@ -30,7 +30,7 @@
                 <div class="col-md-12 col-sm-6">
                     <table class="rwd-table table" id="product-table">
                         <tr>
-                            <th>操作</th>
+                            <th style="width:30px;">操作</th>
                             <th style="width:30px;">序</th>
                             <th>產品編號</th>
                             <th style="width: 200px;">品項名稱</th>
@@ -38,9 +38,8 @@
                             <th style="width:100px;">進貨數量</th>
                             <th style="width:100px;">成本價</th>
                             <th style="width:100px;">業務價</th>
-                            {{--
-                            <th style="width:100px; display:none;">南台價</th> --}} {{--
-                            <th style="width:150px;">售價</th> --}}
+                            <th style="width:100px; display:none;">南台價</th>
+                            <th style="width:150px; display:none;">售價</th>
                             <th style="width:130px;">成本價金額</th>
                             <th style="width:130px;">業務價金額</th>
                             <th style="width:100px;">備註</th>
@@ -48,7 +47,7 @@
                         {{-- @if(!empty($posts)) { --}} {{-- @foreach($posts as $k=>$v) { --}} {{-- @for ( $k=0 ; $k<10; $k++ ) --}} 
                         
                         <tbody id="table-body">
-                            @for ( $k=1 ; $k<5; $k++ )
+                            @for ( $k=1 ; $k<5; $k++ ) <!--測試資料庫有資料-->
                             <tr class="table-row" id="table-row-{{$k}}">
                                 <td data-th="操作">
                                     <a class="btn btn-xs btn-success" id="add-more" onClick="AddRow();" title="新增">
@@ -59,8 +58,7 @@
                                     </a>
                                 </td>
                                 <td data-th="序">{{$k}}</td>
-                                {{--
-                                <td data-th="產品編號">
+                                {{--<td data-th="產品編號">
                                     <input type="text" class="form-control" value="AAB0172500115126">
                                 </td> --}}
                                 <td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,'post_title','<?php //echo $posts[$k][" id?>')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126</td>
@@ -86,10 +84,9 @@
                                 <td data-th="南台價" style="display:none">
                                     <input type="number" class="form-control" placeholder="南台價" required="required" min="0" value="" style="width:100px;">
                                 </td>
-                                {{--
-                                <td data-th="售價">
-                                    <input type="number" class="form-control" placeholder="售價" required="required" min="0" value="0">
-                                </td> --}}
+                                <td data-th="售價" style="display:none">
+                                    <input type="number" class="form-control" placeholder="售價" required="required" min="0" value="" style="width:100px;">
+                                </td>
                                 <td data-th="成本價金額"><input type="text" class="form-control" name="sumcostprice[]" id="sumcostprice{{$k}}" onChange='sumPrice({{$k}})' value='' style="width:130px;"></td>
                                 <td data-th="業務價金額"><input type="text" class="form-control" name="sumsalesprice[]" id="sumsalesprice{{$k}}" onChange='sumPrice({{$k}})' value='' style="width:130px;"></td>
                                 <td data-th="備註">
@@ -145,14 +142,12 @@
     {!! $form->close() !!}
 </div>
 
-{{-- 新增多列modal --}}
-<div class="modal fade" id="addManyRowModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- 新增多列 modal --}}
+<div class="modal fade" id="addManyRowModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">批量新增</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        </button>
+        <h4 class="modal-title">批量新增</h4>
       </div>
       <div class="modal-body">
         <form>
@@ -248,7 +243,7 @@
 </style>
 
 <script>
-    /*  參考 
+    /*  ======================== 參考 ================================
         動態增加刪除列 http://www.manongjc.com/article/439.html
         區塊卷軸+凍結表格效果  https://codepen.io/Tiya_blank/pen/XJjzeg
     */
@@ -345,8 +340,7 @@
         }
         total();
     }
-
-    /**計算金額**/  
+    //計算金額
     function sumPrice(rowid){  
         var sumcostprice = 0;  
         var sumsalesprice = 0;  
@@ -364,9 +358,8 @@
         document.getElementById ("sumsalesprice"+rowid).value = sumsalesprice;   
         total();
     }  
-    /**合計數量、金額**/  
+    //合計數量、金額  
     function total(){    
-        // sumPrice(rowid);  
         var totalquantity = 0,totalcostprice = 0,totalsalesprice = 0;
         $("#table-body .table-row input[name='quantity[]']").each(function() {
             if ($(this).val()!=""){

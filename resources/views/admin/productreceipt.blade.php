@@ -61,15 +61,15 @@
                                 {{--<td data-th="產品編號">
                                     <input type="text" class="form-control" value="AAB0172500115126">
                                 </td> --}}
-                                <td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,'post_title','<?php //echo $posts[$k][" id?>')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126</td>
+                                <td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,'post_title','<?php //echo $posts[$k][" id?>')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AA456888888</td>
                                 <td data-th="品項名稱">
                                     <input type="text" class="form-control" placeholder="輸入品名" required="required" style="width: 200px;">
                                 </td>
                                 <td data-th="分類">
                                     <select class="form-control">
-                                        <option>娃娃 A</option>
-                                        <option>Ketchup</option>
-                                        <option>Relish</option>
+                                    @foreach($extradata['StockCategory'] as $sc_number => $sc_name)
+                                        <option value="{{ $sc_number }}">{{ $sc_name }}</option>
+                                    @endforeach
                                     </select>
                                 </td>
                                 <td data-th="數量">
@@ -82,10 +82,10 @@
                                     <input type="number" class="form-control" name="salesprice[]" id="sales-price-{{$k}}" placeholder="業務價" required="required" onChange='sumPrice({{$k}})' min="0" value="" style="width:100px;">
                                 </td>
                                 <td data-th="南台價" style="display:none">
-                                    <input type="number" class="form-control" placeholder="南台價" required="required" min="0" value="" style="width:100px;">
+                                    <input type="number" class="form-control" name="southprice[]" placeholder="南台價" required="required" min="0" value="" style="width:100px;">
                                 </td>
                                 <td data-th="售價" style="display:none">
-                                    <input type="number" class="form-control" placeholder="售價" required="required" min="0" value="" style="width:100px;">
+                                    <input type="number" class="form-control" name="retailprice[]" placeholder="售價" required="required" min="0" value="" style="width:100px;">
                                 </td>
                                 <td data-th="成本價金額"><input type="text" class="form-control" name="sumcostprice[]" id="sumcostprice{{$k}}" onChange='sumPrice({{$k}})' value='' style="width:130px;"></td>
                                 <td data-th="業務價金額"><input type="text" class="form-control" name="sumsalesprice[]" id="sumsalesprice{{$k}}" onChange='sumPrice({{$k}})' value='' style="width:130px;"></td>

@@ -1062,9 +1062,9 @@ class Form
      *
      * @return $this
      */
-    public function setView($view)
+    public function setView($view, $data)
     {
-        $this->builder()->setView($view);
+        $this->builder()->setView($view, $data);
 
         return $this;
     }

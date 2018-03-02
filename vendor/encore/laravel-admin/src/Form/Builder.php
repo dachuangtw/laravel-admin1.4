@@ -82,6 +82,11 @@ class Builder
     ];
 
     /**
+     * @var array
+     */
+    protected $extradata = [];
+
+    /**
      * View for this form.
      *
      * @var string
@@ -224,9 +229,10 @@ class Builder
      *
      * @return $this
      */
-    public function setView($view)
+    public function setView($view, $data = [])
     {
         $this->view = $view;
+        $this->extradata = $data;
 
         return $this;
     }
@@ -539,9 +545,10 @@ SCRIPT;
         }
 
         $data = [
-            'form'     => $this,
-            'tabObj'   => $tabObj,
-            'width'    => $this->width,
+            'form'      => $this,
+            'tabObj'    => $tabObj,
+            'width'     => $this->width,
+            'extradata' => $this->extradata
         ];
 
         return view($this->view, $data)->render();

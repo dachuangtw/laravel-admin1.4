@@ -11,6 +11,7 @@ use App\Warehouse;
 use App\Stock;
 use App\StockLog;
 use App\ProductLog;
+use App\StockCategory;
 
 use Encore\Admin\Widgets\Table;
 
@@ -319,7 +320,8 @@ SCRIPT;
     protected function form()
     {
         return Admin::form(ProductReceipt::class, function (Form $form) {
-            $form->setView('admin.productreceipt');
+            $StockCategory = StockCategory::all()->pluck('sc_name', 'sc_number');
+            $form->setView('admin.productreceipt',['StockCategory'=>$StockCategory]);
             $form->select('supid', trans('admin::lang.product_supplier'))->options(
                 ProductSupplier::all()->pluck('sup_name', 'supid')
             );

@@ -319,20 +319,21 @@ SCRIPT;
     protected function form()
     {
         return Admin::form(ProductReceipt::class, function (Form $form) {
+            $form->setView('admin.productreceipt');
             $form->select('supid', trans('admin::lang.product_supplier'))->options(
                 ProductSupplier::all()->pluck('sup_name', 'supid')
             );
             $form->date('re_delivery', trans('admin::lang.re_delivery'));//->format('YYYY/MM/DD');
             // $form->currency('re_amount', trans('admin::lang.re_amount'))->options(['digits' => 2]);
             $form->textarea('re_notes', trans('admin::lang.notes'))->rows(2);
-
+            $form->divide();
             $form->hidden('wid')->default(Admin::user()->wid);
             $form->hidden('re_user')->default(Admin::user()->id);
             $form->hidden('re_number');
             $form->hidden('re_amount');
 
             //btn-append有另外寫js的append功能
-            $form->button('btn-danger btn-append','+ 進貨商品')->on('click','ShowModal("product");');
+            // $form->button('btn-danger btn-append','+ 進貨商品')->on('click','ShowModal("product");');
 
             /**
              * 不打算修正的BUG：laravel-admin模組原本的bug

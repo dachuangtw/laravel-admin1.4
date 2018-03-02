@@ -58,18 +58,16 @@
                                     </a>
                                 </td>
                                 <td data-th="序">{{$k}}</td>
-                                {{--<td data-th="產品編號">
-                                    <input type="text" class="form-control" value="AAB0172500115126">
-                                </td> --}}
-                                <td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,'post_title','<?php //echo $posts[$k][" id?>')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AA456888888</td>
+                                <td data-th="產品編號" id="p-number-{{$k}}">
+                                    AA45688888888
+                                </td>
                                 <td data-th="品項名稱">
-                                    <input type="text" class="form-control" placeholder="輸入品名" required="required" style="width: 200px;">
+                                    <input type="hidden" name="pid[]" value="">
+                                    <input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;">
                                 </td>
                                 <td data-th="分類">
-                                    <select class="form-control">
-                                    @foreach($extradata['StockCategory'] as $sc_number => $sc_name)
-                                        <option value="{{ $sc_number }}">{{ $sc_name }}</option>
-                                    @endforeach
+                                    <select class="form-control" name="category[]">
+                                    {!! $extradata['StockCategory'] !!}
                                     </select>
                                 </td>
                                 <td data-th="數量">
@@ -90,7 +88,7 @@
                                 <td data-th="成本價金額"><input type="text" class="form-control" name="sumcostprice[]" id="sumcostprice{{$k}}" onChange='sumPrice({{$k}})' value='' style="width:130px;"></td>
                                 <td data-th="業務價金額"><input type="text" class="form-control" name="sumsalesprice[]" id="sumsalesprice{{$k}}" onChange='sumPrice({{$k}})' value='' style="width:130px;"></td>
                                 <td data-th="備註">
-                                    <textarea name="" class="form-control" rows="1" placeholder="備註" style="width:100px;"></textarea>
+                                    <textarea class="form-control" name="notes[]" rows="1" placeholder="備註" style="width:100px;"></textarea>
                                 </td>
                             </tr>
                             @endfor
@@ -276,17 +274,18 @@
             '<td data-th="操作"><a class="btn btn-xs btn-success createrow" id="add-more" onClick="AddRow();" title="新增"><i class="fa fa-arrow-right"></i></a> ' +
             '<a class="btn btn-xs btn-danger removerow" onclick="deleteRecord('+rowID+');" title="刪除"><i class="fa fa-times"></i></a></td>' +
             '<td data-th="序">'+newTR+'</td>' +
-            '<td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,\'post_title\',\'<?php //echo $posts[$k]["id"]; ?>\')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126</td>' +
-            '<td data-th="品項名稱"><input type="text" class="form-control" placeholder="輸入品名" required="required" style="width: 200px;"></td>' +
-            '<td data-th="分類"><select class="form-control"><option>娃娃 A</option><option>Ketchup</option><option>Relish</option></td>' +
+            //'<td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,\'post_title\',\'<?php //echo $posts[$k]["id"]; ?>\')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126</td>' +
+            '<td data-th="產品編號" id="p-number-'+rowID+'">AA45688888888</td>' +
+            '<td data-th="品項名稱"><input type="hidden" name="pid[]" value=""><input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;"></td>' +
+            '<td data-th="分類"><select class="form-control" name="category[]">'+ '{!! $extradata['StockCategory'] !!}' +'</select></td>' +
             '<td data-th="數量"><input type="number" class="form-control" name="quantity[]" id="quantity-'+rowID+'" placeholder="數量" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"></td>' +
             '<td data-th="成本價"><input type="number" class="form-control" name="costprice[]" id="cost-price-'+rowID+'" placeholder="成本價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"></td>' +
-            '<td data-th="南台價" style="display:none"><input type="number" class="form-control" placeholder="南台價" required="required" min="0" value="" style="width:100px;"></td>'+
-            '<td data-th="售價" style="display:none"><input type="number" class="form-control" placeholder="售價" required="required" min="0" value="" style="width:100px;"></td>'+
+            '<td data-th="南台價" style="display:none"><input type="number" class="form-control" name="southprice[]" placeholder="南台價" required="required" min="0" value="0" style="width:100px;"></td>'+
+            '<td data-th="售價" style="display:none"><input type="number" class="form-control" name="retailprice[]" placeholder="售價" required="required" min="0" value="0" style="width:100px;"></td>'+
             '<td data-th="業務價"><input type="number" class="form-control" name="salesprice[]" id="sales-price-'+rowID+'" placeholder="業務價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"></td>' +
             '<td data-th="成本價金額"><input type="text" class="form-control" name="sumcostprice[]" id="sumcostprice'+rowID+'" onChange="sumPrice('+rowID+')" value="" style="width:130px;"></td>' +
             '<td data-th="業務價金額"><input type="text" class="form-control" name="sumsalesprice[]" id="sumsalesprice'+rowID+'" onChange="sumPrice('+rowID+')" value="" style="width:130px;"></td>' +
-            '<td data-th="備註"><textarea name="" class="form-control" rows="1" placeholder="備註" style="width:100px;"></textarea></td>' +
+            '<td data-th="備註"><textarea class="form-control" name="notes[]" rows="1" placeholder="備註" style="width:100px;"></textarea></td>' +
             '</tr> ';
         $("#table-body").append(data);
         txtTRLastIndex.value = (rowID + 1).toString() ;

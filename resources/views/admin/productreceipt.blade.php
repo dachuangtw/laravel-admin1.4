@@ -145,6 +145,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
         <h4 class="modal-title">批量新增</h4>
       </div>
       <div class="modal-body">
@@ -157,7 +158,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-        <button type="button" class="btn btn-primary" onClick="AddManyRow();">新增</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="AddManyRow();">新增</button>
       </div>
     </div>
   </div>
@@ -271,7 +272,7 @@
         var newTR = addTable.rows.length;
 
         var data = '<tr class="table-row" id="table-row-'+rowID+'">' +
-            '<td data-th="操作"><a class="btn btn-xs btn-success createrow" id="add-more" onClick="AddRow();" title="新增"><i class="fa fa-arrow-right"></i></a> ' +
+            '<td data-th="操作"><a class="btn btn-xs btn-success createrow" id="add-more" onClick="AddRow();" title="新增"><i class="fa fa-arrow-right"></i></a>' +
             '<a class="btn btn-xs btn-danger removerow" onclick="deleteRecord('+rowID+');" title="刪除"><i class="fa fa-times"></i></a></td>' +
             '<td data-th="序">'+newTR+'</td>' +
             //'<td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,\'post_title\',\'<?php //echo $posts[$k]["id"]; ?>\')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126</td>' +

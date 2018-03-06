@@ -43,27 +43,25 @@
                             <th style="width:130px;">成本價金額</th>
                             <th style="width:130px;">業務價金額</th>
                             <th style="width:100px;">備註</th>
-                        </tr>
-                        {{-- @if(!empty($posts)) { --}} {{-- @foreach($posts as $k=>$v) { --}} {{-- @for ( $k=0 ; $k<10; $k++ ) --}} 
-                        
+                        </tr>                        
                         <tbody id="table-body">
-                            @for ( $k=1 ; $k<5; $k++ ) <!--測試資料庫有資料-->
-                            <tr class="table-row" id="table-row-{{$k}}">
+                            @foreach ( $extradata['savedDetails'] as $k => $value)
+                            <tr class="table-row" id="table-row-{{$k+1}}">
                                 <td data-th="操作">
                                     <a class="btn btn-xs btn-success" id="add-more" onClick="AddRow();" title="新增">
                                         <i class="fa fa-arrow-right"></i>
                                     </a>
-                                    <a class="btn btn-xs btn-danger removerow" onclick="deleteRecord({{$k}});" title="刪除">
+                                    <a class="btn btn-xs btn-danger removerow" onclick="deleteRecord({{$k+1}});" title="刪除">
                                         <i class="fa fa-times"></i>
                                     </a>
                                 </td>
-                                <td data-th="序">{{$k}}</td>
-                                <td data-th="產品編號" id="p-number-{{$k}}">
-                                    AA45688888888
+                                <td data-th="序">{{$k+1}}</td>
+                                <td data-th="產品編號" id="p-number-{{$k+1}}">
+                                     {{$value->p_number}}
                                 </td>
                                 <td data-th="品項名稱">
-                                    <input type="hidden" name="pid[]" value="">
-                                    <input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;">
+                                    <input type="hidden" name="pid[]" value="{{$value->pid}}">
+                                    <input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;" value="{{$extradata['products'][$k]->p_name}}">
                                 </td>
                                 <td data-th="分類">
                                     <select class="form-control" name="category[]">
@@ -71,31 +69,31 @@
                                     </select>
                                 </td>
                                 <td data-th="數量">
-                                    <input type="number" class="form-control" name="quantity[]" id="quantity-{{$k}}" placeholder="數量" required="required" onChange='sumPrice({{$k}})' min="0" value="" style="width:100px;"> </td>
+                                    <input type="number" class="form-control" name="quantity[]" id="quantity-{{$k+1}}" placeholder="數量" required="required" onChange='sumPrice({{$k+1}})' min="0" value="{{$value->red_quantity}}" style="width:100px;"> </td>
                                 </td>
                                 <td data-th="成本價">
-                                    <input type="number" class="form-control" name="costprice[]" id="cost-price-{{$k}}" placeholder="成本價" required="required" onChange='sumPrice({{$k}})' min="0" value="" style="width:100px;">
+                                    <input type="number" class="form-control" name="costprice[]" id="cost-price-{{$k+1}}" placeholder="成本價" required="required" onChange='sumPrice({{$k+1}})' min="0" value="{{$value->red_price}}" style="width:100px;">
                                 </td>
                                 <td data-th="業務價">
-                                    <input type="number" class="form-control" name="salesprice[]" id="sales-price-{{$k}}" placeholder="業務價" required="required" onChange='sumPrice({{$k}})' min="0" value="" style="width:100px;">
+                                    <input type="number" class="form-control" name="salesprice[]" id="sales-price-{{$k+1}}" placeholder="業務價" required="required" onChange='sumPrice({{$k+1}})' min="0" value="{{$extradata['products'][$k]->p_salesprice}}" style="width:100px;">
                                 </td>
                                 <td data-th="南台價" style="display:none">
-                                    <input type="number" class="form-control" name="southprice[]" placeholder="南台價" required="required" min="0" value="" style="width:100px;">
+                                    <input type="number" class="form-control" name="southprice[]" placeholder="南台價" required="required" min="0" value="{{$extradata['products'][$k]->p_southprice}}" style="width:100px;">
                                 </td>
                                 <td data-th="售價" style="display:none">
-                                    <input type="number" class="form-control" name="retailprice[]" placeholder="售價" required="required" min="0" value="" style="width:100px;">
+                                    <input type="number" class="form-control" name="retailprice[]" placeholder="售價" required="required" min="0" value="{{$extradata['products'][$k]->p_retailprice}}" style="width:100px;">
                                 </td>
-                                <td data-th="成本價金額"><input type="text" class="form-control" name="sumcostprice[]" id="sumcostprice{{$k}}" onChange='sumPrice({{$k}})' value='' style="width:130px;"></td>
-                                <td data-th="業務價金額"><input type="text" class="form-control" name="sumsalesprice[]" id="sumsalesprice{{$k}}" onChange='sumPrice({{$k}})' value='' style="width:130px;"></td>
+                                <td data-th="成本價金額"><input type="text" class="form-control" name="sumcostprice[]" id="sumcostprice{{$k+1}}" onChange='sumPrice({{$k+1}})' value='' style="width:130px;"></td>
+                                <td data-th="業務價金額"><input type="text" class="form-control" name="sumsalesprice[]" id="sumsalesprice{{$k+1}}" onChange='sumPrice({{$k+1}})' value='' style="width:130px;"></td>
                                 <td data-th="備註">
-                                    <textarea class="form-control" name="notes[]" rows="1" placeholder="備註" style="width:100px;"></textarea>
+                                    <textarea class="form-control" name="notes[]" rows="1" placeholder="備註" style="width:100px;" value="{{$value->notes}}"></textarea>
                                 </td>
                             </tr>
-                            @endfor
+                            @endforeach
                             </tbody>
                     </table>
-                    {{--  暫存計數rowid 判斷資料表是否有資料 初始值為$k || 初始值為1  --}}
-                    <input name='txtTRLastIndex' type='hidden' id='txtTRLastIndex' value="{{$k}}"> 
+                    {{--  暫存計數rowid 判斷資料表是否有資料 初始值為count($extradata['savedDetails']) || 初始值為1  --}}
+                    <input name='txtTRLastIndex' type='hidden' id='txtTRLastIndex' value="{{count($extradata['savedDetails'])}}"> 
                 </div>
             </div>
         </div>
@@ -145,7 +143,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
         <h4 class="modal-title">批量新增</h4>
       </div>
       <div class="modal-body">
@@ -250,8 +248,8 @@
         var p, i, foundObj;
         if(!theDoc) theDoc = document; 
         if( (p = theObj.indexOf("?")) > 0 && parent.frames.length) 
-        {  
-            theDoc = parent.frames[theObj.substring(p+1)].document;  
+        {
+            theDoc = parent.frames[theObj.substring(p+1)].document;
             theObj = theObj.substring(0,p); 
         } 
         if(!(foundObj = theDoc[theObj]) && theDoc.all) 
@@ -261,7 +259,7 @@
         for(i=0; !foundObj && theDoc.layers && i < theDoc.layers.length; i++)   
             foundObj = findObj(theObj,theDoc.layers[i].document); 
         if(!foundObj && document.getElementById) 
-            foundObj = document.getElementById(theObj);  
+            foundObj = document.getElementById(theObj);
         return foundObj;
     }
     //增加列
@@ -272,13 +270,13 @@
         var newTR = addTable.rows.length;
 
         var data = '<tr class="table-row" id="table-row-'+rowID+'">' +
-            '<td data-th="操作"><a class="btn btn-xs btn-success createrow" id="add-more" onClick="AddRow();" title="新增"><i class="fa fa-arrow-right"></i></a>' +
+            '<td data-th="操作"><a class="btn btn-xs btn-success createrow" id="add-more" onClick="AddRow();" title="新增"><i class="fa fa-arrow-right"></i></a> ' +
             '<a class="btn btn-xs btn-danger removerow" onclick="deleteRecord('+rowID+');" title="刪除"><i class="fa fa-times"></i></a></td>' +
             '<td data-th="序">'+newTR+'</td>' +
             //'<td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,\'post_title\',\'<?php //echo $posts[$k]["id"]; ?>\')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126</td>' +
             '<td data-th="產品編號" id="p-number-'+rowID+'">AA45688888888</td>' +
-            '<td data-th="品項名稱"><input type="hidden" name="pid[]" value=""><input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;"></td>' +
-            '<td data-th="分類"><select class="form-control" name="category[]">'+ '{!! $extradata['StockCategory'] !!}' +'</select></td>' +
+            '<td data-th="品項名稱"><input type="hidden" name="pid[]" value=""><input type="hidden" name="stid[]" value=""><input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;"></td>' +
+            '<td data-th="分類"><select class="form-control" name="category[]">'+ '{!! $extradata["StockCategory"] !!}' +'</select></td>' +
             '<td data-th="數量"><input type="number" class="form-control" name="quantity[]" id="quantity-'+rowID+'" placeholder="數量" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"></td>' +
             '<td data-th="成本價"><input type="number" class="form-control" name="costprice[]" id="cost-price-'+rowID+'" placeholder="成本價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"></td>' +
             '<td data-th="南台價" style="display:none"><input type="number" class="form-control" name="southprice[]" placeholder="南台價" required="required" min="0" value="0" style="width:100px;"></td>'+
@@ -311,7 +309,7 @@
         for(i = rowIndex; i < deleteTable.rows.length; i++){
             deleteTable.rows[i].cells[1].innerHTML = i.toString();
         }
-        total();  
+        total();
     }
     //全部清空，並新增一列
     function ClearAllRow() {
@@ -336,7 +334,7 @@
         // modal.find('.modal-title').text('批量新增')
     })
     //新增多列
-    function AddManyRow() {  
+    function AddManyRow() {
         var quantity = $('#add-quantity').val();
         for(q = 1; q <= quantity; q++){
             AddRow();
@@ -344,43 +342,43 @@
         total();
     }
     //計算金額
-    function sumPrice(rowid){  
-        var sumcostprice = 0;  
-        var sumsalesprice = 0;  
+    function sumPrice(rowid){
+        var sumcostprice = 0;
+        var sumsalesprice = 0;
         var costprice = document.getElementById ("cost-price-"+rowid).value;
         var salesprice = document.getElementById ("sales-price-"+rowid).value;
         var quantity = document.getElementById ("quantity-"+rowid).value;
 
-        if(quantity!="" && costprice!=""){  
-          sumcostprice = parseFloat(quantity) * parseFloat(costprice);     
-        }  
-        if(quantity!="" && salesprice!=""){   
-          sumsalesprice = parseFloat(quantity) * parseFloat(salesprice);   
-        }  
-        document.getElementById ("sumcostprice"+rowid).value = sumcostprice;  
-        document.getElementById ("sumsalesprice"+rowid).value = sumsalesprice;   
+        if(quantity!="" && costprice!=""){
+          sumcostprice = parseFloat(quantity) * parseFloat(costprice); 
+        }
+        if(quantity!="" && salesprice!=""){ 
+          sumsalesprice = parseFloat(quantity) * parseFloat(salesprice); 
+        }
+        document.getElementById ("sumcostprice"+rowid).value = sumcostprice;
+        document.getElementById ("sumsalesprice"+rowid).value = sumsalesprice; 
         total();
-    }  
-    //合計數量、金額  
-    function total(){    
+    }
+    //合計數量、金額
+    function total(){  
         var totalquantity = 0,totalcostprice = 0,totalsalesprice = 0;
         $("#table-body .table-row input[name='quantity[]']").each(function() {
             if ($(this).val()!=""){
-                totalquantity += parseInt($(this).val());  
+                totalquantity += parseInt($(this).val());
             }
         });
         $("#table-body .table-row input[name='sumcostprice[]']").each(function() {
             if ($(this).val()!=""){
-                totalcostprice += parseInt($(this).val());  
+                totalcostprice += parseInt($(this).val());
             }
         });
         $("#table-body .table-row input[name='sumsalesprice[]']").each(function() {
             if ($(this).val()!=""){
-                totalsalesprice += parseInt($(this).val());  
+                totalsalesprice += parseInt($(this).val());
             }
         });
         $("#total span:eq(0)").text(totalquantity);
         $("#total span:eq(1)").text(totalcostprice);
         $("#total span:eq(2)").text(totalsalesprice);
-    }  
+    }
 </script>

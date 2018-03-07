@@ -49,7 +49,7 @@ class HomeController extends Controller
                 $row->column(6, function (Column $column) {
                     $tab = new Tab();
 
-                    
+
                     $pieArray = [];
                     $ProductCategory = ProductCategory::all()->pluck('pc_name', 'pcid');
                     foreach ($ProductCategory as $key => $val) {
@@ -57,13 +57,13 @@ class HomeController extends Controller
                     }
                     $column->append((new Box('商品種類/樣數', new Pie($pieArray)))->removable()->collapsable()->style('info'));
 
-                    
+
                 });
                 $row->column(6, function (Column $column) {
                     $pieArray = [];
-                    $Warehouse = Warehouse::all()->pluck('w_name','wid');
+                    $Warehouse = Warehouse::all()->pluck('name','id');
                     foreach($Warehouse as $key => $val){
-                        $pieArray[] = [$val,Sales::where('wid',$key)->count()];
+                        $pieArray[] = [$val,Sales::where('warehouse_id',$key)->count()];
                     }
                     $column->append((new Box('業務分布', new Pie($pieArray)))->removable()->collapsable()->style('info'));
                 });
@@ -71,12 +71,12 @@ class HomeController extends Controller
             });
             $content->row(function (Row $row) {
 
-                
+
                 $row->column(6, function (Column $column) {
 
                     $tab = new Tab();
 
-                    
+
 
                     $tab->add('Table', new Table());
                     $tab->add('Text', 'blablablabla....');

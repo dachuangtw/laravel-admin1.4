@@ -34,7 +34,7 @@ class WebAreaController extends Controller
             );
             $content->row(function (Row $row) {
                 $row->column(6, $this->treeView()->render());
-            });  
+            });
             // $content->body($this->grid());
         });
     }
@@ -111,9 +111,9 @@ class WebAreaController extends Controller
             $grid->perPages([10, 20]);
 
             $grid->id(trans('ID'))->sortable();
-            $grid->area_name(trans('admin::lang.name'));
+            $grid->name(trans('admin::lang.name'));
             //$grid->column('area_sort',trans('admin::lang.order'))->editable()->sortable();
-            //$grid->area_sort(trans('admin::lang.order'))->sortable();
+            //$grid->sort(trans('admin::lang.order'))->sortable();
             //$grid->created_at(trans('admin::lang.created_at'));
             //$grid->updated_at(trans('admin::lang.updated_at'));
         });
@@ -129,8 +129,8 @@ class WebAreaController extends Controller
         return Admin::form(WebArea::class, function (Form $form) {
 
             $form->display('id', trans('admin::lang.areaid'));
-            $form->text('area_name', trans('admin::lang.name'));
-            $form->text('area_sort', trans('admin::lang.order'));
+            $form->text('name', trans('admin::lang.name'));
+            $form->text('sort', trans('admin::lang.order'));
             $form->display('created_at',trans('admin::lang.created_at'));
             $form->display('updated_at',trans('admin::lang.updated_at'));
         });

@@ -4,7 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\WebLocation;
 use App\WebArea;
-use App\Sales;
+// use App\Sales;
 use App\Warehouse;
 
 use Encore\Admin\Form;
@@ -100,26 +100,26 @@ class WebLocationController extends Controller
         $weblocation = WebLocation::find($id)->toArray();
 
         //忽略不顯示的欄位
-        $skipArray = ['location_id','show','deleted_at'];
+        $skipArray = ['id','show','deleted_at'];
         //某些角色顯示欄位
         $showArray = [];
         //顯示圖片欄位
-        $imgArray = ['store_picture'];
+        $imgArray = ['picture'];
 
         //置換內容
-        $weblocation['district_id'] = WebArea::find($weblocation['district_id'])->area_name;
-        $weblocation['city_id'] = WebArea::find($weblocation['city_id'])->area_name;
-        $weblocation['wid'] = Warehouse::find($weblocation['wid'])->w_name;
+        $weblocation['district_id'] = WebArea::find($weblocation['district_id'])->name;
+        $weblocation['city_id'] = WebArea::find($weblocation['city_id'])->name;
+        $weblocation['warehouse_id'] = Warehouse::find($weblocation['warehouse_id'])->name;
 
         $header[] = '店鋪據點資訊';
-        foreach($weblocation as $key => $value){            
+        foreach($weblocation as $key => $value){
 
             if(in_array($key,$skipArray) || empty($value)){
                 if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
                     continue;
                 }
             }
-            
+
             //欄位中文化
             $newkey = trans('admin::lang.'.$key);
 
@@ -149,7 +149,7 @@ class WebLocationController extends Controller
                 }
             }
 
-            
+
         }
 
         $table = new Table($header, $rows);
@@ -169,31 +169,31 @@ class WebLocationController extends Controller
                 $filter->disableIdFilter();
                 if(Admin::user()->isAdministrator()){
                     $filter->where(function ($query) {
-                        $query->where('wid',  "{$this->input}");
+                        $query->where('warehouse_id',  "{$this->input}");
                     }, trans('admin::lang.warehouse'))->select(
-                        Warehouse::all()->pluck('w_name', 'wid')->toArray()
+                        Warehouse::all()->pluck('name', 'id')->toArray()
                     );
-                } 
+                }
                 // sql: ... WHERE `user.name` LIKE "%$name%";
-                $filter->like('store_name', trans('admin::lang.store_name'));
+                $filter->like('name', trans('admin::lang.store_name'));
             });
-            $grid->model()->orderBy('location_id', 'DESC');
+            $grid->model()->orderBy('id', 'DESC');
             $grid->number('No.')->sortable();
             $grid->rows(function ($row, $number) {
                 $row->column('number', $number+1);
             });
             //判斷是否為超級管理員，則只可看所屬倉庫內容
             if(!Admin::user()->isAdministrator()){
-                $grid->model()->where('wid',Admin::user()->wid);    
+                $grid->model()->where('warehouse_id',Admin::user()->wid);
             }else{
-                $grid->wid(trans('admin::lang.warehouse'))->sortable()->display(function($wid) {
-                    return Warehouse::find($wid)->w_name;
+                $grid->warehouse_id(trans('admin::lang.warehouse'))->sortable()->display(function($wid) {
+                    return Warehouse::find($wid)->name;
                 })->label('info');
             }
-            $grid->store_name(trans('admin::lang.store_name'));
+            $grid->name(trans('admin::lang.store_name'));
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
-                $actions->setTitleField(['store_name']);
+                $actions->setTitleField(['name']);
             });
 
             $states = [
@@ -206,7 +206,7 @@ class WebLocationController extends Controller
                 'on'  => ['value' => 1, 'text' => '開店', 'color' => 'success'],
                 'off' => ['value' => 0, 'text' => '閉店', 'color' => 'danger'],
             ];
-            $grid->column('store_status',trans('admin::lang.status'))->status()->switch($states);
+            $grid->column('status',trans('admin::lang.status'))->status()->switch($states);
         });
 
     }
@@ -219,43 +219,43 @@ class WebLocationController extends Controller
     protected function form()
     {
         return Admin::form(WebLocation::class, function (Form $form) {
-            
+
             $form->tab('店鋪基本資料', function ($form) {
 
-                $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
+                $form->text('name', trans('admin::lang.store_name'))->rules('required');
                 switch (Admin::user()) {
                      case 'Administrator':
-                        $form->select('wid', trans('admin::lang.location_area'))->options(
-                            Warehouse::pluck('w_name','wid')->toArray())->rules('required');
+                        $form->select('warehouse_id', trans('admin::lang.location_area'))->options(
+                            Warehouse::pluck('name','id')->toArray())->rules('required');
                         break;
                     default:
-                        $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid); 
+                        $form->hidden('warehouse_id',trans('admin::lang.wid'))->value(Admin::user()->wid);
                 }
                 $form->select('city_id', trans('admin::lang.city_id'))->options(
-                    WebArea::City()->pluck('area_name', 'id')->toArray()
+                    WebArea::City()->pluck('name', 'id')->toArray()
                 )->load('district_id', '/admin/api/tw/district')->rules('required');
                 $form->select('district_id', trans('admin::lang.district_id'))->options(function ($id) {
                     return WebArea::options($id);
                 })->rules('required');
-                $form->text('store_address', trans('admin::lang.store_address'))->rules('required');
+                $form->text('address', trans('admin::lang.store_address'))->rules('required');
 
                 $form->divide();
-                $form->dateRange('store_lease_start', 'store_lease_end', trans('admin::lang.store_lease_start_end'));
-                $form->date('store_payment_date', trans('admin::lang.store_payment_date'))->format('YYYY-MM-DD');
-                $form->currency('store_rents', trans('admin::lang.store_rents'))->symbol('$')->options(['mask' => '']);
-                $form->currency('store_deposit', trans('admin::lang.store_deposit'))->symbol('$')->options(['mask' => '']);
-                $form->text('store_contractor', trans('admin::lang.store_contractor'));
+                $form->dateRange('lease_start', 'lease_end', trans('admin::lang.store_lease_start_end'));
+                $form->date('payment_date', trans('admin::lang.store_payment_date'))->format('YYYY-MM-DD');
+                $form->currency('rents', trans('admin::lang.store_rents'))->symbol('$')->options(['mask' => '']);
+                $form->currency('deposit', trans('admin::lang.store_deposit'))->symbol('$')->options(['mask' => '']);
+                $form->text('contractor', trans('admin::lang.store_contractor'));
                 $states = [
                     'on'  => ['value' => 1, 'text' => '開店', 'color' => 'success'],
                     'off' => ['value' => 0, 'text' => '閉店', 'color' => 'danger'],
                 ];
 
-                $form->switch('store_status', trans('admin::lang.status'))->states($states);
+                $form->switch('status', trans('admin::lang.status'))->states($states);
 
             })->tab('網頁顯示', function ($form) {
 
-                // $form->editor('store_map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
-                $form->image('store_picture', trans('admin::lang.store_pic'))->move('/location','store_pic');
+                // $form->editor('map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
+                $form->image('picture', trans('admin::lang.store_pic'))->move('/location','store_pic');
                 $states = [
                     'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
                     'off' => ['value' => 0, 'text' => 'OFF', 'color' => 'danger'],
@@ -276,7 +276,6 @@ class WebLocationController extends Controller
     public function district(Request $request)
     {
         $cityId = $request->get('q');
-        return WebArea::District()->where('parent_id', $cityId)->get(['id', DB::raw('area_name as text')]);
+        return WebArea::District()->where('parent_id', $cityId)->get(['id', DB::raw('name as text')]);
     }
 }
-

@@ -44,7 +44,7 @@ class SalesRefundController extends Controller
             // $stock[$value->stid] = Stock::find($value->stid)->st_type;
         }
         // $rowWidth = [33,100,33,150,60,80,80,80,80,110];
-        // $rowLeft = [0,33,133,166,316,376,456,536,616,696];        
+        // $rowLeft = [0,33,133,166,316,376,456,536,616,696];
         $rowWidth = [33,180,33,150,60,80,80,80,110];
         $rowLeft = [0,33,213,246,396,456,536,616,696];
         $rowTitle = ['','商品編號','點貨','商品名','單位',/*'款式',*/'數量','單價(業務)','總價','備註'];
@@ -167,7 +167,7 @@ SCRIPT;
                 $grid->model()->where('wid',Admin::user()->wid);
             }else{
                 $grid->wid(trans('admin::lang.warehouse'))->sortable()->display(function($wid) {
-                    return Warehouse::find($wid)->w_name;
+                    return Warehouse::find($wid)->name;
                 })->label('info');
             }
             $grid->sales_id(trans('admin::lang.salesname').'/'.trans('admin::lang.nickname'))->display(function($sales_id) {
@@ -209,7 +209,7 @@ SCRIPT;
                 switch (Admin::user()) {
                     case 'Administrator':
                         $form->display('wid', trans('admin::lang.wid'))->with(function ($wid) {
-                            return Warehouse::find($wid)->w_name;
+                            return Warehouse::find($wid)->name;
                         });
                         break;
                     default:
@@ -226,11 +226,11 @@ SCRIPT;
                 //判斷超級使用者
                 // if(Admin::user()->isAdministrator()){
                     // $form->select('wid',trans('admin::lang.wid'))
-                    //     ->options(Warehouse::all()->pluck('w_name','wid'));
+                    //     ->options(Warehouse::all()->pluck('name','id'));
                 // }else{
                     $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
                     $form->select('sales_id','業務'.trans('admin::lang.salesname'))
-                    ->options(Sales::all()->where('wid',Admin::user()->wid)->pluck('name','sales_id'))->rules('required')->setWidth(2, 2)->help('必填');
+                    ->options(Sales::all()->where('warehouse_id',Admin::user()->wid)->pluck('name','id'))->rules('required')->setWidth(2, 2)->help('必填');
                 // }
             }
             $form->textarea('refund_notes', trans('admin::lang.notes'))->rows(2)->setWidth(2, 2);
@@ -267,12 +267,12 @@ SCRIPT;
                 if(empty(request()->pid)){
                     $error = new MessageBag(['title'=>'提示','message'=>'未填寫退貨商品!']);
                     return back()->withInput()->with(compact('error'));
-                } 
+                }
                 // dd(request()->refundgoods_check);
                 if(request()->refundgoods_check != 'off' && empty(request()->refundgoods_check_user)){
                     $error = new MessageBag(['title'=>'提示','message'=>'未填寫退貨確認人!']);
                     return back()->withInput()->with(compact('error'));
-                } 
+                }
                 // 業務退貨單號編碼:所選擇退貨日期+三位數(自動增加)，共11碼 ex:第一筆 20180202001
                 if (empty(request()->refund_id)){
                     //選擇業務退貨日期
@@ -305,7 +305,7 @@ SCRIPT;
                 $stidArray = [];
                 $total = 0;
 
-                /** 
+                /**
                 * 新增 退貨明細
                 */
                 if(request()->action == 'create'){
@@ -329,18 +329,18 @@ SCRIPT;
 
                 }
                 /*****************************
-                 * 
+                 *
                  * 編輯 退貨單明細
-                 * 
+                 *
                  *****************************/
                 elseif(request()->action == 'edit'){
 
                     //原本的配貨明細(數量/明細id)
                     $retailSrdid = SalesRefundDetails::where('refund_id',$form->refund_id)->pluck('srd_quantity','srdid')->toArray();
-                    
+
                     //欲刪除的配貨明細 - 使用unset($deletesrdid[$srdid])移除沒有要刪除的配貨明細
                     $deleteSrdid = array_keys($retailSrdid);
-                    
+
                     //配貨明細更新:新增/修改/刪除
                     foreach(request()->pid as $key => $pid){
 
@@ -360,9 +360,9 @@ SCRIPT;
                         if (isset($srdid[$key])) { //更新原本的
                             SalesRefundDetails::updateOrCreate(['srdid' => $deleteSrdid[$key]], $insertSalesRefubdArray[$key]);
                             $unsetKey = array_search($srdid[$key],$deleteSrdid);
-                            unset($deleteSrdid[$unsetKey]); 
+                            unset($deleteSrdid[$unsetKey]);
                         }elseif(empty($srdid[$key])){ //新增增加的
-                            SalesRefundDetails::create($insertSalesRefubdArray[$key]); 
+                            SalesRefundDetails::create($insertSalesRefubdArray[$key]);
                         }
                     }
                     //刪除移除的

@@ -28,7 +28,7 @@ class SalesNoteController extends Controller
      */
     public function index()
     {
-        Permission::check(['SalesNotes-reader']);   
+        Permission::check(['SalesNotes-reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales_note'));
@@ -123,9 +123,9 @@ class SalesNoteController extends Controller
                         ->orWhere('note_wid', 'like', "{$this->input}|%")
                         ->orWhere('note_wid', 'like', "%|{$this->input}|%");
                     }, trans('admin::lang.warehouse'))->select(
-                        ['-1'=> '全部倉庫'] + Warehouse::all()->pluck('w_name', 'wid')->toArray()
+                        ['-1'=> '全部倉庫'] + Warehouse::all()->pluck('name', 'id')->toArray()
                     );
-                }                
+                }
                 $filter->between('note_at', trans('admin::lang.note_at'))->date();
             });
 
@@ -134,12 +134,12 @@ class SalesNoteController extends Controller
             $grid->rows(function ($row, $number) {
                 $row->column('number', $number+1);
             });
-            
+
             $grid->note_at(trans('admin::lang.note_at'))->sortable();
             $grid->note_title(trans('admin::lang.title'));
 
             //各倉庫可以看到系統管理員給各倉庫業務公告
-            // if(Admin::user()->isAdministrator()){            
+            // if(Admin::user()->isAdministrator()){
             // }else{
             if(!Admin::user()->isAdministrator()){
                 $grid->model()->where(function ($query) {
@@ -148,19 +148,19 @@ class SalesNoteController extends Controller
                         ->orWhere('note_wid', 'like', Admin::user()->wid.'|%')
                         ->orWhere('note_wid', 'like', '%|'.Admin::user()->wid.'|%')
                         ->orWhere('note_wid', '-1');
-                });     
-                $grid->disableRowSelector();      
+                });
+                $grid->disableRowSelector();
             }
 
             $grid->note_wid(trans('admin::lang.warehouse'))
                 ->display(function($wid){
-                    $note_wid = implode('|',$wid);                       
+                    $note_wid = implode('|',$wid);
                     if ($note_wid == '-1'){
                         return '全部倉庫';
                     }else{
                         $note_wid2 = explode('|',$note_wid);
                         foreach ($note_wid2 as $value) {
-                            $w_name[] = Warehouse::find($value)->w_name;
+                            $w_name[] = Warehouse::find($value)->name;
                         }
                         return $w_name;
                     }
@@ -177,7 +177,7 @@ class SalesNoteController extends Controller
             $grid->updated_at(trans('admin::lang.updated_at'));
             $grid->update_user(trans('admin::lang.update_user'))->display(function($userId) {
                    return Administrator::find($userId)->name;
-            });            
+            });
         });
     }
 
@@ -192,31 +192,31 @@ class SalesNoteController extends Controller
 
             $form->text('note_title', trans('admin::lang.title'))->rules('required');
             $form->datetime('note_at', trans('admin::lang.note_at'))->default(date("Y-m-d G:i:s"));
-            
+
             if(Admin::user()->isAdministrator()){
                 //超級管理員可對所有倉庫及業務發公告
                 $form->multipleSelect('note_wid',trans('admin::lang.warehouse'))->options(
-                    ['-1'=> '全部倉庫'] + Warehouse::all()->pluck('w_name', 'wid')->toArray()
+                    ['-1'=> '全部倉庫'] + Warehouse::all()->pluck('name', 'id')->toArray()
                 )->rules('required');
 
                 $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(
-                    ['-1' => '全部業務']+ Sales::all()->pluck('name', 'sales_id')->toArray()
+                    ['-1' => '全部業務']+ Sales::all()->pluck('name', 'id')->toArray()
                 )->rules('required');
             }else{
                 //各倉庫發業務公告
                 $form->multipleSelect('note_wid',trans('admin::lang.warehouse'))->options(
-                    Warehouse::all()->where('wid',Admin::user()->wid)->pluck('w_name', 'wid'))
+                    Warehouse::all()->where('id',Admin::user()->wid)->pluck('name', 'id'))
                     ->default([Admin::user()->wid])->rules('required');
                 $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(
-                    ['-1' => '全部業務'] + Sales::all()->where('wid', Admin::user()->wid)
-                    ->pluck('name', 'sales_id')->toArray()
+                    ['-1' => '全部業務'] + Sales::all()->where('warehouse_id', Admin::user()->wid)
+                    ->pluck('name', 'id')->toArray()
                 )->default('-1')->rules('required');
             }
             $form->editor('note_content', trans('admin::lang.note_content'));
             $form->hidden('update_user')->default(Admin::user()->id);
             $form->display('created_at',trans('admin::lang.created_at'));
             $form->display('updated_at',trans('admin::lang.updated_at'));
-            $form->saving(function (Form $form) {              
+            $form->saving(function (Form $form) {
                 $form->update_user = Admin::user()->id;
                 if (!Admin::user()->isAdministrator()){
                     $form->note_wid = [Admin::user()->wid];
@@ -225,4 +225,3 @@ class SalesNoteController extends Controller
         });
     }
 }
-

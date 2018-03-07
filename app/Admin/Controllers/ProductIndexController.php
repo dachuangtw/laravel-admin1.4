@@ -48,7 +48,7 @@ class ProductIndexController extends Controller
         foreach($products as $key => $product){
             $stock[$key] = Stock::where('pid',$product->pid)->where('wid',Admin::user()->wid)->get()->toArray();
         }
-        
+
         $rowTop = empty($request->rowTop) ? -30 : (int)$request->rowTop ;
         $rowEvenOdd = ['even','odd'];
         $firsttime = filter_var($request->firsttime, FILTER_VALIDATE_BOOLEAN);
@@ -67,7 +67,7 @@ class ProductIndexController extends Controller
         }elseif($target == 'salesrefund_hasstock'){
             $showPrice = 'p_salesprice';
             $detailid = 'srdid';
-        }else{            
+        }else{
             $showPrice = 'p_costprice';
             $detailid = 'redid';
         }
@@ -77,7 +77,7 @@ class ProductIndexController extends Controller
             $rowLeft = [0,33,213,363,413,473,553,633,713];
             $rowTitle = ['','商品編號','商品名','單位','庫存數',/*'款式',*/'數量','單價','總價','備註'];
         }elseif($action == 'edit'){
-            
+
             if ($target == 'salescollect_hasstock' || $target == 'salesrefund_hasstock'){
                 $action = 'editcheckadd';
                 $checkProduct = 'scd_check';
@@ -133,8 +133,8 @@ class ProductIndexController extends Controller
         }else if($search == 'searchselected'){
             $products = ProductIndex::whereIn('pid',$selected)->get();
         }else{
-            
-            $temp = Stock::where('wid', Admin::user()->wid)->where('st_stock', '>', 0)->pluck('pid');            
+
+            $temp = Stock::where('wid', Admin::user()->wid)->where('st_stock', '>', 0)->pluck('pid');
             $products = ProductIndex::where(function ($query) use ($search) {
                 $query->where('p_name', 'like', '%'.$search.'%')
                       ->orWhere('p_number', 'like', '%'.$search)
@@ -153,7 +153,7 @@ class ProductIndexController extends Controller
      * @return Content
      */
     public function index()
-    {        
+    {
         Permission::check(['ProductIndex-Reader']);
         return Admin::content(function (Content $content) {
 
@@ -161,7 +161,7 @@ class ProductIndexController extends Controller
             $content->description(trans('admin::lang.list'));
             $content->breadcrumb(
                 ['text' => trans('admin::lang.product_index')]
-            );   
+            );
             $content->row(function (Row $row) {
                 /**
                  * 功能：搜尋商品，
@@ -175,7 +175,7 @@ class ProductIndexController extends Controller
                     /**
                      * !important Bug：搜尋功能和filter密不可分...
                      * 這裡要什麼欄位，filter就必須有那個欄位，才能正常搜尋
-                     */                    
+                     */
                     $form->text('p_number', trans('admin::lang.product_number'));
                     $form->text('p_name', trans('admin::lang.product_name'));
 
@@ -209,11 +209,11 @@ class ProductIndexController extends Controller
                     $form->hidden('inserttype')->default('quick');
 
                     $form->text('p_name', trans('admin::lang.product_name'))->rules('required');
-                    
+
                     $form->currency('p_retailprice', trans('admin::lang.p_retailprice'))->options(['digits' => 2]);
                     $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
                     $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
-                    
+
                     $form->hidden('update_user')->default(Admin::user()->id);
 
                     $column->append((new Box(trans('admin::lang.quicknew'), $form))->style('info'));
@@ -234,7 +234,7 @@ class ProductIndexController extends Controller
      */
     public function view($id)
     {
-        
+
         Permission::check(['ProductIndex-Reader']);
 
         $product = ProductIndex::find($id)->toArray();
@@ -274,14 +274,14 @@ class ProductIndexController extends Controller
         $product['update_user'] = Administrator::find($product['update_user'])->name;
 
         $header[] = '商品資訊';
-        foreach($product as $key => $value){            
+        foreach($product as $key => $value){
 
             if(in_array($key,$skipArray) || empty($value)){
                 if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
                     continue;
                 }
             }
-            
+
             //欄位中文化
             $newkey = trans('admin::lang.'.$key);
 
@@ -321,7 +321,7 @@ class ProductIndexController extends Controller
                 }
             }
 
-            
+
         }
 
         $table = new Table($header, $rows);
@@ -344,7 +344,7 @@ class ProductIndexController extends Controller
             $content->breadcrumb(
                 ['text' => trans('admin::lang.product_index'), 'url' => '/product'],
                 ['text' => trans('admin::lang.edit')]
-            );   
+            );
             $content->body($this->form($id)->edit($id));
         });
     }
@@ -356,16 +356,16 @@ class ProductIndexController extends Controller
      */
     public function create()
     {
-        
+
         Permission::check(['ProductIndex-Creator']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.product_index'));
-            $content->description(trans('admin::lang.create'));            
+            $content->description(trans('admin::lang.create'));
             $content->breadcrumb(
                 ['text' => trans('admin::lang.product_index'), 'url' => '/product'],
                 ['text' => trans('admin::lang.create')]
-            ); 
+            );
             $content->body($this->form());
         });
     }
@@ -387,25 +387,25 @@ class ProductIndexController extends Controller
             // $grid->rows(function ($row, $number) {
             //     $row->column('number', $number+1);
             // });
-            
+
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
                 $filter->like('p_name','商品名');
                 $filter->like('p_number','商品編號');
             });
             $grid->pid('ID')->sortable();
-            $grid->p_number(trans('admin::lang.product_number'))->display(function ($p_number) {                
+            $grid->p_number(trans('admin::lang.product_number'))->display(function ($p_number) {
                 return '<a href="product/'.$this->pid.'/qrcode" target="_blank">'.$p_number.'</a>';
             })->sortable();
             $grid->p_name(trans('admin::lang.name'));
-            $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
-                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"/images/404.jpg\"'/>";            
+            $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {
+                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"/images/404.jpg\"'/>";
             });//->image('',150,100);
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             if(Admin::user()->inRoles(['administrator','watch'])){
                 $grid->p_costprice(trans('admin::lang.product_costprice'));
             }
-            
+
             if(Admin::user()->isAdministrator()){
 
                 /**
@@ -415,7 +415,7 @@ class ProductIndexController extends Controller
                  * 這BUG屬於模組本身架構沒有考慮到這部分，要修正的話工程太浩大，所以就這樣吧。
                  * (function stock留著，edit頁是用它...)
                  */
-                $warehouse = Warehouse::all()->pluck('w_name', 'wid')->toArray();
+                $warehouse = Warehouse::all()->pluck('name', 'id')->toArray();
                 foreach($warehouse as $wid => $w_name){
                     $grid->{'stock'.$wid}($w_name)->where('wid',$wid)->sum('st_stock')->value(function ($stock) {
                         if(!empty($stock)){
@@ -425,13 +425,13 @@ class ProductIndexController extends Controller
                         // return "<span class='label label-warning'>未填寫庫存</span>";
                     });
                 }
-                
+
             }else{
                 //非超級管理員只能看到自己倉庫的庫存 + 台中倉倉庫庫存
                 $grid->stock(trans('admin::lang.product_stock'))->where('wid', Admin::user()->wid)->sum('st_stock')->value(function ($stock) {
                     if(!empty($stock)){
                         return $stock;
-                    }                    
+                    }
                     return '';
                     // return "<span class='label label-warning'>無庫存資料</span>";
                 });
@@ -514,19 +514,19 @@ class ProductIndexController extends Controller
                 );
                 $form->checkbox('p_series', trans('admin::lang.product_series'))->options(
                     ProductSeries::all()->pluck('ps_name', 'psid')
-                );           
+                );
                 $form->image('p_pic', trans('admin::lang.product_pic'))->uniqueName()->move('product');
                 $form->multipleImage('p_images', trans('admin::lang.product_images'));
                 $form->textarea('p_description', trans('admin::lang.description'))->rows(5);
                 $states = [
                     'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
                     'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
-                ];            
+                ];
                 $form->switch('showfront', trans('admin::lang.showfront'))->states($states)->default(1);
                 $form->switch('shownew', trans('admin::lang.shownew'))->states($states)->default(1);
                 $form->text('p_unit', trans('admin::lang.p_unit'))->default('個')->setWidth(1);
                 $form->hidden('update_user')->default(Admin::user()->id);
-                
+
             });
             $form->tab('價格/業務', function ($form) use ($id){
 
@@ -537,27 +537,27 @@ class ProductIndexController extends Controller
                 $states = [
                     'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],
                     'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
-                ]; 
+                ];
 
                 $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
                 $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
-               
+
             });
             $form->tab('庫存', function ($form) use ($id){
                 /**
                  * BUG：Model中的hasMany後面接where查詢，顯示OK，但儲存時不OK，資料不乖乖依序存檔，改第三個但蓋掉了第一個庫存...
                  * 找不到是哪裡出問題，只能說又是一個模板本身的BUG...QQ 已在gitHub上發問，如果之後有神人解答的話再來改
-                 * 
+                 *
                  * 目前每個管理者(有商品修改權限的)都可以看到所有倉庫的庫存資料跟領貨限制........
                  */
                 // $relationFunction = ( Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) ? 'stock1' : 'stock';
                 $relationFunction = 'stock1';
                 $form->hasMany($relationFunction,'庫存', function (Form\NestedForm $form) use ($id){
-                    if(!$id){ //創建                        
+                    if(!$id){ //創建
                         if(Admin::user()->isAdministrator()){
                             //超級管理員可以自行選擇倉庫
                             $form->select('wid', trans('admin::lang.warehouse'))->options(
-                                Warehouse::all()->pluck('w_name', 'wid')
+                                Warehouse::all()->pluck('name', 'id')
                             );
                         }else{
                             //非超級管理員使用本身綁定的倉庫id
@@ -567,14 +567,14 @@ class ProductIndexController extends Controller
                         if (Admin::user()->isAdministrator() || Admin::user()->isRole('SuperWarehouse')) {
                             //超級管理員 或 總倉倉管 可見所有倉庫庫存
                             $form->select('wid', trans('admin::lang.warehouse'))->options(
-                                Warehouse::all()->pluck('w_name', 'wid')
+                                Warehouse::all()->pluck('name', 'id')
                             )->readOnly();
                         } else {
                             //使用本身綁定的倉庫id
                             $form->hidden('wid')->default(Admin::user()->wid);
                         }
                     }
-                    
+
                     // $form->text('st_type',trans('admin::lang.product_type'))->default('不分款');
                     $form->text('st_notes',trans('admin::lang.notes'));
                     if(!$id){ //編輯
@@ -586,7 +586,7 @@ class ProductIndexController extends Controller
                     );
                     $form->number('st_collect',trans('admin::lang.product_sales'))->default(0);
                     $form->hidden('update_user')->default(Admin::user()->id);
-                });            
+                });
             });
 
             $form->saving(function(Form $form) use ($id) {
@@ -633,7 +633,7 @@ class ProductIndexController extends Controller
                 // }
 
                 if(!$id && !empty(request()->StockCategory)&&!empty(request()->ProductSupplier) && !empty(request()->inserttype)){
-                    
+
                     $insertstock = [
                         'pid'           =>  $form->model()->pid,
                         'wid'           =>  Admin::user()->wid,
@@ -704,7 +704,7 @@ class ProductIndexController extends Controller
                                     'update_user'  =>  Admin::user()->id,
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
-                            } 
+                            }
                         }
                     }
                 }
@@ -738,7 +738,7 @@ class ProductIndexController extends Controller
         $QRCode_content = $products->p_number;
         $QRCode_title = $products->p_name;
         $pdf->Text(10, 5, $QRCode_title);
-        
+
         $pdf->SetFont('msjh', '', 8);
         $QRCode_width = 35;
         $QRCode_height = 30;
@@ -752,7 +752,7 @@ class ProductIndexController extends Controller
             }
             $y = $y + $QRCode_height;
         }
-    
+
         $pdf->Output($QRCode_content.'.pdf', 'I');
     }
 }

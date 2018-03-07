@@ -36,7 +36,7 @@ class WarehouseController extends Controller
             $content->description(trans('admin::lang.list'));
             $content->breadcrumb(
                 ['text' => trans('admin::lang.warehouse')]
-            );            
+            );
 
             // $content->body($this->grid());
 
@@ -68,7 +68,7 @@ class WarehouseController extends Controller
             $tree->disableCreate();
 
             $tree->branch(function ($branch) {
-                $payload = "&nbsp;<strong>{$branch['w_name']}</strong>";
+                $payload = "&nbsp;<strong>{$branch['name']}</strong>";
                 return $payload;
             });
         });
@@ -82,27 +82,27 @@ class WarehouseController extends Controller
      */
     public function view($id)
     {
-        
+
         Permission::check(['Warehouse-Reader']);
 
         $warehouse = Warehouse::find($id)->toArray();
 
         //忽略不顯示的欄位
-        $skipArray = ['wid','parent_id','w_sort'];
+        $skipArray = ['id','parent_id','sort'];
         //某些角色顯示欄位
         $showArray = [];
         //顯示圖片欄位
         $imgArray = [];
 
         $header[] = '倉庫資訊';
-        foreach($warehouse as $key => $value){            
+        foreach($warehouse as $key => $value){
 
             if(in_array($key,$skipArray) || empty($value)){
                 if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
                     continue;
                 }
             }
-            
+
             //欄位中文化
             $newkey = trans('admin::lang.'.$key);
 
@@ -142,7 +142,7 @@ class WarehouseController extends Controller
                 }
             }
 
-            
+
         }
 
         $table = new Table($header, $rows);
@@ -166,7 +166,7 @@ class WarehouseController extends Controller
             $content->breadcrumb(
                 ['text' => trans('admin::lang.warehouse'), 'url' => '/warehouse'],
                 ['text' => trans('admin::lang.edit')]
-            );  
+            );
 
             $content->body($this->form()->edit($id));
         });
@@ -187,7 +187,7 @@ class WarehouseController extends Controller
             $content->breadcrumb(
                 ['text' => trans('admin::lang.warehouse'), 'url' => '/warehouse'],
                 ['text' => trans('admin::lang.create')]
-            );  
+            );
 
             $content->body($this->form());
         });
@@ -201,10 +201,10 @@ class WarehouseController extends Controller
     {
         return Admin::grid(Warehouse::class, function (Grid $grid) {
 
-            $grid->wid('ID')->sortable();
-            $grid->w_name(trans('admin::lang.name'));
-            $grid->w_phone(trans('admin::lang.phone'));
-            $grid->w_address(trans('admin::lang.address'));
+            $grid->id('ID')->sortable();
+            $grid->name(trans('admin::lang.name'));
+            $grid->phone(trans('admin::lang.phone'));
+            $grid->address(trans('admin::lang.address'));
 
             $grid->updated_at(trans('admin::lang.updated_at'));
         });
@@ -219,11 +219,11 @@ class WarehouseController extends Controller
     {
         return Admin::form(Warehouse::class, function (Form $form) {
 
-            $form->display('wid', 'ID');
-            $form->text('w_name', trans('admin::lang.name'))->rules('required');
-            $form->text('w_phone', trans('admin::lang.phone'));
-            $form->text('w_address', trans('admin::lang.address'));
-            $form->textarea('w_notes', trans('admin::lang.notes'))->rows(5);
+            $form->display('id', 'ID');
+            $form->text('name', trans('admin::lang.name'))->rules('required');
+            $form->text('phone', trans('admin::lang.phone'));
+            $form->text('address', trans('admin::lang.address'));
+            $form->textarea('notes', trans('admin::lang.notes'))->rows(5);
 
             $form->display('created_at', trans('admin::lang.created_at'));
             $form->display('updated_at', trans('admin::lang.updated_at'));

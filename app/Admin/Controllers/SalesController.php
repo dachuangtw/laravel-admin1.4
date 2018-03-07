@@ -29,7 +29,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        Permission::check(['Sales-Reader']);        
+        Permission::check(['Sales-Reader']);
         return Admin::content(function (Content $content) {
 
             $content->header(trans('admin::lang.sales'));
@@ -108,7 +108,7 @@ class SalesController extends Controller
             $grid->tools(function ($tools) {
                 $tools->append(new SalesResign());
             });
-            $grid->model()->orderBy('sales_id', 'desc');
+            $grid->model()->orderBy('id', 'desc');
             //查詢過濾器
             $grid->filter(function($filter){
                 // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
@@ -117,11 +117,11 @@ class SalesController extends Controller
                 $filter->disableIdFilter();
                 if(Admin::user()->isAdministrator()){
                     $filter->where(function ($query) {
-                        $query->where('wid',  "{$this->input}");
+                        $query->where('warehouse_id',  "{$this->input}");
                     }, trans('admin::lang.warehouse'))->select(
-                        Warehouse::all()->pluck('w_name', 'wid')->toArray()
+                        Warehouse::all()->pluck('name', 'id')->toArray()
                     );
-                }  
+                }
                 // sql: ... WHERE `user.name` LIKE "%$name%";
                 $filter->like('name', trans('admin::lang.salesname'));
                 // $filter->like('sales_id', trans('admin::lang.sales_id'));
@@ -135,11 +135,11 @@ class SalesController extends Controller
 
             //超級管理員可看到所有業務資料，其他為各倉庫
             if(Admin::user()->isAdministrator()){
-                $grid->wid(trans('admin::lang.location_area'))->sortable()->display(function($wid) {
-                    return Warehouse::find($wid)->w_name;
+                $grid->warehouse_id(trans('admin::lang.location_area'))->sortable()->display(function($wid) {
+                    return Warehouse::find($wid)->name;
                 })->label('info');
             }else{
-                $grid->model()->where('wid', '=', Admin::user()->wid);
+                $grid->model()->where('warehouse_id', '=', Admin::user()->wid);
             }
             $grid->column('name',trans('admin::lang.salesname').'/'.trans('admin::lang.nickname'))->display(function ($name) {
                 return "$name".' <font size="2"  color="blue">('.$this->nickname.')';
@@ -153,7 +153,7 @@ class SalesController extends Controller
 
             //excel 匯出設定
             //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
-            $titles = ['name','wid','nickname','cellphone', 'start_work_date', 'end_work_date', 'resign'];
+            $titles = ['name','warehouse_id','nickname','cellphone', 'start_work_date', 'end_work_date', 'resign'];
 
             $exporter = new ExcelExpoter();
             /**
@@ -166,10 +166,10 @@ class SalesController extends Controller
              * setForeignKeys($foreignKeys)外部鍵設定
              */
             $foreignKeys = [
-                'wid'  =>  [
+                'warehouse_id'  =>  [
                     'dbname' =>  'warehouse',
-                    'id' =>  'wid',
-                    'target' =>  'w_name',
+                    'id' =>  'id',
+                    'target' =>  'name',
                 ],
             ];
             $exporter->setForeignKeys($foreignKeys);
@@ -190,7 +190,7 @@ class SalesController extends Controller
 
             $form->tab('基本資料', function (Form $form) {
 
-                $form->display('sales_id', trans('admin::lang.sales_id'));
+                $form->display('id', trans('admin::lang.sales_id'));
                 $method = Request::method();
                 $rules = ($method === 'PUT') ? 'required' : 'required|unique:mysql2.sales,account';
                 $form->text('account','帳號')->rules($rules);
@@ -210,14 +210,14 @@ class SalesController extends Controller
 
                 if(Admin::user()->isAdministrator()){
                     //超級管理員可以自行選擇倉庫
-                    $form->select('wid', trans('admin::lang.location_area'))
-                    ->options(Warehouse::all()->pluck('w_name','wid'))->rules('required');
+                    $form->select('warehouse_id', trans('admin::lang.location_area'))
+                    ->options(Warehouse::all()->pluck('name','id'))->rules('required');
                 }else{
                     //非超級管理員使用本身綁定的倉庫id
-                    $form->hidden('wid')->default(Admin::user()->wid);
+                    $form->hidden('warehouse_id')->default(Admin::user()->wid);
                 }
                 // $form->multipleSelect('store_location',trans('admin::lang.web_location'))
-                // ->options(WebLocation::all()->pluck('store_name', 'id'));
+                // ->options(WebLocation::all()->pluck('name', 'id'));
 
                 $form->divide();
                 $form->radio('resign', trans('admin::lang.resign'))->options(['t' => '是','f' => '否'])->default('f');

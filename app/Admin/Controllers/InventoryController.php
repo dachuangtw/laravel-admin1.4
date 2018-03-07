@@ -158,8 +158,8 @@ class InventoryController extends Controller
 
         $Inventory = Inventory::where('inid',$inid)->select('in_number','wid')->first();
         $InventoryDetails = InventoryDetails::where('in_number',$Inventory->in_number)->get()->sortByDesc('pid');
-        $w_name = Warehouse::find($Inventory->wid)->w_name;
-        
+        $w_name = Warehouse::find($Inventory->wid)->name;
+
         $header = ['商品編號','商品名(款式)','庫存數','盤點數','差異數','備註','盤點人'];
         $rows = [];
 
@@ -211,11 +211,11 @@ class InventoryController extends Controller
             // $grid->inid('ID')->sortable();
             $grid->in_number(trans('admin::lang.in_number'))->sortable();
             $grid->wid(trans('admin::lang.warehouse'))->display(function($wid) {
-                return Warehouse::find($wid)->w_name;
+                return Warehouse::find($wid)->name;
             })->sortable();
             $grid->start_at(trans('admin::lang.start_at'));
             $grid->finish_at(trans('admin::lang.finish_at'));
-            $grid->update_user(trans('admin::lang.update_user'))->display(function ($update_user) {                
+            $grid->update_user(trans('admin::lang.update_user'))->display(function ($update_user) {
                 return Administrator::find($update_user)->name;
             })->sortable();
 
@@ -279,8 +279,8 @@ class InventoryController extends Controller
 SCRIPT;
          Admin::script($script);
 
-            $grid->actions(function ($actions) { 
-                $w_name = Warehouse::find($actions->row->wid)->w_name;
+            $grid->actions(function ($actions) {
+                $w_name = Warehouse::find($actions->row->wid)->name;
                 $actions->setTitleExtra(['盤點單號：', $w_name]); // 自訂，可字串可陣列，字串在TitleFirld前，陣列則是[0]+TitleField+[1]
                 $actions->setTitleField(['in_number']);
 
@@ -357,7 +357,7 @@ SCRIPT;
                         //取得該日該倉庫盤點單號的最大值
                         $max_number = Inventory::withTrashed()->where('in_number', 'like', $Todaydate.$wid.'%')
                     ->max('in_number');
-                    
+
                         if (!empty($max_number)) {
                             //取後1碼做+1計算
                             $lastCode = (int)mb_substr($max_number, -1, 1, "utf-8");

@@ -45,7 +45,7 @@ class ProductReceiptController extends Controller
             $content->description(trans('admin::lang.list'));
             $content->breadcrumb(
                 ['text' => trans('admin::lang.product_receipt')]
-            );             
+            );
 
             $content->row(function (Row $row) {
                 $row->column(4, function (Column $column) {
@@ -55,7 +55,7 @@ class ProductReceiptController extends Controller
 
                     $form->dateRange('re_delivery[start]', 're_delivery[end]', '進貨日');
                     $form->select('supid', trans('admin::lang.product_supplier'))->options(
-                        
+
                         ProductSupplier::all()->pluck('sup_name', 'supid')
                     );
 
@@ -90,12 +90,12 @@ class ProductReceiptController extends Controller
         $skipArray = ['reid','created_at','updated_at','deleted_at'];
         //顯示圖片欄位
         $imgArray = [];
-        
+
         //置換廠商id的內容
         $receipt['product_supplier'] = ProductSupplier::find($receipt['supid'])->sup_name;
         unset($receipt['supid']);
         //置換進貨倉庫id的內容
-        $receipt['warehouse'] = Warehouse::find($receipt['wid'])->w_name;
+        $receipt['warehouse'] = Warehouse::find($receipt['wid'])->name;
         unset($receipt['wid']);
         //置換進貨人員id的內容
         $receipt['re_user'] = Administrator::find($receipt['re_user'])->name;
@@ -105,7 +105,7 @@ class ProductReceiptController extends Controller
 
             if(in_array($key,$skipArray) || empty($value))
                 continue;
-            
+
             //欄位中文化
             $newkey = trans('admin::lang.'.$key);
 
@@ -116,7 +116,7 @@ class ProductReceiptController extends Controller
         $table = new Table($header, $rows);
         $table->class('table table-hover');
 
-        
+
         $stock = $rowWidth = $rowLeft = $rowTitle = [];
         $re_number = ProductReceipt::where('reid',$id)->pluck('re_number');
         $savedDetails = ProductReceiptDetails::ofselected($re_number) ?: [];
@@ -125,7 +125,7 @@ class ProductReceiptController extends Controller
             // $stock[$key] = Stock::find($value->stid)->st_type;
         }
         $action = 'view';
-        
+
         $firsttime = true;
         $inputtext = true;
 
@@ -140,9 +140,9 @@ class ProductReceiptController extends Controller
         $showNotes = 'red_notes';
         $rowTop = -30;
         $rowEvenOdd = ['even','odd'];
-        
+
         $data = compact('action','products','showPrice','showQuantity','showAmount','showNotes','rowWidth','rowLeft','rowTitle','rowTop','rowEvenOdd','firsttime','inputtext','savedDetails','stock');
-        
+
         return $table->render().view('admin::productdetails', $data);
     }
     /**
@@ -161,14 +161,14 @@ class ProductReceiptController extends Controller
             $content->breadcrumb(
                 ['text' => trans('admin::lang.product_receipt'), 'url' => '/product/receipt'],
                 ['text' => trans('admin::lang.edit')]
-            );             
+            );
 
             $content->body($this->form($id)->edit($id));
 //             $script = <<<SCRIPT
 //             ShowReceiptDetails('$id');
 // SCRIPT;
 //          Admin::script($script);
-                
+
         });
     }
 
@@ -187,7 +187,7 @@ class ProductReceiptController extends Controller
             $content->breadcrumb(
                 ['text' => trans('admin::lang.product_receipt'), 'url' => '/product/receipt'],
                 ['text' => trans('admin::lang.create')]
-            );   
+            );
             $content->body($this->form());
         });
     }
@@ -208,7 +208,7 @@ class ProductReceiptController extends Controller
             });
 
             $grid->reid('ID')->sortable();
-            $grid->re_delivery(trans('admin::lang.re_delivery'))->display(function ($re_delivery) {                
+            $grid->re_delivery(trans('admin::lang.re_delivery'))->display(function ($re_delivery) {
                 return mb_substr($re_delivery,0,10,"utf-8");
             })->sortable();
             $grid->supid(trans('admin::lang.product_supplier'))->display(function ($supid) {
@@ -216,17 +216,17 @@ class ProductReceiptController extends Controller
                 return $supplier->toArray()[0]['sup_name'];
             })->sortable();
             $grid->re_number(trans('admin::lang.re_number'))->sortable();;
-            $grid->re_user(trans('admin::lang.re_user'))->display(function ($re_user) {                
+            $grid->re_user(trans('admin::lang.re_user'))->display(function ($re_user) {
                 return Administrator::find($re_user)->name;
             })->sortable();
-            
-            $grid->re_amount(trans('admin::lang.re_amount'))->display(function ($re_amount) { 
-                if(strpos($re_amount,'.00'))               
+
+            $grid->re_amount(trans('admin::lang.re_amount'))->display(function ($re_amount) {
+                if(strpos($re_amount,'.00'))
                     return (int) $re_amount;
-                else 
+                else
                     return $re_amount;
             })->sortable();
-            
+
             $grid->re_notes(trans('admin::lang.re_notes'))->display(function($re_notes) {
                 if($re_notes)
                     return str_limit($re_notes, 10, '...');
@@ -350,11 +350,11 @@ class ProductReceiptController extends Controller
                     //取得該日該廠商進貨單號的最大值
                     $max_number = ProductReceipt::withTrashed()->where('re_number', 'like', $Todaydate.$Supplier.'%')
                     ->max('re_number');
-                    
+
                     if(!empty($max_number)){
                         //取後兩碼做+1計算
                         $lastTwoCode = (int)mb_substr($max_number,-2,2,"utf-8");
-                        $lastTwoCode++; 
+                        $lastTwoCode++;
                     }else{
                         $lastTwoCode = 1;
                     }
@@ -364,7 +364,7 @@ class ProductReceiptController extends Controller
                     //填充到re_number欄位中
                     $form->re_number = $Todaydate.$Supplier.$lastTwoCode;
                 }
-                
+
                 $category = request()->category;
                 $pid = request()->pid;
                 $p_name = request()->p_name;
@@ -407,7 +407,7 @@ class ProductReceiptController extends Controller
                              *  10	業務價(3碼) = 千位數 1 or 亂數 0、2~9
                              *  11	業務價(3碼)
                              *  12	業務價(3碼)
-                             *  13	檢查碼 = 3~6碼x2 + 7~10碼 - 11~12碼x3 計算後的 個位數 
+                             *  13	檢查碼 = 3~6碼x2 + 7~10碼 - 11~12碼x3 計算後的 個位數
                              */
                             $N1 = ProductSupplier::find(request()->supid)->sup_number;
                             $N2 = $category[$key];
@@ -426,9 +426,9 @@ class ProductReceiptController extends Controller
                                 /**
                                   前端送出儲存前必須確認salesprice的最後一碼為0
                                  */
-                                $N11to12 = $salesprice[$key] / 10; 
+                                $N11to12 = $salesprice[$key] / 10;
                             }
-                            
+
                             //前補0至兩碼
                             $N11to12 = str_pad($N11to12, 2, "0", STR_PAD_LEFT);
 
@@ -457,7 +457,7 @@ class ProductReceiptController extends Controller
                             $N13 = (int)substr($N1to12, 2,4) * 2 + (int)substr($N1to12, 6,4) - (int)substr($N1to12, 10,2) * 3;
                             //取個位數
                             $N13 = substr($N13,-1);
-                            
+
                             /* 新增商品 */
                             $insertProductIndexArray[] = [
                                 'p_number'      => $N1to12.$N13,
@@ -497,10 +497,10 @@ class ProductReceiptController extends Controller
                                 'red_quantity'  =>  $red_quantity[$key],
                                 'red_notes'     =>  $red_notes[$key],
                             ];
-                            
+
                         }else{ //如果商品存在，則更新商品及庫存資料
                             /* 庫存變更 */
-                            //原始庫存                            
+                            //原始庫存
                             $retailStock = Stock::where('pid',$pid[$key])->where('wid',Admin::user()->wid)->first()->select('st_stock','stid');
                             if(empty($retailStock)){ //無庫存資料，新增庫存
                                 $insertStockArray2 = [
@@ -524,11 +524,11 @@ class ProductReceiptController extends Controller
                                     'update_user'  =>  Admin::user()->id,
                                     'updated_at'   =>  date('Y-m-d H:i:s'),
                                 ];
-                                
+
                             }else{ //已有庫存資料，更新庫存
                                 $st_stock = (int) $retailStock->st_stock + (int) $red_quantity[$key];
 
-                                $updateStockArray = [                                
+                                $updateStockArray = [
                                     'st_stock'      =>  $st_stock,
                                     'update_user'   =>  Admin::user()->id,
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
@@ -573,12 +573,12 @@ class ProductReceiptController extends Controller
                         ProductReceiptDetails::insert($dataArray2);
                     if(!empty($insertStockLogArray2))
                         StockLog::insert($insertStockLogArray2);
-            
+
                 }
                 /*****************************
-                 * 
+                 *
                  * 編輯 進貨單明細/庫存
-                 * 
+                 *
                  *****************************/
                 elseif(request()->action == 'edit'){
 

@@ -5,7 +5,6 @@ namespace App\Admin\Controllers;
 use App\WebLocation;
 use App\WebArea;
 use App\Sales;
-use App\Location;
 use App\Warehouse;
 
 use Encore\Admin\Form;
@@ -113,59 +112,49 @@ class WebLocationController extends Controller
         $weblocation['wid'] = Warehouse::find($weblocation['wid'])->w_name;
 
         $header[] = '店鋪據點資訊';
-        // foreach($weblocation as $key => $value){            
+        foreach($weblocation as $key => $value){            
 
-            // if(in_array($key,$skipArray) || empty($value)){
-            //     if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
-            //         continue;
-            //     }
-            // }
+            if(in_array($key,$skipArray) || empty($value)){
+                if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
+                    continue;
+                }
+            }
             
             //欄位中文化
-            // $newkey = trans('admin::lang.'.$key);
+            $newkey = trans('admin::lang.'.$key);
 
-            /**
-             * 內容排版
-             *    ┬ 圖片 ┬ 主圖(string)
-             *    │      └ 副圖(array)---連續印出
-             *    │
-             *    └ 文字 ┬ 分類、系列(array)---用/分隔
-             *           └ 其他(string)
-             */
+            if(in_array($key,$imgArray)){
+                if(is_array($value)){
+                    $content = '';
+                    foreach($value as $temp){
+                        $content .= '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $temp . '" width="50px" />';
+                    }
+                    $rows[$newkey] = $content;
+                }else{
+                    $rows[$newkey] = '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $value . '" width="100px" />';
+                }
 
-
-            // if(in_array($key,$imgArray)){
-            //     if(is_array($value)){
-            //         $content = '';
-            //         foreach($value as $temp){
-            //             $content .= '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $temp . '" width="50px" />';
-            //         }
-            //         $rows[$newkey] = $content;
-            //     }else{
-            //         $rows[$newkey] = '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $value . '" width="100px" />';
-            //     }
-
-            // }else{
-            //     if(is_array($value)){
-            //         $content = '';
-            //         foreach($value as $temp){
-            //             if(empty($content))
-            //                 $content = $temp;
-            //             else
-            //                 $content .= ' / ' . $temp;
-            //         }
-            //         $rows[$newkey] = $content;
-            //     }else{
-            //         $rows[$newkey] = nl2br($value);
-            //     }
-            // }
+            }else{
+                if(is_array($value)){
+                    $content = '';
+                    foreach($value as $temp){
+                        if(empty($content))
+                            $content = $temp;
+                        else
+                            $content .= ' / ' . $temp;
+                    }
+                    $rows[$newkey] = $content;
+                }else{
+                    $rows[$newkey] = nl2br($value);
+                }
+            }
 
             
-        // }
+        }
 
-        // $table = new Table($header, $rows);
-        // $table->class('table table-hover');
-        // return $table->render();
+        $table = new Table($header, $rows);
+        $table->class('table table-hover');
+        return $table->render();
     }
      /**
      * Make a grid builder.
@@ -178,18 +167,30 @@ class WebLocationController extends Controller
             $grid->filter(function($filter){
                 // 禁用id查询框
                 $filter->disableIdFilter();
+                if(Admin::user()->isAdministrator()){
+                    $filter->where(function ($query) {
+                        $query->where('wid',  "{$this->input}");
+                    }, trans('admin::lang.warehouse'))->select(
+                        Warehouse::all()->pluck('w_name', 'wid')->toArray()
+                    );
+                } 
                 // sql: ... WHERE `user.name` LIKE "%$name%";
                 $filter->like('store_name', trans('admin::lang.store_name'));
             });
             $grid->model()->orderBy('location_id', 'DESC');
-            $grid->location_id(trans('admin::lang.store_id'))->sortable();
-            // $grid->city_id(trans('admin::lang.city_id'))->sortable()->display(function($city_id){
-            //        return WebArea::find($city_id)->area_name;
-            // });
+            $grid->number('No.')->sortable();
+            $grid->rows(function ($row, $number) {
+                $row->column('number', $number+1);
+            });
+            //判斷是否為超級管理員，則只可看所屬倉庫內容
+            if(!Admin::user()->isAdministrator()){
+                $grid->model()->where('wid',Admin::user()->wid);    
+            }else{
+                $grid->wid(trans('admin::lang.warehouse'))->sortable()->display(function($wid) {
+                    return Warehouse::find($wid)->w_name;
+                })->label('info');
+            }
             $grid->store_name(trans('admin::lang.store_name'));
-            // $grid->created_at(trans('admin::lang.created_at'));
-            // $grid->updated_at(trans('admin::lang.updated_at'));
-
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
                 $actions->setTitleField(['store_name']);
@@ -200,6 +201,12 @@ class WebLocationController extends Controller
                 'off' => ['value' => 2, 'text' => 'OFF', 'color' => 'danger'],
             ];
             $grid->column('show',trans('admin::lang.showfront'))->status()->switch($states);
+
+            $states = [
+                'on'  => ['value' => 1, 'text' => '開店', 'color' => 'success'],
+                'off' => ['value' => 0, 'text' => '閉店', 'color' => 'danger'],
+            ];
+            $grid->column('store_status',trans('admin::lang.status'))->status()->switch($states);
         });
 
     }
@@ -215,12 +222,15 @@ class WebLocationController extends Controller
             
             $form->tab('店鋪基本資料', function ($form) {
 
-                $form->display('location_id', trans('admin::lang.store_id'));
                 $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
-                $form->select('wid', trans('admin::lang.location_area'))
-                ->options(
-                    Warehouse::pluck('w_name','wid')->toArray()
-                )->rules('required');
+                switch (Admin::user()) {
+                     case 'Administrator':
+                        $form->select('wid', trans('admin::lang.location_area'))->options(
+                            Warehouse::pluck('w_name','wid')->toArray())->rules('required');
+                        break;
+                    default:
+                        $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid); 
+                }
                 $form->select('city_id', trans('admin::lang.city_id'))->options(
                     WebArea::City()->pluck('area_name', 'id')->toArray()
                 )->load('district_id', '/admin/api/tw/district')->rules('required');

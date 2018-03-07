@@ -747,7 +747,7 @@ class ProductIndexController extends Controller
             $x = 15;
             for ($j=1;$j<=8;$j++) {
                 $pdf->write2DBarcode($QRCode_content, 'QRCODE,H', $x, $y, 20, 20, $style, 'N');
-                $pdf->Text($x-5, $y+20, $QRCode_content);
+                $pdf->Text($x-1.5, $y+20, $QRCode_content);
                 $x = $x + $QRCode_width;
             }
             $y = $y + $QRCode_height;

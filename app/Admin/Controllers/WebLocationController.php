@@ -110,19 +110,19 @@ class WebLocationController extends Controller
         //置換內容
         $weblocation['district_id'] = WebArea::find($weblocation['district_id'])->area_name;
         $weblocation['city_id'] = WebArea::find($weblocation['city_id'])->area_name;
-        $weblocation['area_id'] = Warehouse::find($weblocation['area_id'])->w_name;
+        $weblocation['wid'] = Warehouse::find($weblocation['wid'])->w_name;
 
         $header[] = '店鋪據點資訊';
-        foreach($weblocation as $key => $value){            
+        // foreach($weblocation as $key => $value){            
 
-            if(in_array($key,$skipArray) || empty($value)){
-                if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
-                    continue;
-                }
-            }
+            // if(in_array($key,$skipArray) || empty($value)){
+            //     if(!(isset($showArray[$key]) && Admin::user()->inRoles($showArray[$key]))){
+            //         continue;
+            //     }
+            // }
             
             //欄位中文化
-            $newkey = trans('admin::lang.'.$key);
+            // $newkey = trans('admin::lang.'.$key);
 
             /**
              * 內容排版
@@ -134,38 +134,38 @@ class WebLocationController extends Controller
              */
 
 
-            if(in_array($key,$imgArray)){
-                if(is_array($value)){
-                    $content = '';
-                    foreach($value as $temp){
-                        $content .= '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $temp . '" width="50px" />';
-                    }
-                    $rows[$newkey] = $content;
-                }else{
-                    $rows[$newkey] = '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $value . '" width="100px" />';
-                }
+            // if(in_array($key,$imgArray)){
+            //     if(is_array($value)){
+            //         $content = '';
+            //         foreach($value as $temp){
+            //             $content .= '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $temp . '" width="50px" />';
+            //         }
+            //         $rows[$newkey] = $content;
+            //     }else{
+            //         $rows[$newkey] = '<img src="' .rtrim(config('admin.upload.host'), '/').'/'. $value . '" width="100px" />';
+            //     }
 
-            }else{
-                if(is_array($value)){
-                    $content = '';
-                    foreach($value as $temp){
-                        if(empty($content))
-                            $content = $temp;
-                        else
-                            $content .= ' / ' . $temp;
-                    }
-                    $rows[$newkey] = $content;
-                }else{
-                    $rows[$newkey] = nl2br($value);
-                }
-            }
+            // }else{
+            //     if(is_array($value)){
+            //         $content = '';
+            //         foreach($value as $temp){
+            //             if(empty($content))
+            //                 $content = $temp;
+            //             else
+            //                 $content .= ' / ' . $temp;
+            //         }
+            //         $rows[$newkey] = $content;
+            //     }else{
+            //         $rows[$newkey] = nl2br($value);
+            //     }
+            // }
 
             
-        }
+        // }
 
-        $table = new Table($header, $rows);
-        $table->class('table table-hover');
-        return $table->render();
+        // $table = new Table($header, $rows);
+        // $table->class('table table-hover');
+        // return $table->render();
     }
      /**
      * Make a grid builder.
@@ -217,9 +217,9 @@ class WebLocationController extends Controller
 
                 $form->display('location_id', trans('admin::lang.store_id'));
                 $form->text('store_name', trans('admin::lang.store_name'))->rules('required');
-                $form->select('area_id', trans('admin::lang.location_area'))
+                $form->select('wid', trans('admin::lang.location_area'))
                 ->options(
-                    DB::table('warehouse')->pluck('w_name','wid')->toArray()
+                    Warehouse::pluck('w_name','wid')->toArray()
                 )->rules('required');
                 $form->select('city_id', trans('admin::lang.city_id'))->options(
                     WebArea::City()->pluck('area_name', 'id')->toArray()
@@ -241,8 +241,6 @@ class WebLocationController extends Controller
                 ];
 
                 $form->switch('store_status', trans('admin::lang.status'))->states($states);
-                // $form->select('sales', trans('admin::lang.store_sales'))
-                // ->options(Sales::all()->pluck('sales_name','sid'));
 
             })->tab('網頁顯示', function ($form) {
 

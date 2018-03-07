@@ -14,13 +14,13 @@ class Sales extends Model
     //業務資料表
     protected $table = 'sales';
     //主鍵
-    protected $primaryKey = 'sales_id';
+    // protected $primaryKey = 'sales_id';
 
     protected $fillable = [
         'name', 'account', 'password',
     ];
 
-    protected $hidden = ['password', 'token'];
+    protected $hidden = ['password', 'remember_token'];
 
     //需要被轉換成日期的屬性。
     protected $dates = ['deleted_at'];

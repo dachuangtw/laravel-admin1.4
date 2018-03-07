@@ -12,9 +12,9 @@ class WebLocation extends Model
     //DB2
     protected $connection = 'mysql2';
     //店鋪據點資料表
-    protected $table = 'location';
+    protected $table = 'stores';
     //主鍵
-    protected $primaryKey = 'location_id';
+    // protected $primaryKey = 'location_id';
     //軟刪除
     protected $dates = ['deleted_at'];
 

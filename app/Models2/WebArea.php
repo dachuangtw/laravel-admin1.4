@@ -12,9 +12,8 @@ class WebArea extends Model
     //DB2
     protected $connection = 'mysql2';
     //地區資料表
-    protected $table = 'tw_area';
-    //主鍵
-    protected $primaryKey = 'id';
+    protected $table = 'tw_areas';
+
     public $timestamps = false;
 
     //tree
@@ -23,15 +22,15 @@ class WebArea extends Model
         parent::__construct($attributes);
 
         $this->setParentColumn('parent_id');
-        $this->setOrderColumn('area_sort');
-        $this->setTitleColumn('area_name');
+        $this->setOrderColumn('sort');
+        $this->setTitleColumn('name');
     }
- 
+
     public function scopeCity()
     {
         return $this->where('type','1');
     }
-    
+
     public function scopeDistrict()
     {
         return $this->where('type','2');
@@ -51,12 +50,12 @@ class WebArea extends Model
     {
         return $this->parent->children();
     }
-    
+
     public static function options($id)
     {
         if (! $self = static::find($id)) {
             return [];
         }
-        return $self->brothers()->pluck('area_name', 'id');
+        return $self->brothers()->pluck('name', 'id');
     }
 }

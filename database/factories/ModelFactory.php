@@ -22,3 +22,29 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Sales::class, function (Faker\Generator $faker) {
+    static $password;
+
+    return [
+        'warehouse_id' => $faker->numberBetween(1, 4),
+		'account' => $faker->firstName,
+		'password' => $password ?: $password = bcrypt('secret'),
+		'name' => $faker->name,
+		'nickname' => $faker->lastName,
+        'remember_token' => str_random(10),
+		'created_at' => $faker->dateTime,
+		'updated_at' => date('Ymd'),
+    ];
+});
+
+$factory->define(App\Store::class, function (Faker\Generator $faker) {
+    return [
+		'warehouse_id' => $faker->numberBetween(1, 4),
+		'name' => $faker->company,
+        'tw_area_id' => $faker->numberBetween(23, 391),
+        'address' => $faker->address,
+		'created_at' => $faker->dateTime,
+        'updated_at' => date('Ymd'),
+    ];
+});

@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
       //MENU
       $this->call(AdminMenuTableSeeder::class);
       //WAREHOUSE
-      $this->call(WarehouseTableSeeder::class);
+      $this->call(WarehousesTableSeeder::class);
       //WEBAREA
-      $this->call(WebAreaTableSeeder::class);
+      $this->call(TwAreasTableSeeder::class);
       //ROLES
       $this->call(AdminRolesTableSeeder::class);
       //PERMISSIONS

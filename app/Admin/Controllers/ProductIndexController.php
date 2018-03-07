@@ -399,7 +399,7 @@ class ProductIndexController extends Controller
             })->sortable();
             $grid->p_name(trans('admin::lang.name'));
             $grid->p_pic(trans('admin::lang.product_pic'))->display(function ($p_pic) {                
-                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"".config('app.url')."images/404.jpg\"'/>";            
+                return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"/images/404.jpg\"'/>";            
             });//->image('',150,100);
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
             if(Admin::user()->inRoles(['administrator','watch'])){

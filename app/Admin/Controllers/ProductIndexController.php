@@ -457,7 +457,7 @@ class ProductIndexController extends Controller
             $grid->exporter($exporter);
 
             //顯示匯入按鈕
-            // $grid->allowImport();
+            $grid->allowImport();
 
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
@@ -531,7 +531,7 @@ class ProductIndexController extends Controller
             $form->tab('價格/業務', function ($form) use ($id){
 
                 $form->currency('p_retailprice', trans('admin::lang.p_retailprice'))->options(['digits' => 2]);
-                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
+                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0])->require();
                 $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
 
                 $states = [
@@ -593,20 +593,74 @@ class ProductIndexController extends Controller
 
 
                 if(!$id && !empty(request()->StockCategory) && !empty(request()->ProductSupplier)){
-                    $firstTwoCode = request()->StockCategory.request()->ProductSupplier;
 
-                    //取得商品資料庫中該分類的最大值
-                    $max_number = ProductIndex::withTrashed()->where('p_number', 'like', $firstTwoCode.'%')
-                    ->max('p_number');
 
-                    //取後六碼做+1計算
-                    $lastSixCode = (int)mb_substr($max_number,-6,6,"utf-8");
-                    $lastSixCode++;
-                    //前補0至六碼
-                    $lastSixCode = str_pad($lastSixCode,6,"0",STR_PAD_LEFT);
+
+
+                    /**
+                     * 商品編碼產生 (13碼)
+                     *  1	廠商編碼(1碼)
+                     *  2	分類編碼(1碼)
+                     *  3	西元年(最後1碼)
+                     *  4	月份(2碼)
+                     *  5	月份(2碼)
+                     *  6	日(2碼)
+                     *  7	日(2碼)
+                     *  8	流水號(2碼)
+                     *  9	流水號(2碼)
+                     *  10	業務價(3碼) = 千位數 1 or 亂數 0、2~9
+                     *  11	業務價(3碼)
+                     *  12	業務價(3碼)
+                     *  13	檢查碼 = 3~6碼x2 + 7~10碼 - 11~12碼x3 - 第9碼x7  計算後的 個位數
+                     */
+                    $N1 = request()->ProductSupplier;
+                    $N2 = request()->StockCategory;
+                    $Deliverydate = date('Y-m-d');
+                    $Y = substr($Deliverydate, 3, 1);
+                    $M = substr($Deliverydate, 5, 2);
+                    $D = substr($Deliverydate, 8, 2);
+                    $N3to7 = $Y.$M.$D;
+                    $N8to9 = '00'; //不重複時的預設值
+                    if ($form->p_salesprice >= 1000) {
+                        $N10 = 1;
+                        $N11to12 = substr($form->p_salesprice, 1, 2);
+                    } else {
+                        $N10 = rand(1, 9);
+                        $N10 = ($N10 === 1) ? 0 : $N10; //把1用0取代掉
+                        $N11to12 = floor($form->p_salesprice / 10);
+                    }
+                    
+                    //前補0至兩碼
+                    $N11to12 = str_pad($N11to12, 2, "0", STR_PAD_LEFT);
+
+                    /**
+                     * 流水號$N8to9判斷重複與新流水號產生
+                     * Step1. 找出N1~N7 以及 N10~N12相同 的 流水號們N8~N9 使用字串擷取函數SUBSTRING(字串,起始,位數)
+                     * Step2. 最新的流水號$N8to9 = 取得流水號的最大值+1
+                     */
+                    $like_query = $N1.$N2.$N3to7.'__'.$N10.$N11to12.'_';
+                    $p_collection = ProductIndex::where('p_number', 'like', $like_query)->pluck('p_number');
+                    if ($p_collection) {
+                        $NewCollection = $p_collection->map(function ($item, $key) {
+                            return substr($item, 7, 2);
+                        });
+                        //現有流水號最大值+1
+                        $N8to9 = (int)($NewCollection->max()) + 1;
+                        //超出99報出錯
+                        if ($N8to9 > 99) {
+                            $error = new MessageBag(['title'=>'編碼溢出錯誤','message'=>'當日同分類同價格商品過多!']);
+                            return back()->withInput()->with(compact('error'));
+                        }
+                        //前補0至兩碼
+                        $N8to9 = str_pad($N8to9, 2, "0", STR_PAD_LEFT);
+                    }
+                    $N1to12 = $N1.$N2.$N3to7.$N8to9.$N10.$N11to12;
+                    $N13 = (int)substr($N1to12, 2, 4) * 2 + (int)substr($N1to12, 6, 4) - (int)substr($N1to12, 10, 2) * 3 - (int) substr($N1to12, 8, 1) * 7;
+                    //取個位數
+                    $N13 = substr($N13, -1);
 
                     //填充到p_number欄位中
-                    $form->p_number = $firstTwoCode.$lastSixCode;
+                    $form->p_number = $N1to12.$N13;
 
                 }
             });
@@ -641,7 +695,7 @@ class ProductIndexController extends Controller
                         'st_stock'      =>  0,
                         'update_user'   =>  Admin::user()->id,
                         'created_at'    =>  date('Y-m-d H:i:s'),
-                        'updated_at'     =>  date('Y-m-d H:i:s'),
+                        'updated_at'    =>  date('Y-m-d H:i:s'),
                     ];
                     Stock::insert($insertstock);
                 }
@@ -663,18 +717,42 @@ class ProductIndexController extends Controller
             })->get();
 
             if(!empty($data) && $data->count())
-            {
+            {                
+                $i = 1;
                 foreach ($data->toArray() as $row){
                     if(!empty($row) && !empty($row['p_name'])){
+
+                        $N1to2 = '00';
+                        $YnM = substr(date('Ym'),-3,3);
+                        $N6to9 = str_pad($i, 4, "0", STR_PAD_LEFT);
+                        $i++;
+                        if ($row['p_salesprice'] >= 1000) {
+                            $N10 = 1;
+                            $N11to12 = substr($row['p_salesprice'], 1, 2);
+                        } else {
+                            $N10 = rand(1, 9);
+                            $N10 = ($N10 === 1) ? 0 : $N10; //把1用0取代掉
+                            $N11to12 = floor($row['p_salesprice'] / 10);
+                        }
+                        
+                        //前補0至兩碼
+                        $N11to12 = str_pad($N11to12, 2, "0", STR_PAD_LEFT);
+
+                        $N1to12 = $N1to2.$YnM.$N6to9.$N10.$N11to12;
+                        $N13 = (int)substr($N1to12, 2, 4) * 2 + (int)substr($N1to12, 6, 4) - (int)substr($N1to12, 10, 2) * 3 - (int) substr($N1to12, 8, 1) * 7;
+                        //取個位數
+                        $N13 = substr($N13, -1);
+
+
                         $dataArray1 = [
-                        'p_number' => $row['p_number'],
-                        'p_name' => $row['p_name'],
-                        'p_retailprice' => $row['p_retailprice'],
-                        'p_salesprice' => $row['p_salesprice'],
-                        'p_costprice' => $row['p_costprice'],
-                        'update_user' => Admin::user()->id,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
+                            'p_number' => $N1to12.$N13,
+                            'p_name' => $row['p_name'],
+                            'p_retailprice' => $row['p_retailprice'],
+                            'p_salesprice' => $row['p_salesprice'],
+                            'p_costprice' => $row['p_costprice'],
+                            'update_user' => Admin::user()->id,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('Y-m-d H:i:s'),
                         ];
                         if(!empty($dataArray1))
                         {

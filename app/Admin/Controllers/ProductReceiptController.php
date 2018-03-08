@@ -409,7 +409,7 @@ class ProductReceiptController extends Controller
                              *  10	業務價(3碼) = 千位數 1 or 亂數 0、2~9
                              *  11	業務價(3碼)
                              *  12	業務價(3碼)
-                             *  13	檢查碼 = 3~6碼x2 + 7~10碼 - 11~12碼x3 計算後的 個位數 
+                             *  13	檢查碼 = 3~6碼x2 + 7~10碼 - 11~12碼x3 - 第9碼x7 計算後的 個位數 
                              */
                             $N1 = ProductSupplier::find(request()->supid)->sup_number;
                             $N2 = $category[$key];
@@ -592,6 +592,11 @@ class ProductReceiptController extends Controller
                  * 
                  *****************************/
                 elseif(request()->action == 'edit'){
+                    //原本的進貨明細
+                    $retailRedid = ProductReceiptDetails::where('re_number',$form->re_number)->pluck('redid')->toArray();
+                    // 欲刪除的進貨明細 - 使用unset($deleteRedid[$redid])移除沒有要刪除的進貨明細
+                    $deleteRedid = array_keys($retailRedid);
+
                     foreach ($p_name as $key => $value) {
                         //如果商品不存在則新增商品
                         if (empty($pid[$key])) {
@@ -609,7 +614,7 @@ class ProductReceiptController extends Controller
                              *  10	業務價(3碼) = 千位數 1 or 亂數 0、2~9
                              *  11	業務價(3碼)
                              *  12	業務價(3碼)
-                             *  13	檢查碼 = 3~6碼x2 + 7~10碼 - 11~12碼x3 計算後的 個位數
+                             *  13	檢查碼 = 3~6碼x2 + 7~10碼 - 11~12碼x3 - 第9碼x7  計算後的 個位數
                              */
                             $N1 = ProductSupplier::find(request()->supid)->sup_number;
                             $N2 = $category[$key];
@@ -653,7 +658,7 @@ class ProductReceiptController extends Controller
                                 $N8to9 = str_pad($N8to9, 2, "0", STR_PAD_LEFT);
                             }
                             $N1to12 = $N1.$N2.$N3to7.$N8to9.$N10.$N11to12;
-                            $N13 = (int)substr($N1to12, 2, 4) * 2 + (int)substr($N1to12, 6, 4) - (int)substr($N1to12, 10, 2) * 3 -(int) substr($N1to12, 8, 1) * 7;
+                            $N13 = (int)substr($N1to12, 2, 4) * 2 + (int)substr($N1to12, 6, 4) - (int)substr($N1to12, 10, 2) * 3 - (int) substr($N1to12, 8, 1) * 7;
                             //取個位數
                             $N13 = substr($N13, -1);
                             
@@ -705,7 +710,7 @@ class ProductReceiptController extends Controller
                         }else{
                             //商品pid存在
                             //判斷庫存存在不存在
-                            $retailStock = Stock::where('pid',$pid[$key])->where('wid',Admin::user()->wid)->first()->select('st_stock','stid');
+                            $retailStock = Stock::where('pid',$pid[$key])->where('wid',Admin::user()->wid)->select('st_stock','stid')->first();
                             //進貨單明細redid不存在
                             if(empty($redid[$key])){
                                 if(empty($retailStock)){ //無庫存資料，新增庫存
@@ -782,7 +787,7 @@ class ProductReceiptController extends Controller
                                         'pid'          =>  $pid,
                                         'wid'          =>  Admin::user()->wid,
                                         'stid'         =>  $retailStock->stid,
-                                        'sl_calc'      =>  ($st_stock - $retailStock) > 0 ? '+' : '-',
+                                        'sl_calc'      =>  ($st_stock - $retailStock->st_stock) > 0 ? '+' : '-',
                                         'sl_quantity'  =>  abs($st_stock - $retailStock->st_stock),
                                         'sl_stock'     =>  $st_stock,
                                         'sl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
@@ -839,107 +844,6 @@ class ProductReceiptController extends Controller
                     $insertProductLogArray && ProductLog::insert($insertProductLogArray);
                     $insertStockLogArray && StockLog::insert($insertStockLogArray);
 
-
-                    /**
-                     * 編輯 進貨單明細/庫存
-                     * 新增明細  的  商品&庫存變更
-                     */
-                    if(!empty($insertProductReceiptArray))
-                    {
-                        //原本的進貨明細
-                        $retailRedid = ProductReceiptDetails::where('re_number',$form->re_number)->pluck('red_quantity','redid')->toArray();
-                        //欲刪除的進貨明細 - 使用unset($deleteRedid[$redid])移除沒有要刪除的進貨明細
-                        $deleteRedid = array_keys($retailRedid);
-
-                        foreach($insertProductReceiptArray as $key => $val){
-
-                            /* 商品成本變更 */
-                            $p_costprice = ProductIndex::find($val['pid'])->p_costprice;
-                            if($p_costprice != $val['red_price']){
-
-                                $updateProductIndexArray = [
-                                    'p_costprice'   =>  $val['red_price'],
-                                    'last_delivery'   =>  date('Y-m-d H:i:s'),
-                                    'update_user'   =>  Admin::user()->id,
-                                    'updated_at'    =>  date('Y-m-d H:i:s'),
-                                ];
-                                ProductIndex::find($val['pid'])->update($updateProductIndexArray);
-                                /**
-                                 * 商品價格變更紀錄
-                                 */
-                                $insertProductLogArray[] = [
-                                    'pid'          =>  $val['pid'],
-                                    'pl_price1'    =>  $p_costprice,
-                                    'pl_price2'    =>  $val['red_price'],
-                                    'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
-                                    'update_user'  =>  Admin::user()->id,
-                                    'updated_at'    =>  date('Y-m-d H:i:s'),
-                                ];
-                            }else{
-
-                                $updateProductIndexArray = [
-                                    'last_delivery'   =>  date('Y-m-d H:i:s'),
-                                    'update_user'   =>  Admin::user()->id,
-                                    'updated_at'    =>  date('Y-m-d H:i:s'),
-                                ];
-                                ProductIndex::find($val['pid'])->update($updateProductIndexArray);
-                            }
-
-                            /* 庫存變更 */
-                            $retailStock = 0;
-                            $deleteStock = 0;
-                            if(!empty($stidArray[$key])){
-
-                                $retailStock = Stock::find($stidArray[$key])->st_stock ?: 0;
-
-                                $st_stock = (int) $retailStock + (int) $val['red_quantity'];
-
-                                $updateStockArray = [
-                                    'st_stock'   =>  $st_stock,
-                                    'update_user'   =>  Admin::user()->id,
-                                    'updated_at'    =>  date('Y-m-d H:i:s'),
-                                ];
-                                Stock::find($stidArray[$key])->update($updateStockArray);
-                                $insertProductReceiptArray[$key]['stid'] = $stidArray[$key];
-                            }else{
-                                $st_stock = $val['red_quantity'];
-                                $insertStockArray = [
-                                    'pid'           =>  $val['pid'],
-                                    'wid'           =>  Admin::user()->wid,
-                                    // 'st_type'       =>  '不分款',
-                                    'st_stock'      =>  $st_stock,
-                                    'st_unit'       =>  '每人',
-                                    'update_user'   =>  Admin::user()->id,
-                                    'created_at'    =>  date('Y-m-d H:i:s'),
-                                    'updated_at'    =>  date('Y-m-d H:i:s'),
-                                ];
-                                //新增庫存資料
-                                $insertProductReceiptArray[$key]['stid'] = Stock::insertGetId($insertStockArray,'stid');
-                            }
-                            /**
-                             *  庫存變更紀錄
-                             */
-                            if($st_stock - $retailStock != 0){
-                                $insertStockLogArray[] = [
-                                    'pid'          =>  $val['pid'],
-                                    'wid'          =>  Admin::user()->wid,
-                                    'stid'         =>  $insertProductReceiptArray[$key]['stid'],
-                                    'sl_calc'      =>  ($st_stock - $retailStock) > 0 ? '+' : '-',
-                                    'sl_quantity'  =>  ($st_stock - $retailStock) > 0 
-                                                            ? ($st_stock - $retailStock) 
-                                                            : ($retailStock - $st_stock),
-                                    'sl_stock'     =>  $st_stock,
-                                    'sl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
-                                    'update_user'  =>  Admin::user()->id,
-                                    'updated_at'    =>  date('Y-m-d H:i:s'),
-                                ];
-                            }
-                        }
-                        $insertProductLogArray && ProductLog::insert($insertProductLogArray);
-                        $insertStockLogArray && StockLog::insert($insertStockLogArray);
-                        //新增進貨明細
-                        ProductReceiptDetails::insert($insertProductReceiptArray);
-                    }
                     //刪除沒有的
 
                     $ProductReceiptDetails = ProductReceiptDetails::whereIn('redid',$deleteRedid)->pluck('red_quantity','stid');

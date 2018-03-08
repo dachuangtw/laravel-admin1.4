@@ -425,10 +425,7 @@ class ProductReceiptController extends Controller
                             }else{
                                 $N10 = rand(1,9);
                                 $N10 = ($N10 === 1) ? 0 : $N10; //把1用0取代掉
-                                /**
-                                  前端送出儲存前必須確認salesprice的最後一碼為0
-                                 */
-                                $N11to12 = $salesprice[$key] / 10;
+                                $N11to12 = floor($salesprice[$key] / 10);
                             }
 
                             //前補0至兩碼
@@ -628,10 +625,7 @@ class ProductReceiptController extends Controller
                             } else {
                                 $N10 = rand(1, 9);
                                 $N10 = ($N10 === 1) ? 0 : $N10; //把1用0取代掉
-                                /**
-                                  前端送出儲存前必須確認salesprice的最後一碼為0
-                                 */
-                                $N11to12 = $salesprice[$key] / 10;
+                                $N11to12 = floor($salesprice[$key] / 10);
                             }
                             
                             //前補0至兩碼

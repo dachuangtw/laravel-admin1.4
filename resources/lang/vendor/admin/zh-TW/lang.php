@@ -194,7 +194,7 @@ return [
 
     //店鋪據點
     'web_location'  =>      '店鋪據點',
-    'id'      =>      '店鋪編號',
+    'id'            =>      '編號',
     'location_area' =>      '所屬區域',
     'city_id'       =>      '城市',
     'district_id'   =>      '地區',
@@ -204,11 +204,11 @@ return [
     'payment_date'  =>  '繳款日',
     'lease_start_end'=>   '租約起始日/結束日',
     'sales'         =>      '負責業務',
-    'address'       =>      '店鋪地址',
-    'name'          =>      '店鋪名稱',
+    'address'       =>      '地址',
+    // 'name'          =>      '名稱',
 	'map'           =>      'Google map',
     'comment'       =>      '說明',
-    'pic'           =>      '店鋪圖片',
+    'pic'           =>      '圖片',
 
     //地區
     'web_area'      =>      '地區',

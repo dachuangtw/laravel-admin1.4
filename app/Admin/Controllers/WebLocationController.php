@@ -175,7 +175,7 @@ class WebLocationController extends Controller
                     );
                 }
                 // sql: ... WHERE `user.name` LIKE "%$name%";
-                $filter->like('name', trans('admin::lang.store_name'));
+                $filter->like('name', trans('admin::lang.name'));
             });
             $grid->model()->orderBy('id', 'DESC');
             $grid->number('No.')->sortable();
@@ -190,7 +190,7 @@ class WebLocationController extends Controller
                     return Warehouse::find($wid)->name;
                 })->label('info');
             }
-            $grid->name(trans('admin::lang.store_name'));
+            $grid->name(trans('admin::lang.name'));
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
                 $actions->setTitleField(['name']);
@@ -222,7 +222,7 @@ class WebLocationController extends Controller
 
             $form->tab('店鋪基本資料', function ($form) {
 
-                $form->text('name', trans('admin::lang.store_name'))->rules('required');
+                $form->text('name', trans('admin::lang.name'))->rules('required');
                 switch (Admin::user()) {
                      case 'Administrator':
                         $form->select('warehouse_id', trans('admin::lang.location_area'))->options(
@@ -237,14 +237,14 @@ class WebLocationController extends Controller
                 $form->select('district_id', trans('admin::lang.district_id'))->options(function ($id) {
                     return WebArea::options($id);
                 })->rules('required');
-                $form->text('address', trans('admin::lang.store_address'))->rules('required');
+                $form->text('address', trans('admin::lang.address'))->rules('required');
 
                 $form->divide();
-                $form->dateRange('lease_start', 'lease_end', trans('admin::lang.store_lease_start_end'));
-                $form->date('payment_date', trans('admin::lang.store_payment_date'))->format('YYYY-MM-DD');
-                $form->currency('rents', trans('admin::lang.store_rents'))->symbol('$')->options(['mask' => '']);
-                $form->currency('deposit', trans('admin::lang.store_deposit'))->symbol('$')->options(['mask' => '']);
-                $form->text('contractor', trans('admin::lang.store_contractor'));
+                $form->dateRange('lease_start', 'lease_end', trans('admin::lang.lease_start_end'));
+                $form->date('payment_date', trans('admin::lang.payment_date'))->format('YYYY-MM-DD');
+                $form->currency('rents', trans('admin::lang.rents'))->symbol('$')->options(['mask' => '']);
+                $form->currency('deposit', trans('admin::lang.deposit'))->symbol('$')->options(['mask' => '']);
+                $form->text('contractor', trans('admin::lang.contractor'));
                 $states = [
                     'on'  => ['value' => 1, 'text' => '開店', 'color' => 'success'],
                     'off' => ['value' => 0, 'text' => '閉店', 'color' => 'danger'],
@@ -254,8 +254,8 @@ class WebLocationController extends Controller
 
             })->tab('網頁顯示', function ($form) {
 
-                // $form->editor('map',trans('admin::lang.store_map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
-                $form->image('picture', trans('admin::lang.store_pic'))->move('/location','store_pic');
+                // $form->editor('map',trans('admin::lang.map'))->help('<a href="https://goo.gl/13yFtr">幫助</a>');
+                $form->image('picture', trans('admin::lang.pic'))->move('/location');
                 $states = [
                     'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'success'],
                     'off' => ['value' => 0, 'text' => 'OFF', 'color' => 'danger'],

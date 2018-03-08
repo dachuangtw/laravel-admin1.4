@@ -453,7 +453,7 @@ class ProductReceiptController extends Controller
                                 $N8to9 = str_pad($N8to9, 2, "0", STR_PAD_LEFT);
                             }
                             $N1to12 = $N1.$N2.$N3to7.$N8to9.$N10.$N11to12;
-                            $N13 = (int)substr($N1to12, 2,4) * 2 + (int)substr($N1to12, 6,4) - (int)substr($N1to12, 10,2) * 3;
+                            $N13 = (int)substr($N1to12, 2, 4) * 2 + (int)substr($N1to12, 6, 4) - (int)substr($N1to12, 10, 2) * 3 - (int)substr($N1to12, 8, 1) * 7;
                             //取個位數
                             $N13 = substr($N13,-1);
 
@@ -653,7 +653,7 @@ class ProductReceiptController extends Controller
                                 $N8to9 = str_pad($N8to9, 2, "0", STR_PAD_LEFT);
                             }
                             $N1to12 = $N1.$N2.$N3to7.$N8to9.$N10.$N11to12;
-                            $N13 = (int)substr($N1to12, 2, 4) * 2 + (int)substr($N1to12, 6, 4) - (int)substr($N1to12, 10, 2) * 3;
+                            $N13 = (int)substr($N1to12, 2, 4) * 2 + (int)substr($N1to12, 6, 4) - (int)substr($N1to12, 10, 2) * 3 -(int) substr($N1to12, 8, 1) * 7;
                             //取個位數
                             $N13 = substr($N13, -1);
                             

@@ -260,9 +260,9 @@ class ProductReceiptController extends Controller
                     'target' =>  'sup_name',
                 ],
                 'wid'  =>  [
-                    'dbname' =>  'warehouse',
-                    'id' =>  'wid',
-                    'target' =>  'w_name',
+                    'dbname' =>  'warehouses',
+                    'id' =>  'id',
+                    'target' =>  'name',
                 ],
                 're_user'  =>  [
                     'dbname' =>  'Admin',

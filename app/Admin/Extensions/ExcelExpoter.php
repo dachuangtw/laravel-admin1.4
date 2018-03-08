@@ -81,7 +81,11 @@ class ExcelExpoter extends AbstractExporter
                         //如果是外部鍵從id轉換成name
                         if(isset($this->foreignKeys[$title])){
                             if($this->foreignKeys[$title]['dbname'] != 'Admin'){
-                                $foreignNames = DB::table($this->foreignKeys[$title]['dbname'])->pluck($this->foreignKeys[$title]['target'], $this->foreignKeys[$title]['id']);
+                                if($this->foreignKeys[$title]['dbname'] == 'warehouses'){
+                                    $foreignNames = DB::connection('mysql2')->table('warehouses')->pluck($this->foreignKeys[$title]['target'], $this->foreignKeys[$title]['id']);
+                                }else{
+                                    $foreignNames = DB::table($this->foreignKeys[$title]['dbname'])->pluck($this->foreignKeys[$title]['target'], $this->foreignKeys[$title]['id']);
+                                }
                             }
                             foreach($tempoutput as $key2 => $value2){
                                 if($this->foreignKeys[$title]['dbname'] != 'Admin'){

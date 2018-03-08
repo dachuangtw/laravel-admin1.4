@@ -383,9 +383,9 @@ class ProductReceiptController extends Controller
 
                 $insertProductIndexArray = [];
                 $insertProductLogArray = [];
-                $insertStockLogArray = [];
-                $dataArray = [];
-                $stidArray = [];
+                $insertStockArray = [];
+                $insertStockLogArray = $insertStockLogArray2 = [];
+                $dataArray = $dataArray2 = [];
                 $total = 0;
 
                 /**
@@ -568,14 +568,12 @@ class ProductReceiptController extends Controller
                         $insertStockLogArray[$key]['stid'] = $NewStid;
                         $dataArray[$key]['stid'] = $NewStid;
                     }
-                    ProductReceiptDetails::insert($dataArray);
-                    StockLog::insert($insertStockLogArray);
+                    $dataArray && ProductReceiptDetails::insert($dataArray);
+                    $insertStockLogArray && StockLog::insert($insertStockLogArray);
 
-                    if(!empty($dataArray2))
-                        ProductReceiptDetails::insert($dataArray2);
-                    if(!empty($insertStockLogArray2))
-                        StockLog::insert($insertStockLogArray2);
-
+                    
+                    $dataArray2 && ProductReceiptDetails::insert($dataArray2);
+                    $insertStockLogArray2 && StockLog::insert($insertStockLogArray2);
                 }
                 /*****************************
                  * 
@@ -838,24 +836,15 @@ class ProductReceiptController extends Controller
                         }
                     }
 
-                    foreach(request()->pid as $key => $pid){
-                    }
-
-                    $insertProductLogArray && ProductLog::insert($insertProductLogArray);
-                    $insertStockLogArray && StockLog::insert($insertStockLogArray);
-
                     //刪除沒有的
-
                     $ProductReceiptDetails = ProductReceiptDetails::whereIn('redid',$deleteRedid)->pluck('red_quantity','stid');
-
-                    $insertStockLogArray = [];
                     foreach($ProductReceiptDetails as $stid => $quantity){
                         $stock = Stock::where('stid',$stid)->select('pid', 'wid','st_stock')->first();
 
                         $st_stock = (int) $stock->st_stock - (int) $quantity;
                         Stock::find($stid)->update(['st_stock' => $st_stock]);
 
-                        $insertStockLogArray[] = [
+                        $insertStockLogArray2[] = [
                             'pid'          =>  $stock->pid,
                             'wid'          =>  $stock->wid,
                             'stid'         =>  $stid,
@@ -867,7 +856,17 @@ class ProductReceiptController extends Controller
                             'updated_at'   =>  date('Y-m-d H:i:s'),
                         ];
                     }
+
+                    foreach ($insertStockArray as $key => $eachinsert) {
+                        $NewStid = Stock::insertGetId($eachinsert,'stid');
+                        $insertStockLogArray[$key]['stid'] = $NewStid;
+                        $dataArray[$key]['stid'] = $NewStid;
+                    }
+                    $dataArray && ProductReceiptDetails::insert($dataArray);
                     $insertStockLogArray && StockLog::insert($insertStockLogArray);
+                    $dataArray2 && ProductReceiptDetails::insert($dataArray2);
+                    $insertStockLogArray2 && StockLog::insert($insertStockLogArray2);
+                    
                     ProductReceiptDetails::whereIn('redid',$deleteRedid)->delete();
                 }
                 $form->re_amount = $total;

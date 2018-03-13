@@ -16,7 +16,7 @@ class CreateAdminTables extends Migration
 
         Schema::connection($connection)->create(config('admin.database.users_table'), function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('wid')->default(0)->after('id')->comment('倉庫id');
+            $table->integer('wid')->default(0)->comment('倉庫id');
             $table->string('username', 190)->unique();
             $table->string('password', 60);
             $table->string('name');

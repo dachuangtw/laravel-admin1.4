@@ -45,6 +45,7 @@ class Builder
         'enableSubmit' => true,
         'enableReset'  => true,
         'enableSearch' => false,
+        'enableSubmitCheck' => true,
     ];
 
     /**
@@ -436,6 +437,30 @@ class Builder
         return <<<EOT
 <div class="btn-group">
     <button type="submit" class="btn btn-success" data-loading-text="<i class='fa fa-spinner fa-spin '></i> $text">$text <i class="fa fa-check"></i></button>
+</div>
+EOT;
+    }
+        /**
+     * Submit Check button of form..
+     *
+     * @return string
+     */
+    public function submitButtoncheck()
+    {
+        if ($this->mode == self::MODE_VIEW) {
+            return '';
+        }
+
+        if (!$this->options['enableSubmitCheck']) {
+            return '';
+        }
+
+        $text = trans('admin::lang.submit');
+        $confirm = trans('admin::lang.save_confirm');
+
+        return <<<EOT
+<div class="btn-group">
+    <button type="submit" class="btn btn-success" onclick="return(confirm('{$confirm}'))" data-loading-text="<i class='fa fa-spinner fa-spin '></i> $text">$text <i class="fa fa-check"></i></button>
 </div>
 EOT;
     }

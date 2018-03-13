@@ -54,6 +54,7 @@ return [
     'input'             =>    '輸入', 
     'succeeded'         =>    '成功', 
     'failed'            =>    '失敗', 
+    'save_confirm'      =>    '確認保存？', 
     'delete_confirm'    =>    '確認刪除？', 
     'delete_succeeded'  =>    '刪除成功！', 
     'delete_failed'     =>    '刪除失敗！', 

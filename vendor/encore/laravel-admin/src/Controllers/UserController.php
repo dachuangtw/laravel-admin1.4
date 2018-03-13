@@ -71,7 +71,7 @@ class UserController extends Controller
         return Administrator::grid(function (Grid $grid) {
             $grid->id('ID')->sortable();
             $grid->column('wid',trans('admin::lang.warehouse'))->value(function ($wid) {
-                $warehouse = Warehouse::find($wid)->w_name;
+                $warehouse = Warehouse::find($wid)->name;
                 if(!empty($warehouse))
                     return $warehouse;
                 else
@@ -111,7 +111,7 @@ class UserController extends Controller
 
             $form->text('username', trans('admin::lang.username'))->rules('required');
             $form->text('name', trans('admin::lang.name'))->rules('required');
-            $form->image('avatar', trans('admin::lang.avatar'));
+            $form->image('avatar', trans('admin::lang.avatar'))->uniqueName()->move('image');
             $form->password('password', trans('admin::lang.password'))->rules('required|confirmed');
             $form->password('password_confirmation', trans('admin::lang.password_confirmation'))->rules('required')
                 ->default(function ($form) {
@@ -121,7 +121,7 @@ class UserController extends Controller
             $form->ignore(['password_confirmation']);
 
             $form->select('wid', trans('admin::lang.warehouse'))->options(
-                Warehouse::all()->pluck('w_name', 'wid')
+                Warehouse::all()->pluck('name', 'id')
             );
             $form->multipleSelect('roles', trans('admin::lang.roles'))->options(Role::all()->pluck('name', 'id'));
             $form->multipleSelect('permissions', trans('admin::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
@@ -133,6 +133,9 @@ class UserController extends Controller
             $form->saving(function (Form $form) {
                 if ($form->password && $form->model()->password != $form->password) {
                     $form->password = bcrypt($form->password);
+                }
+                if(empty($form->avatar)){
+                    $form->avatar = 'image/missing_face.png';
                 }
             });
         });

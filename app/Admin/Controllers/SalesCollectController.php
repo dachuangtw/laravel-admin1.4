@@ -430,7 +430,7 @@ SCRIPT;
                             'scd_amount'    =>  $scd_amount[$key], //總金額
                             'scd_salesprice'=>  $scd_salesprice[$key], //業務單價
                             'scd_quantity'  =>  $scd_quantity[$key], //數量
-                            'scd_check'     =>  $check_product[$key], //點貨確認
+                            'scd_check'     =>  isset($check_product[$key]) ? $check_product[$key] : 0, //點貨確認
                             'scd_notes'     =>  $scd_notes[$key], //備註
                         ];
                         $stidArray[] = $stid[$key];
@@ -487,7 +487,7 @@ SCRIPT;
                             'scd_amount'    =>  $scd_amount[$key],
                             'scd_salesprice'=>  $scd_salesprice[$key],
                             'scd_quantity'  =>  $scd_quantity[$key],
-                            'scd_check'     =>  $check_product[$key], //點貨確認
+                            'scd_check'     =>  isset($check_product[$key]) ? $check_product[$key] : 0, //點貨確認
                             'scd_notes'     =>  $scd_notes[$key],
                         ];
 

@@ -373,7 +373,8 @@ SCRIPT;
             $form->hidden('collect_amount');
             $form->divide();
             $form->button('btn-danger btn-append','+ 領貨商品')->on('click','ShowModal("salescollect_hasstock");');
-            
+            $form->disableSubmit();
+            $form->disableReset();
             // 退貨按鈕(尚未完成)
             // if($url_edit)
             //     $form->button('btn-warning btn-append','- 退貨商品');

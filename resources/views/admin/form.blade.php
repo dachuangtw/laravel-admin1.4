@@ -36,6 +36,7 @@
                 {!! $form->submitButton() !!}
 
                 @if(! $form->option('enableSubmit'))
+                {!! $form->submitButtoncheck() !!}{{--  儲存確認對話框  --}}
                 {!! $form->resetButton() !!}
                 {!! $form->searchButton() !!}
                 @endif

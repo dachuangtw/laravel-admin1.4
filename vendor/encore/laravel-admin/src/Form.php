@@ -1104,6 +1104,17 @@ class Form
 
         return $this;
     }
+    /**
+     * Disable form submit Check.
+     *
+     * @return $this
+     */
+    public function disableSubmitCheck()
+    {
+        $this->builder()->options(['enableSubmitCheck' => false]);
+
+        return $this;
+    }
 
     /**
      * Disable form reset.

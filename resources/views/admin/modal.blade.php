@@ -79,6 +79,8 @@ $(function() {
             url = '/admin/product/searchstock';
         }else if($('#target').val() == 'salescollect_hasstock'){
             url = '/admin/product/searchstock';
+        }else if($('#target').val() == 'salesrefund_hasstock'){
+            url = '/admin/product/searchstock';    
         }else{
             alert("ERROR");
             return false;
@@ -156,6 +158,8 @@ $(function() {
                 url = '/admin/sales/assigndetails';
             }else if(target == 'salescollect_hasstock'){
                 url = '/admin/sales/collectdetails';
+            }else if(target == 'salesrefund_hasstock'){
+                url = '/admin/sales/refunddetails';
             }else{
                 alert("ERROR");
                 return false;

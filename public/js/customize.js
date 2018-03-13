@@ -51,6 +51,16 @@ function ShowSalesCollectDetails(scid) {
     });
 }
 
+/** 展開退貨單明細 */
+function ShowSalesRefundDetails(srid) {
+    var url = '/admin/sales/refunddetails/' + srid; //$("input[name='tid']").val();
+
+    $.get(url, function (data) {
+        $('.form-horizontal .box-body:first').append(data);
+    });
+}
+
+
 /** 避免javascript的乘法BUG */
 function accMul(arg1, arg2) {
     var m = 0,

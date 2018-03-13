@@ -242,9 +242,9 @@ SCRIPT;
                     );
                 }
                 $filter->like('collect_id',trans('admin::lang.collect_id'));
-                $filter->where(function ($query) {
-                    $query->where('collect_check',  "{$this->input}");
-                }, trans('admin::lang.collect_check'))->select([0 => '未領貨', 1 => '已領貨',]);
+                // $filter->where(function ($query) {
+                //     $query->where('collect_check',  "{$this->input}");
+                // }, trans('admin::lang.collect_check'))->select([0 => '未領貨', 1 => '已領貨',]);
                 //隱藏收款確認(此功能暫不需要)
                 // $filter->where(function ($query) {
                 //     $query->where('receipt_check',  "{$this->input}");
@@ -479,7 +479,7 @@ SCRIPT;
                     //領貨明細更新:新增/修改/刪除
                     foreach(request()->pid as $key => $pid){
 
-                        $insertSalesCollectArray[] = [
+                        $updateSalesCollectArray[] = [
                             'pid'           =>  $pid,
                             'collect_id'    =>  $form->collect_id,
                             'stid'          =>  $stid[$key],
@@ -493,16 +493,10 @@ SCRIPT;
                         $stidArray[] = $stid[$key];//庫存id
                         $total += $scd_amount[$key];
 
-                        //刪除的領貨明細中，移除不刪除的
-                        $unsetKey = array_search($scdid[$key],$deleteScdid);
-                        unset($deleteScdid[$unsetKey]);
-
                         //領貨編輯儲存時，增加或刪減商品庫存
-                        // $deleteStock = SalesCollectDetails::find($scdid[$key])->scd_quantity ?: 0;
                         //判斷領貨明細是否存在
-                        if (isset($scdid[$key])){
+                        if (isset($scdid[$key])){ 
                             $deleteStock = SalesCollectDetails::find($scdid[$key])->scd_quantity;
-                            // $deleteStock = $retailScdid[$scdid[$key]];
                         }else{
                             $deleteStock = 0;
                         }
@@ -516,7 +510,7 @@ SCRIPT;
                                 'updated_at'    =>  date('Y-m-d H:i:s'),
                             ];
 
-                            // Stock::where('stid',$stid[$key])->update($updateStockArray);
+                            Stock::where('stid',$stid[$key])->update($updateStockArray);
                             //更新庫存記錄檔
                             $insertStockLogArray[] = [
                                 'pid'          =>  $pid,
@@ -531,22 +525,21 @@ SCRIPT;
                             ];
                         }
                         
-                        // if (isset($scdid[$key])) { //更新原本的
-                        //     SalesCollectDetails::updateOrCreate(['scdid' => $deleteScdid[$key]], $insertSalesCollectArray[$key]);
-                        //     $unsetKey = array_search($scdid[$key],$deleteScdid);
-                        //     unset($deleteScdid[$unsetKey]);
-                        // }elseif(empty($scdid[$key])){ //新增增加的
-                        //     SalesCollectDetails::create($insertSalesCollectArray[$key]);
-                        // }
-
+                        if (isset($scdid[$key])) { //更新原本的
+                            SalesCollectDetails::find($scdid[$key])->update($updateSalesCollectArray[$key]);
+                            $unsetKey = array_search($scdid[$key],$deleteScdid);
+                            unset($deleteScdid[$unsetKey]);
+                        }elseif(empty($scdid[$key])){ //新增增加的
+                            SalesCollectDetails::create($updateSalesCollectArray[$key]);
+                        }
                     }
-                    //刪除移除的
+                    //刪除移除的領貨明細
                     $SalesCollectDetails = SalesCollectDetails::whereIn('scdid',$deleteScdid)->pluck('scd_quantity','stid');
 
                     foreach($SalesCollectDetails as $stid => $quantity){
                         $stock = Stock::where('stid',$stid)->select('pid', 'wid','st_stock')->first();
                         $st_stock = (int) $stock->st_stock + (int) $quantity;
-                        // Stock::find($stid)->update(['st_stock' => $st_stock]);
+                        Stock::find($stid)->update(['st_stock' => $st_stock]);
                         $insertStockLogArray2[] = [
                             'pid'          =>  $stock->pid,
                             'wid'          =>  $stock->wid,
@@ -559,13 +552,14 @@ SCRIPT;
                             'updated_at'   =>  date('Y-m-d H:i:s'),
                         ];
                     }
-                    // $insertStockLogArray && StockLog::insert($insertStockLogArray);
-                    // if(isset($insertStockLogArray2)){
-                    //     $insertStockLogArray2 && StockLog::insert($insertStockLogArray2);
-                    // }
-                    // SalesCollectDetails::updateOrCreate($insertSalesCollectArray);
-                    //刪除明細
-                    // SalesCollectDetails::whereIn('scdid',$deleteScdid)->delete();
+                    //新增修改庫存log
+                    $insertStockLogArray && StockLog::insert($insertStockLogArray);
+                    //新增明細刪除庫存log
+                    if(isset($insertStockLogArray2)){
+                        $insertStockLogArray2 && StockLog::insert($insertStockLogArray2);
+                    }
+                    //刪除移除的領貨明細
+                    SalesCollectDetails::whereIn('scdid',$deleteScdid)->delete();
                 }                
                 $form->collect_amount = $total;
                 $form->update_user = Admin::user()->id;

@@ -148,6 +148,38 @@ class ProductIndexController extends Controller
         return view('admin::result', $data);
     }
     /**
+     * 回傳 商品搜尋Table
+     */
+    public function search(Request $request)
+    {
+        if($request->ajax()){
+            $search = $request->ls_query;
+            $url = config('admin.upload.host');
+            $output = "";
+            $products = ProductIndex::where('p_name','like','%'.$search.'%')->orWhere('p_number','like','%'.$search)->orWhere('p_number','like',$search.'%')->get();
+            if($products){
+                foreach ($products as $key => $product) {
+                    $output .= '<tr>';
+                    $column = htmlspecialchars($product->p_pic);
+                    $output .= "<td><img src='{$url}/{$column}'></td>";
+                    $column = htmlspecialchars($product->p_name);
+                    $output .= "<td>{$column}</td>";
+                    $output .= '</tr>';
+                }
+                return [
+                    'status' => 'success',
+                    'result' => json_encode([
+                        'html' => $output,
+                        'number_of_results' => count($products),
+                        'total_pages'       => ceil(count($products)/5),
+                    ])
+                ];
+            }
+            // return Response($output);
+        }
+
+    }
+    /**
      * Index interface.
      *
      * @return Content
@@ -213,6 +245,7 @@ class ProductIndexController extends Controller
                     $form->currency('p_retailprice', trans('admin::lang.p_retailprice'))->options(['digits' => 2]);
                     $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
                     $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
+                    $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);
 
                     $form->hidden('update_user')->default(Admin::user()->id);
 
@@ -444,7 +477,7 @@ class ProductIndexController extends Controller
             }
 
             //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
-            $titles = ['p_name', 'p_number', 'showfront', 'showsales', 'p_salesprice', 'p_costprice'];
+            $titles = ['p_name', 'p_number', 'showfront', 'p_salesprice', 'p_costprice'];
 
             $exporter = new ExcelExpoter();
             /**
@@ -468,7 +501,7 @@ class ProductIndexController extends Controller
                 'off' => ['value' => 2, 'text' => 'No', 'color' => 'danger'],
             ];
             $grid->showfront(trans('admin::lang.showfront'))->status()->switch($states);
-            $grid->showsales(trans('admin::lang.showsales'))->status()->switch($states);
+            // $grid->showsales(trans('admin::lang.showsales'))->status()->switch($states);
 
             // $grid->showfront('前台顯示')->value(function ($showfront) {
             //     return $showfront ? "<span class='label label-success'>Yes</span>" : "<span class='label label-danger'>No</span>";
@@ -497,12 +530,12 @@ class ProductIndexController extends Controller
                         StockCategory::all()->sortBy('sc_sort')->pluck('sc_name', 'sc_number')->transform(function ($item, $key) {
                             return $key.' - '.$item;
                         })
-                    );
+                    )->rules('required');;
                     $form->select('ProductSupplier', trans('admin::lang.product_supplier'))->options(
                         ProductSupplier::all()->pluck('sup_name', 'sup_number')->transform(function ($item, $key) {
                             return $key.' - '.$item;
                         })
-                    );
+                    )->rules('required');;
                     $form->hidden('p_number');
                 }else{ //編輯
                     $form->text('p_number', trans('admin::lang.product_number'))->rules('required');
@@ -531,7 +564,7 @@ class ProductIndexController extends Controller
             $form->tab('價格/業務', function ($form) use ($id){
 
                 $form->currency('p_retailprice', trans('admin::lang.p_retailprice'))->options(['digits' => 2]);
-                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0])->require();
+                $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0])->rules('required');
                 $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
 
                 $states = [
@@ -539,7 +572,7 @@ class ProductIndexController extends Controller
                     'off' => ['value' => 0, 'text' => '隱藏', 'color' => 'danger'],
                 ];
 
-                $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
+                // $form->switch('showsales', trans('admin::lang.showsales'))->states($states)->default(1);
                 $form->textarea('p_notes', trans('admin::lang.salesman').trans('admin::lang.notes'))->rows(5);
 
             });
@@ -593,9 +626,6 @@ class ProductIndexController extends Controller
 
 
                 if(!$id && !empty(request()->StockCategory) && !empty(request()->ProductSupplier)){
-
-
-
 
                     /**
                      * 商品編碼產生 (13碼)
@@ -692,7 +722,7 @@ class ProductIndexController extends Controller
                         'pid'           =>  $form->model()->pid,
                         'wid'           =>  Admin::user()->wid,
                         // 'st_type'       =>  '不分款',
-                        'st_stock'      =>  0,
+                        'st_stock'      =>  $form->st_stock ?: 0,
                         'update_user'   =>  Admin::user()->id,
                         'created_at'    =>  date('Y-m-d H:i:s'),
                         'updated_at'    =>  date('Y-m-d H:i:s'),
@@ -807,7 +837,6 @@ class ProductIndexController extends Controller
             'module_width' => 1, // width of a single module in points
             'module_height' => 1 // height of a single module in points
         );
-        $QRCode_size = 20;
         $products = ProductIndex::where('pid',$id)->select('p_name','p_number')->first();
         if(empty($products)){
             $error = new MessageBag(['title'=>'提示','message'=>'找不到此商品編號!']);
@@ -816,15 +845,15 @@ class ProductIndexController extends Controller
         $QRCode_content = $products->p_number;
         $QRCode_title = $products->p_name;
         $pdf->Text(10, 5, $QRCode_title);
-
         $pdf->SetFont('msjh', '', 8);
+        $QRCode_size = 20;
         $QRCode_width = 35;
         $QRCode_height = 30;
         $y = 15;
         for($i=1;$i<=6;$i++){
             $x = 15;
             for ($j=1;$j<=8;$j++) {
-                $pdf->write2DBarcode($QRCode_content, 'QRCODE,H', $x, $y, 20, 20, $style, 'N');
+                $pdf->write2DBarcode($QRCode_content, 'QRCODE,H', $x, $y, $QRCode_size, $QRCode_size, $style, 'N');
                 $pdf->Text($x-1.5, $y+20, $QRCode_content);
                 $x = $x + $QRCode_width;
             }

@@ -188,6 +188,7 @@ class ProductReceiptController extends Controller
                 ['text' => trans('admin::lang.create')]
             );
             $content->body($this->form());
+
         });
     }
 
@@ -307,8 +308,8 @@ class ProductReceiptController extends Controller
             if(empty($id)){
                 $form->select('supid', trans('admin::lang.product_supplier'))->options(
                     ProductSupplier::all()->pluck('sup_name', 'supid')
-                );
-                $form->date('re_delivery', trans('admin::lang.re_delivery'));
+                )->default('1')->rules('required');;
+                $form->date('re_delivery', trans('admin::lang.re_delivery'))->rules('required');;
                 $form->hidden('action')->default('create');
             }else{
                 $form->select('supid', trans('admin::lang.product_supplier'))->options(
@@ -334,9 +335,6 @@ class ProductReceiptController extends Controller
             $form->saving(function(Form $form) {
                 if(empty(request()->p_name)){
                     $error = new MessageBag(['title'=>'提示','message'=>'未填寫進貨商品!']);
-                    return back()->withInput()->with(compact('error'));
-                }elseif(empty(request()->supid) && request()->action == 'create'){
-                    $error = new MessageBag(['title'=>'提示','message'=>'未選擇進貨廠商!']);
                     return back()->withInput()->with(compact('error'));
                 }
                 /**
@@ -377,8 +375,6 @@ class ProductReceiptController extends Controller
                 $red_amount = request()->sumcostprice;
                 $red_quantity = request()->quantity;
                 $red_notes = request()->notes;
-
-                $stid = request()->stid;
                 $redid = request()->redid;
 
                 $insertProductIndexArray = [];
@@ -756,7 +752,7 @@ class ProductReceiptController extends Controller
                                     ];
                                 }
 
-                                $insertProductReceiptArray[] = [
+                                $dataArray2[] = [
                                     'pid'           =>  $pid[$key],
                                     'stid'          =>  $retailStock->stid,
                                     're_number'     =>  $form->re_number,
@@ -781,8 +777,8 @@ class ProductReceiptController extends Controller
                                     /**
                                      *  庫存變更紀錄
                                      */
-                                    $insertStockLogArray[] = [
-                                        'pid'          =>  $pid,
+                                    $insertStockLogArray2[] = [
+                                        'pid'          =>  $pid[$key],
                                         'wid'          =>  Admin::user()->wid,
                                         'stid'         =>  $retailStock->stid,
                                         'sl_calc'      =>  ($st_stock - $retailStock->st_stock) > 0 ? '+' : '-',
@@ -823,7 +819,7 @@ class ProductReceiptController extends Controller
                                      * 商品價格變更紀錄
                                      */
                                     $insertProductLogArray[] = [
-                                        'pid'          =>  $pid,
+                                        'pid'          =>  $pid[$key],
                                         'pl_price1'    =>  $p_costprice,
                                         'pl_price2'    =>  $red_price[$key],
                                         'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
@@ -836,7 +832,7 @@ class ProductReceiptController extends Controller
                         }
                     }
 
-                    //刪除沒有的
+                    //刪除沒有的->update庫存&insert庫存紀錄
                     $ProductReceiptDetails = ProductReceiptDetails::whereIn('redid',$deleteRedid)->pluck('red_quantity','stid');
                     foreach($ProductReceiptDetails as $stid => $quantity){
                         $stock = Stock::where('stid',$stid)->select('pid', 'wid','st_stock')->first();
@@ -856,16 +852,37 @@ class ProductReceiptController extends Controller
                             'updated_at'   =>  date('Y-m-d H:i:s'),
                         ];
                     }
-
+                    
                     foreach ($insertStockArray as $key => $eachinsert) {
                         $NewStid = Stock::insertGetId($eachinsert,'stid');
                         $insertStockLogArray[$key]['stid'] = $NewStid;
                         $dataArray[$key]['stid'] = $NewStid;
                     }
+                    /**
+                     * ...insert([[],[],[]])可以、insert([])可以，insert([[]])會出錯...
+                     * 所以就這樣了。...程式碼怎麼能夠這麼醜啊啊啊啊~~~~
+                     */
+                    if ($dataArray && count($dataArray[0])===1) {
+                        $dataArray = $dataArray[0];
+                    }
+                    if ($dataArray2 && count($dataArray2[0])===1) {
+                        $dataArray2 = $dataArray2[0];
+                    }
+                    if ($insertStockLogArray && count($insertStockLogArray[0])===1) {
+                        $insertStockLogArray = $insertStockLogArray[0];
+                    }
+                    if ($insertStockLogArray2 && count($insertStockLogArray2[0])===1) {
+                        $insertStockLogArray2 = $insertStockLogArray2[0];
+                    }
+                    if ($insertProductLogArray && count($insertProductLogArray[0])===1) {
+                        $insertProductLogArray = $insertProductLogArray[0];
+                    }
+
                     $dataArray && ProductReceiptDetails::insert($dataArray);
-                    $insertStockLogArray && StockLog::insert($insertStockLogArray);
                     $dataArray2 && ProductReceiptDetails::insert($dataArray2);
+                    $insertStockLogArray && StockLog::insert($insertStockLogArray);
                     $insertStockLogArray2 && StockLog::insert($insertStockLogArray2);
+                    $insertProductLogArray && ProductLog::insert($insertProductLogArray);
                     
                     ProductReceiptDetails::whereIn('redid',$deleteRedid)->delete();
                 }

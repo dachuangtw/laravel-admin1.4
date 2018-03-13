@@ -87,6 +87,9 @@ Route::group([
     $router->post('product/search', 'ProductIndexController@modalsearch');
     $router->post('product/searchstock', 'ProductIndexController@modalsearchstock');
 
+    //商品搜尋的Table
+    $router->post('product/searchtable', 'ProductIndexController@search');
+
     //進貨單
     $router->post('product/receiptdetails', 'ProductIndexController@selectedproduct');
     $router->get('product/receiptdetails/{id}', 'ProductReceiptController@receiptdetails');

@@ -23,8 +23,11 @@ use Encore\Admin\Grid\Column;
 //Encore\Admin\Form::forget(['map', 'editor']);
 app('view')->prependNamespace('admin', resource_path('views/admin'));
 Admin::css('css/customize.css');
+Admin::css('css/ajaxlivesearch.css');
+
 Admin::js('js/customize.js');
 Admin::js('js/popper.min.js');
+Admin::js('js/ajaxlivesearch.js');
 
 //擴展
 Column::extend('expand', ExpandRow::class);

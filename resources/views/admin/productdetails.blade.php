@@ -163,7 +163,8 @@
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[1] }}px; left: {{ $rowLeft[1] }}px; ">{{ $products[$key]['p_number'] }}</div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-center" style="width: {{ $rowWidth[2] }}px; left: {{ $rowLeft[2] }}px; ">
-                                            <input type="checkbox" name="checkproduct[]"  value="1" style="width:20px; height:20px" {{$savedDetail->$checkProduct ? 'checked="checked"' : ''}} />
+                                            <input type="hidden" name="checkproduct[{{$key}}]"  value="0">
+                                            <input type="checkbox" name="checkproduct[{{$key}}]"  value="1" style="width:20px; height:20px" {{$savedDetail->$checkProduct ? 'checked="checked"' : ''}} />
                                         </div>
                                         <div tabindex="-1" class="tb-cell tb-cell-no-focus text-left" style="width: {{ $rowWidth[3] }}px; left: {{ $rowLeft[3] }}px; ">
                                             @if($products[$key]['p_pic'])

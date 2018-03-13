@@ -13,7 +13,7 @@ class AddWorkDateToSalesTable extends Migration
      */
     public function up()
     {
-        Schema::table('sales', function (Blueprint $table) {
+        Schema::connection('mysql2')->table('sales', function (Blueprint $table) {
             $table->string('start_work_date')->nullable()->after('resign');
             $table->string('end_work_date')->nullable()->after('start_work_date');
         });
@@ -26,7 +26,7 @@ class AddWorkDateToSalesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sales', function (Blueprint $table) {
+        Schema::connection('mysql2')->table('sales', function (Blueprint $table) {
             $table->dropColumn('start_work_date');
             $table->dropColumn('end_work_date');
         });

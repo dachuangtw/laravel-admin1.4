@@ -13,8 +13,8 @@ class AddResignToSalesTable extends Migration
      */
     public function up()
     {
-        Schema::table('sales', function (Blueprint $table) {
-            $table->string('resign',1)->nullable()->after('sales_name')->comment('離職');
+        Schema::connection('mysql2')->table('sales', function (Blueprint $table) {
+            $table->string('resign',1)->nullable()->after('name')->comment('離職');
         });
     }
 
@@ -25,7 +25,7 @@ class AddResignToSalesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sales', function (Blueprint $table) {
+        Schema::connection('mysql2')->table('sales', function (Blueprint $table) {
             $table->dropColumn('resign');
         });
     }

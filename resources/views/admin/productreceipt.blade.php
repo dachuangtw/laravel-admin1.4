@@ -287,7 +287,7 @@
             '<td data-th="序">'+newTR+'<\/td>' +
             //'<td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,\'post_title\',\'<?php //echo $posts[$k]["id"]; ?>\')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126<\/td>' +
             '<td data-th="產品編號" id="p-number-'+rowID+'">系統自動產生<\/td>' +
-            '<td data-th="品項名稱"><input type="hidden" name="pid[]" value=""><input type="hidden" name="redid[]" value=""><input type="text" class="form-control searchtable" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;"><\/td>' +
+            '<td data-th="品項名稱"><input type="hidden" name="pid[]" value=""><input type="hidden" name="redid[]" value=""><input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;"><\/td>' +
             '<td data-th="分類"><select class="form-control" name="category[]">'+ '{!! $extradata["options"] !!}' +'<\/select><\/td>' +
             '<td data-th="數量"><input type="number" class="form-control" name="quantity[]" id="quantity-'+rowID+'" placeholder="數量" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
             '<td data-th="成本價"><input type="number" class="form-control" name="costprice[]" id="cost-price-'+rowID+'" placeholder="成本價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +

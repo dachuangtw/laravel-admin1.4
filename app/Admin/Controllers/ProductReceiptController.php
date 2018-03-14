@@ -12,7 +12,7 @@ use App\Stock;
 use App\StockLog;
 use App\ProductLog;
 use App\StockCategory;
-
+// use App\Admin\Extensions\Column\UploadPicture;
 use Encore\Admin\Widgets\Table;
 
 use Encore\Admin\Form;
@@ -238,6 +238,8 @@ class ProductReceiptController extends Controller
             $grid->actions(function ($actions){
                 $actions->setTitleExtra('進貨單號：'); // 自訂，標題前面提示
                 $actions->setTitleField(['re_number']);
+                //商品照片上傳
+                // $actions->prepend(new UploadPicture($actions->row));
             });
 
             //指定匯出Excel的資料庫欄位(不可使用關聯之資料庫欄位)
@@ -324,7 +326,8 @@ class ProductReceiptController extends Controller
             $form->hidden('re_user')->default(Admin::user()->id);
             $form->hidden('re_number');
             $form->hidden('re_amount');
-
+            $form->disableSubmit();
+            $form->disableReset();
             //btn-append有另外寫js的append功能
             // $form->button('btn-danger btn-append','+ 進貨商品')->on('click','ShowModal("product");');
 

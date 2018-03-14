@@ -130,8 +130,13 @@
 
         <div class="col-sm-{{$width['field']}}" style="text-align: center;">
 
-            {!! $form->submitButton() !!} @if(! $form->option('enableSubmit')) {!! $form->resetButton() !!} {!! $form->searchButton()
-            !!} @endif
+            {!! $form->submitButton() !!} 
+            
+            @if(! $form->option('enableSubmit'))                
+                {!! $form->submitButtoncheck() !!}{{--  儲存確認對話框  --}}
+                {!! $form->resetButton() !!} 
+                {!! $form->searchButton()!!} 
+            @endif
 
 
 

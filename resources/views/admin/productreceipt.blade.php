@@ -30,11 +30,11 @@
                 <div class="col-md-12 col-sm-6">
                     <table class="rwd-table table table-hover" id="product-table">
                         <tr>
-                            <th style="width:30px;">操作</th>
+                            <th style="width:85px;">操作</th>
                             <th style="width:30px;">序</th>
-                            <th>產品編號</th>
-                            <th style="width: 200px;">品項名稱</th>
-                            <th>分類</th>
+                            <th style="width:100px;">產品編號</th>
+                            <th style="width:150px;">品項名稱</th>
+                            <th style="width:150px;">分類</th>
                             <th style="width:100px;">進貨數量</th>
                             <th style="width:100px;">成本價</th>
                             <th style="width:100px;">業務價</th>
@@ -56,16 +56,16 @@
                                     </a>
                                 </td>
                                 <td data-th="序">{{$k+1}}</td>
-                                <td data-th="產品編號" id="p-number-{{$k+1}}">
+                                <td data-th="產品編號" id="p-number-{{$k+1}}"  style="width:100px;">
                                      {{$extradata['products'][$k]->p_number}}
                                 </td>
                                 <td data-th="品項名稱">
                                     <input type="hidden" name="pid[]" value="{{$value->pid}}">
                                     <input type="hidden" name="redid[]" value="{{$value->redid}}">
-                                    <input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;" value="{{$extradata['products'][$k]->p_name}}">
+                                    <input type="text" class="form-control" id="category" name="p_name[]" placeholder="輸入品名" required="required" style="width: 130px;" value="{{$extradata['products'][$k]->p_name}}">
                                 </td>
                                 <td data-th="分類">
-                                    <select class="form-control" name="category[]">
+                                    <select class="form-control" name="category[]" style="width: 150px;">
                                     @foreach($extradata['StockCategory'] as $sc_number => $sc_name)
                                         @if($sc_number == $extradata['products'][$k]->category)
                                             <option value="{{$sc_number}}" selected>{{$sc_name}}</option>
@@ -173,8 +173,18 @@
     </div>
   </div>
 </div>
-
-
+{{--  {{dump($url_edit = strpos(url()->current(), '/edit') !== false;)}}  --}}
+<?php
+    //判斷新增or編輯
+    $url_edit = strpos(url()->current(), '/edit') !== false;  
+    if($url_edit){
+        echo "<script>
+                $(\"#table-body .table-row input[name='p_name[]']\").prop('readonly', true);
+                $(\"#table-body .table-row select[name='category[]']\").prop('disabled', true);
+                $(\"#table-body .table-row input[name='salesprice[]']\").prop('readonly', true);
+            </script>";
+    }    
+?>
 <style>
     .rwd-table {
         background: #fff;
@@ -252,10 +262,17 @@
 </style>
 
 <script>
+
     /*  ======================== 參考 ================================
         動態增加刪除列 http://www.manongjc.com/article/439.html
         區塊卷軸+凍結表格效果  https://codepen.io/Tiya_blank/pen/XJjzeg
     */
+    // function changeWidth(){
+    //     $('#category'+ rowid).css("width","auto");
+    // }
+    // function resetWidth(){
+    //     $('#category'+ rowid).css("width","100px");
+    // }
     function findObj(theObj, theDoc){ 
         var p, i, foundObj;
         if(!theDoc) theDoc = document; 
@@ -286,9 +303,9 @@
             '<a class="btn btn-xs btn-danger removerow" onclick="deleteRecord('+rowID+');" title="刪除"><i class="fa fa-times"><\/i><\/a><\/td>' +
             '<td data-th="序">'+newTR+'<\/td>' +
             //'<td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,\'post_title\',\'<?php //echo $posts[$k]["id"]; ?>\')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126<\/td>' +
-            '<td data-th="產品編號" id="p-number-'+rowID+'">系統自動產生<\/td>' +
-            '<td data-th="品項名稱"><input type="hidden" name="pid[]" value=""><input type="hidden" name="redid[]" value=""><input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 200px;"><\/td>' +
-            '<td data-th="分類"><select class="form-control" name="category[]">'+ '{!! $extradata["options"] !!}' +'<\/select><\/td>' +
+            '<td data-th="產品編號" id="p-number-'+rowID+'" style="width:100px;">系統自動產生<\/td>' +
+            '<td data-th="品項名稱"><input type="hidden" name="pid[]" value=""><input type="hidden" name="redid[]" value=""><input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 130px;"><\/td>' +
+            '<td data-th="分類"><select class="form-control" name="category[]" style="width: 150px;"> '+ '{!! $extradata["options"] !!}' +'<\/select><\/td>' +
             '<td data-th="數量"><input type="number" class="form-control" name="quantity[]" id="quantity-'+rowID+'" placeholder="數量" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
             '<td data-th="成本價"><input type="number" class="form-control" name="costprice[]" id="cost-price-'+rowID+'" placeholder="成本價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
             //'<td data-th="南台價" style="display:none"><input type="number" class="form-control" name="southprice[]" placeholder="南台價" required="required" min="0" value="0" style="width:100px;"><\/td>'+

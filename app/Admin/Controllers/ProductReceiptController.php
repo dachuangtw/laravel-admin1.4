@@ -310,13 +310,13 @@ class ProductReceiptController extends Controller
             if(empty($id)){
                 $form->select('supid', trans('admin::lang.product_supplier'))->options(
                     ProductSupplier::all()->pluck('sup_name', 'supid')
-                )->default('1')->rules('required');;
+                )->default('1')->rules('required');
                 $form->date('re_delivery', trans('admin::lang.re_delivery'))->rules('required');;
                 $form->hidden('action')->default('create');
             }else{
-                $form->select('supid', trans('admin::lang.product_supplier'))->options(
-                    ProductSupplier::all()->pluck('sup_name', 'supid')
-                )->readOnly();
+                $form->display('supid', trans('admin::lang.product_supplier'))->with(function ($supid) {
+                    return ProductSupplier::find($supid)->sup_name;
+                });
                 $form->date('re_delivery', trans('admin::lang.re_delivery'))->readOnly();
                 $form->hidden('action')->default('edit');
             }

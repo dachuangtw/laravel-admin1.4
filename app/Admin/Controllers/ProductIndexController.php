@@ -39,15 +39,21 @@ class ProductIndexController extends Controller
      */
     public function selectedproduct(Request $request)
     {
-        $stock = $rowWidth = $rowLeft = $rowTitle = [];
+        $products = $stock = $rowWidth = $rowLeft = $rowTitle = [];
         $selected = $request->selected ?: [];
         $action = $request->action;
         $target = $request->target;
 
-        $products = ProductIndex::whereIn('pid',$selected)->get();
-        foreach($products as $key => $product){
-            $stock[$key] = Stock::where('pid',$product->pid)->where('wid',Admin::user()->wid)->get()->toArray();
+        $tempProducts = ProductIndex::whereIn('pid',$selected)->get();
+        
+        //依照勾選順序排序
+        foreach($tempProducts as $key => $product){
+            $sortKey = array_search($product->pid,$selected);
+            $products[$sortKey] = $product;
+            $stock[$sortKey] = Stock::where('pid',$product->pid)->where('wid',Admin::user()->wid)->get()->toArray();
         }
+        ksort($products);
+        ksort($stock);
 
         $rowTop = empty($request->rowTop) ? -30 : (int)$request->rowTop ;
         $rowEvenOdd = ['even','odd'];

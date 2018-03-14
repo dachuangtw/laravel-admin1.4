@@ -777,7 +777,7 @@ class ProductIndexController extends Controller
                         $dataArray1 = [
                             'p_number' => $N1to12.$N13,
                             'p_name' => $row['p_name'],
-                            'p_retailprice' => $row['p_retailprice'],
+                            // 'p_retailprice' => $row['p_retailprice'],
                             'p_salesprice' => $row['p_salesprice'],
                             'p_costprice' => $row['p_costprice'],
                             'update_user' => Admin::user()->id,

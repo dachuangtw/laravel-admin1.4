@@ -789,7 +789,7 @@ class ProductIndexController extends Controller
                             $pid = ProductIndex::insertGetId($dataArray1,'pid');
 
                             //有庫存才增加庫存資料
-                            if((int)$row['st_stock'] > 0){
+                            // if((int)$row['st_stock'] > 0){
                                 $dataArray2 = [
                                 'pid'           =>  $pid,
                                 'wid'           =>  Admin::user()->wid,
@@ -812,7 +812,7 @@ class ProductIndexController extends Controller
                                     'update_user'  =>  Admin::user()->id,
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
-                            }
+                            // }
                         }
                     }
                 }

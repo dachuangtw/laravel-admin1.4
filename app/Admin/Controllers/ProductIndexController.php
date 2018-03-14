@@ -250,7 +250,9 @@ class ProductIndexController extends Controller
 
                     $form->currency('p_retailprice', trans('admin::lang.p_retailprice'))->options(['digits' => 2]);
                     $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 2]);
-                    $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
+                    if(Admin::user()->inRoles(['administrator', 'SuperWarehouse', 'Boss'])){
+                        $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
+                    }
                     $form->number('st_stock',trans('admin::lang.product_stock'))->default(0);
 
                     $form->hidden('update_user')->default(Admin::user()->id);
@@ -441,7 +443,7 @@ class ProductIndexController extends Controller
                 return "<img src='".rtrim(config('admin.upload.host'), '/').'/'.$p_pic."' style='max-width:150px;max-height:100px;' onerror='this.src=\"/images/404.jpg\"'/>";
             });//->image('',150,100);
             $grid->p_salesprice(trans('admin::lang.product_salesprice'));
-            if(Admin::user()->inRoles(['administrator','watch'])){
+            if(Admin::user()->inRoles(['administrator', 'SuperWarehouse', 'Boss'])){
                 $grid->p_costprice(trans('admin::lang.product_costprice'));
             }
 
@@ -571,7 +573,9 @@ class ProductIndexController extends Controller
 
                 $form->currency('p_retailprice', trans('admin::lang.p_retailprice'))->options(['digits' => 2]);
                 $form->currency('p_salesprice', trans('admin::lang.product_salesprice'))->options(['digits' => 0])->rules('required');
-                $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
+                if(Admin::user()->inRoles(['administrator', 'SuperWarehouse', 'Boss'])){
+                    $form->currency('p_costprice', trans('admin::lang.product_costprice'))->options(['digits' => 2]);
+                }                
 
                 $states = [
                     'on'  => ['value' => 1, 'text' => '顯示', 'color' => 'success'],

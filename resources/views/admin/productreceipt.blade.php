@@ -173,7 +173,6 @@
     </div>
   </div>
 </div>
-{{--  {{dump($url_edit = strpos(url()->current(), '/edit') !== false;)}}  --}}
 <?php
     //判斷新增or編輯
     $url_edit = strpos(url()->current(), '/edit') !== false;  

@@ -190,7 +190,7 @@ class SalesController extends Controller
 
             $form->tab('基本資料', function (Form $form) {
 
-                $form->display('id', trans('admin::lang.sales_id'));
+                // $form->display('id', trans('admin::lang.sales_id'));
                 $method = Request::method();
                 $rules = ($method === 'PUT') ? 'required' : 'required|unique:mysql2.sales,account';
                 $form->text('account','帳號')->rules($rules);

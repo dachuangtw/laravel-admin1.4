@@ -45,7 +45,7 @@ class WarehouseController extends Controller
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('warehouse'));
 
-                    $form->text('w_name', trans('admin::lang.name'))->rules('required');
+                    $form->text('name', trans('admin::lang.name'))->rules('required');
                     $form->option('enableReset',false);
 
                     $column->append((new Box(trans('admin::lang.new'), $form))->style('danger'));

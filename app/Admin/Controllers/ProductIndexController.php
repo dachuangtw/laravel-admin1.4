@@ -456,7 +456,7 @@ class ProductIndexController extends Controller
                  * 這BUG屬於模組本身架構沒有考慮到這部分，要修正的話工程太浩大，所以就這樣吧。
                  * (function stock留著，edit頁是用它...)
                  */
-                $warehouse = Warehouse::all()->pluck('name', 'id')->toArray();
+                $warehouse = Warehouse::orderBy('sort')->pluck('name', 'id');
                 foreach($warehouse as $wid => $w_name){
                     $grid->{'stock'.$wid}($w_name)->where('wid',$wid)->sum('st_stock')->value(function ($stock) {
                         if(!empty($stock)){
@@ -503,6 +503,17 @@ class ProductIndexController extends Controller
             //眼睛彈出視窗的Title，請設定資料庫欄位名稱
             $grid->actions(function ($actions) {
                 $actions->setTitleField(['p_name']);
+                
+                // 没有權限不顯示按鈕
+                if (Admin::user()->cannot('ProductIndex-Editor')) {
+                    $actions->disableEdit();
+                }
+                if (Admin::user()->cannot('ProductIndex-Reader')) {
+                    $actions->disableView();
+                }
+                if (Admin::user()->cannot('ProductIndex-Deleter')) {
+                    $actions->disableDelete();
+                }
             });
             $states = [
                 'on'  => ['value' => 1, 'text' => 'YES', 'color' => 'success'],
@@ -520,17 +531,7 @@ class ProductIndexController extends Controller
             $grid->updated_at(trans('admin::lang.updated_at'));
             $grid->model()->orderBy('pid', 'desc');
             $grid->define_preg(url('/admin/product'),'返回');
-
-            // 没有權限不顯示按鈕
-            if (Admin::user()->cannot('ProductIndex-Editor')) {
-                $actions->disableEdit();
-            }
-            if (Admin::user()->cannot('ProductIndex-Reader')) {
-                $actions->disableView();
-            }
-            if (Admin::user()->cannot('ProductIndex-Deleter')) {
-                $actions->disableDelete();
-            }
+            
         });
     }
 
@@ -611,7 +612,7 @@ class ProductIndexController extends Controller
                         if(Admin::user()->isAdministrator()){
                             //超級管理員可以自行選擇倉庫
                             $form->select('wid', trans('admin::lang.warehouse'))->options(
-                                Warehouse::all()->pluck('name', 'id')
+                                Warehouse::orderBy('sort')->pluck('name', 'id')
                             );
                         }else{
                             //非超級管理員使用本身綁定的倉庫id

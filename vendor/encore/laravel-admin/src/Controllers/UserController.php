@@ -121,7 +121,7 @@ class UserController extends Controller
             $form->ignore(['password_confirmation']);
 
             $form->select('wid', trans('admin::lang.warehouse'))->options(
-                Warehouse::all()->pluck('name', 'id')
+                Warehouse::orderBy('sort')->pluck('name', 'id')
             );
             $form->multipleSelect('roles', trans('admin::lang.roles'))->options(Role::all()->pluck('name', 'id'));
             $form->multipleSelect('permissions', trans('admin::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));

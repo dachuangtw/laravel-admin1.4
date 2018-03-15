@@ -123,7 +123,7 @@ class SalesNoteController extends Controller
                         ->orWhere('note_wid', 'like', "{$this->input}|%")
                         ->orWhere('note_wid', 'like', "%|{$this->input}|%");
                     }, trans('admin::lang.warehouse'))->select(
-                        ['-1'=> '全部倉庫'] + Warehouse::all()->pluck('name', 'id')->toArray()
+                        ['-1'=> '全部倉庫'] + Warehouse::orderBy('sort')->pluck('name', 'id')->toArray()
                     );
                 }
                 $filter->between('note_at', trans('admin::lang.note_at'))->date();
@@ -196,7 +196,7 @@ class SalesNoteController extends Controller
             if(Admin::user()->isAdministrator()){
                 //超級管理員可對所有倉庫及業務發公告
                 $form->multipleSelect('note_wid',trans('admin::lang.warehouse'))->options(
-                    ['-1'=> '全部倉庫'] + Warehouse::all()->pluck('name', 'id')->toArray()
+                    ['-1'=> '全部倉庫'] + Warehouse::orderBy('sort')->pluck('name', 'id')->toArray()
                 )->rules('required');
 
                 $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(
@@ -205,7 +205,7 @@ class SalesNoteController extends Controller
             }else{
                 //各倉庫發業務公告
                 $form->multipleSelect('note_wid',trans('admin::lang.warehouse'))->options(
-                    Warehouse::all()->where('id',Admin::user()->wid)->pluck('name', 'id'))
+                    Warehouse::orderBy('sort')->where('id',Admin::user()->wid)->pluck('name', 'id'))
                     ->default([Admin::user()->wid])->rules('required');
                 $form->multipleSelect('note_target',trans('admin::lang.note_target'))->options(
                     ['-1' => '全部業務'] + Sales::all()->where('warehouse_id', Admin::user()->wid)

@@ -171,7 +171,7 @@ class WebLocationController extends Controller
                     $filter->where(function ($query) {
                         $query->where('warehouse_id',  "{$this->input}");
                     }, trans('admin::lang.warehouse'))->select(
-                        Warehouse::all()->pluck('name', 'id')->toArray()
+                        Warehouse::orderBy('sort')->pluck('name', 'id')->toArray()
                     );
                 }
                 // sql: ... WHERE `user.name` LIKE "%$name%";

@@ -238,7 +238,7 @@ SCRIPT;
                     $filter->where(function ($query) {
                         $query->where('wid',  "{$this->input}");
                     }, trans('admin::lang.warehouse'))->select(
-                        Warehouse::all()->pluck('name', 'id')->toArray()
+                        Warehouse::orderBy('sort')->pluck('name', 'id')->toArray()
                     );
                 }
                 $filter->like('collect_id',trans('admin::lang.collect_id'));

@@ -223,7 +223,7 @@ SCRIPT;
                     $filter->where(function ($query) {
                         $query->where('wid',  "{$this->input}");
                     }, trans('admin::lang.warehouse'))->select(
-                        Warehouse::all()->pluck('name', 'id')->toArray()
+                        Warehouse::orderBy('sort')->pluck('name', 'id')->toArray()
                     );
                 }
                 $filter->like('assign_id',trans('admin::lang.assign_id'));
@@ -340,7 +340,7 @@ SCRIPT;
                 //判斷超級使用者
                 if(Admin::user()->isAdministrator()){
                     $form->select('wid',trans('admin::lang.wid'))
-                        ->options(Warehouse::all()->pluck('name','id'))->rules('required');
+                        ->options(Warehouse::orderBy('sort')->pluck('name','id'))->rules('required');
                 }else{
                     $form->hidden('wid',trans('admin::lang.wid'))->value(Admin::user()->wid);
                 }

@@ -119,7 +119,7 @@ class SalesController extends Controller
                     $filter->where(function ($query) {
                         $query->where('warehouse_id',  "{$this->input}");
                     }, trans('admin::lang.warehouse'))->select(
-                        Warehouse::all()->pluck('name', 'id')->toArray()
+                        Warehouse::orderBy('sort')->pluck('name', 'id')->toArray()
                     );
                 }
                 // sql: ... WHERE `user.name` LIKE "%$name%";
@@ -211,7 +211,7 @@ class SalesController extends Controller
                 if(Admin::user()->isAdministrator()){
                     //超級管理員可以自行選擇倉庫
                     $form->select('warehouse_id', trans('admin::lang.location_area'))
-                    ->options(Warehouse::all()->pluck('name','id'))->rules('required');
+                    ->options(Warehouse::orderBy('sort')->pluck('name','id'))->rules('required');
                 }else{
                     //非超級管理員使用本身綁定的倉庫id
                     $form->hidden('warehouse_id')->default(Admin::user()->wid);

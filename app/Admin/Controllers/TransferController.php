@@ -93,7 +93,7 @@ class TransferController extends Controller
 
                     $form->dateRange('send_at[start]', 'send_at[end]', '調撥日');
 
-                    $warehouses = Warehouse::all()->pluck('name', 'id');
+                    $warehouses = Warehouse::orderBy('sort')->pluck('name', 'id');
                     $form->select('wid_send', trans('admin::lang.wid_send'))->options(
                         $warehouses
                     );

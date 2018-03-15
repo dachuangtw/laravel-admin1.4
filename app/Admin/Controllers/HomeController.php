@@ -61,7 +61,7 @@ class HomeController extends Controller
                 });
                 $row->column(6, function (Column $column) {
                     $pieArray = [];
-                    $Warehouse = Warehouse::all()->pluck('name','id');
+                    $Warehouse = Warehouse::orderBy('sort')->pluck('name','id');
                     foreach($Warehouse as $key => $val){
                         $pieArray[] = [$val,Sales::where('warehouse_id',$key)->count()];
                     }

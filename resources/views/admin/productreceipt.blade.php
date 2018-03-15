@@ -261,17 +261,65 @@
 </style>
 
 <script>
-
+    $(document).ready(function(){
+        autocompleteOff();
+        keyboardenter();
+    });
+    //取消自動帶出的輸入記錄
+    function autocompleteOff(){
+        $("input").attr("autocomplete", "off");
+    }
+    function enterKey(){
+        $(document).on("keypress","#table-row input",function(e){
+            if (e.keyCode == 13) {
+                $(this).blur();
+                return false;
+            }
+        });
+    }
+    //enter 切換
+    function keyboardenter(){
+        $("#table-body input").keydown(function(event){ 
+            var z = (event.srcElement || event.target);
+            var f = z.form;
+            if (event.which==38){
+                var prev = -1;
+                for (var i=0;i<f.length;i++){
+                    if (f[i]==z){
+                        if (prev!=-1)
+                            f[prev].focus();
+                        break;
+                    }
+                    if (f[i].type=='text')
+                        prev = i;
+                    if (f[i].type=='number')
+                        prev = i;
+                }
+                return false;
+            }
+            if (event.which==40 || event.which ==13){
+                var index = -1;
+                for (var i=0;i<f.length;i++){
+                    if (index!=-1 && f[i].type=='text'){
+                        f[i].focus();
+                        break;
+                    }
+                    if (index!=-1 && f[i].type=='number'){
+                        f[i].focus();
+                        break;
+                    }
+                    if (f[i]==z)
+                        index = i;
+                }
+                return false;
+            }
+        });
+    }
+    
     /*  ======================== 參考 ================================
         動態增加刪除列 http://www.manongjc.com/article/439.html
         區塊卷軸+凍結表格效果  https://codepen.io/Tiya_blank/pen/XJjzeg
     */
-    // function changeWidth(){
-    //     $('#category'+ rowid).css("width","auto");
-    // }
-    // function resetWidth(){
-    //     $('#category'+ rowid).css("width","100px");
-    // }
     function findObj(theObj, theDoc){ 
         var p, i, foundObj;
         if(!theDoc) theDoc = document; 
@@ -308,14 +356,14 @@
             '<td data-th="數量"><input type="number" class="form-control" name="quantity[]" id="quantity-'+rowID+'" placeholder="數量" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
             '<td data-th="成本價"><input type="number" class="form-control" name="costprice[]" id="cost-price-'+rowID+'" placeholder="成本價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
             //'<td data-th="南台價" style="display:none"><input type="number" class="form-control" name="southprice[]" placeholder="南台價" required="required" min="0" value="0" style="width:100px;"><\/td>'+
-            '<td data-th="售價" style="display:none"><input type="number" class="form-control" name="retailprice[]" placeholder="售價" required="required" min="0" value="0" style="width:100px;"><\/td>'+
+            // '<td data-th="售價" style="display:none"><input type="number" class="form-control" name="retailprice[]" placeholder="售價" required="required" min="0" value="0" style="width:100px;"><\/td>'+
             '<td data-th="業務價"><input type="number" class="form-control" name="salesprice[]" id="sales-price-'+rowID+'" placeholder="業務價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
             '<td data-th="成本價金額"><input type="text" class="form-control" name="sumcostprice[]" id="sumcostprice'+rowID+'" onChange="sumPrice('+rowID+')" value="" style="width:130px;"><\/td>' +
             '<td data-th="業務價金額"><input type="text" class="form-control" name="sumsalesprice[]" id="sumsalesprice'+rowID+'" onChange="sumPrice('+rowID+')" value="" style="width:130px;"><\/td>' +
             '<td data-th="備註"><textarea class="form-control" name="notes[]" rows="1" placeholder="備註" style="width:100px;"><\/textarea><\/td>' +
             '<\/tr> ';
         $("#table-body").append(data);
-         $(".searchtable").ajaxlivesearch({
+        $(".searchtable").ajaxlivesearch({
             _token : "{{csrf_token()}}",
             onResultClick: function(e, data) {
                 var selectedOne = $(data.selected).find('td').eq('1').text();
@@ -329,7 +377,9 @@
         });
         txtTRLastIndex.value = (rowID + 1).toString() ;
         total(); 
-        
+        autocompleteOff();
+        enterKey();
+        keyboardenter();
     }
     //刪除列
     function deleteRecord(rowid) {

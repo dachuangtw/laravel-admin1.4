@@ -343,6 +343,11 @@
     </div>
 </div>
 <script>
+
+//業務價 單價 總價 readonly
+$("input[name='price[]']").prop('readonly', true);
+$("input[name='amount[]']").prop('readonly', true);
+
 $(function() {
     var quantity = 0,
         price = 0,

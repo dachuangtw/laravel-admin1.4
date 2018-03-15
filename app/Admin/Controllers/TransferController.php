@@ -382,7 +382,7 @@ SCRIPT;
 
             }else{ //創建
                 $form->select('wid_receive', trans('admin::lang.wid_receive'))->options(
-                    Warehouse::where('id', '!=', Admin::user()->wid)->pluck('name', 'id')
+                    Warehouse::where('id', '!=', Admin::user()->wid)->orderBy('sort')->pluck('name', 'id')
                 );
                 $form->date('send_at', trans('admin::lang.send_at'));
                 $form->textarea('t_notes', trans('admin::lang.notes'))->rows(2);

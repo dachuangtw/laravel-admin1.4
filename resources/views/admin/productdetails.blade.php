@@ -424,6 +424,7 @@ $(document).ready(function(){
 });
 //業務價 單價 總價 readonly
 function pricereadonly(){
+    $("input").attr("autocomplete", "off");
     $("input[name='price[]']").prop('readonly', true);
     $("input[name='amount[]']").prop('readonly', true);
 }

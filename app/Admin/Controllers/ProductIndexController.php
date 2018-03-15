@@ -133,14 +133,14 @@ class ProductIndexController extends Controller
         $selected = $request->selected ?: [];
         if($search == 'searchall'){
 
-            $temp = Stock::where('wid', Admin::user()->wid)->where('st_stock','>',0)->pluck('pid');
+            $temp = Stock::where('wid', Admin::user()->wid)->pluck('pid');
             $products = ProductIndex::whereIn('pid',$temp)->get()->sortByDesc('pid')->take(100);
 
         }else if($search == 'searchselected'){
             $products = ProductIndex::whereIn('pid',$selected)->get();
         }else{
 
-            $temp = Stock::where('wid', Admin::user()->wid)->where('st_stock', '>', 0)->pluck('pid');
+            $temp = Stock::where('wid', Admin::user()->wid)->pluck('pid');
             $products = ProductIndex::where(function ($query) use ($search) {
                 $query->where('p_name', 'like', '%'.$search.'%')
                       ->orWhere('p_number', 'like', '%'.$search)
@@ -520,6 +520,17 @@ class ProductIndexController extends Controller
             $grid->updated_at(trans('admin::lang.updated_at'));
             $grid->model()->orderBy('pid', 'desc');
             $grid->define_preg(url('/admin/product'),'返回');
+
+            // 没有權限不顯示按鈕
+            if (Admin::user()->cannot('ProductIndex-Editor')) {
+                $actions->disableEdit();
+            }
+            if (Admin::user()->cannot('ProductIndex-Reader')) {
+                $actions->disableView();
+            }
+            if (Admin::user()->cannot('ProductIndex-Deleter')) {
+                $actions->disableDelete();
+            }
         });
     }
 

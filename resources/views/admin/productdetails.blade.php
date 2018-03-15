@@ -343,11 +343,6 @@
     </div>
 </div>
 <script>
-
-//業務價 單價 總價 readonly
-$("input[name='price[]']").prop('readonly', true);
-$("input[name='amount[]']").prop('readonly', true);
-
 $(function() {
     var quantity = 0,
         price = 0,
@@ -418,4 +413,50 @@ function countTotal(){
 $(function() {
     countTotal();
 });
+
+$(document).ready(function(){
+    pricereadonly()
+    keyboardupdown();
+    //變更顏色更改
+    $(".tb-cell").change(function(){
+        $(this).css("background-color","#FFFFCC");
+  });
+});
+//業務價 單價 總價 readonly
+function pricereadonly(){
+    $("input[name='price[]']").prop('readonly', true);
+    $("input[name='amount[]']").prop('readonly', true);
+}
+//數量上下鍵切換
+function keyboardupdown(){
+    $("input[name='quantity[]']").keydown(function(event){ 
+        var z = (event.srcElement || event.target);
+        var f = z.form;
+        if (event.which==38){
+            var prev = -1;
+            for (var i=0;i<f.length;i++){
+                if (f[i]==z){
+                    if (prev!=-1)
+                        f[prev].focus();
+                    break;
+                }
+                if (f[i].name=='quantity[]')
+                    prev = i;
+            }
+            return false;
+        }
+        if (event.which==40){
+            var index = -1;
+            for (var i=0;i<f.length;i++){
+                if (index!=-1 && f[i].name=='quantity[]'){
+                    f[i].focus();
+                    break;
+                }
+                if (f[i]==z)
+                    index = i;
+            }
+            return false;
+        }
+    });
+}
 </script>

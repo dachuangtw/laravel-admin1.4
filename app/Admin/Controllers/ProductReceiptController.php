@@ -572,12 +572,12 @@ class ProductReceiptController extends Controller
                                     'pid'          =>  $pid[$key],
                                     'pl_price1'    =>  $p_costprice,
                                     'pl_price2'    =>  $red_price[$key],
-                                    'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
+                                    'pl_notes'     =>  '進貨單：'.$form->re_number.'-新增',
                                     'update_user'  =>  Admin::user()->id,
                                     'updated_at'   =>  date('Y-m-d H:i:s'),
                                 ];
                             }
-                            
+
                             $dataArray2[] = [
                                 'pid'           =>  $pid[$key],
                                 'stid'          =>  $StidToSave,

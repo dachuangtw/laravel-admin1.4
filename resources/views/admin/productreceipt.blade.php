@@ -365,9 +365,9 @@ $(document).ready(function(){
         $("#table-body").append(data);
         $(".searchtable").on('keyup',function(event){
             //alert($(this).val());
-            var TR = $(this).parent().parent().parent().parent();
+            var TR = $(this).closest('tr.table-row');
             TR.find('input[name="p_name[]"]')
-                .val($(this).val());
+                    .val($(this).val());
 
         });
 
@@ -377,7 +377,7 @@ $(document).ready(function(){
                 var selectedOne = $(data.selected).find('td').eq('0').find('span').text();
                 var selectedOneInput = $(data.selected).find('input').eq('0');
                 //取得當列
-                var trDOM = $(data.selected).parent().parent().parent().parent().parent().parent().parent().parent();
+                var trDOM = $(data.selected).closest('tr.table-row');
 
                 trDOM.find('.searchtable')
                     .val(selectedOne)

@@ -135,7 +135,7 @@
          * @param options
          */
         function hide_result(result, options) {
-            result.slideUp(options.slide_speed);
+            result.remove(); //.slideUp(options.slide_speed);
         }
 
         /**
@@ -208,6 +208,7 @@
 
                                 toPostData.push(dataObj);
                             });
+                            // alert(JSON.stringify(toPostData));
 
                             // Send the request
                             $.ajax({
@@ -331,8 +332,8 @@
         function generateFormHtml(elem, ls) {
             var elem_id = elem.attr('id');
             elem.attr('autocomplete', 'off');
-            elem.attr('name', 'ls_query');
-            elem.addClass('ls_query');
+            // elem.attr('name', 'ls_query');
+            // elem.addClass('ls_query');
             elem.attr('maxlength', ls.max_input);
 
             var optionsHtml = '',
@@ -415,6 +416,7 @@
              */
             // Trigger search when typing is started
             query.on('keyup', function(event) {
+                query.data('search', query.val());
                 // If enter key is pressed check if the user wants to select hovered row
                 var keycode = event.keyCode || event.which;
                 if ($.trim(query.val()).length > 1 && keycode === 13) {

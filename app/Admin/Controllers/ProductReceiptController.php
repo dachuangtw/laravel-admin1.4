@@ -317,6 +317,7 @@ class ProductReceiptController extends Controller
                 $form->display('supid', trans('admin::lang.product_supplier'))->with(function ($supid) {
                     return ProductSupplier::find($supid)->sup_name;
                 });
+                $form->hidden('supid');
                 $form->date('re_delivery', trans('admin::lang.re_delivery'))->readOnly();
                 $form->hidden('action')->default('edit');
             }
@@ -505,7 +506,7 @@ class ProductReceiptController extends Controller
                         }else{ //如果商品存在，則更新商品及庫存資料
                             /* 庫存變更 */
                             //原始庫存                            
-                            $retailStock = Stock::where('pid',$pid[$key])->where('wid',Admin::user()->wid)->first()->select('st_stock','stid');
+                            $retailStock = Stock::where('pid',$pid[$key])->where('wid',Admin::user()->wid)->select('st_stock','stid')->first();
                             if(empty($retailStock)){ //無庫存資料，新增庫存
                                 $insertStockArray2 = [
                                     'pid'           =>  $pid[$key],
@@ -516,10 +517,10 @@ class ProductReceiptController extends Controller
                                     'created_at'    =>  date('Y-m-d H:i:s'),
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
-                                $NewStid = Stock::insertGetId($insertStockArray2,'stid');
+                                $StidToSave = Stock::insertGetId($insertStockArray2,'stid');
                                 $insertStockLogArray2[] = [
                                     'pid'          =>  $pid[$key],
-                                    'stid'         =>  $NewStid,
+                                    'stid'         =>  $StidToSave,
                                     'wid'          =>  Admin::user()->wid,
                                     'sl_calc'      =>  '+',
                                     'sl_quantity'  =>  $red_quantity[$key],
@@ -537,10 +538,11 @@ class ProductReceiptController extends Controller
                                     'update_user'   =>  Admin::user()->id,
                                     'updated_at'    =>  date('Y-m-d H:i:s'),
                                 ];
-                                Stock::find($retailStock->stid)->update($updateStockArray);
+                                $StidToSave = $retailStock->stid;
+                                Stock::find($StidToSave)->update($updateStockArray);
                                 $insertStockLogArray2[] = [
                                     'pid'          =>  $pid[$key],
-                                    'stid'         =>  $retailStock->stid,
+                                    'stid'         =>  $StidToSave,
                                     'wid'          =>  Admin::user()->wid,
                                     'sl_calc'      =>  '+',
                                     'sl_quantity'  =>  $red_quantity[$key],
@@ -552,7 +554,7 @@ class ProductReceiptController extends Controller
                             }
                             $dataArray2[] = [
                                 'pid'           =>  $pid[$key],
-                                'stid'          =>  $retailStock->stid,
+                                'stid'          =>  $StidToSave,
                                 're_number'     =>  $form->re_number,
                                 'red_amount'    =>  $red_amount[$key],
                                 'red_price'     =>  $red_price[$key],
@@ -563,9 +565,9 @@ class ProductReceiptController extends Controller
                         $total += $red_amount[$key];
                     }
                     foreach ($insertStockArray as $key => $eachinsert) {
-                        $NewStid = Stock::insertGetId($eachinsert,'stid');
-                        $insertStockLogArray[$key]['stid'] = $NewStid;
-                        $dataArray[$key]['stid'] = $NewStid;
+                        $StidToSave = Stock::insertGetId($eachinsert,'stid');
+                        $insertStockLogArray[$key]['stid'] = $StidToSave;
+                        $dataArray[$key]['stid'] = $StidToSave;
                     }
                     $dataArray && ProductReceiptDetails::insert($dataArray);
                     $insertStockLogArray && StockLog::insert($insertStockLogArray);
@@ -720,10 +722,10 @@ class ProductReceiptController extends Controller
                                         'created_at'    =>  date('Y-m-d H:i:s'),
                                         'updated_at'    =>  date('Y-m-d H:i:s'),
                                     ];
-                                    $NewStid = Stock::insertGetId($insertStockArray2,'stid');
+                                    $StidToSave = Stock::insertGetId($insertStockArray2,'stid');
                                     $insertStockLogArray2[] = [
                                         'pid'          =>  $pid[$key],
-                                        'stid'         =>  $NewStid,
+                                        'stid'         =>  $StidToSave,
                                         'wid'          =>  Admin::user()->wid,
                                         'sl_calc'      =>  '+',
                                         'sl_quantity'  =>  $red_quantity[$key],
@@ -732,7 +734,6 @@ class ProductReceiptController extends Controller
                                         'update_user'  =>  Admin::user()->id,
                                         'updated_at'   =>  date('Y-m-d H:i:s'),
                                     ];
-                                    $retailStock->stid = $NewStid;
                                 }else{
                                     //庫存存在，更新庫存
                                     $st_stock = (int) $retailStock->st_stock + (int) $red_quantity[$key];
@@ -741,10 +742,11 @@ class ProductReceiptController extends Controller
                                         'update_user'   =>  Admin::user()->id,
                                         'updated_at'    =>  date('Y-m-d H:i:s'),
                                     ];
-                                    Stock::find($retailStock->stid)->update($updateStockArray);
+                                    $StidToSave = $retailStock->stid;
+                                    Stock::find($StidToSave)->update($updateStockArray);
                                     $insertStockLogArray2[] = [
                                         'pid'          =>  $pid[$key],
-                                        'stid'         =>  $retailStock->stid,
+                                        'stid'         =>  $StidToSave,
                                         'wid'          =>  Admin::user()->wid,
                                         'sl_calc'      =>  '+',
                                         'sl_quantity'  =>  $red_quantity[$key],
@@ -757,7 +759,7 @@ class ProductReceiptController extends Controller
 
                                 $dataArray2[] = [
                                     'pid'           =>  $pid[$key],
-                                    'stid'          =>  $retailStock->stid,
+                                    'stid'          =>  $StidToSave,
                                     're_number'     =>  $form->re_number,
                                     'red_amount'    =>  $red_amount[$key],
                                     'red_price'     =>  $red_price[$key],
@@ -805,34 +807,33 @@ class ProductReceiptController extends Controller
                                 //此筆進貨明細不刪
                                 $unsetKey = array_search($redid[$key],$deleteRedid);
                                 unset($deleteRedid[$unsetKey]);
-
-                                /* 商品成本變更 */
-                                $p_costprice = ProductIndex::find($pid[$key])->p_costprice;
-                                if($p_costprice != $red_price[$key]){
-
-                                    $updateProductIndexArray = [
-                                        'p_costprice'   =>  $red_price[$key],
-                                        'p_salesprice'  =>  $salesprice[$key],
-                                        'update_user'   =>  Admin::user()->id,
-                                        'updated_at'    =>  date('Y-m-d H:i:s'),
-                                    ];
-                                    ProductIndex::find($pid[$key])->update($updateProductIndexArray);
-
-                                    /**
-                                     * 商品價格變更紀錄
-                                     */
-                                    $insertProductLogArray[] = [
-                                        'pid'          =>  $pid[$key],
-                                        'pl_price1'    =>  $p_costprice,
-                                        'pl_price2'    =>  $red_price[$key],
-                                        'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
-                                        'update_user'  =>  Admin::user()->id,
-                                        'updated_at'   =>  date('Y-m-d H:i:s'),
-                                    ];
-                                }
                             }
-                            $total += $red_amount[$key];
+                            /* 商品成本變更 */
+                            $p_costprice = ProductIndex::find($pid[$key])->p_costprice;
+                            if($p_costprice != $red_price[$key]){
+
+                                $updateProductIndexArray = [
+                                    'p_costprice'   =>  $red_price[$key],
+                                    'p_salesprice'  =>  $salesprice[$key],
+                                    'update_user'   =>  Admin::user()->id,
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
+                                ];
+                                ProductIndex::find($pid[$key])->update($updateProductIndexArray);
+
+                                /**
+                                 * 商品價格變更紀錄
+                                 */
+                                $insertProductLogArray[] = [
+                                    'pid'          =>  $pid[$key],
+                                    'pl_price1'    =>  $p_costprice,
+                                    'pl_price2'    =>  $red_price[$key],
+                                    'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
+                                    'update_user'  =>  Admin::user()->id,
+                                    'updated_at'   =>  date('Y-m-d H:i:s'),
+                                ];
+                            }
                         }
+                        $total += $red_amount[$key];
                     }
 
                     //刪除沒有的->update庫存&insert庫存紀錄
@@ -857,9 +858,9 @@ class ProductReceiptController extends Controller
                     }
                     
                     foreach ($insertStockArray as $key => $eachinsert) {
-                        $NewStid = Stock::insertGetId($eachinsert,'stid');
-                        $insertStockLogArray[$key]['stid'] = $NewStid;
-                        $dataArray[$key]['stid'] = $NewStid;
+                        $StidToSave = Stock::insertGetId($eachinsert,'stid');
+                        $insertStockLogArray[$key]['stid'] = $StidToSave;
+                        $dataArray[$key]['stid'] = $StidToSave;
                     }
                     /**
                      * ...insert([[],[],[]])可以、insert([])可以，insert([[]])會出錯...

@@ -34,6 +34,16 @@ class ProductIndexController extends Controller
     use ModelForm;
     protected $stock =[];
 
+    public function samename(Request $request)
+    {
+        if($request->ajax()){
+            if(ProductIndex::where('p_name',$request->name)->first()){
+                return 'same';
+            }else{
+                return 'different';
+            }
+        }
+    }
     /**
      * 回傳 已選的商品
      */
@@ -159,17 +169,29 @@ class ProductIndexController extends Controller
     public function search(Request $request)
     {
         if($request->ajax()){
-            $search = $request->ls_query;
+            $search = $request->search;
             $url = config('admin.upload.host');
             $output = "";
-            $products = ProductIndex::where('p_name','like','%'.$search.'%')->orWhere('p_number','like','%'.$search)->orWhere('p_number','like',$search.'%')->get();
+            $products = ProductIndex::where('p_name','like','%'.$search.'%')->get()->take(5);
             if($products){
                 foreach ($products as $key => $product) {
-                    $output .= '<tr>';
                     $column = htmlspecialchars($product->p_pic);
-                    $output .= "<td><img src='{$url}/{$column}'></td>";
+                    
+                    $height = '';
+                    $line_height = '';
+                    if (!$column) {                   
+                        $output .= '<tr style="height:15px;line-height:15px;">';
+                    }else{
+                        $output .= '<tr>';
+                    }
+                    $output .= "<td>";
+                    if ($column) {
+                        $output .= "<img src='{$url}/{$column}'>";
+                    }
+                    $sc_number = substr($product->p_number, 1, 1);
+                    $output .= "<input type='hidden' data-id='{$product->pid}' data-category='{$sc_number}' data-costprice='{$product->p_costprice}' data-salesprice='{$product->p_salesprice}' data-name='{$product->p_name}' value='{$product->p_number}'>";
                     $column = htmlspecialchars($product->p_name);
-                    $output .= "<td>{$column}</td>";
+                    $output .= "<span>{$column}</span></td>";
                     $output .= '</tr>';
                 }
                 return [

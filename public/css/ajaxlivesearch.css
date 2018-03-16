@@ -9,7 +9,6 @@
 .ls_result_div {
     position: absolute;
     background-color: white;
-    font-size: 17px;
     display: none;
     margin: 0 auto;
     max-width: 100%;
@@ -66,6 +65,7 @@
 
 .ls_result_div table td img {
     width: 50px;
+    padding-right: 5px;
     /* 圖片水平置中 */
     vertical-align: middle;
 }

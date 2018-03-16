@@ -65,7 +65,7 @@
                                     <input type="text" class="form-control" id="category" name="p_name[]" placeholder="輸入品名" required="required" style="width: 130px;" value="{{$extradata['products'][$k]->p_name}}">
                                 </td>
                                 <td data-th="分類">
-                                    <select class="form-control" name="category[]" style="width: 150px;">
+                                    <select class="form-control" name="category[]" style="width: 150px;" readonly>
                                     @foreach($extradata['StockCategory'] as $sc_number => $sc_name)
                                         @if($sc_number == $extradata['products'][$k]->category)
                                             <option value="{{$sc_number}}" selected>{{$sc_name}}</option>
@@ -179,7 +179,7 @@
     if($url_edit){
         echo "<script>
                 $(\"#table-body .table-row input[name='p_name[]']\").prop('readonly', true);
-                $(\"#table-body .table-row select[name='category[]']\").prop('disabled', true);
+                $(\"#table-body .table-row select[name='category[]']\").prop('readonly', true);
                 $(\"#table-body .table-row input[name='salesprice[]']\").prop('readonly', true);
             </script>";
     }    
@@ -261,7 +261,7 @@
 </style>
 
 <script>
-    $(document).ready(function(){
+$(document).ready(function(){
         autocompleteOff();
         keyboardenter();
     });
@@ -315,7 +315,7 @@
             }
         });
     }
-    
+
     /*  ======================== 參考 ================================
         動態增加刪除列 http://www.manongjc.com/article/439.html
         區塊卷軸+凍結表格效果  https://codepen.io/Tiya_blank/pen/XJjzeg
@@ -351,7 +351,7 @@
             '<td data-th="序">'+newTR+'<\/td>' +
             //'<td data-th="產品編號" contenteditable="true" onBlur="saveToDatabase(this,\'post_title\',\'<?php //echo $posts[$k]["id"]; ?>\')" onClick="editRow(this);"><?php //echo $posts[$k]["post_title"]; ?>AAB0172500115126<\/td>' +
             '<td data-th="產品編號" id="p-number-'+rowID+'" style="width:100px;">系統自動產生<\/td>' +
-            '<td data-th="品項名稱"><input type="hidden" name="pid[]" value=""><input type="hidden" name="redid[]" value=""><input type="text" class="form-control" name="p_name[]" placeholder="輸入品名" required="required" style="width: 130px;"><\/td>' +
+            '<td data-th="品項名稱"><input type="hidden" name="pid[]"><input type="hidden" name="redid[]"><input type="hidden" name="p_name[]"><input type="text" class="form-control searchtable" id="p-name-'+rowID+'" placeholder="輸入品名" data-search="" required="required" style="width: 130px;"><\/td>' +
             '<td data-th="分類"><select class="form-control" name="category[]" style="width: 150px;"> '+ '{!! $extradata["options"] !!}' +'<\/select><\/td>' +
             '<td data-th="數量"><input type="number" class="form-control" name="quantity[]" id="quantity-'+rowID+'" placeholder="數量" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
             '<td data-th="成本價"><input type="number" class="form-control" name="costprice[]" id="cost-price-'+rowID+'" placeholder="成本價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
@@ -363,20 +363,99 @@
             '<td data-th="備註"><textarea class="form-control" name="notes[]" rows="1" placeholder="備註" style="width:100px;"><\/textarea><\/td>' +
             '<\/tr> ';
         $("#table-body").append(data);
+        $(".searchtable").on('keyup',function(event){
+            //alert($(this).val());
+            var TR = $(this).parent().parent().parent().parent();
+            TR.find('input[name="p_name[]"]')
+                .val($(this).val());
+
+        });
+
         $(".searchtable").ajaxlivesearch({
             _token : "{{csrf_token()}}",
             onResultClick: function(e, data) {
-                var selectedOne = $(data.selected).find('td').eq('1').text();
-                alert(selectedOne);
+                var selectedOne = $(data.selected).find('td').eq('0').find('span').text();
+                var selectedOneInput = $(data.selected).find('input').eq('0');
+                //取得當列
+                var trDOM = $(data.selected).parent().parent().parent().parent().parent().parent().parent().parent();
+
+                trDOM.find('.searchtable')
+                    .val(selectedOne)
+                    .trigger('ajaxlivesearch:hide_result')
+                    .attr('readonly','true');
+                    //.next('div.ls_result_div')
+                    //.remove();
+
+                trDOM.find('input[name="pid[]"]')
+                    .val(selectedOneInput.data('id'));
+                trDOM.find('input[name="p_name[]"]')
+                    .val(selectedOneInput.data('name'));
+                trDOM.find('input[name="costprice[]"]')
+                    .val(selectedOneInput.data('costprice'));
+                trDOM.find('input[name="salesprice[]"]')
+                    .val(selectedOneInput.data('salesprice'))
+                    .attr('readonly','true');
+
+                if(selectedOneInput.data('category') == '0'){
+                    trDOM.find('select').html('<option value="0">無分類</option>').attr('readonly','true');
+                }else{
+                    trDOM.find('select').children().each(function(){
+                        if ($(this).val() == selectedOneInput.data('category')){
+                            $(this).prop("selected",true);
+                            $(this).parent('select').attr('readonly','true');
+                            return false; // =break; 中斷.each
+                        }
+                    });
+                }
+
+                trDOM.find('td').eq(2)
+                    .text(selectedOneInput.val());
+                    
             },
             onResultEnter: function(e, data) {
+                var selectedOne = $(data.selected).find('td').eq('0').find('span').text();
+                var selectedOneInput = $(data.selected).find('input').eq('0');
+                //取得當列
+                var trDOM = $(data.selected).parent().parent().parent().parent().parent().parent().parent().parent();
+
+                trDOM.find('.searchtable')
+                    .val(selectedOne)
+                    .trigger('ajaxlivesearch:hide_result')
+                    .attr('readonly','true');
+                    //.next('div.ls_result_div')
+                    //.remove();
+
+                trDOM.find('input[name="pid[]"]')
+                    .val(selectedOneInput.data('id'));
+                trDOM.find('input[name="p_name[]"]')
+                    .val(selectedOneInput.data('name'));
+                trDOM.find('input[name="costprice[]"]')
+                    .val(selectedOneInput.data('costprice'));
+                trDOM.find('input[name="salesprice[]"]')
+                    .val(selectedOneInput.data('salesprice'))
+                    .attr('readonly','true');
+
+                if(selectedOneInput.data('category') == '0'){
+                    trDOM.find('select').html('<option>無分類</option>').attr('readonly','true');
+                }else{
+                    trDOM.find('select').children().each(function(){
+                        if ($(this).val() == selectedOneInput.data('category')){
+                            $(this).prop("selected",true);
+                            $(this).parent('select').attr('readonly','true');
+                            return false; // =break; 中斷.each
+                        }
+                    });
+                }
+
+                trDOM.find('td').eq(2)
+                    .text(selectedOneInput.val());
             },
             onAjaxComplete: function(e, data) {
 
             }
         });
         txtTRLastIndex.value = (rowID + 1).toString() ;
-        total(); 
+        total();
         autocompleteOff();
         enterKey();
         keyboardenter();
@@ -473,4 +552,5 @@
         $("#total span:eq(2)").text(totalsalesprice);
     }
     total();
+    $('.table-responsive').css('overflow-x','visible')
 </script>

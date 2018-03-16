@@ -552,6 +552,32 @@ class ProductReceiptController extends Controller
                                     'updated_at'   =>  date('Y-m-d H:i:s'),
                                 ];
                             }
+                            
+                            /* 商品成本變更 */
+                            $p_costprice = ProductIndex::find($pid[$key])->p_costprice;
+                            if($p_costprice != $red_price[$key]){
+
+                                $updateProductIndexArray = [
+                                    'p_costprice'   =>  $red_price[$key],
+                                    'p_salesprice'  =>  $salesprice[$key],
+                                    'update_user'   =>  Admin::user()->id,
+                                    'updated_at'    =>  date('Y-m-d H:i:s'),
+                                ];
+                                ProductIndex::find($pid[$key])->update($updateProductIndexArray);
+
+                                /**
+                                 * 商品價格變更紀錄
+                                 */
+                                $insertProductLogArray[] = [
+                                    'pid'          =>  $pid[$key],
+                                    'pl_price1'    =>  $p_costprice,
+                                    'pl_price2'    =>  $red_price[$key],
+                                    'pl_notes'     =>  '進貨單：'.$form->re_number.'-修改',
+                                    'update_user'  =>  Admin::user()->id,
+                                    'updated_at'   =>  date('Y-m-d H:i:s'),
+                                ];
+                            }
+                            
                             $dataArray2[] = [
                                 'pid'           =>  $pid[$key],
                                 'stid'          =>  $StidToSave,

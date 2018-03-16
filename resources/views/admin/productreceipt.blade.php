@@ -79,7 +79,7 @@
                                     <input type="number" class="form-control" name="quantity[]" id="quantity-{{$k+1}}" placeholder="數量" required="required" onChange='sumPrice({{$k+1}})' min="0" value="{{$value->red_quantity}}" style="width:100px;"> </td>
                                 </td>
                                 <td data-th="成本價">
-                                    <input type="number" class="form-control" name="costprice[]" id="cost-price-{{$k+1}}" placeholder="成本價" required="required" onChange='sumPrice({{$k+1}})' min="0" value="{{$value->red_price}}" style="width:100px;">
+                                    <input type="number" class="form-control" name="costprice[]" id="cost-price-{{$k+1}}" placeholder="成本價" required="required" onChange='sumPrice({{$k+1}})' min="0" step="0.01" value="{{$value->red_price}}" style="width:100px;">
                                 </td>
                                 <td data-th="業務價">
                                     <input type="number" class="form-control" name="salesprice[]" id="sales-price-{{$k+1}}" placeholder="業務價" required="required" onChange='sumPrice({{$k+1}})' min="0" value="{{$extradata['products'][$k]->p_salesprice}}" style="width:100px;">
@@ -354,7 +354,7 @@ $(document).ready(function(){
             '<td data-th="品項名稱"><input type="hidden" name="pid[]"><input type="hidden" name="redid[]"><input type="hidden" name="p_name[]"><input type="text" class="form-control searchtable" id="p-name-'+rowID+'" placeholder="輸入品名" data-search="" required="required" style="width: 130px;"><\/td>' +
             '<td data-th="分類"><select class="form-control" name="category[]" style="width: 150px;"> '+ '{!! $extradata["options"] !!}' +'<\/select><\/td>' +
             '<td data-th="數量"><input type="number" class="form-control" name="quantity[]" id="quantity-'+rowID+'" placeholder="數量" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
-            '<td data-th="成本價"><input type="number" class="form-control" name="costprice[]" id="cost-price-'+rowID+'" placeholder="成本價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
+            '<td data-th="成本價"><input type="number" class="form-control" name="costprice[]" id="cost-price-'+rowID+'" placeholder="成本價" required="required" onChange="sumPrice('+rowID+')" min="0"  step="0.01" value="" style="width:100px;"><\/td>' +
             //'<td data-th="南台價" style="display:none"><input type="number" class="form-control" name="southprice[]" placeholder="南台價" required="required" min="0" value="0" style="width:100px;"><\/td>'+
             // '<td data-th="售價" style="display:none"><input type="number" class="form-control" name="retailprice[]" placeholder="售價" required="required" min="0" value="0" style="width:100px;"><\/td>'+
             '<td data-th="業務價"><input type="number" class="form-control" name="salesprice[]" id="sales-price-'+rowID+'" placeholder="業務價" required="required" onChange="sumPrice('+rowID+')" min="0" value="" style="width:100px;"><\/td>' +
@@ -520,10 +520,10 @@ $(document).ready(function(){
         var quantity = document.getElementById ("quantity-"+rowid).value;
 
         if(quantity!="" && costprice!=""){
-          sumcostprice = parseFloat(quantity) * parseFloat(costprice); 
+            sumcostprice = accMul(quantity,costprice);
         }
         if(quantity!="" && salesprice!=""){ 
-          sumsalesprice = parseFloat(quantity) * parseFloat(salesprice); 
+            sumsalesprice = accMul(quantity,salesprice);
         }
         document.getElementById ("sumcostprice"+rowid).value = sumcostprice;
         document.getElementById ("sumsalesprice"+rowid).value = sumsalesprice; 
@@ -534,17 +534,17 @@ $(document).ready(function(){
         var totalquantity = 0,totalcostprice = 0,totalsalesprice = 0;
         $("#table-body .table-row input[name='quantity[]']").each(function() {
             if ($(this).val()!=""){
-                totalquantity += parseInt($(this).val());
+                totalquantity += parseFloat($(this).val());
             }
         });
         $("#table-body .table-row input[name='sumcostprice[]']").each(function() {
             if ($(this).val()!=""){
-                totalcostprice += parseInt($(this).val());
+                totalcostprice += parseFloat($(this).val());
             }
         });
         $("#table-body .table-row input[name='sumsalesprice[]']").each(function() {
             if ($(this).val()!=""){
-                totalsalesprice += parseInt($(this).val());
+                totalsalesprice += parseFloat($(this).val());
             }
         });
         $("#total span:eq(0)").text(totalquantity);

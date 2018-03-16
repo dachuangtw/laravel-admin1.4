@@ -300,9 +300,9 @@ class ProductReceiptController extends Controller
                 $re_number = ProductReceipt::where('reid',$id)->pluck('re_number');
                 $savedDetails = ProductReceiptDetails::ofselected($re_number) ?: [];
                 foreach($savedDetails as $key => $value){
-                    $savedDetails[$key]['sumcostprice'] = (int)$value['red_quantity'] * (int)$value['red_price'];
+                    $savedDetails[$key]['sumcostprice'] = (int)$value['red_quantity'] * (float)$value['red_price'];
                     $products[$key] = ProductIndex::find($value['pid']);
-                    $savedDetails[$key]['sumsalesprice'] = (int)$value['red_quantity'] * (int)$products[$key]['p_salesprice'];
+                    $savedDetails[$key]['sumsalesprice'] = (int)$value['red_quantity'] * (float)$products[$key]['p_salesprice'];
                     $products[$key]['category'] = substr($products[$key]['p_number'],1,1);
                 }
             }

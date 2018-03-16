@@ -534,7 +534,7 @@ $(document).ready(function(){
         var totalquantity = 0,totalcostprice = 0,totalsalesprice = 0;
         $("#table-body .table-row input[name='quantity[]']").each(function() {
             if ($(this).val()!=""){
-                totalquantity += parseFloat($(this).val());
+                totalquantity += parseInt($(this).val());
             }
         });
         $("#table-body .table-row input[name='sumcostprice[]']").each(function() {
